@@ -1,35 +1,24 @@
 { config, pkgs, ... }:
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      (import "${home-manager}/nixos")
-    ];
+  unstable = import <nixos-unstable> {};
+#  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+in {
+  imports = [
+    ./hardware-configuration.nix
+    ./hardware-pc.nix
+#    (import "${home-manager}/nixos")
+  ];
 
 
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "laura-laptop"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager.enable = true;
 
 
-  # Set your time zone.
   time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.inputMethod = {
@@ -51,12 +40,30 @@ in
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "de";
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+  ];
+
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 
-  console.keyMap = "de";
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+    config = {
+      common.default = ["gtk"];
+    };
+  };
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -67,9 +74,9 @@ in
     packages = with pkgs; [];
   };
 
-  home-manager.users.laura = {
-    home.stateVersion = "23.11";
-  };
+#  home-manager.users.laura = {
+#    home.stateVersion = "23.11";
+#  };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -79,35 +86,33 @@ in
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    dolphin-emu-beta
+    unstable.anki
+    unstable.dolphin-emu-beta
     firefox
     git
-    hypridle
-    hyprlock
+    unstable.hypridle
+    unstable.hyprland
+    unstable.hyprlock
+    unstable.hyprshade
     kitty
     neofetch
-    pyenv
-    python3
+#    pyenv
+#    python3
     quodlibet
     wget
     wofi
+    unstable.wpaperd
 
     ranger
-    nnn
-    lf
+#    nnn
+#    lf
   ];
 
 #  services.flatpak.enable = true;
   # Flatseal
-  # Anki
   # Quod Libet
-  # Dolphin Emu
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
+  programs.steam.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -117,3 +122,4 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 }
+
