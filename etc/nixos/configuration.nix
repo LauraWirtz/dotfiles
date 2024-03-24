@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 let
-  unstable = import <nixos-unstable> {};
+#  unstable = import <nixos-unstable> {};
 #  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 in {
   imports = [
-    ./hardware-configuration.nix
-    ./hardware-pc.nix
+#    ./hardware-configuration.nix
+#    ./hardware-pc.nix
 #    (import "${home-manager}/nixos")
   ];
 
@@ -90,10 +90,10 @@ in {
     unstable.dolphin-emu-beta
     firefox
     git
-    unstable.hypridle
-    unstable.hyprland
-    unstable.hyprlock
-    unstable.hyprshade
+    unstable-small.hypridle
+    unstable-small.hyprland
+    unstable-small.hyprlock
+    unstable-small.hyprshade
     kitty
     neofetch
 #    pyenv
@@ -101,7 +101,7 @@ in {
     quodlibet
     wget
     wofi
-    unstable.wpaperd
+    unstable-small.wpaperd
 
     ranger
 #    nnn
@@ -114,12 +114,7 @@ in {
 
   programs.steam.enable = true;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+
+  system.stateVersion = "23.11";
 }
 

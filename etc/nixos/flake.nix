@@ -1,0 +1,37 @@
+{
+  description = "Laura Base Flake";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+#    home-manager.url = "github:nix-community/home-manager";
+  };
+
+  outputs = { self, nixpkgs, nix, nixpkgs-unstable, nixpkgs-unstable-small, ... }:
+    let
+      system = "x86_64-linux";
+      overlay-unstable = final: prev: {
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
+      overlay-unstable-small = final: prev: {
+        unstable-small = import nixpkgs-unstable-small {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
+    in {
+      nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-unstable-small ]; })
+          ./hardware-configuration.nix
+          ./configuration.nix
+          ./hardware-pc.nix
+        ];
+      };
+    };
+}
