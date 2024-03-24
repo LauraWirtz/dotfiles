@@ -1,14 +1,4 @@
-{ config, pkgs, inputs, ... }:
-let
-#  unstable = import <nixos-unstable> {};
-#  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in {
-  imports = [
-#    ./hardware-configuration.nix
-#    ./hardware-pc.nix
-#    (import "${home-manager}/nixos")
-  ];
-
+{ config, pkgs, inputs, ... }: {
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -57,6 +47,7 @@ in {
     pulse.enable = true;
   };
 
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [xdg-desktop-portal-gtk];
@@ -66,7 +57,6 @@ in {
   };
 
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.laura = {
     isNormalUser = true;
     description = "Laura";
@@ -85,36 +75,5 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    unstable.anki
-    unstable.dolphin-emu-beta
-    firefox
-    git
-    unstable-small.hypridle
-    unstable-small.hyprland
-    unstable-small.hyprlock
-    unstable-small.hyprshade
-    kitty
-    neofetch
-#    pyenv
-#    python3
-    quodlibet
-    wget
-    wofi
-    unstable-small.wpaperd
-
-    ranger
-#    nnn
-#    lf
-  ];
-
-#  services.flatpak.enable = true;
-  # Flatseal
-  # Quod Libet
-
-  programs.steam.enable = true;
-
-
   system.stateVersion = "23.11";
 }
-

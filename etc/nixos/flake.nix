@@ -14,13 +14,13 @@
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
           inherit system;
-          config.allowUnfree = true;
+#          config.allowUnfree = true;
         };
       };
       overlay-unstable-small = final: prev: {
         unstable-small = import nixpkgs-unstable-small {
           inherit system;
-          config.allowUnfree = true;
+#          config.allowUnfree = true;
         };
       };
     in {
@@ -28,9 +28,11 @@
         inherit system;
         modules = [
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-unstable-small ]; })
-          ./hardware-configuration.nix
           ./configuration.nix
+          ./configuration-pc.nix
           ./hardware-pc.nix
+          ./programs-generic.nix
+          ./programs-pc.nix
         ];
       };
     };
