@@ -3,8 +3,9 @@
   environment.systemPackages = with pkgs; [
     unstable.dolphin-emu-beta
     quodlibet
+    steam
   ];
 
-  programs.steam.enable = true;
+#  programs.steam.enable = true;
 }
 

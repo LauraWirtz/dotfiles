@@ -6,6 +6,7 @@
     options = [
       "users" # Allows any user to mount and unmount
       "nofail" # Prevent system from failing if this drive doesn't mount
+      "exec"
     ];
   };
   fileSystems."/mnt/data" = {
@@ -14,6 +15,7 @@
     options = [
       "users" # Allows any user to mount and unmount
       "nofail" # Prevent system from failing if this drive doesn't mount
+      "exec"
     ];
   };
   fileSystems."/home/laura/Documents" = {

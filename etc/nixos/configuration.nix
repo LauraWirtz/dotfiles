@@ -4,6 +4,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  fileSystems."/home/laura/dotfiles/etc/nixos" = {
+    depends = [ "/home/laura/dotfiles/etc/nixos" ];
+    device = "/etc/nixos";
+    fsType = "none";
+    options = [ "bind"];
+  };
+
 
   networking.networkmanager.enable = true;
 
@@ -48,13 +55,13 @@
   };
 
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
-    config = {
-      common.default = ["gtk"];
-    };
-  };
+#  xdg.portal = {
+#    enable = true;
+#    extraPortals = with pkgs; [ xdg-desktop-portal-kde ];
+#    config = {
+#      common.default = ["kde"];
+#    };
+#  };
 
 
   users.users.laura = {
