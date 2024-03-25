@@ -3,6 +3,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader.systemd-boot.configurationLimit = 10;
+
+  nix.gc = {
+      automatic = true;
+      dates = "day";
+      options = "--delete-older-than 7d";
+  };
 
   fileSystems."/home/laura/dotfiles/etc/nixos" = {
     depends = [ "/home/laura/dotfiles/etc/nixos" ];
@@ -10,7 +17,6 @@
     fsType = "none";
     options = [ "bind"];
   };
-
 
   networking.networkmanager.enable = true;
 
