@@ -47,8 +47,11 @@
   console.keyMap = "us";
 
 
-  nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (lib.getName pkg) [
-    "nvidia_x11"
+  nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "nvidia"
+    "nvidia-x11"
+    "steam"
+    "steam-original"
   ];
   hardware.opengl = {
     enable = true;
@@ -58,6 +61,7 @@
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
+    nvidiaSettings = false;
     open = false;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
