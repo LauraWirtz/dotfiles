@@ -77,9 +77,13 @@
     packages = with pkgs; [];
   };
 
-#  home-manager.users.laura = {
-#    home.stateVersion = "23.11";
-#  };
+  home-manager.nixosModules.home-manager {
+    home-manager.users.laura = {
+      home.username = "laura";
+      home.homeDirectory = "/home/laura";
+      home.stateVersion = "23.11";
+    };
+  };
 
   nix.settings.experimental-features = [
     "nix-command"

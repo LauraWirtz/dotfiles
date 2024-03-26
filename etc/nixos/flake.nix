@@ -5,24 +5,22 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
-#    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix, nixpkgs-unstable, nixpkgs-unstable-small, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-unstable-small, home-manager, ... }:
     let
       system = "x86_64-linux";
       overlay-unstable = final: prev: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
-#          config.allowUnfree = true;
-        };
+        unstable = import nixpkgs-unstable { inherit system; };
       };
       overlay-unstable-small = final: prev: {
-        unstable-small = import nixpkgs-unstable-small {
-          inherit system;
-#          config.allowUnfree = true;
-        };
+        unstable-small = import nixpkgs-unstable-small { inherit system; };
       };
+#      overlay-home-manager = final: prev: {
+#        home-manager = import home-manager { inherit system; };
+#      };
     in {
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
         inherit system;
