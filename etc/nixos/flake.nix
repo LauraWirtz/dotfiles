@@ -18,9 +18,6 @@
       overlay-unstable-small = final: prev: {
         unstable-small = import nixpkgs-unstable-small { inherit system; };
       };
-#      overlay-home-manager = final: prev: {
-#        home-manager = import home-manager { inherit system; };
-#      };
     in {
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -31,6 +28,9 @@
           ./hardware-pc.nix
           ./programs-generic.nix
           ./programs-pc.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.users.laura = import ./home.nix;
+          }
         ];
       };
     };
