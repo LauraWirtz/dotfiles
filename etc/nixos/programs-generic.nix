@@ -1,11 +1,11 @@
 { config, pkgs, inputs, ... }: {
 
   environment.systemPackages = with pkgs; [
-    unstable-small.hypridle
-    unstable-small.hyprland
-    unstable-small.hyprlock
-    unstable-small.hyprshade
-    unstable-small.wpaperd
+#    unstable.hypridle
+    unstable.hyprland
+    unstable.hyprlock
+    unstable.hyprshade
+    unstable.wpaperd
 
     unstable.anki
 
@@ -16,7 +16,8 @@
 #    pyenv
 #    python3
     wget
-    wofi
+#    wofi
+    fuzzel
 
     ranger
 #    nnn

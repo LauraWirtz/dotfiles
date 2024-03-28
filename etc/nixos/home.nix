@@ -14,6 +14,12 @@
     };
   };
 
+  programs.kitty = {
+    enable = true;
+    font.name = "Nono Sans Mono";
+    theme = "Catppuccin-Latte";
+  };
+
   home.file = {
     ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr";
     ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/wpaperd";
