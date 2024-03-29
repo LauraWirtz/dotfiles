@@ -22,7 +22,7 @@
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-unstable-small ]; })
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
           ./configuration.nix
           ./configuration-pc.nix
           ./hardware-pc.nix

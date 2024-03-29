@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }: {
+{ pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
 #    unstable.hypridle
@@ -16,16 +16,11 @@
 #    pyenv
 #    python3
     wget
-#    wofi
     fuzzel
 
     ranger
 #    nnn
 #    lf
   ];
-
-#  services.flatpak.enable = true;
-  # Flatseal
-  # Quod Libet
 }
 

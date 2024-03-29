@@ -18,6 +18,7 @@
     options = [ "bind"];
   };
 
+
   networking.networkmanager.enable = true;
 
 
@@ -76,6 +77,18 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
+
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_session = {
+        command = with pkgs; "${unstable.pkgs.hyprland}/bin/Hyprland";
+        user = "laura";
+      };
+      default_session = initial_session;
+    };
+  };
+
 
   nix.settings.experimental-features = [
     "nix-command"
