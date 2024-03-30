@@ -3,7 +3,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   nix.gc = {
       automatic = true;
@@ -11,9 +11,9 @@
       options = "--delete-older-than 7d";
   };
 
-  fileSystems."/home/laura/dotfiles/etc/nixos" = {
+  fileSystems."/etc/nixos" = {
     depends = [ "/home/laura/dotfiles/etc/nixos" ];
-    device = "/etc/nixos";
+    device = "/home/laura/dotfiles/etc/nixos";
     fsType = "none";
     options = [ "bind"];
   };
