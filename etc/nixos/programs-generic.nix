@@ -15,7 +15,9 @@
     neofetch
 #    pyenv
 #    python3
+    qimgv
     wget
+
     fuzzel
 
     ranger
