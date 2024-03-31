@@ -25,7 +25,7 @@
           ./programs-generic.nix
           ./programs-pc.nix
           home-manager.nixosModules.home-manager {
-            home-manager.users.laura = import ./home.nix;
+            home-manager.users.laura = import ./home-pc.nix;
           }
         ];
       };
@@ -37,10 +37,10 @@
           ./configuration-laptop.nix
           ./hardware-laptop.nix
           ./programs-generic.nix
-#          ./programs-pc.nix
-#          home-manager.nixosModules.home-manager {
-#            home-manager.users.laura = import ./home.nix;
-#          }
+#          ./programs-laptop.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.users.laura = import ./home-laptop.nix;
+          }
         ];
       };
 

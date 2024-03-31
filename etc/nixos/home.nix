@@ -21,8 +21,7 @@
   };
 
   home.file = {
-    ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr";
-    ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/wpaperd";
+    ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/hyprland.conf";
   };
 
   home.stateVersion = "23.11";
