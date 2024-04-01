@@ -1,0 +1,6 @@
+[alias]
+	cam = "commit -a -m"
+
+[user]
+	email = "lw.laura.wirtz@gmail.com"
+	name = "LauraWirtz"
