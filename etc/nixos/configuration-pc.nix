@@ -1,5 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
+  boot.initrd.luks.devices."luks-7d197a16-0a89-4449-9436-2522b74c2ab4".device = "/dev/disk/by-uuid/7d197a16-0a89-4449-9436-2522b74c2ab4";
+
+
   fileSystems."/mnt/games" = {
     device = "/dev/disk/by-uuid/3b3775ff-058a-4a90-a5c7-7bc35bc22503";
     fsType = "ext4";
@@ -50,6 +53,7 @@
   nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
     "nvidia"
     "nvidia-x11"
+    "cudatoolkit"
     "steam"
     "steam-original"
   ];

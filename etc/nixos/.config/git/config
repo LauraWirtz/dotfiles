@@ -4,3 +4,6 @@
 [user]
 	email = "lw.laura.wirtz@gmail.com"
 	name = "LauraWirtz"
+[credentials]
+	helper = store
+	useHttpPath = true

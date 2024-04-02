@@ -4,6 +4,7 @@
 
   home.file = {
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/hyprland.conf";
+    ".config/hypr/shaders".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/shaders";
     ".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/git/config";
   };
 

@@ -4,6 +4,8 @@
     unstable.dolphin-emu-beta
     quodlibet
     steam
+    
+    qmk
   ];
 
 #  programs.steam.enable = true;
