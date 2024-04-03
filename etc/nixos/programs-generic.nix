@@ -1,5 +1,8 @@
 { pkgs, ... }: {
 
+  programs.neovim.defaultEditor = true;
+  programs.neovim.enable = true ;
+
   environment.systemPackages = with pkgs; [
 #    unstable.hypridle
     unstable.hyprland
@@ -20,9 +23,10 @@
 
     fuzzel
 
+	autojump
     ranger
-#    nnn
-#    lf
+    nnn
+    lf
   ];
 }
 
