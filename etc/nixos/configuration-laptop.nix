@@ -7,7 +7,7 @@
     layout = "de";
   };
   console.keyMap = "de";
-
+  boot.kernelParams = [ "psmouse.synatics_intertouch=0" ];
 
   hardware = {
     opengl = {

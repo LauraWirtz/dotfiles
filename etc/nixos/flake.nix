@@ -47,7 +47,7 @@
             home-manager.users.laura = { pkgs, ... }: {
               imports = [
                 ./home.nix
-                ./home-pc.nix
+                ./home-laptop.nix
               ];
             };
           }
