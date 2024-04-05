@@ -18,6 +18,10 @@
     options = [ "bind"];
   };
 
+  fileSystems."/media/keeb" = {
+    device = "/dev/disk/by-label/MT.KEY";
+    options = [ "nofail" "user" ];
+  };
 
   networking.networkmanager.enable = true;
 
