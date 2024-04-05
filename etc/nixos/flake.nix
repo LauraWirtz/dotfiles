@@ -22,8 +22,6 @@
           ./configuration.nix
           ./configuration-pc.nix
           ./hardware-pc.nix
-          ./programs-generic.nix
-          ./programs-pc.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {
               imports = [
@@ -41,8 +39,6 @@
           ./configuration.nix
           ./configuration-laptop.nix
           ./hardware-laptop.nix
-          ./programs-generic.nix
-#          ./programs-laptop.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {
               imports = [

@@ -93,6 +93,36 @@
     };
   };
 
+  programs.bash.shellAliases = {
+    e = "nvim";
+  };
+
+  programs.neovim.defaultEditor = true;
+  programs.neovim.enable = true ;
+  programs.autojump.enable = true;
+
+  environment.systemPackages = with pkgs; [
+#    unstable.hypridle
+    unstable.hyprland
+    unstable.hyprlock
+    unstable.hyprshade
+    unstable.wpaperd
+
+    unstable.anki
+
+    firefox
+    fuzzel
+    git
+    kitty
+    neofetch
+    qimgv
+    wget
+
+    ranger
+    nnn
+    lf
+  ];
+
 
   nix.settings.experimental-features = [
     "nix-command"

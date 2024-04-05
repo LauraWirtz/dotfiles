@@ -71,4 +71,13 @@
     powerManagement.finegrained = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  environment.systemPackages = with pkgs; [
+    unstable.dolphin-emu-beta
+    quodlibet
+    steam
+    yuzu-mainline
+
+    qmk
+  ];
 }
