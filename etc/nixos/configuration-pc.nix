@@ -73,10 +73,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    unstable.dolphin-emu-beta
+    dolphin-emu-beta
     quodlibet
     steam
-    yuzu-mainline
 
     qmk
   ];

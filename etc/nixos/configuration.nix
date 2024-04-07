@@ -70,7 +70,7 @@
     enable = true;
     settings = rec {
       initial_session = {
-        command = with pkgs; "${unstable.pkgs.hyprland}/bin/Hyprland";
+        command = with pkgs; "${pkgs.hyprland}/bin/Hyprland";
         user = "laura";
       };
       default_session = initial_session;
@@ -88,12 +88,12 @@
   programs.autojump.enable = true;
 
   environment.systemPackages = with pkgs; [
-    unstable.hyprland
-    unstable.hyprlock
-    unstable.hyprshade
-    unstable.wpaperd
+    hyprland
+    hyprlock
+    hyprshade
+    wpaperd
 
-    unstable.anki
+    anki-bin
 
     firefox
     fuzzel
