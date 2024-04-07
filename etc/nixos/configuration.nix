@@ -18,11 +18,6 @@
     options = [ "bind"];
   };
 
-  fileSystems."/media/keeb" = {
-    device = "/dev/disk/by-label/MT.KEY";
-    options = [ "nofail" "user" ];
-  };
-
   networking.networkmanager.enable = true;
 
 
@@ -52,8 +47,6 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
-#    noto-fonts-emoji
-#    liberation_ttf
   ];
 
 
@@ -64,15 +57,6 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
-
-#  xdg.portal = {
-#    enable = true;
-#    extraPortals = with pkgs; [ xdg-desktop-portal-kde ];
-#    config = {
-#      common.default = ["kde"];
-#    };
-#  };
 
 
   users.users.laura = {
@@ -95,14 +79,15 @@
 
   programs.bash.shellAliases = {
     e = "nvim";
+    f = "ls -hal";
   };
 
-  programs.neovim.defaultEditor = true;
+  programs.nano.enable = false;
   programs.neovim.enable = true ;
+  programs.neovim.defaultEditor = true;
   programs.autojump.enable = true;
 
   environment.systemPackages = with pkgs; [
-#    unstable.hypridle
     unstable.hyprland
     unstable.hyprlock
     unstable.hyprshade
@@ -118,9 +103,9 @@
     qimgv
     wget
 
-    ranger
-    nnn
-    lf
+#    ranger
+#    nnn
+#    lf
   ];
 
 
