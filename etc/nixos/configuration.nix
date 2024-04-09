@@ -1,9 +1,15 @@
 { config, pkgs, inputs, ... }: {
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.systemd-boot.configurationLimit = 10;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      systemd-boot.configurationLimit = 10;
+      timeout = null;
+    };
+  };
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   nix.gc = {
       automatic = true;
@@ -79,7 +85,7 @@
 
   programs.bash.shellAliases = {
     e = "nvim";
-    f = "ls -hal";
+    f = "ls -hAl --group-directories-first";
   };
 
   programs.nano.enable = false;
@@ -101,11 +107,6 @@
     kitty
     neofetch
     qimgv
-    wget
-
-#    ranger
-#    nnn
-#    lf
   ];
 
 
