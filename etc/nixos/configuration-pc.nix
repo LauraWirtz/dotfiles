@@ -67,8 +67,8 @@
     modesetting.enable = true;
     nvidiaSettings = false;
     open = false;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
@@ -77,7 +77,8 @@
     dolphin-emu-beta
     quodlibet
     steam
-
     qmk
+
+	wineWowPackages.unstable
   ];
 }

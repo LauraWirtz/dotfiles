@@ -25,7 +25,7 @@
   };
 
   networking.networkmanager.enable = true;
-
+  hardware.bluetooth.enable = true;
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -72,16 +72,6 @@
     packages = with pkgs; [];
   };
 
-  services.greetd = {
-    enable = true;
-    settings = rec {
-      initial_session = {
-        command = with pkgs; "${pkgs.hyprland}/bin/Hyprland";
-        user = "laura";
-      };
-      default_session = initial_session;
-    };
-  };
 
   programs.bash.shellAliases = {
     e = "nvim";
@@ -94,16 +84,11 @@
   programs.autojump.enable = true;
 
   environment.systemPackages = with pkgs; [
-    hyprland
-    hyprlock
-    hyprshade
-    wpaperd
-
     anki-bin
-
-    firefox
+    floorp
     fuzzel
-    git
+	gimp
+	git
     kitty
     neofetch
     qimgv
