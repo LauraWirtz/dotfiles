@@ -33,6 +33,7 @@
         modules = [
           ./configuration.nix
           ./configuration-laptop.nix
+          ./configuration-hyprland.nix
           ./hardware-laptop.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {
