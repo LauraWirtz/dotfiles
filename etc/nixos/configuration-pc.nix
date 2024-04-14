@@ -74,10 +74,9 @@
   environment.systemPackages = with pkgs; [
     blender
     dolphin-emu-beta
+	lutris
     quodlibet
     steam
     qmk
-
-	wineWowPackages.unstable
   ];
 }

@@ -4,8 +4,8 @@ uniform sampler2D tex;
 
 void main() {
   vec4 pixColor = texture2D(tex, v_texcoord);
-  pixColor[0] *= 0.55;
-  pixColor[1] *= 0.37;
-  pixColor[2] *= 0.20;
+  pixColor[0] *= 0.4;
+  pixColor[1] *= 0.27;
+  pixColor[2] *= 0.15;
   gl_FragColor = pixColor;
 }
