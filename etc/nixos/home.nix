@@ -1,14 +1,25 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
   home.username = "laura";
   home.homeDirectory = "/home/laura";
 
   home.file = {
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/hyprland.conf";
     ".config/hypr/shaders".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/shaders";
-    ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/kitty";
+    ".config/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/hypr/hypridle.conf";
     ".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/fcitx5";
     ".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/git/config";
+    ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/kitty";
+    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/nvim";
+    ".config/wireplumber".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/wireplumber";
   };
 
+  home.pointerCursor = {
+	gtk.enable = true;
+	x11.enable = true;
+	package = pkgs.rose-pine-cursor;
+	name = "BreezeX-RosePineDawn-Linux";
+	size = 64;
+  };
+  
   home.stateVersion = "23.11";
 }

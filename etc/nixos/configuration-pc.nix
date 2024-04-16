@@ -44,9 +44,7 @@
   networking.hostName = "laura-pc";
 
 
-  services.xserver = {
-    layout = "us";
-  };
+  services.xserver.xkb.layout = "us";
   console.keyMap = "us";
 
 
@@ -74,7 +72,8 @@
   environment.systemPackages = with pkgs; [
     blender
     dolphin-emu-beta
-	lutris
+    lutris
+    xorg.xrandr
     quodlibet
     steam
     qmk

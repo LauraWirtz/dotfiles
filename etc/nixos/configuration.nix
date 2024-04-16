@@ -87,8 +87,8 @@
     anki-bin
     floorp
     fuzzel
-	gimp
-	git
+    gimp
+    git
     kitty
     neofetch
     qimgv
