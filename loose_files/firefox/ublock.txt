@@ -1,0 +1,46 @@
+{
+  "timeStamp": 1710020862416,
+  "version": "1.56.0",
+  "userSettings": {
+    "importedLists": [],
+    "popupPanelSections": 15
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "easylist",
+    "easyprivacy",
+    "urlhaus-1",
+    "plowe-0",
+    "easylist-chat",
+    "easylist-newsletters",
+    "easylist-notifications",
+    "easylist-annoyances",
+    "fanboy-social",
+    "fanboy-cookiemonster",
+    "ublock-cookies-easylist",
+    "DEU-0",
+    "JPN-1"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "about-scheme",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "connect.garmin.com",
+    "edge-scheme",
+    "http://127.0.0.1:7860/",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": "accountkit.com\nacebook.com\nfaacebook.com\nfacebbook.com\nfacebookcareers.com\nfacebook.co\nfacebook.com\nfacebook.com.au\nfacebook.com.mx\nfacebook-dns.com\nfacebookenterprise.com\nfacebook-hardware.com\nfacebook.it\nfacebookmail.com\nfacebook.net\nfacebookrecruiting.com\nfacebookstudy.com\nfacebookvirtualassistant.com\nfb.audio\nfbcdn.net\nfb.com\nfbe2e.com\nfb.gg\nfbinfra.net\nfb.me\nfbpigeon.com\nfbsbx.com\nfbthirdpartypixel.com\nfb.watch\nfbwat.ch\ninternet.org\nm-freeway.com\nparse.com\nwit.ai\n\n! 2023-07-26 https://www.duolingo.com\n||simg-ssl.duolingo.com/videos/promo/Duolingo_FamilyPlan_Super_EN_2.mp4$media\n||simg-ssl.duolingo.com/videos/promo/EfficientLearningSuper_EN_2.mp4$media\n||simg-ssl.duolingo.com/videos/promo/$media\n\nwww.youtube.com##ytd-miniplayer\nwww.youtube.com##ytd-reel-shelf-renderer\n\nyoutube.com##+js(set, yt.config_.openPopupConfig.supportedPopups.adBlockMessageViewModel, false)\nyoutube.com##+js(set, Object.prototype.adBlocksFound, 0)\nyoutube.com##+js(set, ytplayer.config.args.raw_player_response.adPlacements, [])\nyoutube.com##+js(set, Object.prototype.hasAllowedInstreamAd, true)\n\n! 2023-11-05 https://www.youtube.com\nwww.youtube.com##span.caption-visual-line:nth-of-type(2)\n\n! 2024-02-27 https://www.accuweather.com\nwww.accuweather.com##.left-align-children.right-rail\n\n! 2024-02-29 https://www.pixiv.net\nwww.pixiv.net##.sc-1yvhotl-1.gpoeGt\n"
+}

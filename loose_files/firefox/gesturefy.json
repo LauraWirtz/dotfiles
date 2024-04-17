@@ -1,0 +1,114 @@
+{
+  "Gestures": [
+    {
+      "pattern": [
+        [
+          -258,
+          -13
+        ]
+      ],
+      "command": {
+        "name": "ReloadTab",
+        "settings": {
+          "cache": true
+        }
+      }
+    },
+    {
+      "pattern": [
+        [
+          10,
+          188
+        ]
+      ],
+      "command": {
+        "name": "CloseTab",
+        "settings": {
+          "nextFocus": "default",
+          "closePinned": true
+        }
+      }
+    },
+    {
+      "pattern": [
+        [
+          5,
+          -175
+        ]
+      ],
+      "command": {
+        "name": "NewTab",
+        "settings": {
+          "position": "default",
+          "focus": true
+        }
+      }
+    },
+    {
+      "pattern": [
+        [
+          263,
+          11
+        ]
+      ],
+      "command": {
+        "name": "OpenLinkInNewTab",
+        "settings": {
+          "position": "default",
+          "focus": true,
+          "emptyTab": false
+        }
+      }
+    },
+    {
+      "pattern": [
+        [
+          -1,
+          83
+        ],
+        [
+          4,
+          -81
+        ]
+      ],
+      "command": {
+        "name": "RestoreTab",
+        "settings": {
+          "currentWindowOnly": true
+        }
+      }
+    }
+  ],
+  "Settings": {
+    "Gesture": {
+      "Trace": {
+        "display": false
+      },
+      "Command": {
+        "display": false
+      },
+      "distanceThreshold": 2
+    },
+    "General": {
+      "updateNotification": false
+    },
+    "Wheel": {
+      "active": true,
+      "mouseButton": "2",
+      "wheelUp": {
+        "name": "FocusLeftTab",
+        "settings": {
+          "cycling": true,
+          "excludeDiscarded": false
+        }
+      },
+      "wheelDown": {
+        "name": "FocusRightTab",
+        "settings": {
+          "cycling": true,
+          "excludeDiscarded": false
+        }
+      }
+    }
+  }
+}
