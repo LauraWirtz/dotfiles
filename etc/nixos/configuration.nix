@@ -76,6 +76,7 @@
   programs.bash.shellAliases = {
     e = "nvim";
     f = "ls -hAl --group-directories-first";
+    keeb = "sudo sleep 10 && sudo mount /dev/disk/by-label/MT.KEY /media/keeb/ && sudo cp ~/qmk_firmware/ymdk_id75_Laura.uf2 /media/keeb/";
   };
 
   programs.nano.enable = false;
