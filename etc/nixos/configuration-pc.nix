@@ -76,6 +76,5 @@
     xorg.xrandr
     quodlibet
     steam
-    qmk
   ];
 }

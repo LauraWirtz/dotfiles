@@ -92,6 +92,7 @@
     kitty
     neofetch
     qimgv
+    qmk
   ];
 
 

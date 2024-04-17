@@ -14,6 +14,7 @@
     hypridle
     hyprland
     hyprlock
+    hyprnome
     hyprshade
     wpaperd
   ];
