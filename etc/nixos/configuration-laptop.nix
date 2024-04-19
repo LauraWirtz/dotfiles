@@ -3,11 +3,9 @@
   networking.hostName = "laura-laptop";
 
 
-  services.xserver = {
-    layout = "de";
-  };
+  services.xserver.xkb.layout = "de";
   console.keyMap = "de";
-#  boot.kernelParams = [ "psmouse.synatics_intertouch=0" ];
+  boot.kernelParams = [ "psmouse.synatics_intertouch=0" ];
 
   hardware = {
     opengl = {
