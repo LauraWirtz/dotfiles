@@ -75,5 +75,7 @@
     xorg.xrandr
     quodlibet
     steam
+
+	yuzu.yuzu
   ];
 }

@@ -5,15 +5,21 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+	nixpkgs-yuzu.url = "github:NixOS/nixpkgs/619c4b605e267f2eae56458d72070d4726ae1a31";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, nixpkgs-yuzu, ... }:
     let
       system = "x86_64-linux";
+      overlay-yuzu = final: prev: {
+        yuzu = import nixpkgs-yuzu { inherit system; };
+      };
     in {
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-yuzu ]; })
           ./configuration.nix
           ./configuration-pc.nix
           ./configuration-hyprland.nix
