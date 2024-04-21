@@ -11,7 +11,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    hypridle
     hyprland
     hyprlock
     hyprnome
