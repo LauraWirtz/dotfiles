@@ -1,6 +1,5 @@
 { config, pkgs, inputs, ... }:
 {
-  boot.initrd.luks.devices."luks-7d197a16-0a89-4449-9436-2522b74c2ab4".device = "/dev/disk/by-uuid/7d197a16-0a89-4449-9436-2522b74c2ab4";
 
 
   fileSystems."/mnt/games" = {
