@@ -7,3 +7,6 @@
 [credential]
 	helper = store
 	useHttpPath = true
+[credentials]
+	helper = store
+	useHttpPath = true
