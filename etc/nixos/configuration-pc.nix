@@ -51,14 +51,7 @@
     "nvidia"
     "nvidia-x11"
     "cudatoolkit"
-    "steam"
-    "steam-original"
   ];
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -71,11 +64,8 @@
   environment.systemPackages = with pkgs; [
     blender
     dolphin-emu-beta
-    lutris
     xorg.xrandr
     quodlibet
-    steam
-
 	yuzu.yuzu
   ];
 }

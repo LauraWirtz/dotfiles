@@ -73,6 +73,13 @@
   };
 
 
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
+
   programs.bash.shellAliases = {
 	sudo = "sudo ";
     e = "nvim";
@@ -85,6 +92,11 @@
   programs.neovim.defaultEditor = true;
   programs.autojump.enable = true;
 
+  nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "steam"
+    "steam-original"
+  ];
+
   environment.systemPackages = with pkgs; [
     anki-bin
     floorp
@@ -92,9 +104,11 @@
     gimp
     git
     kitty
+	lutris
     neofetch
     qimgv
     qmk
+	steam
   ];
 
   environment.variables = {
