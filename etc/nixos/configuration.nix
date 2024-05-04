@@ -84,7 +84,7 @@
 	sudo = "sudo ";
     e = "nvim";
     f = "ls -hAl --group-directories-first";
-    keeb = "sudo echo 5 && sleep 1 && echo 4 && sleep 1 && echo 3 && sleep 1 && echo 2 && sleep 1 && echo 2 && sleep 1 && echo 1 && sleep 1 && sudo mount /dev/disk/by-label/MT.KEY /media/keeb/ && sudo cp ~/qmk_firmware/ymdk_id75_Laura.uf2 /media/keeb/";
+    keeb = "sudo echo 5 && sleep 1 && echo 4 && sleep 1 && echo 3 && sleep 1 && echo 2 && sleep 1 && echo 1 && sleep 1 && sudo mount /dev/disk/by-label/MT.KEY /media/keeb/ && sudo cp ~/qmk_firmware/ymdk_id75_Laura.uf2 /media/keeb/";
   };
 
   programs.nano.enable = false;
