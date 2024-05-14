@@ -47,11 +47,6 @@
   console.keyMap = "us";
 
 
-  nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "nvidia"
-    "nvidia-x11"
-    "cudatoolkit"
-  ];
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;

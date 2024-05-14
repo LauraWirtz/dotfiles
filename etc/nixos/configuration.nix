@@ -5,7 +5,7 @@
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-      systemd-boot.configurationLimit = 10;
+      systemd-boot.configurationLimit = 3;
       timeout = null;
     };
   };
@@ -14,7 +14,7 @@
   nix.gc = {
       automatic = true;
       dates = "day";
-      options = "--delete-older-than 7d";
+      options = "--delete-older-than 1d";
   };
 
   fileSystems."/etc/nixos" = {
@@ -92,9 +92,21 @@
   programs.neovim.defaultEditor = true;
   programs.autojump.enable = true;
 
+
+  programs.steam = {
+	enable = true;
+	remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+#	dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+#	gamescopeSession.enable = true;
+  };
+
   nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
     "steam"
     "steam-original"
+	"steam-run"
+	"nvidia"
+    "nvidia-x11"
+    "cudatoolkit"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -108,7 +120,6 @@
     neofetch
     qimgv
     qmk
-	steam
   ];
 
   environment.variables = {
