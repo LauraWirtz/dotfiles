@@ -22,6 +22,7 @@
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-yuzu ]; })
           ./configuration.nix
           ./configuration-pc.nix
+          ./configuration-x11.nix
           ./configuration-hyprland.nix
           ./hardware-pc.nix
           home-manager.nixosModules.home-manager {
