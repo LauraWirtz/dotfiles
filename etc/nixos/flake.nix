@@ -42,6 +42,7 @@
           ./configuration.nix
           ./configuration-laptop.nix
           ./configuration-hyprland.nix
+          ./configuration-greetd-hypr.nix
           ./hardware-laptop.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {

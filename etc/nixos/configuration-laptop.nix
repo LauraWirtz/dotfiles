@@ -8,4 +8,7 @@
   boot.kernelParams = [ "psmouse.synatics_intertouch=0" ];
 
   services.logind.lidSwitch = "hibernate";
+  environment.systemPackages = [
+    pkgs.tlp
+  ];
 }
