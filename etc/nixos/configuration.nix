@@ -108,12 +108,16 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "steam"
+	"blender"
+	"steam"
     "steam-original"
 	"steam-run"
 	"nvidia"
     "nvidia-x11"
     "cudatoolkit"
+	"cuda_cudart"
+	"cuda_nvcc"
+	"cuda_cccl"
   ];
 
   environment.systemPackages = with pkgs; [

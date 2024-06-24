@@ -57,7 +57,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    blender
+	(blender.override {
+	  cudaSupport = true;
+	})
     dolphin-emu-beta
     xorg.xrandr
     quodlibet
