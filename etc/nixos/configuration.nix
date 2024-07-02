@@ -60,6 +60,8 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
+	roboto
+	roboto-mono
   ];
 
 
@@ -80,10 +82,9 @@
   };
 
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
 
@@ -122,7 +123,7 @@
 
   environment.systemPackages = with pkgs; [
     anki-bin
-    floorp
+    floorp.floorp
     fuzzel
     gimp
     git

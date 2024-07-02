@@ -1,7 +1,5 @@
 [default]
-path = "/home/laura/Pictures/wallpapers/16-9"
+path = "/home/laura/Pictures/アニメ/東方/ぬえ/"
 duration = "5m"
 sorting = "random"
-
-[DP-1]
-path = "/home/laura/Pictures/wallpapers/66035612_p0.png"
+mode = "center"

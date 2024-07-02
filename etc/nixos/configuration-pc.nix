@@ -47,6 +47,8 @@
   console.keyMap = "us";
 
 
+  services.logind.powerKey = "suspend";
+
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
