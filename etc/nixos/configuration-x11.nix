@@ -3,10 +3,8 @@
 	enable = true;
 	autoLogin.enable = false;
 	autoLogin.user = "laura";
-	wayland.enable = false;
+	wayland.enable = true;
   };
   services.xserver.enable = true;
-  environment.systemPackages = [
-    pkgs.hypr
-  ];
+  services.xserver.desktopManager.xfce.enable = true;
 }

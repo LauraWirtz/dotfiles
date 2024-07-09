@@ -15,3 +15,4 @@ vim.opt.smarttab = true
 
 vim.opt.background = "light"
 
+vim.opt.termguicolors = false

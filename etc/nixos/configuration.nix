@@ -60,6 +60,8 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
+	roboto
+	roboto-mono
   ];
 
 
@@ -80,10 +82,9 @@
   };
 
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
 
@@ -108,17 +109,21 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "steam"
+	"blender"
+	"steam"
     "steam-original"
 	"steam-run"
 	"nvidia"
     "nvidia-x11"
     "cudatoolkit"
+	"cuda_cudart"
+	"cuda_nvcc"
+	"cuda_cccl"
   ];
 
   environment.systemPackages = with pkgs; [
     anki-bin
-    floorp
+    floorp.floorp
     fuzzel
     gimp
     git
