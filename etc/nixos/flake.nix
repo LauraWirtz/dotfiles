@@ -25,9 +25,8 @@
           ./configuration-pc.nix
           ./configuration-hyprland.nix
           ./configuration-plasma.nix
-#          ./configuration-greetd-plasma.nix
+          ./configuration-sddm.nix
 #          ./configuration-gnome.nix
-#          ./configuration-x11.nix
           ./hardware-pc.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {
