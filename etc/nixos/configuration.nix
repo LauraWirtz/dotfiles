@@ -135,10 +135,6 @@
     qmk
   ];
 
-  environment.variables = {
-	ANKI_WAYLAND = "1";
-  };
-
 
   nix.settings.experimental-features = [
     "nix-command"
