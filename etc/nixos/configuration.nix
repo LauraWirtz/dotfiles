@@ -123,7 +123,7 @@
 
   environment.systemPackages = with pkgs; [
     anki-bin
-    floorp.floorp
+    floorp
     fuzzel
     gimp
     git
