@@ -64,7 +64,7 @@
 	})
     dolphin-emu-beta
     xorg.xrandr
-    quodlibet
+#    quodlibet
 	yuzu.yuzu
   ];
 }

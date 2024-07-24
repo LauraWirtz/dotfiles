@@ -14,13 +14,13 @@
   outputs = { self, nixpkgs, home-manager, nixpkgs-floorp, nixpkgs-yuzu, ... }:
     let
       system = "x86_64-linux";
-      overlay-floorp = final: prev: { floorp = import nixpkgs-floorp { inherit system; }; };
+#      overlay-floorp = final: prev: { floorp = import nixpkgs-floorp { inherit system; }; };
       overlay-yuzu = final: prev: { yuzu = import nixpkgs-yuzu { inherit system; }; };
     in {
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-floorp overlay-yuzu ]; })
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-yuzu ]; })
           ./configuration.nix
           ./configuration-pc.nix
           ./configuration-hyprland.nix
