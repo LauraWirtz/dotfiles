@@ -62,6 +62,7 @@
 	(blender.override {
 	  cudaSupport = true;
 	})
+	cemu
     dolphin-emu-beta
     xorg.xrandr
 #    quodlibet

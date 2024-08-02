@@ -3,8 +3,7 @@
   programs.hyprland.enable = true;
 
   environment.systemPackages = with pkgs; [
-#    hyprland
-    hyprlock
+    swaylock
     hyprnome
     hyprshade
     wpaperd

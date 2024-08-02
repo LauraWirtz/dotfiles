@@ -108,6 +108,8 @@
 #	gamescopeSession.enable = true;
   };
 
+  programs.tuxclocker.enable = true;
+
   nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
 	"blender"
 	"steam"
