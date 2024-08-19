@@ -6,15 +6,12 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-
-	nixpkgs-floorp.url = "github:NixOS/nixpkgs/755b915a158c9d588f08e9b08da9f7f3422070cc";	#before sidebar breaking bug
 	nixpkgs-yuzu.url = "github:NixOS/nixpkgs/619c4b605e267f2eae56458d72070d4726ae1a31";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixpkgs-floorp, nixpkgs-yuzu, ... }:
+  outputs = { self, nixpkgs, home-manager, nixpkgs-yuzu, ... }:
     let
       system = "x86_64-linux";
-#      overlay-floorp = final: prev: { floorp = import nixpkgs-floorp { inherit system; }; };
       overlay-yuzu = final: prev: { yuzu = import nixpkgs-yuzu { inherit system; }; };
     in {
       nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
@@ -24,9 +21,10 @@
           ./configuration.nix
           ./configuration-pc.nix
           ./configuration-hyprland.nix
-#          ./configuration-plasma.nix
-#          ./configuration-sddm.nix
-          ./configuration-gnome.nix
+          ./configuration-plasma.nix
+#          ./configuration-greetd.nix
+          ./configuration-sddm.nix
+#          ./configuration-gnome.nix
           ./hardware-pc.nix
           home-manager.nixosModules.home-manager {
             home-manager.users.laura = { pkgs, ... }: {
