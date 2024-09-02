@@ -21,9 +21,9 @@
           ./configuration.nix
           ./configuration-pc.nix
           ./configuration-hyprland.nix
-          ./configuration-plasma.nix
-#          ./configuration-greetd.nix
-          ./configuration-sddm.nix
+#          ./configuration-plasma.nix
+          ./configuration-greetd-hypr.nix
+#          ./configuration-sddm.nix
 #          ./configuration-gnome.nix
           ./hardware-pc.nix
           home-manager.nixosModules.home-manager {

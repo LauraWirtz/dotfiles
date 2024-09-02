@@ -1,10 +1,11 @@
 { config, pkgs, inputs, ... }: {
 
   programs.hyprland.enable = true;
+#  services.hypridle.enable = true;
 
   environment.systemPackages = with pkgs; [
     swaylock
-    hyprnome
+	hyprnome
     hyprshade
     wpaperd
 
@@ -19,5 +20,6 @@
 	kdePackages.dolphin-plugins
 	kdePackages.ffmpegthumbs
 	kdePackages.kdegraphics-thumbnailers
+	kdePackages.konsole
   ];
 }

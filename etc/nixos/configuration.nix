@@ -6,7 +6,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 3;
-      timeout = null;
+      timeout = 0;
     };
   };
   systemd.services.NetworkManager-wait-online.enable = false;
