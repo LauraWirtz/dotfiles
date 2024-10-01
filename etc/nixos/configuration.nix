@@ -140,6 +140,7 @@
     gimp
     git
     kitty
+	libreoffice-qt6
 	lutris
     neofetch
 	nvd
