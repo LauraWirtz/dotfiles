@@ -1,3 +1,4 @@
 [default-profile]
-alsa_card.pci-0000_00_1f.3=output:analog-surround-51+input:analog-stereo
+alsa_card.pci-0000_00_1f.3=off
 alsa_card.pci-0000_01_00.1=off
+alsa_card.usb-Creative_Technology_Ltd_Sound_Blaster_X4_24BEDB18A693F3FD-03=output:analog-surround-51+input:analog-stereo
