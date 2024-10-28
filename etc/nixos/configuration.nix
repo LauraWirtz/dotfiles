@@ -144,6 +144,7 @@
 	lutris
     neofetch
 	nvd
+	pavucontrol
 	pzip
     qimgv
     qmk

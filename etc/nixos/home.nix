@@ -11,7 +11,7 @@
     ".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/git/config";
     ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/kitty";
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/nvim";
-    ".config/wireplumber".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/wireplumber";
+#    ".config/wireplumber".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/wireplumber";
   };
 
   home.pointerCursor = {
