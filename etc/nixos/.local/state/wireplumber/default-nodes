@@ -1,4 +1,0 @@
-[default-nodes]
-default.configured.audio.sink=effect_input.virtual-surround-7.1-hesuvi
-default.configured.audio.sink.0=alsa_output.usb-Creative_Technology_Ltd_Sound_Blaster_X4_24BEDB18A693F3FD-03.analog-stereo
-default.configured.audio.sink.1=alsa_output.usb-Creative_Technology_Ltd_Sound_Blaster_X4_24BEDB18A693F3FD-03.analog-surround-71
