@@ -63,9 +63,10 @@
 	  cudaSupport = true;
 	})
 	cemu
-    dolphin-emu-beta
-    xorg.xrandr
-    quodlibet
+	dolphin-emu-beta
+	xorg.xrandr
+	qpwgraph
+	quodlibet
 	yuzu.yuzu
   ];
 }

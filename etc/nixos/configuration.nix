@@ -68,7 +68,7 @@
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
 	roboto
 	roboto-mono
   ];
@@ -125,6 +125,7 @@
 	"steam"
     "steam-original"
 	"steam-run"
+	"steam-unwrapped"
 	"nvidia"
     "nvidia-x11"
     "cudatoolkit"
