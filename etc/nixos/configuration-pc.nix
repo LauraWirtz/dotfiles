@@ -80,7 +80,7 @@
 		nvidiaSettings = false;
 		open = false;
 		powerManagement.enable = true;
-		package = config.boot.kernelPackages.nvidiaPackages.stable;
+		package = config.boot.kernelPackages.nvidiaPackages.beta;
 	};
 
 	environment.systemPackages = with pkgs; [
@@ -89,9 +89,9 @@
 		})
 		cemu
 		dolphin-emu-beta
+		sayonara
 		xorg.xrandr
 		qpwgraph
-		quodlibet
 		yuzu.yuzu
 	];
 }
