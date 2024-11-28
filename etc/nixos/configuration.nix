@@ -138,6 +138,7 @@
 		lutris
 		nvd
 		pavucontrol
+		p7zip
 		pzip
 		qimgv
 		qmk

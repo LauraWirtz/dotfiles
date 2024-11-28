@@ -1,10 +1,10 @@
 [default]
+duration = "5m"
+sorting = "random"
+mode = "center"
+
+[any]
 path = "/home/laura/Pictures/wallpapers/16-9"
-duration = "5m"
-sorting = "random"
-mode = "center"
-[DP-1]
+
+["LG Electronics LG ULTRAGEAR 011NTYT3V010"]
 path = "/home/laura/Pictures/wallpapers/rsynced"
-duration = "5m"
-sorting = "random"
-mode = "center"

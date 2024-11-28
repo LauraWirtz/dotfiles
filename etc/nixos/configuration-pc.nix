@@ -87,8 +87,11 @@
 		(blender.override {
 			cudaSupport = true;
 		})
+		bottles
 		cemu
 		dolphin-emu-beta
+		gammastep
+		gimp
 		sayonara
 		xorg.xrandr
 		qpwgraph
