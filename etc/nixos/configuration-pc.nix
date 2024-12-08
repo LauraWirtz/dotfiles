@@ -9,22 +9,13 @@
 			"exec"
 		];
 	};
-	fileSystems."/run/mnt/backup" = {
-		device = "/dev/disk/by-uuid/bc7fd759-0391-455b-b8a9-c8c375197248";
-		fsType = "ext4";
-		options = [
-			"users" # Allows any user to mount and unmount
-			"nofail" # Prevent system from failing if this drive doesn't mount
-			"exec"
-		];
-	};
 
-	fileSystems."/home/laura/.floorp" = {
+	fileSystems."/etc/nixos" = {
 		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/.floorp";
+		device = "/run/mnt/data/dotfiles/etc/nixos";
 		fsType = "none";
 		options = [ "bind"];
-	 };
+	};
 	fileSystems."/home/laura/Documents" = {
 		depends = [ "/run/mnt/data" ];
 		device = "/run/mnt/data/laura/Documents";
@@ -49,30 +40,21 @@
 		fsType = "none";
 		options = [ "bind"];
 	 };
-	fileSystems."/home/laura/.git-credentials" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/.git-credentials";
-		fsType = "none";
-		options = [ "bind"];
-	 };
-
-	fileSystems."/etc/nixos" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/dotfiles/etc/nixos";
-		fsType = "none";
-		options = [ "bind"];
-	};
 
 
 
 	networking.hostName = "laura-pc";
 
 
+
 	services.xserver.xkb.layout = "us";
 	console.keyMap = "us";
 
 
+
 	services.logind.powerKey = "hibernate";
+
+
 
 	services.xserver.videoDrivers = ["nvidia"];
 	hardware.nvidia = {
@@ -83,6 +65,8 @@
 		package = config.boot.kernelPackages.nvidiaPackages.beta;
 	};
 
+
+
 	environment.systemPackages = with pkgs; [
 		(blender.override {
 			cudaSupport = true;
@@ -92,9 +76,8 @@
 		dolphin-emu-beta
 		gammastep
 		gimp
-		sayonara
-		xorg.xrandr
 		qpwgraph
+		xorg.xrandr
 		yuzu.yuzu
 	];
 }

@@ -52,6 +52,8 @@
 		kdePackages.ffmpegthumbs
 	];
 
+	services.upower.enable = true;
+
 	qt.enable = true;
 
 	programs.gnupg.agent.pinentryPackage = pkgs.pinentry-qt;
