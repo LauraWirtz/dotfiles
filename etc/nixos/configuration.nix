@@ -102,7 +102,6 @@
 	programs.neovim.enable = true ;
 	programs.neovim.defaultEditor = true;
 	programs.autojump.enable = true;
-	programs.partition-manager.enable = true;
 	documentation.nixos.enable = false;
 
 
