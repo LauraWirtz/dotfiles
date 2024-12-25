@@ -36,27 +36,10 @@
         "type": "github"
       }
     },
-    "nixpkgs-yuzu": {
-      "locked": {
-        "lastModified": 1703851775,
-        "narHash": "sha256-/nUhIIy1Cmv+K/hSVHh7qG6/yWB9LScYCT8q4myW1co=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "619c4b605e267f2eae56458d72070d4726ae1a31",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "619c4b605e267f2eae56458d72070d4726ae1a31",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "nixpkgs-yuzu": "nixpkgs-yuzu"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
