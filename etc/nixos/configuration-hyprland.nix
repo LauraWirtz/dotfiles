@@ -7,6 +7,7 @@
 		fuzzel
 		swaylock
 		hyprnome
+		hyprshade
 		wpaperd
 
 		kdePackages.qtwayland
