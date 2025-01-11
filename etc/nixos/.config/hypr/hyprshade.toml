@@ -5,4 +5,4 @@ end_time = 21:00:00   # optional if you have more than one shade with start_time
 [[shades]]
 name = "bluelight3700"
 start_time = 21:00:00
-end_time = 22:00:00   # optional if you have more than one shade with start_time
+end_time = 04:00:00   # optional if you have more than one shade with start_time
