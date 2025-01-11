@@ -94,8 +94,8 @@
 		sudo = "sudo ";
 		e = "nvim";
 		f = "ls -hAl --group-directories-first";
-		keeb = "sudo echo 5 && sleep 1 && echo 4 && sleep 1 && echo 3 && sleep 1 && echo 2 && sleep 1 && echo 1 && sleep 1 && sudo mount /dev/disk/by-label/RPI-RP2 /media/keeb/ && sudo cp ~/qmk_firmware/keebio_nyquist_rev4_Laura.uf2 /media/keeb/";
-	nixos-diff = ''nixos-rebuild build "$@" && nvd diff /run/current-system result'';
+		keeb = "sudo echo 5 && sleep 1 && echo 4 && sleep 1 && echo 3 && sleep 1 && echo 2 && sleep 1 && echo 1 && sleep 1 && sudo mount /dev/disk/by-label/RPI-RP2 /run/mount/keeb/ && sudo cp /run/mnt/data/qmk_firmware/keebio_nyquist_rev4_Laura.uf2 /run/mount/keeb/";
+		nixos-diff = ''nixos-rebuild build "$@" && nvd diff /run/current-system result'';
 	};
 
 	programs.nano.enable = false;
