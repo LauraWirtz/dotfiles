@@ -51,26 +51,19 @@
 	console.keyMap = "us";
 
 
-
 	services.logind.powerKey = "hibernate";
 
 
-
-	services.xserver.videoDrivers = ["nvidia"];
-	hardware.nvidia = {
-		modesetting.enable = true;
-		nvidiaSettings = false;
-		open = false;
-		powerManagement.enable = true;
-		package = config.boot.kernelPackages.nvidiaPackages.beta;
-	};
+#	boot.initrd.kernelModules = [ "amdgpu" ];
+	services.xserver.videoDrivers = ["amdgpu"];
 
 
+
+	services.hardware.openrgb.enable = true;
+	services.hardware.openrgb.package = pkgs.openrgb-with-all-plugins;
 
 	environment.systemPackages = with pkgs; [
-		(blender.override {
-			cudaSupport = true;
-		})
+		blender
 		bottles
 		cemu
 		dolphin-emu-beta
@@ -78,6 +71,6 @@
 		gimp
 		qpwgraph
 		xorg.xrandr
-		yuzu.yuzu
+#		yuzu.yuzu
 	];
 }

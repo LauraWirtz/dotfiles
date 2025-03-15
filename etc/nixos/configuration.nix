@@ -1,7 +1,8 @@
 { config, pkgs, inputs, ... }: {
 
 	boot = {
-#  		kernelPackages = pkgs.linuxPackages_latest;
+		kernelPackages = pkgs.linuxPackages_latest;
+
 		loader = {
 			systemd-boot.enable = true;
 			efi.canTouchEfiVariables = true;
@@ -105,9 +106,7 @@
 	documentation.nixos.enable = false;
 
 
-	programs.steam = {
-		enable = true;
-	};
+	programs.steam.enable = true;
 
 
 	nixpkgs.config.allowUnfreePredicate = with pkgs.lib; pkg: builtins.elem (pkgs.lib.getName pkg) [
@@ -116,12 +115,6 @@
 		"steam-original"
 		"steam-run"
 		"steam-unwrapped"
-		"nvidia"
-		"nvidia-x11"
-		"cudatoolkit"
-		"cuda_cudart"
-		"cuda_nvcc"
-		"cuda_cccl"
 	];
 
 	environment.systemPackages = with pkgs; [
