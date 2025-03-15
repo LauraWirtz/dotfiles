@@ -18,8 +18,9 @@
 		x11.enable = true;
 		package = pkgs.rose-pine-cursor;
 		name = "BreezeX-RosePineDawn-Linux";
-		size = 32;
+		size = 24;
 	};
+	gtk.enable = true;
   
 	home.stateVersion = "23.11";
 }
