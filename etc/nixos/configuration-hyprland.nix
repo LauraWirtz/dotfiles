@@ -6,6 +6,7 @@
 	environment.systemPackages = with pkgs; [
 		fuzzel
 		swaylock
+		hypridle
 		hyprnome
 		hyprshade
 		wpaperd
