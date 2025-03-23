@@ -15,12 +15,12 @@
 
 	nix.gc = {
 			automatic = true;
-			dates = "day";
+			dates = "*-*-* 00:08:00";
 			options = "--delete-older-than 1d";
 	};
 	nix.optimise = {
 		automatic = true;
-		dates = [ "weekly" ];
+		dates = [ "*-*-* 00:08:00" ];
 	};
 	nix.settings.auto-optimise-store = true;
 
