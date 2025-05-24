@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }: {
 
 	boot = {
-		kernelPackages = pkgs.linuxPackages_latest;
+		kernelPackages = pkgs.linuxPackages_6_12;
 
 		loader = {
 			systemd-boot.enable = true;
@@ -16,7 +16,7 @@
 	nix.gc = {
 			automatic = true;
 			dates = "*-*-* 00:08:00";
-			options = "--delete-older-than 1d";
+			options = "--delete-older-than 7d";
 	};
 	nix.optimise = {
 		automatic = true;
@@ -25,8 +25,13 @@
 	nix.settings.auto-optimise-store = true;
 
 
-	networking.networkmanager.enable = true;
 	hardware.bluetooth.enable = true;
+	networking.wireless = {
+		enable = true;
+		userControlled.enable = true;
+		secretsFile = "/home/laura/secrets.conf";
+		networks.DK3HV_Fritzbox.pskRaw = "ext:psk";
+	};
 
 # 	services.printing.enable = true;
 # 	services.avahi = {
@@ -125,11 +130,12 @@
 		kitty
 		libreoffice-qt6
 		nvd
-		pavucontrol
+		pwvucontrol
 		p7zip
 		pzip
 		qimgv
 		qmk
+		wpa_supplicant_gui
 	];
 
 
