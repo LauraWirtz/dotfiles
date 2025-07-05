@@ -9,7 +9,6 @@
 		".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/fcitx5";
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/git/config";
 		".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/kitty";
-		".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/.config/nvim";
 	};
 
 	home.pointerCursor = {

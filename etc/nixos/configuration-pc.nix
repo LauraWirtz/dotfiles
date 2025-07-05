@@ -56,16 +56,13 @@
 
 	boot.initrd.kernelModules = [ "amdgpu" ];
 	services.xserver.videoDrivers = ["amdgpu"];
-	boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfffd3fff" ];
-
-	hardware.graphics.extraPackages = with pkgs; [
-		amdvlk
-		rocmPackages.clr.icd
-	];
+# 	boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfffd3fff" ];
+#
+# 	hardware.graphics.extraPackages = with pkgs; [
+# 		amdvlk
+# 		rocmPackages.clr.icd
+# 	];
 	hardware.amdgpu.opencl.enable = true;
-
-	services.hardware.openrgb.enable = true;
-	services.hardware.openrgb.package = pkgs.openrgb-with-all-plugins;
 
 	environment.systemPackages = with pkgs; [
 		blender-hip

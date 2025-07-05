@@ -10,7 +10,6 @@
 			timeout = 0;
 		};
 	};
-	systemd.services.NetworkManager-wait-online.enable = false;
 
 
 	nix.gc = {
@@ -33,12 +32,12 @@
 		networks.DK3HV_Fritzbox.pskRaw = "ext:psk";
 	};
 
-# 	services.printing.enable = true;
-# 	services.avahi = {
-# 		enable = true;
-# 		nssmdns4 = true;
-# 		openFirewall = true;
-# 	};
+	services.printing.enable = true;
+	services.avahi = {
+		enable = true;
+		nssmdns4 = true;
+		openFirewall = true;
+	};
 
 
 	time.timeZone = "Europe/Berlin";
@@ -98,15 +97,12 @@
 
 	programs.bash.shellAliases = {
 		sudo = "sudo ";
-		e = "nvim";
+		e = "nano";
 		f = "ls -hAl --group-directories-first";
 		keeb = "sudo echo 5 && sleep 1 && echo 4 && sleep 1 && echo 3 && sleep 1 && echo 2 && sleep 1 && echo 1 && sleep 1 && sudo mount /dev/disk/by-label/RPI-RP2 /run/mount/keeb/ && sudo cp /run/mnt/data/qmk_firmware/keebio_nyquist_rev4_Laura.uf2 /run/mount/keeb/";
 		nixos-diff = ''nixos-rebuild build "$@" && nvd diff /run/current-system result'';
 	};
 
-	programs.nano.enable = false;
-	programs.neovim.enable = true ;
-	programs.neovim.defaultEditor = true;
 	programs.autojump.enable = true;
 	documentation.nixos.enable = false;
 
@@ -124,7 +120,7 @@
 
 	environment.systemPackages = with pkgs; [
 		anki-bin
-		floorp
+		floorp.floorp
 		gimp
 		git
 		kitty
