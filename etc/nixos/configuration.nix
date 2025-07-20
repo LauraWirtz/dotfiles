@@ -25,6 +25,7 @@
 
 
 	hardware.bluetooth.enable = true;
+	services.blueman.enable = true;
 	networking.wireless = {
 		enable = true;
 		userControlled.enable = true;

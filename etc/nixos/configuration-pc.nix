@@ -51,7 +51,7 @@
 	console.keyMap = "us";
 
 
-	services.logind.powerKey = "ignore";
+	services.logind.powerKey = "hibernate";
 
 
 	boot.initrd.kernelModules = [ "amdgpu" ];
