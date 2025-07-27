@@ -1,5 +1,8 @@
+#version 300 es
+
 precision mediump float;
-varying vec2 v_texcoord;
+in vec2 v_texcoord;
+out vec4 FragColor;
 uniform sampler2D tex;
 
 void main() {
@@ -7,5 +10,5 @@ void main() {
   pixColor[0] *= 0.6;
   pixColor[1] *= 0.47;
   pixColor[2] *= 0.34;
-  gl_FragColor = pixColor;
+  FragColor = pixColor;
 }
