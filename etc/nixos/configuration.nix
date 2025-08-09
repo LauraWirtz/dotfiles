@@ -26,19 +26,7 @@
 
 	hardware.bluetooth.enable = true;
 	services.blueman.enable = true;
-	networking.wireless = {
-		enable = true;
-		userControlled.enable = true;
-		secretsFile = "/home/laura/secrets.conf";
-		networks.DK3HV_Fritzbox.pskRaw = "ext:psk";
-	};
-
-	services.printing.enable = true;
-	services.avahi = {
-		enable = true;
-		nssmdns4 = true;
-		openFirewall = true;
-	};
+	networking.networkmanager.enable = true;
 
 
 	time.timeZone = "Europe/Berlin";
