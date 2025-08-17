@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }: {
 
 	boot = {
-		kernelPackages = pkgs.linuxPackages_6_12;
+		kernelPackages = pkgs.linuxPackages_latest;
 
 		loader = {
 			systemd-boot.enable = true;
@@ -109,7 +109,7 @@
 
 	environment.systemPackages = with pkgs; [
 		anki-bin
-		floorp.floorp
+		floorp
 		gimp
 		git
 		kitty

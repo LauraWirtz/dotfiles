@@ -12,12 +12,10 @@
 	outputs = { self, nixpkgs, home-manager, nixpkgs-floorp, ... }:
 		let
 			system = "x86_64-linux";
-			overlay-floorp = final: prev: { floorp = import nixpkgs-floorp { inherit system; }; };
 		in {
 			nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
 				inherit system;
 				modules = [
-					({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-floorp ]; })
 					./configuration.nix
 					./configuration-pc.nix
 					./configuration-hyprland.nix
