@@ -73,6 +73,12 @@
 		kdePackages.xdg-desktop-portal-kde
 		pkgs.xdg-desktop-portal-gtk
 	];
+	xdg.portal.config = {
+		common = {
+			default = [ "kde" ];
+		};
+	};
+	xdg.portal.xdgOpenUsePortal = true;
 
 	security.pam.services = with pkgs; {
 		login.kwallet = {
@@ -82,8 +88,8 @@
 		kde = {
 			allowNullPassword = true;
 			kwallet = {
-			enable = true;
-			package = kdePackages.kwallet-pam;
+				enable = true;
+				package = kdePackages.kwallet-pam;
 			};
 		};
 	};
