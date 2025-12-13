@@ -68,7 +68,7 @@
 		gimp
 		lact
 		qpwgraph
+		ryubing
 		xorg.xrandr
-#		yuzu.yuzu
 	];
 }

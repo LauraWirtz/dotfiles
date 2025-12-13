@@ -5,11 +5,9 @@
  		nixpkgs.url = "github:NixOS/nixpkgs/master";
 		home-manager.url = "github:nix-community/home-manager";
 		home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-		nixpkgs-floorp.url = "github:NixOS/nixpkgs/d1bc54ae6c7870053c5038710de8a9847b434700";
 	};
 
-	outputs = { self, nixpkgs, home-manager, nixpkgs-floorp, ... }:
+	outputs = { self, nixpkgs, home-manager, ... }:
 		let
 			system = "x86_64-linux";
 		in {
