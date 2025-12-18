@@ -1,0 +1,174 @@
+input {
+	keyboard {
+		xkb {
+			layout "us, de"
+		}
+		numlock
+	}
+	touchpad {
+		tap
+		drag true
+		natural-scroll
+		click-method "button-areas"
+		scroll-method "edge"
+		accel-profile "adaptive"
+		accel-speed 0.5
+	}
+	mouse {
+		accel-profile "flat"
+	}
+	touch {
+		map-to-output "eDP-1"
+	}
+
+	focus-follows-mouse max-scroll-amount="30%"
+	disable-power-key-handling
+	workspace-auto-back-and-forth
+}
+
+
+gestures {
+	hot-corners {
+		off
+	}
+}
+
+
+output "eDP-1" {
+	mode "2560x1600@60"
+	scale 2
+}
+
+
+layout {
+	gaps 20
+	center-focused-column "never"
+
+	background-color "#00000000"
+
+	preset-column-widths {
+		proportion 0.5
+		proportion 1.0
+	}
+	default-column-width { proportion 1.0; }
+
+	insert-hint { color "#f4b8e4";}
+
+	focus-ring {
+		off
+		width 1
+		active-color "rgb(61,174,233)"
+		inactive-color "rgba(32,35,38,0.5)"
+	}
+
+	border {
+		off
+		width 1
+
+		active-color "rgb(61,174,233)"
+		inactive-color "rgba(32,35,38,0.5)"
+
+	}
+	shadow {
+		on
+		softness 15
+		spread 0
+		offset x=0 y=0
+		draw-behind-window false
+		color "000000ff"
+		inactive-color "00000088"
+	}
+
+	struts {
+        left 0
+        right 0
+        top 0
+        bottom -20
+    }
+}
+
+spawn-sh-at-startup "inputplumber device 0 targets set deck-uhid"
+spawn-at-startup "quickshell" "-p" "/home/laura/.config/quickshell/lockscreen/shell.qml"
+spawn-at-startup "steam"
+spawn-at-startup "wpaperd" "-d"
+
+hotkey-overlay {
+	skip-at-startup
+}
+
+
+prefer-no-csd
+
+window-rule {
+	geometry-corner-radius 7.5
+	clip-to-geometry true
+	draw-border-with-background true
+//	opacity 0.9
+}
+window-rule {
+	match is-active=false
+	opacity 0.5
+}
+
+window-rule {
+	match app-id="floorp" title="^Picture-in-Picture$"
+	open-floating true
+	opacity 1.0
+	open-focused false
+	min-height 180
+	max-height 180
+	default-floating-position x=30 y=10 relative-to="bottom-right"
+}
+
+window-rule {
+	match app-id="better_control.py"
+	open-floating true
+	open-focused true
+}
+
+window-rule {
+	match app-id="gamescope"
+	match app-id="net.kuribo64.melonDS"
+	match app-id="steam_app_1627610"
+	opacity 1.0
+	focus-ring{ off; }
+	border{ off; }
+	open-maximized-to-edges true
+}
+
+
+layer-rule {
+	match namespace="wpaperd-eDP-1"
+	place-within-backdrop true
+}
+
+layer-rule {
+	match namespace="nwg-drawer"
+	shadow { on; }
+}
+
+binds {
+	Super+K { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
+
+	XF86AudioRaiseVolume allow-inhibiting=false { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
+	XF86AudioLowerVolume allow-inhibiting=false { toggle-overview; }
+
+	Mod+C repeat=false { close-window; }
+	Mod+Q allow-inhibiting=false { spawn "foot"; }
+
+	Mod+Left allow-inhibiting=false { focus-column-left; }
+	Mod+Right allow-inhibiting=false { focus-column-right; }
+
+	Mod+WheelScrollUp cooldown-ms=10 { focus-column-left; }
+	Mod+WheelScrollDown cooldown-ms=10 { focus-column-right; }
+
+	Mod+O allow-inhibiting=false { toggle-overview; }
+
+
+
+	// Move the focused window between the floating and the tiling layout.
+	Mod+V	   { toggle-window-floating; }
+	Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+	Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+}

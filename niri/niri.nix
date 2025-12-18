@@ -1,0 +1,48 @@
+{ config, pkgs, lib, ... }:
+{
+# 	services.upower.enable = true;
+	services.udisks2.enable = true;
+# 	services.libinput.enable = true;
+
+	environment.pathsToLink = [
+		"/share" # TODO: https://github.com/NixOS/nixpkgs/issues/47173
+	];
+
+ 	services.greetd = {
+ 		enable = lib.mkDefault true;
+ 		settings = rec {
+			initial_session = {
+				command = with pkgs; "${pkgs.niri}/bin/niri-session";
+				user = "laura";
+			};
+			default_session = initial_session;
+ 		};
+ 	};
+
+	programs.niri.enable = true;
+	programs.niri.useNautilus = false;
+
+	services.hypridle.enable = true;
+	systemd.user.services.hypridle.path = [ pkgs.quickshell ];
+	systemd.user.services.hypridle.serviceConfig = { Restart="always"; };
+
+	programs.waybar.enable = true;
+	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps ];
+	systemd.user.services.waybar.serviceConfig = { Restart="always"; };
+
+	systemd.user.services.wvkbd = {
+		wantedBy = [ "graphical-session.target" ];
+		path = [ pkgs.wvkbd ];
+		serviceConfig = { Restart="always"; };
+		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --non-exclusive --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
+	};
+
+	environment.systemPackages = with pkgs; [
+		xwayland-satellite
+		quickshell
+		better-control
+		wpaperd
+		wvkbd
+		nwg-drawer
+	];
+}
