@@ -10,3 +10,5 @@
 [credentials]
 	helper = store
 	useHttpPath = true
+[safe]
+	directory = /etc/nixos/

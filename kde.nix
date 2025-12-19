@@ -40,20 +40,17 @@
 
 		ark
 		kate
+		ktexteditor
 		dolphin
 		dolphin-plugins
 		ffmpegthumbs
 
 		gwenview
 
-# 		kauth
-# 		kio
-# 		kio-admin
-# 		kwallet
-# 		kwallet-pam
-# 		kwalletmanager
-# 		plasma-workspace
-# 		polkit-kde-agent-1
-# 		pkgs.libsecret
+		kio # provides helper service + a bunch of other stuff
+		kio-admin # managing files as admin
+		kio-extras # stuff for MTP, AFC, etc
+		kio-fuse # fuse interface for KIO
+		kio-extras-kf5
 	];
 }

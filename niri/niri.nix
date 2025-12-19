@@ -22,6 +22,20 @@
 	programs.niri.enable = true;
 	programs.niri.useNautilus = false;
 
+	security.polkit.enable = true;
+	security.polkit.debug = true;
+	security.polkit.extraConfig = ''
+		/* Log authorization checks. */
+		polkit.addRule(function(action, subject) {
+			// Make sure to set { security.polkit.debug = true; } in configuration.nix
+			polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
+		});
+	'';
+
+	xdg.portal.enable = true;
+	xdg.portal.wlr.enable = true;
+	xdg.portal.configPackages = [ pkgs.kdePackages.plasma-workspace ];
+
 	services.hypridle.enable = true;
 	systemd.user.services.hypridle.path = [ pkgs.quickshell ];
 	systemd.user.services.hypridle.serviceConfig = { Restart="always"; };
@@ -37,6 +51,13 @@
 		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --non-exclusive --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
 	};
 
+	systemd.user.services.plasma-polkit-agent = {
+		description = "KDE PolicyKit Authentication Agent";
+		wantedBy = [ "graphical-session.target" ];
+		serviceConfig = { Restart="always"; };
+		script = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+	};
+
 	environment.systemPackages = with pkgs; [
 		xwayland-satellite
 		quickshell
@@ -44,5 +65,8 @@
 		wpaperd
 		wvkbd
 		nwg-drawer
+
+		polkit
+		kdePackages.polkit-kde-agent-1
 	];
 }
