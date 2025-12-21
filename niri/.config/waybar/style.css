@@ -17,26 +17,19 @@ window {
 	font-size: 16px;
 }
 
-.settings, .pulseaudio, .wifi, .backlight, .keeb, .run, .bluetooth, .fullscreen, .float, .center, .resize, .term, .close, .overview, .time {
+.settings, .pulseaudio, .wifi, .backlight, .keeb, .run, .bluetooth, .fullscreen,  .term, .overview, .time {
 	padding: 0px 12px 4px 12px;
 }
 
-.close {
-	margin-right: -12px;
+#battery {
+	margin-right: 12px;
+	margin-top: -4px;
 }
-.confirmclose {
-	background: #303446;
-	border-radius: 7.5px;
-	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
-	padding: 12px;
-	margin: 20px;
+
+.float, .center, .resize, .close {
+	margin: 12px;
 }
-.backlight {
-/* 	padding: 16px 12px 16px 24px; */
-}
-/*.overview {
-	min-width: 200px;
-}*/
+
 #custom-separator {
 	min-width: 24px;
 }
@@ -45,9 +38,7 @@ window {
 	font-size: 24px;
 	margin-right: 12px;
 }
-.percent, .remain {
-	margin-top: -4px;
-}
+
 #group-date {
 	padding-right: 12px;
 }
@@ -89,12 +80,18 @@ window {
 	margin-left: 8px;
 }
 
-.modules-center {
+.main .modules-center, .overview .modules-center {
 	background: black;
-	border-radius: 0 0 12px 12px;
-	padding-right: 12px;
+	border-radius: 0 0 15px 15px;
 	margin-bottom: 10px;
 	margin-top: -4px;
+}
+
+.actions .modules-center {
+	background: rgb(41, 44, 48);
+	border-radius: 5px;
+	box-shadow: 0 0 7.5px 0 black;
+	margin: 20px;
 }
 
 .modules-right {

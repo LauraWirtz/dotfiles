@@ -1,4 +1,5 @@
-{
+[{
+	"name": "main",
 	"layer": "top",
 	"position": "top",
 	"exclusive": true,
@@ -12,11 +13,77 @@
 		"image#run",
 	],
 	"modules-center": [
-		"group/group-settings",
+			"clock#time",
+			"image#battery",
+			"battery",
 	],
 	"modules-right": [
 		"image#keeb",
 		"image#overview",
+	],
+	"image#overview":{
+		"exec": "/home/laura/.config/waybar/overview.sh",
+		"interval": 1,
+		"signal": 2,
+		"size": 32,
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview && niri msg action spawn -- pkill -SIGRTMIN+2 waybar"
+	},
+	"clock#time": {
+		"format": "{:%H:%M}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+	"image#battery":{
+		"path": "/home/laura/.config/waybar/icons/status/24/battery-100.svg",
+		"size": 24,
+	},
+	"battery": {
+		"states": {
+			"excess": 100,
+			"normal": 80,
+			"warning": 50,
+			"critical": 20
+		},
+		"format": " {capacity}% ({time})",
+		"format-time": "{H}:{m}",
+		"interval": 10,
+	},
+	"image#run":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/edit-find.svg",
+		"size": 32,
+		"on-click": "niri msg action spawn -- /home/laura/.config/niri/drawer.sh"
+	},
+	"image#keeb":{
+		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
+		"size": 32,
+		"on-click": "niri msg action spawn -- pkill -SIGRTMIN wvkbd-deskintl",
+	}
+},{
+	"name": "overview",
+	"layer": "top",
+	"position": "top",
+	"exclusive": false,
+	"on-sigusr1": "show",
+	"on-sigusr2": "hide",
+	"width": 100,
+	"margin-top": -39,
+	"margin-bottom": 0,
+	"margin-left": 0,
+	"margin-right": 0,
+	"modules-left": [
+	],
+	"modules-center": [
+		"clock#time",
+		"image#battery",
+		"battery",
+		"image#pulseaudio",
+		"pulseaudio/slider",
+		"image#backlight",
+		"backlight/slider",
+		"custom/separator",
+		"image#wifi",
+		"image#bluetooth",
+	],
+	"modules-right": [
 	],
 	"group/group-settings": {
 		"orientation": "inherit",
@@ -26,30 +93,13 @@
 		},
 		"modules": [
 			"group/group-time",
-			"battery#remain",
-			"image#pulseaudio",
-			"pulseaudio/slider",
-			"image#backlight",
-			"backlight/slider",
-			"custom/separator",
-			"image#wifi",
-			"image#bluetooth",
-			"custom/separator",
-			"image#float",
-			"image#center",
-			"image#resize",
-			"custom/separator",
-			"image#close",
 			]
 	},
 	"group/group-time": {
-		"orientation": "inherit",
+		"orientation": "vertical",
 		"align": 0,
 		"justify": 0,
 		"modules": [
-			"clock#time",
-			"image#battery",
-			"battery#percent",
 		]
 	},
 	"group/group-date": {
@@ -75,16 +125,6 @@
 		"path": "/home/laura/.config/waybar/icons/status/24/audio-volume-high.svg",
 		"size": 24,
 	},
-	"image#float":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/window-duplicate.svg",
-		"size": 24,
-		"on-click": "niri msg action toggle-window-floating"
-	},
-	"image#center":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/view-restore.svg",
-		"size": 24,
-		"on-click": "niri msg action center-window"
-	},
 	"image#wifi":{
 		"path": "/home/laura/.config/waybar/icons/devices/24/network-wireless.svg",
 		"size": 24,
@@ -96,7 +136,8 @@
 		"on-click": "niri msg action spawn -- /home/laura/.config/waybar/better-control-widget.sh b"
 	},
 	"image#overview":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/go-up.svg",
+		"exec": "/home/laura/.config/waybar/overview.sh",
+		"interval": 1,
 		"size": 32,
 		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
@@ -114,25 +155,14 @@
 		"path": "/home/laura/.config/waybar/icons/status/24/battery-100.svg",
 		"size": 24,
 	},
-	"battery#percent": {
+	"battery": {
 		"states": {
 			"excess": 100,
 			"normal": 80,
 			"warning": 50,
 			"critical": 20
 		},
-		"format": " {capacity}%",
-		"format-time": "{H}:{m}",
-		"interval": 10,
-	},
-	"battery#remain": {
-		"states": {
-			"excess": 100,
-			"normal": 80,
-			"warning": 50,
-			"critical": 20
-		},
-		"format": " ({time})",
+		"format": " {capacity}% ({time})",
 		"format-time": "{H}:{m}",
 		"interval": 10,
 	},
@@ -155,24 +185,54 @@
 		"size": 24,
 		"on-click": "niri msg action fullscreen-window"
 	},
-	"image#resize":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/view-split-left-right.svg",
-		"size": 24,
-		"on-click": "niri msg action switch-preset-column-width"
-	},
 	"image#run":{
 		"path": "/home/laura/.config/waybar/icons/actions/24/edit-find.svg",
 		"size": 32,
 		"on-click": "niri msg action spawn -- /home/laura/.config/niri/drawer.sh"
-	},
-	"image#close":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/window-close.svg",
-		"size": 24,
-		"on-click": "niri msg action close-window"
 	},
 	"image#keeb":{
 		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
 		"size": 32,
 		"on-click": "niri msg action spawn -- pkill -SIGRTMIN wvkbd-deskintl",
 	}
-}
+},{
+	"name": "actions",
+	"layer": "top",
+	"position": "top",
+	"exclusive": false,
+	"on-sigusr1": "show",
+	"on-sigusr2": "hide",
+	"width": 10,
+	"margin-top": 50,
+	"margin-bottom": 0,
+	"margin-left": 0,
+	"margin-right": 0,
+	"modules-left": [
+	],
+	"modules-center": [
+		"image#float",
+		"image#center",
+		"image#resize",
+		"image#close",
+	],
+	"image#float":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/window-duplicate.svg",
+		"size": 48,
+		"on-click": "niri msg action toggle-window-floating"
+	},
+	"image#center":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/view-file-columns.svg",
+		"size": 48,
+		"on-click": "niri msg action center-window"
+	},
+	"image#resize":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/view-split-left-right.svg",
+		"size": 48,
+		"on-click": "niri msg action switch-preset-column-width"
+	},
+	"image#close":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/application-exit.svg",
+		"size": 48,
+		"on-click": "niri msg action close-window"
+	},
+}]
