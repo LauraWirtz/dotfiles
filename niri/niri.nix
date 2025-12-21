@@ -65,6 +65,7 @@
 		wpaperd
 		wvkbd
 		nwg-drawer
+		blueberry
 
 		polkit
 		kdePackages.polkit-kde-agent-1

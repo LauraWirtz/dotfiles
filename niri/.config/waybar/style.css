@@ -1,6 +1,7 @@
 * {
 	font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
-	font-size: 16px;
+	font-size: inherit;
+	font-weight: 300;
 	color: white;
 	background: none;
 	border: none;
@@ -11,81 +12,93 @@
 }
 
 
-window#waybar {
-/* 	background: linear-gradient(0deg,rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%); */
+window {
+/* 	background: black; */
+	font-size: 16px;
 }
 
-.settings, .steam, .floorp, .kate, .keeb, .run, .bluetooth, .fullscreen, .float, .center, .resize, .term {
-	padding: 16px 12px;
+.settings, .pulseaudio, .wifi, .backlight, .keeb, .run, .bluetooth, .fullscreen, .float, .center, .resize, .term, .close, .overview, .time {
+	padding: 0px 12px 4px 12px;
 }
+
 .close {
-	margin-right: 18px;
+	margin-right: -12px;
 }
 .confirmclose {
 	background: #303446;
 	border-radius: 7.5px;
-	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
 	padding: 12px;
-	margin: 4px;
+	margin: 20px;
 }
 .backlight {
-	padding: 16px 12px 16px 24px;
+/* 	padding: 16px 12px 16px 24px; */
 }
-.overview {
+/*.overview {
 	min-width: 200px;
-}
+}*/
 #custom-separator {
-	min-width: 16px;
+	min-width: 24px;
 }
 
 .time {
-	font-size: 32px;
+	font-size: 24px;
 	margin-right: 12px;
-	margin-left: 24px;
+}
+.percent, .remain {
+	margin-top: -4px;
 }
 #group-date {
-	padding-top: 12px;
 	padding-right: 12px;
 }
-.date, #battery {
-	font-size: 12px;
-}
+
 .battery {
-	margin-top: -1px;
+	margin-top: -4px;
 }
 
 
 #pulseaudio-slider slider, #backlight-slider slider {
-min-height: 0px;
-min-width: 0px;
-opacity: 0;
-background-image: none;
-border: none;
-box-shadow: none;
-color: #f4b8e4;
-outline: none;
+	min-height: 0px;
+	min-width: 0px;
+	opacity: 0;
+	background-image: none;
+	border: none;
+	box-shadow: none;
+	color: rgb(233,58,154);
+	outline: none;
 }
 
 #pulseaudio-slider trough, #backlight-slider trough {
-min-width: 150px;
-min-height: 16px;
-border-radius: 8px;
-background: #303446;
-outline: none;
-border: 1px solid #f4b8e4;
+	min-width: 150px;
+	min-height: 12px;
+	border-radius: 6px;
+	background: rgba(233,58,154, 0.2);
+	outline: none;
+	border: 1px solid rgb(233,58,154);
+	margin-top: -3.5px;
 }
 
 #pulseaudio-slider highlight, #backlight-slider highlight {
-min-width: 0px;
-border-radius: 7px;
-border: 0px;
-background-color: #f4b8e4;
+	min-width: 0px;
+	border-radius: 5px;
+	border: 0px;
+	background-color: rgba(233,58,154, 0.5);
 }
 
 .modules-left {
+	margin-left: 8px;
+}
+
+.modules-center {
+	background: black;
+	border-radius: 0 0 12px 12px;
+	padding-right: 12px;
+	margin-bottom: 10px;
+	margin-top: -4px;
 }
 
 .modules-right {
+	margin-right: 8px;
 }
 
 #battery.excess { color: #04a5e5; }

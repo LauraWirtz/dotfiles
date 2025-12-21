@@ -82,8 +82,8 @@ layout {
 	struts {
         left 0
         right 0
-        top 0
-        bottom -20
+        top -20
+        bottom 0
     }
 }
 
@@ -100,14 +100,14 @@ hotkey-overlay {
 prefer-no-csd
 
 window-rule {
-	geometry-corner-radius 7.5
+	geometry-corner-radius 5
 	clip-to-geometry true
 	draw-border-with-background true
-//	opacity 0.9
 }
 window-rule {
 	match is-active=false
 	opacity 0.5
+	shadow{ off; }
 }
 
 window-rule {
@@ -130,7 +130,7 @@ window-rule {
 	match app-id="gamescope"
 	match app-id="net.kuribo64.melonDS"
 	match app-id="steam_app_1627610"
-	opacity 1.0
+	match app-id="steam_proton"
 	focus-ring{ off; }
 	border{ off; }
 	open-maximized-to-edges true
@@ -150,8 +150,8 @@ layer-rule {
 binds {
 	Super+K { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
 
-	XF86AudioRaiseVolume allow-inhibiting=false { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
-	XF86AudioLowerVolume allow-inhibiting=false { toggle-overview; }
+	XF86AudioLowerVolume allow-inhibiting=false { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
+	XF86AudioRaiseVolume allow-inhibiting=false { toggle-overview; }
 
 	Mod+C repeat=false { close-window; }
 	Mod+Q allow-inhibiting=false { spawn "foot"; }
