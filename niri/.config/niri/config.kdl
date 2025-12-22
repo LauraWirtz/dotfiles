@@ -89,6 +89,7 @@ layout {
 
 spawn-sh-at-startup "inputplumber device 0 targets set deck-uhid"
 spawn-at-startup "quickshell" "-p" "/home/laura/.config/quickshell/lockscreen/shell.qml"
+spawn-at-startup "/etc/nixos/niri/niri-event-listener.sh"
 spawn-at-startup "steam"
 spawn-at-startup "wpaperd" "-d"
 

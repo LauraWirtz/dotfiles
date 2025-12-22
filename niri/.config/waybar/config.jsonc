@@ -23,10 +23,9 @@
 	],
 	"image#overview":{
 		"exec": "/home/laura/.config/waybar/overview.sh",
-		"interval": 1,
 		"signal": 2,
 		"size": 32,
-		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview && niri msg action spawn -- pkill -SIGRTMIN+2 waybar"
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
 	"clock#time": {
 		"format": "{:%H:%M}",
@@ -61,16 +60,15 @@
 	"name": "overview",
 	"layer": "top",
 	"position": "top",
+	"start_hidden": true,
 	"exclusive": false,
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
-	"width": 100,
+	"width": 10,
 	"margin-top": -39,
 	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
-	"modules-left": [
-	],
 	"modules-center": [
 		"clock#time",
 		"image#battery",
@@ -82,8 +80,6 @@
 		"custom/separator",
 		"image#wifi",
 		"image#bluetooth",
-	],
-	"modules-right": [
 	],
 	"group/group-settings": {
 		"orientation": "inherit",
@@ -136,10 +132,9 @@
 		"on-click": "niri msg action spawn -- /home/laura/.config/waybar/better-control-widget.sh b"
 	},
 	"image#overview":{
-		"exec": "/home/laura/.config/waybar/overview.sh",
-		"interval": 1,
+		"path": "/home/laura/.config/waybar/icons/actions/24/go-down.svg",
 		"size": 32,
-		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action close-overview"
 	},
 	"clock#time": {
 		"format": "{:%H:%M}",
@@ -199,6 +194,7 @@
 	"name": "actions",
 	"layer": "top",
 	"position": "top",
+	"start_hidden": true,
 	"exclusive": false,
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
@@ -207,8 +203,6 @@
 	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
-	"modules-left": [
-	],
 	"modules-center": [
 		"image#float",
 		"image#center",
