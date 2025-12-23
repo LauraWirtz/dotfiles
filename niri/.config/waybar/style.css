@@ -17,7 +17,7 @@ window {
 	font-size: 16px;
 }
 
-.settings, .keeb, .run, .fullscreen, .term, .overview, .time {
+.settings, .keeb, .run, .fullscreen, .term, .overview, .time, .quodlibet {
 	padding: 0px 12px 4px 12px;
 }
 

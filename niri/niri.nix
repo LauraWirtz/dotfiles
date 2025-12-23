@@ -41,7 +41,7 @@
 	systemd.user.services.hypridle.serviceConfig = { Restart="always"; };
 
 	programs.waybar.enable = true;
-	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps ];
+	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps pkgs.jq ];
 	systemd.user.services.waybar.serviceConfig = { Restart="always"; };
 
 	systemd.user.services.wvkbd = {
@@ -72,6 +72,7 @@
 		wpaperd
 		wvkbd
 		nwg-drawer
+		jq
 
 		polkit
 		kdePackages.polkit-kde-agent-1

@@ -11,6 +11,7 @@
 	"margin-right": 0,
 	"modules-left": [
 		"image#run",
+		"image#quodlibet",
 	],
 	"modules-center": [
 			"clock#time",
@@ -51,6 +52,11 @@
 		"size": 32,
 		"on-click": "niri msg action spawn -- nwg-drawer"
 	},
+	"image#quodlibet":{
+		"path": "/home/laura/.config/waybar/icons/apps/24/cantata-symbolic.svg",
+		"size": 32,
+		"on-click": "/etc/nixos/niri/focus-by-app-id.sh io.github.quodlibet.QuodLibet"
+	},
 	"image#keeb":{
 		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
 		"size": 32,
@@ -64,7 +70,6 @@
 	"exclusive": false,
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
-	"width": 10,
 	"margin-top": 40,
 	"margin-bottom": 0,
 	"margin-left": 0,
@@ -83,39 +88,6 @@
 		"on-click": "niri msg action switch-layout next",
 		"format-en": "en",
 		"format-de": "de",
-	},
-	"group/group-settings": {
-		"orientation": "inherit",
-		"transition-duration": 50,
-		"drawer": {
-			"click-to-reveal": true
-		},
-		"modules": [
-			"group/group-time",
-			]
-	},
-	"group/group-time": {
-		"orientation": "vertical",
-		"align": 0,
-		"justify": 0,
-		"modules": [
-		]
-	},
-	"group/group-date": {
-		"orientation": "vertical",
-		"align": 0,
-		"justify": 0,
-		"modules": [
-			"clock#date",
-			"group/group-battery",
-		]
-	},
-	"group/group-battery": {
-		"orientation": "horizontal",
-		"modules": [
-			"image#battery",
-			"battery",
-		]
 	},
 	"custom/separator":{
 		"format": " "
