@@ -144,6 +144,7 @@ layer-rule {
 
 layer-rule {
 	match namespace="nwg-drawer"
+	match namespace="wvkbd"
 	shadow { on; }
 }
 
