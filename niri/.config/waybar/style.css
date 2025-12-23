@@ -17,13 +17,17 @@ window {
 	font-size: 16px;
 }
 
-.settings, .pulseaudio, .wifi, .backlight, .keeb, .run, .bluetooth, .fullscreen,  .term, .overview, .time {
+.settings, .keeb, .run, .fullscreen, .term, .overview, .time {
 	padding: 0px 12px 4px 12px;
+}
+
+.pulseaudio, .wifi, .bluetooth, .backlight, #language {
+	padding: 8px 12px;
 }
 
 #battery {
 	margin-right: 12px;
-	margin-top: -4px;
+	margin-top: -4.5px;
 }
 
 .float, .center, .resize, .close {
@@ -37,6 +41,7 @@ window {
 .time {
 	font-size: 24px;
 	margin-right: 12px;
+	margin-top: -2px;
 }
 
 #group-date {
@@ -60,13 +65,12 @@ window {
 }
 
 #pulseaudio-slider trough, #backlight-slider trough {
-	min-width: 150px;
+	min-width: 200px;
 	min-height: 12px;
 	border-radius: 6px;
 	background: rgba(233,58,154, 0.2);
 	outline: none;
 	border: 1px solid rgb(233,58,154);
-	margin-top: -3.5px;
 }
 
 #pulseaudio-slider highlight, #backlight-slider highlight {
@@ -80,14 +84,14 @@ window {
 	margin-left: 8px;
 }
 
-.main .modules-center, .overview .modules-center {
+.main .modules-center{
 	background: black;
 	border-radius: 0 0 15px 15px;
 	margin-bottom: 10px;
 	margin-top: -4px;
 }
 
-.actions .modules-center {
+.actions .modules-center, .overview .modules-center {
 	background: rgb(41, 44, 48);
 	border-radius: 5px;
 	box-shadow: 0 0 7.5px 0 black;

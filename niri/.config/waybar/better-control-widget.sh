@@ -13,8 +13,10 @@ then
 	else
 		nohup better-control -m -$testfor $>/dev/null &
 		echo $testfor > /home/laura/.config/waybar/control-state
+		niri msg action close-overview
 	fi
 else
 	nohup better-control -m -$testfor $>/dev/null &
 	echo $testfor > /home/laura/.config/waybar/control-state
+	niri msg action close-overview
 fi

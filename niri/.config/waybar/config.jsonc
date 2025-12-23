@@ -49,7 +49,7 @@
 	"image#run":{
 		"path": "/home/laura/.config/waybar/icons/actions/24/edit-find.svg",
 		"size": 32,
-		"on-click": "niri msg action spawn -- /home/laura/.config/niri/drawer.sh"
+		"on-click": "niri msg action spawn -- nwg-drawer"
 	},
 	"image#keeb":{
 		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
@@ -65,14 +65,11 @@
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
 	"width": 10,
-	"margin-top": -39,
+	"margin-top": 40,
 	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
 	"modules-center": [
-		"clock#time",
-		"image#battery",
-		"battery",
 		"image#pulseaudio",
 		"pulseaudio/slider",
 		"image#backlight",
@@ -80,7 +77,13 @@
 		"custom/separator",
 		"image#wifi",
 		"image#bluetooth",
+		"niri/language",
 	],
+	"niri/language": {
+		"on-click": "niri msg action switch-layout next",
+		"format-en": "en",
+		"format-de": "de",
+	},
 	"group/group-settings": {
 		"orientation": "inherit",
 		"transition-duration": 50,
@@ -193,14 +196,14 @@
 },{
 	"name": "actions",
 	"layer": "top",
-	"position": "top",
+	"position": "bottom",
 	"start_hidden": true,
 	"exclusive": false,
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
 	"width": 10,
-	"margin-top": 50,
-	"margin-bottom": 0,
+	"margin-top": 0,
+	"margin-bottom": 165,
 	"margin-left": 0,
 	"margin-right": 0,
 	"modules-center": [
