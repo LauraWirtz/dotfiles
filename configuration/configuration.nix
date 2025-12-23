@@ -100,7 +100,7 @@
 				pad = "10x10";
 			};
 			colors = {
-				background = "202326";
+				background = "292c30";
 				regular0 = "546E7A";  # black
 				regular1 = "FF5252";  # red
 				regular2 = "5CF19E";  # green
