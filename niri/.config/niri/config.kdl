@@ -21,7 +21,6 @@ input {
 		map-to-output "eDP-1"
 	}
 
-	focus-follows-mouse max-scroll-amount="30%"
 	disable-power-key-handling
 	workspace-auto-back-and-forth
 }
@@ -52,12 +51,12 @@ layout {
 	}
 	default-column-width { proportion 1.0; }
 
-	insert-hint { color "#f4b8e4";}
+	insert-hint { color "rgb(233,58,154)";}
 
 	focus-ring {
 		off
 		width 1
-		active-color "rgb(61,174,233)"
+		active-color "rgb(233,58,154)"
 		inactive-color "rgba(32,35,38,0.5)"
 	}
 
@@ -65,7 +64,7 @@ layout {
 		off
 		width 1
 
-		active-color "rgb(61,174,233)"
+		active-color "rgb(233,58,154)"
 		inactive-color "rgba(32,35,38,0.5)"
 
 	}
