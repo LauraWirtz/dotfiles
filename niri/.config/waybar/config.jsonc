@@ -10,7 +10,7 @@
 	"margin-left": 0,
 	"margin-right": 0,
 	"modules-left": [
-		"image#run",
+		"image#steam",
 		"image#quodlibet",
 	],
 	"modules-right": [
@@ -23,10 +23,10 @@
 		"size": 32,
 		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
-	"image#run":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/edit-find.svg",
+	"image#steam":{
+		"path": "/home/laura/.config/waybar/icons/categories/24/applications-games-symbolic.svg",
 		"size": 32,
-		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action spawn -- nwg-drawer"
+		"on-click": "/etc/nixos/niri/focus-by-app-id.sh steam"
 	},
 	"image#quodlibet":{
 		"path": "/home/laura/.config/waybar/icons/apps/24/cantata-symbolic.svg",
@@ -40,7 +40,8 @@
 	}
 },{
 	"name": "cutout",
-	"mode": "overlay",
+	"layer": "overlay",
+	"exclusive": false,
 	"width": 10,
 	"position": "top",
 	"on-sigusr1": "noop",
@@ -56,10 +57,7 @@
 	"clock#time": {
 		"format": "{:%H:%M}",
 		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-	},
-	"image#battery":{
-		"path": "/home/laura/.config/waybar/icons/status/24/battery-100.svg",
-		"size": 24,
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
 	"battery": {
 		"states": {
@@ -71,6 +69,7 @@
 		"format": "  {capacity}% ({time})",
 		"format-time": "{H}:{m}",
 		"interval": 10,
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
 },{
 	"name": "overview",
@@ -122,9 +121,6 @@
 		"format-en": "en",
 		"format-de": "de",
 	},
-	"custom/separator":{
-		"format": " "
-	},
 	"image#pulseaudio":{
 		"path": "/home/laura/.config/waybar/icons/status/24/audio-volume-high.svg",
 		"size": 24,
@@ -168,7 +164,7 @@
 	},
 },{
 	"name": "actions",
-	"layer": "top",
+	"layer": "overlay",
 	"position": "bottom",
 	"start_hidden": true,
 	"exclusive": false,
@@ -176,16 +172,25 @@
 	"on-sigusr2": "hide",
 	"width": 10,
 	"margin-top": 0,
-	"margin-bottom": 165,
+	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
 	"modules-center": [
+		"image#run",
 		"image#fullscreen",
 		"image#float",
 		"image#center",
 		"image#resize",
 		"image#close",
 	],
+	"custom/separator":{
+		"format": "|"
+	},
+	"image#run":{
+		"path": "/home/laura/.config/waybar/icons/actions/24/window-new.svg",
+		"size": 48,
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action spawn -- nwg-drawer"
+	},
 	"image#fullscreen":{
 		"path": "/home/laura/.config/waybar/icons/actions/24/view-fullscreen.svg",
 		"size": 48,

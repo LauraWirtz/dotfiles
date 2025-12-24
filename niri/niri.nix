@@ -48,7 +48,7 @@
 		wantedBy = [ "graphical-session.target" ];
 		path = [ pkgs.wvkbd ];
 		serviceConfig = { Restart="always"; };
-		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
+		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --non-exclusive --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
 	};
 
 	systemd.user.services.nwg-drawer = {

@@ -14,10 +14,10 @@
 
 window {
 /* 	background: black; */
-	font-size: 16px;
+	font-size: 20px;
 }
 
-.settings, .keeb, .run, .fullscreen, .term, .overview, .quodlibet {
+.settings, .keeb, .term, .overview, .steam, .quodlibet {
 	padding: 0px 12px 4px 12px;
 }
 
@@ -29,21 +29,24 @@ window {
 font-size: 20px;
 }
 
-.float, .center, .resize, .close {
-	margin: 12px;
+.run, .fullscreen, .float, .center, .resize, .close {
+	padding: 0px 12px;
+	margin: 12px 0;
 }
-
-#custom-separator {
-	min-width: 24px;
+.close {
+	border-left: 1px solid rgb(112,111,110);
+}
+.run {
+	border-right: 1px solid rgb(112,111,110);
 }
 
 .time {
-	font-size: 24px;
-	margin-top: -8.5px;
 	font-weight: 200;
+	margin-top: -6px;
+	color: #a0a0a0;
 }
 #battery {
-	margin-top: -13.75px;
+	margin-top: -6px;
 	font-weight: 200;
 }
 .battery {
@@ -84,8 +87,8 @@ font-size: 20px;
 
 .cutout .modules-center{
 	background: black;
-	border-radius: 0 0 15px 15px;
-	padding: 0 12px 0px 12px;
+	border-radius: 0 0 10px 10px;
+	padding: 0 12px 2px 12px;
 }
 
 .actions .modules-center, .overview .modules-center {
@@ -99,22 +102,7 @@ font-size: 20px;
 	margin-right: 8px;
 }
 
-#battery.excess { color: #04a5e5; }
-#battery.normal { color: inherit; }
-#battery.warning { color: #df8e1d; }
-
-@keyframes blink {
-	to {
-		color: #000000;
-	}
-}
-
-/* Using steps() instead of linear as a timing function to limit cpu usage */
-#battery.critical:not(.charging) {
-color: #E67E80;
-animation-name: blink;
-animation-duration: 1s;
-animation-timing-function: step-start;
-animation-iteration-count: infinite;
-animation-direction: alternate;
-}
+#battery.excess { color: #40bfbf; }
+#battery.normal { color: #a0a0a0; }
+#battery.warning { color: #bfbf40; }
+#battery.critical { color: #bf4040; }
