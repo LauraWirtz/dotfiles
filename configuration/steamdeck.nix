@@ -14,6 +14,7 @@
 	services.logind.powerKey = "suspend";
 
 	services.xserver.xkb.layout = "us, de";
+	fonts.fontconfig.subpixel.rgba = "vrgb";
 
 	hardware.bluetooth.enable = true;
 

@@ -31,12 +31,21 @@
 		nixos-diff = ''nixos-rebuild build "$@" && nvd diff /run/current-system result'';
 	};
 
-	fonts.packages = with pkgs; [
-		noto-fonts
-		noto-fonts-cjk-sans
-		roboto
-		roboto-mono
-	];
+	fonts = {
+		packages = with pkgs; [
+			noto-fonts
+			noto-fonts-cjk-sans
+			roboto
+			roboto-mono
+		];
+		fontconfig = {
+			enable = true;
+			hinting.style = "full";
+			subpixel.rgba = lib.mkDefault "rgb";
+			defaultFonts.serif = [ "Noto Serif"];
+			defaultFonts.sansSerif = [ "Noto Sans"];
+		};
+	};
 
 	hardware.bluetooth.enable = lib.mkDefault true;
 	networking.networkmanager.enable = lib.mkDefault true;
