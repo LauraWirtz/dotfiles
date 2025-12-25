@@ -17,10 +17,9 @@
 		"image#overview",
 	],
 	"image#overview":{
-		"exec": "/home/laura/.config/waybar/overview.sh",
-		"signal": 2,
+		"path": "/home/laura/.config/waybar/icons/actions/24/go-up.svg",
 		"size": 32,
-		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action open-overview"
 	},
 	"image#player-play":{
 		"path": "/home/laura/.config/waybar/icons/status/24/media-playback-playing.svg",
@@ -153,10 +152,9 @@
 		"max": 100,
 	},
 	"image#overview":{
-		"exec": "/home/laura/.config/waybar/overview.sh",
-		"signal": 2,
+		"path": "/home/laura/.config/waybar/icons/actions/24/go-down.svg",
 		"size": 32,
-		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action close-overview"
 	},
 	"image#keeb":{
 		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
