@@ -87,7 +87,7 @@ layout {
 }
 
 spawn-sh-at-startup "inputplumber device 0 targets set deck-uhid"
-spawn-at-startup "quickshell" "-p" "/home/laura/.config/quickshell/lockscreen/shell.qml"
+spawn-at-startup "quickshell" "-p" "/etc/nixos/niri/lockscreen/shell.qml"
 spawn-at-startup "/etc/nixos/niri/niri-event-listener.sh"
 spawn-at-startup "steam"
 spawn-at-startup "wpaperd" "-d"
@@ -117,7 +117,7 @@ window-rule {
 	open-focused false
 	min-height 180
 	max-height 180
-	default-floating-position x=30 y=10 relative-to="bottom-right"
+	default-floating-position x=10 y=10 relative-to="bottom-right"
 }
 
 window-rule {
