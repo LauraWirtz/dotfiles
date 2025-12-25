@@ -137,7 +137,7 @@
 		gimp
 		git
 		nvd
-		quodlibet
+		quodlibet-full
 	];
 
 

@@ -10,8 +10,7 @@
 	"margin-left": 0,
 	"margin-right": 0,
 	"modules-left": [
-		"image#steam",
-		"image#quodlibet",
+		"image#player-play",
 	],
 	"modules-right": [
 		"image#keeb",
@@ -23,10 +22,10 @@
 		"size": 32,
 		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
-	"image#steam":{
-		"path": "/home/laura/.config/waybar/icons/categories/24/applications-games-symbolic.svg",
+	"image#player-play":{
+		"path": "/home/laura/.config/waybar/icons/status/24/media-playback-playing.svg",
 		"size": 32,
-		"on-click": "/etc/nixos/niri/focus-by-app-id.sh steam"
+		"on-click": "playerctl play-pause"
 	},
 	"image#quodlibet":{
 		"path": "/home/laura/.config/waybar/icons/apps/24/cantata-symbolic.svg",
@@ -46,7 +45,7 @@
 	"position": "top",
 	"on-sigusr1": "noop",
 	"on-sigusr2": "noop",
-	"margin-top": -36,
+	"margin-top": -44,
 	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
@@ -74,38 +73,35 @@
 },{
 	"name": "overview",
 	"layer": "top",
-	"position": "left",
-	"height": 10,
+	"position": "top",
 	"start_hidden": true,
 	"exclusive": false,
 	"on-sigusr1": "show",
 	"on-sigusr2": "hide",
-	"margin-top": 0,
+	"margin-top": -44,
 	"margin-bottom": 0,
 	"margin-left": 0,
 	"margin-right": 0,
-	"modules-center": [
-		"group/columns",
+	"modules-right": [
+		"group/columns"
 	],
 	"group/columns": {
 		"modules": [
+			"group/group-tray",
 			"group/group-audio",
 			"group/group-backlight",
-			"group/group-tray",
 		],
 	},
 	"group/group-audio": {
-		"orientation": "vertical",
 		"modules": [
-			"pulseaudio/slider",
 			"image#pulseaudio",
+			"pulseaudio/slider",
 		],
 	},
 	"group/group-backlight": {
-		"orientation": "vertical",
 		"modules": [
-			"backlight/slider",
 			"image#backlight",
+			"backlight/slider",
 		],
 	},
 	"group/group-tray": {
@@ -114,6 +110,8 @@
 			"image#bluetooth",
 			"niri/language",
 			"image#rotate-screen",
+			"image#keeb",
+			"image#overview",
 		],
 	},
 	"niri/language": {
@@ -145,23 +143,26 @@
 		"max": 100,
 		"device": "pulseaudio",
 		"scroll-step": 1,
-		"orientation": "vertical",
 	},
 	"image#backlight":{
 		"path": "/home/laura/.config/waybar/icons/actions/24/brightness-high.svg",
-		"orientation": "vertical",
 		"size": 24,
 	},
 	"backlight/slider": {
 		"min": 0,
 		"max": 100,
-		"orientation": "vertical",
 	},
-	"image#fullscreen":{
-		"path": "/home/laura/.config/waybar/icons/actions/24/view-fullscreen.svg",
-		"size": 24,
-		"on-click": "niri msg action fullscreen-window"
+	"image#overview":{
+		"exec": "/home/laura/.config/waybar/overview.sh",
+		"signal": 2,
+		"size": 32,
+		"on-click": "pkill -SIGUSR1 wvkbd-deskintl; niri msg action toggle-overview"
 	},
+	"image#keeb":{
+		"path": "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg",
+		"size": 32,
+		"on-click": "niri msg action spawn -- pkill -SIGRTMIN wvkbd-deskintl",
+	}
 },{
 	"name": "actions",
 	"layer": "overlay",

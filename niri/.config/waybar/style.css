@@ -17,12 +17,8 @@ window {
 	font-size: 20px;
 }
 
-.settings, .keeb, .term, .overview, .steam, .quodlibet {
-	padding: 0px 12px 4px 12px;
-}
-
-.pulseaudio, .wifi, .bluetooth, .backlight, #language, .rotate-screen {
-	padding: 12px 12px;
+.keeb, .overview, .player-play, .pulseaudio, .wifi, .bluetooth, .backlight, #language, .rotate-screen {
+	padding: 6px 12px;
 }
 
 #language {
@@ -43,7 +39,7 @@ font-size: 20px;
 .time {
 	font-weight: 200;
 	margin-top: -6px;
-	color: #a0a0a0;
+	color: #808080;
 }
 #battery {
 	margin-top: -6px;
@@ -66,11 +62,11 @@ font-size: 20px;
 }
 
 #pulseaudio-slider trough, #backlight-slider trough {
-	min-width: 16px;
-	min-height: 200px;
+	min-width: 250px;
+	min-height: 16px;
 	border-radius: 5px;
 	background: rgba(233,58,154, 0.2);
-	margin-top: 12px;
+/* 	margin-top: 12px; */
 	border: 1px solid rgb(233,58,154);
 }
 
@@ -81,8 +77,15 @@ font-size: 20px;
 	background-color: rgba(233,58,154, 0.5);
 }
 
+#group-tray {
+	border-bottom: 1px solid rgb(112,111,110);
+}
+#group-audio, #group-backlight {
+	padding: 6px 0;
+}
+
 .modules-left {
-	margin-left: 8px;
+	margin-left: 12px;
 }
 
 .cutout .modules-center{
@@ -91,18 +94,23 @@ font-size: 20px;
 	padding: 0 12px 2px 12px;
 }
 
-.actions .modules-center, .overview .modules-center {
+.actions .modules-center, .overview .modules-right {
 	background: rgb(41, 44, 48);
 	border-radius: 5px;
 	box-shadow: 0 0 7.5px 0 black;
 	margin: 20px;
 }
 
-.modules-right {
-	margin-right: 8px;
+.overview .modules-right {
+	margin: 0px 0px 20px 20px;
+	padding: 0 12px 0px 12px;
 }
 
-#battery.excess { color: #40bfbf; }
-#battery.normal { color: #a0a0a0; }
-#battery.warning { color: #bfbf40; }
-#battery.critical { color: #bf4040; }
+.modules-right {
+	margin-right: 12px;
+}
+
+#battery.excess { color: #008080; }
+#battery.normal { color: #808080; }
+#battery.warning { color: #808000; }
+#battery.critical { color: #800000; }

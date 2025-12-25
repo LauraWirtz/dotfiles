@@ -23,14 +23,6 @@
 	programs.niri.useNautilus = false;
 
 	security.polkit.enable = true;
-	security.polkit.debug = true;
-	security.polkit.extraConfig = ''
-		/* Log authorization checks. */
-		polkit.addRule(function(action, subject) {
-			// Make sure to set { security.polkit.debug = true; } in configuration.nix
-			polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
-		});
-	'';
 
 	xdg.portal.enable = true;
 	xdg.portal.wlr.enable = true;
@@ -40,8 +32,10 @@
 	systemd.user.services.hypridle.path = [ pkgs.quickshell ];
 	systemd.user.services.hypridle.serviceConfig = { Restart="always"; };
 
+	services.playerctld.enable = true;
+
 	programs.waybar.enable = true;
-	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps pkgs.jq ];
+	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps pkgs.jq pkgs.playerctl ];
 	systemd.user.services.waybar.serviceConfig = { Restart="always"; };
 
 	systemd.user.services.wvkbd = {
@@ -55,7 +49,7 @@
 		wantedBy = [ "graphical-session.target" ];
 		path = [ pkgs.nwg-drawer pkgs.niri ];
 		serviceConfig = { Restart="always"; };
-		script = "${pkgs.nwg-drawer}/bin/nwg-drawer -r -wm \"niri\" -g \"Breeze-Dark\" -nocats";
+		script = "${pkgs.nwg-drawer}/bin/nwg-drawer -r -wm \"niri\" -g \"Breeze-Dark\" -nocats -mt -44";
 	};
 
 	systemd.user.services.plasma-polkit-agent = {
