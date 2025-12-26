@@ -1,8 +1,7 @@
 { config, pkgs, lib, ... }:
 {
-# 	services.upower.enable = true;
+	services.upower.enable = true;
 	services.udisks2.enable = true;
-# 	services.libinput.enable = true;
 
 	environment.pathsToLink = [
 		"/share" # TODO: https://github.com/NixOS/nixpkgs/issues/47173
@@ -34,9 +33,12 @@
 
 	services.playerctld.enable = true;
 
-	programs.waybar.enable = true;
-	systemd.user.services.waybar.path = [ pkgs.niri pkgs.procps pkgs.jq pkgs.playerctl ];
-	systemd.user.services.waybar.serviceConfig = { Restart="always"; };
+	systemd.user.services.quickshell = {
+		wantedBy = [ "graphical-session.target" ];
+		path = [ pkgs.quickshell ];
+		serviceConfig = { Restart="always"; };
+		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
+	};
 
 	systemd.user.services.wvkbd = {
 		wantedBy = [ "graphical-session.target" ];
