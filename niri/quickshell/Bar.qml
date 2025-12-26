@@ -31,7 +31,7 @@ PanelWindow {
 		spacing: 0
 
 		IconButton {
-			source: "/home/laura/.config/waybar/icons/devices/24/input-keyboard-virtual.svg"
+			source: "/home/laura/.local/share/icons/Breeze-dark/devices/24/input-keyboard-virtual.svg"
 			icon_width: 32
 			icon_height: 32
 
@@ -44,7 +44,7 @@ PanelWindow {
 		}
 
 		IconButton {
-			source: "/home/laura/.config/waybar/icons/actions/24/go-up.svg"
+			source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/go-up.svg"
 			icon_width: 32
 			icon_height: 32
 

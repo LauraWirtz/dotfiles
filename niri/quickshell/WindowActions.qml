@@ -52,7 +52,7 @@ PanelWindow {
 			anchors.top: parent.top
 
 			IconButton {
-				source: "/home/laura/.config/waybar/icons/actions/24/window-new.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/window-new.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -65,7 +65,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.config/waybar/icons/actions/24/view-fullscreen.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/view-fullscreen.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -78,7 +78,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.config/waybar/icons/actions/24/view-split-left-right.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/view-split-left-right.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -91,7 +91,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.config/waybar/icons/actions/24/application-exit.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/application-exit.svg"
 				icon_width: 48
 				icon_height: 48
 
