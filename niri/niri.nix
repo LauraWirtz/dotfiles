@@ -35,7 +35,7 @@
 
 	systemd.user.services.quickshell = {
 		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.quickshell ];
+		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber ];
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
@@ -69,6 +69,7 @@
 		wvkbd
 		nwg-drawer
 		jq
+		brightnessctl
 
 		polkit
 		kdePackages.polkit-kde-agent-1

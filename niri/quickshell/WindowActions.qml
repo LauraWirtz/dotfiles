@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
 import "./services"
@@ -35,7 +36,7 @@ PanelWindow {
 
 		radius: 5
 
-		color: "dimgray"
+		color: "#292c30"
 
 		states: State {
 			name: "OVERVIEW"
@@ -52,7 +53,7 @@ PanelWindow {
 			anchors.top: parent.top
 
 			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/window-new.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/window-new.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -65,7 +66,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/view-fullscreen.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/view-fullscreen.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -78,7 +79,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/view-split-left-right.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/view-split-left-right.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -91,7 +92,7 @@ PanelWindow {
 			}
 
 			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/application-exit.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/application-exit.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -102,6 +103,10 @@ PanelWindow {
 
 				onTapped: Niri.closeWindow()
 			}
+
+			BrightnessWidget {}
+
+			VolumeWidget {}
 		}
 
 		RectangularShadow {
