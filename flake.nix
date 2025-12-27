@@ -14,19 +14,17 @@
 			nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
 				inherit system;
 				modules = [
-					./configuration.nix
-					./configuration-pc.nix
-					./configuration-hyprland.nix
-#					./configuration-plasma.nix
-					./configuration-greetd-hypr.nix
-#					./configuration-sddm.nix
-#					./configuration-gnome.nix
-					./hardware-pc.nix
+					./configuration/configuration.nix
+					./configuration/pc.nix
+					./hardware/pc.nix
+					./niri/niri.nix
+ 					./kde.nix
+					./games.nix
 					home-manager.nixosModules.home-manager {
 						home-manager.users.laura = { pkgs, ... }: {
 							imports = [
-								./home.nix
-								./home-pc.nix
+								./home/home.nix
+								./home/pc/home.nix
 							];
 						};
 					}
