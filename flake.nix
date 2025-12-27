@@ -25,6 +25,7 @@
 							imports = [
 								./home/home.nix
 								./home/pc/home.nix
+								./niri/home.nix
 							];
 						};
 					}

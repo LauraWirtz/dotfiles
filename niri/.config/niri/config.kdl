@@ -38,6 +38,16 @@ output "eDP-1" {
 	scale 2
 }
 
+output "DP-1" {
+	variable-refresh-rate
+	focus-at-startup
+	position x=0 y=1080
+}
+
+output "HDMI-A-1" {
+	position x=960 y=0
+}
+
 
 layout {
 	gaps 20
@@ -46,7 +56,9 @@ layout {
 	background-color "#00000000"
 
 	preset-column-widths {
+		proportion 0.33
 		proportion 0.5
+		proportion 0.66
 		proportion 1.0
 	}
 	default-column-width { proportion 1.0; }
@@ -121,6 +133,11 @@ window-rule {
 }
 
 window-rule {
+	match app-id="floorp" title=".*You[tT]ube.*"
+	opacity 1.0
+}
+
+window-rule {
 	match app-id="better_control.py"
 	open-floating true
 	open-focused true
@@ -136,9 +153,8 @@ window-rule {
 	open-maximized-to-edges true
 }
 
-
 layer-rule {
-	match namespace="wpaperd-eDP-1"
+	match namespace="wpaperd.*"
 	place-within-backdrop true
 }
 
