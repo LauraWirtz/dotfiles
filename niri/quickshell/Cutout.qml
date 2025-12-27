@@ -17,7 +17,7 @@ PanelWindow {
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 
-	mask: Region { item: cutout }
+	mask: Region { item: touch }
 
 	implicitHeight: 40
 
@@ -43,6 +43,14 @@ PanelWindow {
 			ClockWidget {}
 			BatteryWidget {}
 		}
+	}
+
+	Item {
+		id: touch
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.top: parent.top
+		width: cutout.implicitWidth
+		height: 40
 
 		TapHandler {
 			id: tapHandler
