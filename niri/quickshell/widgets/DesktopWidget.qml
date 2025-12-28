@@ -35,16 +35,19 @@ Item {
 		width: list.width
 
 		Text {
+			Layout.topMargin: 8
+			Layout.bottomMargin: 8
 			Layout.leftMargin: 16
+			Layout.rightMargin: 16
 			color: "white"
 			font.pixelSize: 24
-			font.weight: 200
+			font.weight: 300
 
 			text: model.name
 
 			TapHandler {
 				gesturePolicy: TapHandler.ReleaseWithinBounds
-				onTapped: Niri.spawn(model.command)
+				onTapped: { Niri.spawn(model.command); Niri.closeOverview() }
 			}
 		}
 	}

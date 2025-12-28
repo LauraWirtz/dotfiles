@@ -33,7 +33,7 @@ PanelWindow {
 
 		implicitWidth: children[0].implicitWidth
 		// implicitHeight: Math.min([root.height, children[0].implicitHeight + 40])
-		implicitHeight: children[0].implicitHeight + 40
+		implicitHeight: children[0].implicitHeight
 
 		bottomLeftRadius: 5
 		bottomRightRadius: 5
@@ -61,72 +61,82 @@ PanelWindow {
 			anchors.horizontalCenter: parent.horizontalCenter
 			anchors.bottom: parent.bottom
 
+			KeyboardLayoutWidget {
+				Layout.alignment: Qt.AlignRight
+			}
+
 			RowLayout {
 				BrightnessWidget {}
 				VolumeWidget {}
 			}
-			PlayerWidget {}
 			RowLayout {
 				id: buttonRow
 
 				states: [
-					State {
-						name: "NONE"
-					},
-					State {
-						name: "BLUETOOTH"
-					},
-					State {
-						name: "WIFI"
-					},
-					State {
-						name: "DESKTOP"
-					}
+					State { name: "NONE" },
+					State { name: "BLUETOOTH" },
+					State { name: "WIFI" },
+					State { name: "DESKTOP" }
 				]
+
 				IconButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/edit-find.svg"
-					icon_width: 24
-					icon_height: 24
+					source: "/home/laura/.local/share/icons/Breeze-dark/apps/24@3x/cantata-symbolic.svg"
+					icon_width: 32
+					icon_height: 32
 
 					topPadding: 8
 					bottomPadding: 8
 					leftPadding: 16
 					rightPadding: 16
 
-					onTapped: {buttonRow.state = buttonRow.state == "DESKTOP" ? "NONE" : "DESKTOP"}
+					onTapped: {buttonRow.state = "NONE"}
 				}
 				IconButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-bluetooth-symbolic.svg"
-					icon_width: 24
-					icon_height: 24
+					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/edit-find.svg"
+					icon_width: 32
+					icon_height: 32
 
 					topPadding: 8
 					bottomPadding: 8
 					leftPadding: 16
 					rightPadding: 16
 
-					onTapped: {buttonRow.state = buttonRow.state == "BLUETOOTH" ? "NONE" : "BLUETOOTH"}
+					onTapped: {buttonRow.state = "DESKTOP"}
 				}
 				IconButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-wireless-on.svg"
-					icon_width: 24
-					icon_height: 24
+					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-bluetooth-symbolic.svg"
+					icon_width: 32
+					icon_height: 32
 
 					topPadding: 8
 					bottomPadding: 8
 					leftPadding: 16
 					rightPadding: 16
 
-					onTapped: {buttonRow.state = buttonRow.state == "WIFI" ? "NONE" : "WIFI"}
+					onTapped: {buttonRow.state = "BLUETOOTH"}
 				}
-				KeyboardLayoutWidget {}
+				IconButton {
+					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-wireless-on.svg"
+					icon_width: 32
+					icon_height: 32
+
+					topPadding: 8
+					bottomPadding: 8
+					leftPadding: 16
+					rightPadding: 16
+
+					onTapped: {buttonRow.state = "WIFI"}
+				}
 			}
 			DesktopWidget {
 				show: buttonRow.state == "DESKTOP"
-				Layout.maximumHeight: 400
+				Layout.maximumHeight: 600
 			}
 			BluetoothWidget {
 				show: buttonRow.state == "BLUETOOTH"
+			}
+			PlayerWidget {
+				show: buttonRow.state == "NONE"
 			}
 		}
 

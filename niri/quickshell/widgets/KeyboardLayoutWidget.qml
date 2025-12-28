@@ -13,6 +13,7 @@ Item {
 		x: 16
 		anchors.verticalCenter: parent.verticalCenter
 		color: "white"
+		font.pixelSize: 20
 		text: Niri.keyboardLayoutNames[Niri.currentKeyboardLayoutIndex] == "English (US)" ? "US" : Niri.keyboardLayoutNames[Niri.currentKeyboardLayoutIndex] == "German" ? "DE" : Niri.keyboardLayoutNames[Niri.currentKeyboardLayoutIndex]
 	}
 	TapHandler {
