@@ -4,4 +4,5 @@ Scope {
 	Bar {}
 	Cutout {}
 	WindowActions {}
+	OverviewSettings {}
 }

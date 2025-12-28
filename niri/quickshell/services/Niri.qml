@@ -264,6 +264,10 @@ Singleton {
 		return send({"Action": {"FullscreenWindow": {}}})
 	}
 
+	function centerColumn() {
+		return send({"Action": {"CenterColumn": {}}})
+	}
+
     function getCurrentWorkspaceNumber() {
         if (focusedWorkspaceIndex >= 0 && focusedWorkspaceIndex < allWorkspaces.length) {
             return allWorkspaces[focusedWorkspaceIndex].idx + 1

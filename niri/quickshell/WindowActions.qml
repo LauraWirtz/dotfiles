@@ -79,6 +79,19 @@ PanelWindow {
 			}
 
 			IconButton {
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/view-file-columns.svg"
+				icon_width: 48
+				icon_height: 48
+
+				topPadding: 8
+				bottomPadding: 8
+				leftPadding: 8
+				rightPadding: 8
+
+				onTapped: Niri.centerColumn()
+			}
+
+			IconButton {
 				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/view-split-left-right.svg"
 				icon_width: 48
 				icon_height: 48
@@ -103,10 +116,6 @@ PanelWindow {
 
 				onTapped: Niri.closeWindow()
 			}
-
-			BrightnessWidget {}
-
-			VolumeWidget {}
 		}
 
 		RectangularShadow {
