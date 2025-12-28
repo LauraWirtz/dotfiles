@@ -47,13 +47,6 @@
 		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --non-exclusive --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
 	};
 
-	systemd.user.services.nwg-drawer = {
-		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.nwg-drawer pkgs.niri ];
-		serviceConfig = { Restart="always"; };
-		script = "${pkgs.nwg-drawer}/bin/nwg-drawer -r -wm \"niri\" -g \"Breeze-Dark\" -nocats -mt -44";
-	};
-
 	systemd.user.services.plasma-polkit-agent = {
 		description = "KDE PolicyKit Authentication Agent";
 		wantedBy = [ "graphical-session.target" ];
@@ -64,11 +57,8 @@
 	environment.systemPackages = with pkgs; [
 		xwayland-satellite
 		quickshell
-		better-control
 		wpaperd
 		wvkbd
-		nwg-drawer
-		jq
 		brightnessctl
 
 		polkit

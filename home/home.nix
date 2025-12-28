@@ -15,8 +15,11 @@ in {
 		".local/share/applications/io.github.quodlibet.ExFalso.desktop".text = desktopHide;
 		".local/share/applications/kbd-layout-viewer5.desktop".text = desktopHide;
 		".local/share/applications/kdesystemsettings.desktop".text = desktopHide;
+		".local/share/applications/systemsettings.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.fcitx5-migrator.desktop".text = desktopHide;
+		".local/share/applications/org.fcitx.fcitx5-config-qt.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.Fcitx5.desktop".text = desktopHide;
+		".local/share/applications/org.kde.ark.desktop".text = desktopHide;
 		".local/share/applications/org.kde.kwrite.desktop".text = desktopHide;
 	};
 
