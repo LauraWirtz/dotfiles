@@ -59,6 +59,7 @@ PanelWindow {
 			}
 			RowLayout {
 				IconButton {
+					id: bluetoothButton
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-bluetooth-symbolic.svg"
 					icon_width: 24
 					icon_height: 24
@@ -68,7 +69,16 @@ PanelWindow {
 					leftPadding: 16
 					rightPadding: 16
 
-					onTapped: {}
+					states: [
+						State {
+							name: "ENABLED"
+						},
+						State {
+							name: "DISABLED"
+						}
+					]
+
+					onTapped: {bluetoothButton.state = bluetoothButton.state == "ENABLED" ? "DISABLED" : "ENABLED"}
 				}
 				IconButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-wireless-on.svg"
@@ -84,7 +94,9 @@ PanelWindow {
 				}
 				KeyboardLayoutWidget {}
 			}
-			BluetoothWidget {}
+			BluetoothWidget {
+				bluetoothMenu: bluetoothButton.state == "ENABLED"
+			}
 		}
 
 		RectangularShadow {
