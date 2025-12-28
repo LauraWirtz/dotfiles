@@ -79,53 +79,25 @@ PanelWindow {
 					State { name: "DESKTOP" }
 				]
 
-				IconButton {
+				TabBarButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/apps/24@3x/cantata-symbolic.svg"
-					icon_width: 32
-					icon_height: 32
-
-					topPadding: 8
-					bottomPadding: 8
-					leftPadding: 16
-					rightPadding: 16
-
-					onTapped: {buttonRow.state = "NONE"}
+					show: buttonRow.state == "NONE"
+					onTapped: buttonRow.state = "NONE"
 				}
-				IconButton {
+				TabBarButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/edit-find.svg"
-					icon_width: 32
-					icon_height: 32
-
-					topPadding: 8
-					bottomPadding: 8
-					leftPadding: 16
-					rightPadding: 16
-
-					onTapped: {buttonRow.state = "DESKTOP"}
+					show: buttonRow.state == "DESKTOP"
+					onTapped: buttonRow.state = "DESKTOP"
 				}
-				IconButton {
+				TabBarButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-bluetooth-symbolic.svg"
-					icon_width: 32
-					icon_height: 32
-
-					topPadding: 8
-					bottomPadding: 8
-					leftPadding: 16
-					rightPadding: 16
-
-					onTapped: {buttonRow.state = "BLUETOOTH"}
+					show: buttonRow.state == "BLUETOOTH"
+					onTapped: buttonRow.state = "BLUETOOTH"
 				}
-				IconButton {
+				TabBarButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-wireless-on.svg"
-					icon_width: 32
-					icon_height: 32
-
-					topPadding: 8
-					bottomPadding: 8
-					leftPadding: 16
-					rightPadding: 16
-
-					onTapped: {buttonRow.state = "WIFI"}
+					show: buttonRow.state == "WIFI"
+					onTapped: buttonRow.state = "WIFI"
 				}
 			}
 			DesktopWidget {

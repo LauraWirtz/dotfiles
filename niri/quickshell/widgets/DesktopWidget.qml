@@ -8,7 +8,7 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-import QtQuick.Controls.Material
+// import QtQuick.Controls.Material
 
 Item {
 	id: root
@@ -34,14 +34,20 @@ Item {
 
 		width: list.width
 
-		Text {
+		Button {
 			Layout.topMargin: 8
 			Layout.bottomMargin: 8
 			Layout.leftMargin: 16
 			Layout.rightMargin: 16
-			color: "white"
-			font.pixelSize: 24
+
+			font.pixelSize: 20
 			font.weight: 300
+
+			icon.name: model.icon
+			icon.color: "transparent"
+			icon.width: 48
+			icon.height: 48
+			flat: true
 
 			text: model.name
 
@@ -52,9 +58,9 @@ Item {
 		}
 	}
 
-	ListView {
+	ListView {/*
 		Material.theme: Material.Dark
-		Material.accent: Material.Pink
+		Material.accent: Material.Pink*/
 
 		id: list
 
@@ -66,5 +72,6 @@ Item {
 
 		model: DesktopEntries.applications.values
 		delegate: DesktopEntryDelegate {}
+		cacheBuffer: 2*height
 	}
 }
