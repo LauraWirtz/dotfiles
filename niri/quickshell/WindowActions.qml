@@ -53,7 +53,7 @@ PanelWindow {
 			anchors.top: parent.top
 
 			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/window-new.svg"
+				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/window-duplicate.svg"
 				icon_width: 48
 				icon_height: 48
 
@@ -62,7 +62,7 @@ PanelWindow {
 				leftPadding: 8
 				rightPadding: 8
 
-				onTapped: Niri.spawn([ "nwg-drawer" ])
+				onTapped: Niri.toggleWindowFloating()
 			}
 
 			IconButton {

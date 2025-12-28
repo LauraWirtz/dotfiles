@@ -264,6 +264,10 @@ Singleton {
 		return send({"Action": {"FullscreenWindow": {}}})
 	}
 
+	function toggleWindowFloating() {
+		return send({"Action": {"ToggleWindowFloating": {}}})
+	}
+
 	function centerColumn() {
 		return send({"Action": {"CenterColumn": {}}})
 	}

@@ -30,40 +30,22 @@ Item {
 	}
 
 
-	component BluetoothDeviceDelegate: RowLayout {
+	component DesktopEntryDelegate: RowLayout {
 
 		width: list.width
 
 		Text {
-			Layout.horizontalStretchFactor: 1
-			Layout.fillWidth: true
 			Layout.leftMargin: 16
 			color: "white"
+			font.pixelSize: 24
+			font.weight: 200
 
-			text: model.name+" ("+model.address+")"
-		}
-		Button {
-			Layout.alignment: Qt.AlignRight
-			Layout.horizontalStretchFactor: -1
-			Layout.fillWidth: true
+			text: model.name
 
-			text: "Connect"
-			flat: true
-			enabled: !model.connected
-
-			onClicked: model.connect()
-		}
-		Button {
-			Layout.alignment: Qt.AlignRight
-			Layout.horizontalStretchFactor: -1
-			Layout.fillWidth: true
-			Layout.rightMargin: 16
-
-			text: "Disconnect"
-			flat: true
-			enabled: model.connected
-
-			onClicked: disconnect()
+			TapHandler {
+				gesturePolicy: TapHandler.ReleaseWithinBounds
+				onTapped: Niri.spawn(model.command)
+			}
 		}
 	}
 
@@ -79,7 +61,7 @@ Item {
 		contentHeight: contentItem.childrenRect.height
 		clip: true
 
-		model: Bluetooth.devices.values
-		delegate: BluetoothDeviceDelegate {}
+		model: DesktopEntries.applications.values
+		delegate: DesktopEntryDelegate {}
 	}
 }

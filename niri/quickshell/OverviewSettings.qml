@@ -32,6 +32,7 @@ PanelWindow {
 		y: -implicitHeight - 10
 
 		implicitWidth: children[0].implicitWidth
+		// implicitHeight: Math.min([root.height, children[0].implicitHeight + 40])
 		implicitHeight: children[0].implicitHeight + 40
 
 		bottomLeftRadius: 5
@@ -39,11 +40,18 @@ PanelWindow {
 
 		color: "#292c30"
 
-		states: State {
-			name: "OVERVIEW"
-			when: (Niri.inOverview)
-			PropertyChanges {bar.y: 0}
-		}
+		states: [
+			State {
+				name: "OVERVIEW"
+				when: Niri.inOverview
+				PropertyChanges {bar.y: 0}
+			},
+			State {
+				name: "NOVERVIEW"
+				when: !Niri.inOverview
+				StateChangeScript { script: buttonRow.state = "NONE" }
+			}
+		]
 
 		transitions: Transition {
 			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
@@ -57,9 +65,37 @@ PanelWindow {
 				BrightnessWidget {}
 				VolumeWidget {}
 			}
+			PlayerWidget {}
 			RowLayout {
+				id: buttonRow
+
+				states: [
+					State {
+						name: "NONE"
+					},
+					State {
+						name: "BLUETOOTH"
+					},
+					State {
+						name: "WIFI"
+					},
+					State {
+						name: "DESKTOP"
+					}
+				]
 				IconButton {
-					id: bluetoothButton
+					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/edit-find.svg"
+					icon_width: 24
+					icon_height: 24
+
+					topPadding: 8
+					bottomPadding: 8
+					leftPadding: 16
+					rightPadding: 16
+
+					onTapped: {buttonRow.state = buttonRow.state == "DESKTOP" ? "NONE" : "DESKTOP"}
+				}
+				IconButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-bluetooth-symbolic.svg"
 					icon_width: 24
 					icon_height: 24
@@ -69,16 +105,7 @@ PanelWindow {
 					leftPadding: 16
 					rightPadding: 16
 
-					states: [
-						State {
-							name: "ENABLED"
-						},
-						State {
-							name: "DISABLED"
-						}
-					]
-
-					onTapped: {bluetoothButton.state = bluetoothButton.state == "ENABLED" ? "DISABLED" : "ENABLED"}
+					onTapped: {buttonRow.state = buttonRow.state == "BLUETOOTH" ? "NONE" : "BLUETOOTH"}
 				}
 				IconButton {
 					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@2x/network-wireless-on.svg"
@@ -90,12 +117,16 @@ PanelWindow {
 					leftPadding: 16
 					rightPadding: 16
 
-					onTapped: {}
+					onTapped: {buttonRow.state = buttonRow.state == "WIFI" ? "NONE" : "WIFI"}
 				}
 				KeyboardLayoutWidget {}
 			}
+			DesktopWidget {
+				show: buttonRow.state == "DESKTOP"
+				Layout.maximumHeight: 400
+			}
 			BluetoothWidget {
-				bluetoothMenu: bluetoothButton.state == "ENABLED"
+				show: buttonRow.state == "BLUETOOTH"
 			}
 		}
 
