@@ -12,23 +12,10 @@ import QtQuick.Controls.Material
 
 Item {
 	id: root
-	required property bool show
 
-	Layout.preferredHeight: 0
+	Layout.preferredHeight: list.contentHeight
+	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
-
-	states: [
-		State {
-			name: "ENABLED"
-			when: (root.show)
-			PropertyChanges { root.Layout.preferredHeight: list.contentHeight }
-		}
-	]
-
-	transitions: Transition {
-		NumberAnimation { properties: "root.Layout.preferredHeight"; easing.type: Easing.InOutQuad; duration: 150 }
-	}
-
 
 	component BluetoothDeviceDelegate: RowLayout {
 
@@ -74,6 +61,7 @@ Item {
 		id: list
 
 		anchors.fill: parent
+		implicitHeight: contentHeight
 
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height

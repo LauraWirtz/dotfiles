@@ -19,10 +19,13 @@ RowLayout {
 		topPadding: 8
 		bottomPadding: 8
 		leftPadding: 16
-		rightPadding: -8
+		rightPadding: 0
 	}
 
 	Slider {
+		Layout.fillWidth: true
+		Layout.minimumWidth: 250
+		Layout.preferredHeight: 40
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink
 
@@ -32,9 +35,6 @@ RowLayout {
 		to: 100
 
 		rightPadding: 16
-
-		implicitWidth: 250
-		implicitHeight: 24
 
 		onMoved: Niri.spawn([ "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value+"%" ])
 

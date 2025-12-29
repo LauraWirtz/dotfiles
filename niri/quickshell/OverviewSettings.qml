@@ -25,99 +25,106 @@ PanelWindow {
 
 	mask: Region { item: bar }
 
-	Rectangle {
-		id: bar
+	ColumnLayout {
+		width: root.width
+		height: root.height
 
-		anchors.horizontalCenter: parent.horizontalCenter
-		y: -implicitHeight - 10
+		Rectangle {
+			id: bar
+			Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-		implicitWidth: children[0].implicitWidth
-		// implicitHeight: Math.min([root.height, children[0].implicitHeight + 40])
-		implicitHeight: children[0].implicitHeight
+			// anchors.horizontalCenter: parent.horizontalCenter
+			// y: -height - 10
+   //
+			implicitWidth: children[0].implicitWidth
+			// // implicitHeight: Math.min([root.height, children[0].implicitHeight + 40])
+			implicitHeight: children[0].implicitHeight
+			Layout.maximumHeight: root.height - 20
 
-		bottomLeftRadius: 5
-		bottomRightRadius: 5
+			bottomLeftRadius: 5
+			bottomRightRadius: 5
 
-		color: "#292c30"
+			color: "#292c30"
 
-		states: [
-			State {
-				name: "OVERVIEW"
-				when: Niri.inOverview
-				PropertyChanges {bar.y: 0}
-			},
-			State {
-				name: "NOVERVIEW"
-				when: !Niri.inOverview
-				StateChangeScript { script: buttonRow.state = "NONE" }
-			}
-		]
+			// states: [
+			// 	State {
+			// 		name: "OVERVIEW"
+			// 		when: Niri.inOverview
+			// 		PropertyChanges {bar.y: 0}
+			// 	},
+			// 	State {
+			// 		name: "NOVERVIEW"
+			// 		when: !Niri.inOverview
+			// 		StateChangeScript { script: view.setCurrentIndex(0) }
+			// 	}
+			// ]
+   //
+			// transitions: Transition {
+			// 	NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
+			// }
 
-		transitions: Transition {
-			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
-		}
+			ColumnLayout {
+				anchors.fill: parent
+				implicitHeight: buttonRow.implicitHeight + view.implicitHeight
 
-		ColumnLayout {
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.bottom: parent.bottom
+				RowLayout {
+					id: buttonRow
+					Layout.alignment: Qt.AlignRight
 
-			KeyboardLayoutWidget {
-				Layout.alignment: Qt.AlignRight
-			}
-
-			RowLayout {
-				BrightnessWidget {}
-				VolumeWidget {}
-			}
-			RowLayout {
-				id: buttonRow
-
-				states: [
-					State { name: "NONE" },
-					State { name: "BLUETOOTH" },
-					State { name: "WIFI" },
-					State { name: "DESKTOP" }
-				]
-
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/apps/24@3x/cantata-symbolic.svg"
-					show: buttonRow.state == "NONE"
-					onTapped: buttonRow.state = "NONE"
+					TabBarButton {
+						source: "/home/laura/.local/share/icons/Breeze-dark/apps/24@3x/cantata-symbolic.svg"
+						show: view.currentIndex == 0
+						onTapped: view.setCurrentIndex(0)
+					}
+					TabBarButton {
+						source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/edit-find.svg"
+						show: view.currentIndex == 1
+						onTapped: view.setCurrentIndex(1)
+					}
+					TabBarButton {
+						source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-bluetooth-symbolic.svg"
+						show: view.currentIndex == 2
+						onTapped: view.setCurrentIndex(2)
+					}
+					TabBarButton {
+						Layout.alignment: Qt.AlignRight
+						source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-wireless-on.svg"
+						show: view.currentIndex == 3
+						onTapped: view.setCurrentIndex(3)
+					}
 				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/edit-find.svg"
-					show: buttonRow.state == "DESKTOP"
-					onTapped: buttonRow.state = "DESKTOP"
-				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-bluetooth-symbolic.svg"
-					show: buttonRow.state == "BLUETOOTH"
-					onTapped: buttonRow.state = "BLUETOOTH"
-				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-wireless-on.svg"
-					show: buttonRow.state == "WIFI"
-					onTapped: buttonRow.state = "WIFI"
-				}
-			}
-			DesktopWidget {
-				show: buttonRow.state == "DESKTOP"
-				Layout.maximumHeight: 600
-			}
-			BluetoothWidget {
-				show: buttonRow.state == "BLUETOOTH"
-			}
-			PlayerWidget {
-				show: buttonRow.state == "NONE"
-			}
-		}
+				SwipeView {
+					id: view
+					Layout.fillWidth: true
+					Layout.fillHeight: true
+					Layout.preferredHeight: children[currentIndex].prefferedHeight
+					Layout.verticalStretchFactor: 1
+					clip: true
 
-		RectangularShadow {
-			anchors.fill: bar
-			z: -1
-			blur: 15
-			spread: 0
-			radius: 5
+					ColumnLayout {
+						Layout.fillWidth: true
+						RowLayout {
+							Layout.fillWidth: true
+							BrightnessWidget {}
+							VolumeWidget {}
+							KeyboardLayoutWidget {}
+						}
+						PlayerWidget {}
+					}
+
+					DesktopWidget {}
+
+					BluetoothWidget {}
+				}
+			}
+
+			RectangularShadow {
+				anchors.fill: bar
+				z: -1
+				blur: 15
+				spread: 0
+				radius: 5
+			}
 		}
 	}
 }
