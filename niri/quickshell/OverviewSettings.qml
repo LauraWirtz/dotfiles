@@ -10,6 +10,8 @@ import "./services"
 import "./widgets"
 import "./items"
 
+import QtQuick.Controls.Material
+
 PanelWindow {
 	id: root
 	color: "transparent"
@@ -60,55 +62,66 @@ PanelWindow {
 			implicitHeight: buttonRow.implicitHeight + view.implicitHeight
 			spacing: 0
 
-			RowLayout {
+			TabBar {
 				id: buttonRow
 				Layout.alignment: Qt.AlignRight
 				spacing: 0
+				Material.theme: Material.Dark
+				Material.accent: Material.Pink
 
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/apps/24@3x/cantata-symbolic.svg"
-					show: view.currentIndex == 0
-					onTapped: view.setCurrentIndex(0)
+				TabButton {
+					icon.name: "configure"
 				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/edit-find.svg"
-					show: view.currentIndex == 1
-					onTapped: view.setCurrentIndex(1)
+				TabButton {
+					icon.name: "edit-find"
 				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-bluetooth-symbolic.svg"
-					show: view.currentIndex == 2
-					onTapped: view.setCurrentIndex(2)
+				TabButton {
+					icon.name: "network-bluetooth-symbolic"
 				}
-				TabBarButton {
-					source: "/home/laura/.local/share/icons/Breeze-dark/status/24@3x/network-wireless-on.svg"
-					show: view.currentIndex == 3
-					onTapped: view.setCurrentIndex(3)
+				TabButton {
+					icon.name: "network-wireless-on"
 				}
 			}
-			SwipeView {
-				id: view
+			Rectangle{
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				Layout.preferredHeight: children[currentIndex].preferedHeight
+				Layout.preferredHeight: children[0].preferredHeight
 				Layout.maximumHeight: root.height - buttonRow.height - 20
+				implicitHeight: children[0].implicitHeight
+				implicitWidth: children[0].implicitWidth
 				Layout.verticalStretchFactor: 1
 				clip: true
+				color: "#202326"
+				bottomLeftRadius: 5
+				bottomRightRadius: 5
 
-				ColumnLayout {
-					Layout.fillWidth: true
-					RowLayout {
-						Layout.fillWidth: true
-						BrightnessWidget {}
-						VolumeWidget {}
-						KeyboardLayoutWidget {}
+				SwipeView {
+					id: view
+					currentIndex: buttonRow.currentIndex
+					anchors.fill: parent
+					Layout.preferredHeight: children[currentIndex].preferredHeight
+
+					onCurrentIndexChanged: {
+						buttonRow.currentIndex = currentIndex
 					}
-					PlayerWidget {}
+
+					ColumnLayout {
+						Layout.fillWidth: true
+						RowLayout {
+							Layout.fillWidth: true
+							BrightnessWidget {}
+							VolumeWidget {}
+							KeyboardLayoutWidget {}
+						}
+						PlayerWidget {}
+					}
+					DesktopWidget {}
+					BluetoothWidget {}
+					Text {
+						Layout.fillWidth: true
+						text: "lorem ipsum"
+					}
 				}
-
-				DesktopWidget {}
-
-				BluetoothWidget {}
 			}
 		}
 

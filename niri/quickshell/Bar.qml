@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import Quickshell.Widgets
 import Quickshell.Io
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import "./services"
 import "./widgets"
@@ -30,30 +31,20 @@ PanelWindow {
 
 		spacing: 0
 
-		IconButton {
-			source: "/home/laura/.local/share/icons/Breeze-dark/devices/24/input-keyboard-virtual.svg"
-			icon_width: 32
-			icon_height: 32
+		Button {
+			icon.name: "input-keyboard-virtual"
+			icon.width: 32
+			icon.height: 32
 
-			topPadding: 4
-			bottomPadding: 4
-			leftPadding: 8
-			rightPadding: 8
+			background: {}
 
-			onTapped: Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ])
-		}
+			display: AbstractButton.IconOnly
+			verticalPadding: 4
+			horizontalPadding: 8
+			flat: true
+			hoverEnabled: false
 
-		IconButton {
-			source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/go-up.svg"
-			icon_width: 32
-			icon_height: 32
-
-			topPadding: 4
-			bottomPadding: 4
-			leftPadding: 8
-			rightPadding: 8
-
-			onTapped: Niri.toggleOverview()
+			onClicked: Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ])
 		}
 	}
 }
