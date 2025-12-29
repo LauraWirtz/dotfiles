@@ -51,11 +51,34 @@ PanelWindow {
 		anchors.top: parent.top
 		width: cutout.implicitWidth
 		height: 40
+		states: [
+			State {
+				name: "RIGHT"
+				when: dragHandler.centroid.velocity.x > 1000
+				StateChangeScript { script: {
+					Niri.focusColumnLeft()
+					dragHandler.enabled = false
+				} }
+			},
+			State {
+				name: "LEFT"
+				when: dragHandler.centroid.velocity.x < -1000
+				StateChangeScript { script: {
+					Niri.focusColumnRight()
+					dragHandler.enabled = false
+				} }
+			},
+		]
 
 		TapHandler {
 			id: tapHandler
 			gesturePolicy: TapHandler.ReleaseWithinBounds
 			onTapped: Niri.toggleOverview()
+		}
+		DragHandler {
+			id: dragHandler
+			enabled: true
+			onActiveChanged: enabled = active ? enabled : true
 		}
 	}
 }

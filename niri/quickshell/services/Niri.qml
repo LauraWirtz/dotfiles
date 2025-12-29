@@ -272,6 +272,13 @@ Singleton {
 		return send({"Action": {"CenterColumn": {}}})
 	}
 
+	function focusColumnLeft() {
+		return send({"Action": {"FocusColumnLeft": {}}})
+	}
+	function focusColumnRight() {
+		return send({"Action": {"FocusColumnRight": {}}})
+	}
+
     function getCurrentWorkspaceNumber() {
         if (focusedWorkspaceIndex >= 0 && focusedWorkspaceIndex < allWorkspaces.length) {
             return allWorkspaces[focusedWorkspaceIndex].idx + 1
