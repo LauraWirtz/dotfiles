@@ -24,6 +24,7 @@ Item {
 			// Layout.fillWidth: true
 			Layout.leftMargin: 16
 			Layout.rightMargin: 16
+			padding: 0
 
 			// width: list.width
 
@@ -36,16 +37,26 @@ Item {
 			icon.height: 48
 			flat: true
 
-			text: model.name
+			text: customNames(model.name)
 
-			TapHandler {
-				gesturePolicy: TapHandler.ReleaseWithinBounds
-				onTapped: { Niri.spawn(model.command); Niri.closeOverview() }
-			}
+			onClicked: { Niri.spawn(model.command); Niri.closeOverview() }
+			// TapHandler {
+			// 	gesturePolicy: TapHandler.ReleaseWithinBounds
+			// 	onTapped: { Niri.spawn(model.command); Niri.closeOverview() }
+			// }
 		}
 	}
 
-	ListView {
+	function customNames(name): string {
+		switch(name) {
+			case "GNU Image Manipulation Program": return "GIMP";
+			case "Fcitx 5 Configuration": return "Fcitx5 Config";
+			case "TmForever": return "TmUnited";
+			default: return name;
+		}
+	}
+
+	GridView {
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink
 
@@ -53,6 +64,8 @@ Item {
 
 		anchors.fill: parent
 
+		cellWidth: width / 2
+		cellHeight: 72
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
 		clip: true
