@@ -8,7 +8,7 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-// import QtQuick.Controls.Material
+import QtQuick.Controls.Material
 
 Item {
 	id: root
@@ -19,13 +19,13 @@ Item {
 
 	component DesktopEntryDelegate: RowLayout {
 
-		width: list.width
 
 		Button {
-			Layout.topMargin: 8
-			Layout.bottomMargin: 8
+			// Layout.fillWidth: true
 			Layout.leftMargin: 16
 			Layout.rightMargin: 16
+
+			// width: list.width
 
 			font.pixelSize: 20
 			font.weight: 300
@@ -45,9 +45,9 @@ Item {
 		}
 	}
 
-	ListView {/*
+	ListView {
 		Material.theme: Material.Dark
-		Material.accent: Material.Pink*/
+		Material.accent: Material.Pink
 
 		id: list
 
@@ -59,6 +59,6 @@ Item {
 
 		model: DesktopEntries.applications.values
 		delegate: DesktopEntryDelegate {}
-		cacheBuffer: 2*height
+		// cacheBuffer: 2*height
 	}
 }

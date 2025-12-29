@@ -11,8 +11,8 @@ Rectangle {
 	property alias icon_height: image.height
 	property real topPadding: 8
 	property real bottomPadding: 8
-	property real leftPadding: 16
-	property real rightPadding: 16
+	property real leftPadding: 12
+	property real rightPadding: 12
 
 	signal tapped
 
