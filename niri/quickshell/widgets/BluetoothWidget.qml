@@ -39,7 +39,7 @@ Item {
 			flat: true
 			enabled: !model.connected
 
-			onClicked: model.connect()
+			onClicked: connect()
 		}
 		Button {
 			Layout.alignment: Qt.AlignRight
