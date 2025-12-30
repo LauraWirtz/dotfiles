@@ -15,7 +15,7 @@ PanelWindow {
 		left: true
 		right: true
 	}
-	exclusionMode: ExclusionMode.Ignore
+	// exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 
 	mask: Region { item: cutout }
@@ -46,10 +46,20 @@ PanelWindow {
 			BatteryWidget {}
 		}
 
-		GestureHandler {
-			function onTapped() { Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ]) }
-			function onClicked() { Niri.toggleOverview() }
+		TapHandler {
+			id: mouseHandler
+			acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
+			gesturePolicy: TapHandler.ReleaseWithinBounds
+			onTapped: Niri.toggleOverview()
+		}
+		TapHandler {
+			id: tapHandler
+			acceptedDevices: PointerDevice.TouchScreen
+			gesturePolicy: TapHandler.ReleaseWithinBounds
+			onTapped: Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ])
+		}
 
+		GestureHandler {
 			function onDown() { Niri.openOverview() }
 			function onLeft() { Niri.focusColumnRight() }
 			function onRight() { Niri.focusColumnLeft() }

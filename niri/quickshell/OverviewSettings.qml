@@ -25,112 +25,64 @@ PanelWindow {
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Top
 
-	mask: Region { item: bar }
+	mask: Region { item: flick.contentItem }
 
-	Rectangle {
-		id: bar
-
+	Flickable {
+		id: flick
 		anchors.horizontalCenter: parent.horizontalCenter
-		y: -height - 10
-
-		implicitWidth: children[0].implicitWidth
-		implicitHeight: children[0].implicitHeight
-
-		bottomLeftRadius: 5
-		bottomRightRadius: 5
-
-		color: "#292c30"
+		implicitWidth: contentWidth
+		implicitHeight: root.height
+		contentWidth: contentItem.childrenRect.width
+		contentHeight: contentItem.childrenRect.height
+		topMargin: 40
+		bottomMargin: root.height - defaultItems.height
+		maximumFlickVelocity: 6000
+		y: -defaultItems.height - 10
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {bar.y: 0}
+				PropertyChanges {flick.y: 0}
+				StateChangeScript { script: flick.flick(0, -6000) }
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: view.setCurrentIndex(0) }
+				StateChangeScript { script: flick.flick(0, -6000) }
 			}
 		]
-
 		transitions: Transition {
 			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
 		}
 
-		ColumnLayout {
-			implicitHeight: buttonRow.implicitHeight + view.implicitHeight
-			spacing: 0
+		// boundsBehavior: Flickable.DragOverBounds
 
-			TabBar {
-				id: buttonRow
-				Layout.alignment: Qt.AlignRight
-				spacing: 0
-				Material.theme: Material.Dark
-				Material.accent: Material.Pink
-
-				TabButton {
-					icon.name: "configure"
-				}
-				TabButton {
-					icon.name: "edit-find"
-				}
-				TabButton {
-					icon.name: "network-bluetooth-symbolic"
-				}
-				TabButton {
-					icon.name: "network-wireless-on"
-				}
-			}
-			Rectangle{
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-				Layout.preferredHeight: children[0].preferredHeight
-				Layout.maximumHeight: root.height - buttonRow.height - 20
-				implicitHeight: children[0].implicitHeight
-				implicitWidth: children[0].implicitWidth
-				Layout.verticalStretchFactor: 1
-				clip: true
-				color: "#202326"
-				bottomLeftRadius: 5
-				bottomRightRadius: 5
-
-				SwipeView {
-					id: view
-					currentIndex: buttonRow.currentIndex
-					anchors.fill: parent
-					Layout.preferredHeight: children[currentIndex].preferredHeight
-
-					onCurrentIndexChanged: {
-						buttonRow.currentIndex = currentIndex
-					}
-
-					ColumnLayout {
-						Layout.fillWidth: true
-						RowLayout {
-							Layout.fillWidth: true
-							BrightnessWidget {}
-							VolumeWidget {}
-							KeyboardLayoutWidget {}
-						}
-						PlayerWidget {}
-					}
-					DesktopWidget {}
-					BluetoothWidget {}
-					Text {
-						Layout.fillWidth: true
-						text: "lorem ipsum"
-					}
-				}
-			}
-		}
-
-		RectangularShadow {
-			anchors.fill: bar
-			z: -1
-			blur: 15
-			spread: 0
+		Rectangle {
+			id: window
+			implicitWidth: children[0].implicitWidth
+			implicitHeight: children[0].implicitHeight
 			radius: 5
+			color: "#292c30"
+			ColumnLayout {
+				BluetoothWidget {}
+				DesktopWidget {}
+				ColumnLayout {
+					id: defaultItems
+					KeyboardLayoutWidget {}
+					BrightnessWidget {}
+					VolumeWidget {}
+					PlayerWidget {}
+
+				}
+			}
+			RectangularShadow {
+				anchors.fill: parent
+				z: -1
+				blur: 15
+				spread: 0
+				radius: 5
+			}
 		}
 	}
 }

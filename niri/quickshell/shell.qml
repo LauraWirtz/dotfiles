@@ -1,7 +1,7 @@
 import Quickshell
 
 Scope {
-	Bar {}
+	// Bar {}
 	Cutout {}
 	WindowActions {}
 	OverviewSettings {}

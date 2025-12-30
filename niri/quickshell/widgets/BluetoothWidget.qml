@@ -12,6 +12,7 @@ import QtQuick.Controls.Material
 
 Item {
 	id: root
+	anchors.fill: parent
 
 	Layout.preferredHeight: list.contentHeight
 	implicitHeight: list.contentHeight
@@ -65,7 +66,7 @@ Item {
 
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
-		clip: true
+		interactive: false
 
 		model: Bluetooth.devices.values
 		delegate: BluetoothDeviceDelegate {}

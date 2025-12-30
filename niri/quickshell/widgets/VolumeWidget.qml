@@ -24,7 +24,7 @@ RowLayout {
 
 	Slider {
 		Layout.fillWidth: true
-		Layout.minimumWidth: 250
+		Layout.preferredWidth: 200
 		Layout.preferredHeight: 40
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink

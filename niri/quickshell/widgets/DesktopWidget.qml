@@ -13,7 +13,7 @@ import QtQuick.Controls.Material
 Item {
 	id: root
 
-	Layout.preferredHeight: list.contentHeight
+	// Layout.preferredHeight: list.contentHeight
 	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
 
@@ -21,29 +21,22 @@ Item {
 
 
 		Button {
-			// Layout.fillWidth: true
 			Layout.leftMargin: 16
 			Layout.rightMargin: 16
 			padding: 0
-
-			// width: list.width
 
 			font.pixelSize: 20
 			font.weight: 300
 
 			icon.name: model.icon
 			icon.color: "transparent"
-			icon.width: 48
-			icon.height: 48
+			icon.width: 32
+			icon.height: 32
 			flat: true
 
 			text: customNames(model.name)
 
 			onClicked: { Niri.spawn(model.command); Niri.closeOverview() }
-			// TapHandler {
-			// 	gesturePolicy: TapHandler.ReleaseWithinBounds
-			// 	onTapped: { Niri.spawn(model.command); Niri.closeOverview() }
-			// }
 		}
 	}
 
@@ -56,7 +49,7 @@ Item {
 		}
 	}
 
-	GridView {
+	ListView {
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink
 
@@ -64,11 +57,12 @@ Item {
 
 		anchors.fill: parent
 
-		cellWidth: width / 2
-		cellHeight: 72
+		// cellWidth: width
+		// cellHeight: 48
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
-		clip: true
+		height: contentHeight
+		interactive: false
 
 		model: DesktopEntries.applications.values
 		delegate: DesktopEntryDelegate {}
