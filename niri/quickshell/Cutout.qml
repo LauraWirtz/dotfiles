@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
+import "./items"
 import "./services"
 import "./widgets"
 
@@ -17,7 +18,7 @@ PanelWindow {
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 
-	mask: Region { item: touch }
+	mask: Region { item: cutout }
 
 	implicitHeight: 40
 
@@ -26,10 +27,10 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.top: parent.top
-		anchors.topMargin: -6
+		anchors.topMargin: -4
 
 		implicitWidth: children[0].implicitWidth + 24
-		implicitHeight: children[0].implicitHeight + 4
+		implicitHeight: children[0].implicitHeight
 
 		bottomLeftRadius: 15
 		bottomRightRadius: 15
@@ -38,47 +39,20 @@ PanelWindow {
 
 		RowLayout {
 			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			anchors.bottomMargin: 2
 
 			ClockWidget {}
 			BatteryWidget {}
 		}
-	}
 
-	Item {
-		id: touch
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.top: parent.top
-		width: cutout.implicitWidth
-		height: 40
-		states: [
-			State {
-				name: "RIGHT"
-				when: dragHandler.centroid.velocity.x > 1000
-				StateChangeScript { script: {
-					Niri.focusColumnLeft()
-					dragHandler.enabled = false
-				} }
-			},
-			State {
-				name: "LEFT"
-				when: dragHandler.centroid.velocity.x < -1000
-				StateChangeScript { script: {
-					Niri.focusColumnRight()
-					dragHandler.enabled = false
-				} }
-			},
-		]
+		GestureHandler {
+			function onTapped() { Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ]) }
+			function onClicked() { Niri.toggleOverview() }
 
-		TapHandler {
-			id: tapHandler
-			gesturePolicy: TapHandler.ReleaseWithinBounds
-			onTapped: Niri.toggleOverview()
-		}
-		DragHandler {
-			id: dragHandler
-			enabled: true
-			onActiveChanged: enabled = active ? enabled : true
+			function onDown() { Niri.openOverview() }
+			function onLeft() { Niri.focusColumnRight() }
+			function onRight() { Niri.focusColumnLeft() }
 		}
 	}
 }
