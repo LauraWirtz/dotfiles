@@ -5,15 +5,17 @@ Item {
 	id: root
 	anchors.fill: parent
 
-	function onTapped() {}
-	function onClicked() {}
-
 	function onUp() {}
 	function onDown() {}
 	function onLeft() {}
 	function onRight() {}
 
 	states: [
+		State {
+			name: "STANDBY"
+			when: !dragHandler.active
+			StateChangeScript { script: dragHandler.enabled = true; }
+		},
 		State {
 			name: "UP"
 			when: dragHandler.centroid.velocity.y < -1000
@@ -35,22 +37,7 @@ Item {
 			StateChangeScript { script: { onRight(); dragHandler.enabled = false; } }
 		},
 	]
-
-	TapHandler {
-		id: mouseHandler
-		acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
-		gesturePolicy: TapHandler.ReleaseWithinBounds
-		onTapped: root.onClicked()
-	}
-	TapHandler {
-		id: tapHandler
-		acceptedDevices: PointerDevice.TouchScreen
-		gesturePolicy: TapHandler.ReleaseWithinBounds
-		onTapped: root.onTapped()
-	}
 	DragHandler {
 		id: dragHandler
-		enabled: true
-		onActiveChanged: enabled = active ? enabled : true
 	}
 }
