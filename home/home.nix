@@ -35,13 +35,13 @@ in {
 		colorScheme= "dark";
 		theme.name = "Breeze-Dark";
 		theme.package = pkgs.kdePackages.breeze-gtk;
-		iconTheme.name = "Adwaita";
-		iconTheme.package = pkgs.adwaita-icon-theme;
+		iconTheme.name = "Breeze Dark";
+		iconTheme.package = pkgs.kdePackages.breeze-icons;
 	};
 	qt = {
 		enable = true;
 		platformTheme.name = "kde";
-		style.name = "Breeze-dark";
+		style.name = "Breeze";
 	};
 
 	home.stateVersion = "25.05";
