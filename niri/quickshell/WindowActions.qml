@@ -10,6 +10,8 @@ import "./services"
 import "./widgets"
 import "./items"
 
+import QtQuick.Controls.Material
+
 PanelWindow {
 	id: root
 	color: "transparent"
@@ -27,6 +29,8 @@ PanelWindow {
 
 	Rectangle {
 		id: bar
+		Material.theme: Material.Dark
+		Material.accent: Material.Pink
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		y: 1 * parent.height + 10
@@ -52,69 +56,56 @@ PanelWindow {
 			anchors.horizontalCenter: parent.horizontalCenter
 			anchors.top: parent.top
 
-			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/window-duplicate.svg"
-				icon_width: 48
-				icon_height: 48
+			MenuBarItem {
+				icon.name: "window-minimize-pip"
+				icon.width: 48
+				icon.height: 48
 
-				topPadding: 8
-				bottomPadding: 8
-				leftPadding: 8
-				rightPadding: 8
+				horizontalPadding: 12
+				verticalPadding: 8
 
-				onTapped: Niri.toggleWindowFloating()
+				onClicked: Niri.toggleWindowFloating()
 			}
+			MenuBarItem {
+				icon.name: "view-fullscreen"
+				icon.width: 48
+				icon.height: 48
 
-			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/view-fullscreen.svg"
-				icon_width: 48
-				icon_height: 48
+				horizontalPadding: 12
+				verticalPadding: 8
 
-				topPadding: 8
-				bottomPadding: 8
-				leftPadding: 8
-				rightPadding: 8
-
-				onTapped: Niri.fullscreenWindow()
+				onClicked: Niri.fullscreenWindow()
 			}
+			MenuBarItem {
+				icon.name: "view-file-columns"
+				icon.width: 48
+				icon.height: 48
 
-			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@3x/view-file-columns.svg"
-				icon_width: 48
-				icon_height: 48
+				horizontalPadding: 12
+				verticalPadding: 8
 
-				topPadding: 8
-				bottomPadding: 8
-				leftPadding: 8
-				rightPadding: 8
-
-				onTapped: Niri.centerColumn()
+				onClicked: Niri.centerColumn()
 			}
+			MenuBarItem {
+				icon.name: "view-split-left-right"
+				icon.width: 48
+				icon.height: 48
 
-			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/view-split-left-right.svg"
-				icon_width: 48
-				icon_height: 48
+				horizontalPadding: 12
+				verticalPadding: 8
 
-				topPadding: 8
-				bottomPadding: 8
-				leftPadding: 8
-				rightPadding: 8
-
-				onTapped: Niri.switchPresetColumnWidth()
+				onClicked: Niri.switchPresetColumnWidth()
 			}
+			MenuBarItem {
+				icon.name: "application-exit"
+				icon.color: "transparent"
+				icon.width: 48
+				icon.height: 48
 
-			IconButton {
-				source: "/home/laura/.local/share/icons/Breeze-dark/actions/24@2x/application-exit.svg"
-				icon_width: 48
-				icon_height: 48
+				horizontalPadding: 12
+				verticalPadding: 8
 
-				topPadding: 8
-				bottomPadding: 8
-				leftPadding: 8
-				rightPadding: 8
-
-				onTapped: Niri.closeWindow()
+				onDoubleClicked: Niri.closeWindow()
 			}
 		}
 
