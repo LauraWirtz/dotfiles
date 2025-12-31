@@ -17,27 +17,23 @@ Item {
 	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
 
-	component DesktopEntryDelegate: RowLayout {
+	component DesktopEntryDelegate: Button {
+		Layout.leftMargin: 16
+		Layout.rightMargin: 16
+		padding: 0
 
+		font.pixelSize: 20
+		font.weight: 300
 
-		Button {
-			Layout.leftMargin: 16
-			Layout.rightMargin: 16
-			padding: 0
+		icon.name: model.icon
+		icon.color: "transparent"
+		icon.width: 32
+		icon.height: 32
+		flat: true
 
-			font.pixelSize: 20
-			font.weight: 300
+		text: customNames(model.name)
 
-			icon.name: model.icon
-			icon.color: "transparent"
-			icon.width: 32
-			icon.height: 32
-			flat: true
-
-			text: customNames(model.name)
-
-			onClicked: { Niri.spawn(model.command); Niri.closeOverview() }
-		}
+		onClicked: { Niri.spawn(model.command); Niri.closeOverview() }
 	}
 
 	function customNames(name): string {
@@ -49,7 +45,7 @@ Item {
 		}
 	}
 
-	ListView {
+	GridView {
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink
 
@@ -57,8 +53,8 @@ Item {
 
 		anchors.fill: parent
 
-		// cellWidth: width
-		// cellHeight: 48
+		cellWidth: width / 2
+		cellHeight: 56
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
 		height: contentHeight
@@ -66,6 +62,5 @@ Item {
 
 		model: DesktopEntries.applications.values
 		delegate: DesktopEntryDelegate {}
-		// cacheBuffer: 2*height
 	}
 }

@@ -1,7 +1,7 @@
 // ClockWidget.qml
 import Quickshell
 import Quickshell.Io
-import Quickshell.Bluetooth
+import Quickshell.Services.Mpris
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -10,53 +10,72 @@ import "../services"
 
 import QtQuick.Controls.Material
 
-
-RowLayout {
+Item {
 	id: root
+
+	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
 
-	clip: true
+	component PlayerDelegate: RowLayout {
+		height: model.index > 0 ? implicitHeight : 0
+		clip: model.index == 0
 
-	IconButton {
-		source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/media-skip-backward.svg"
-		icon_width: 24
-		icon_height: 24
+		spacing: 0
 
-		topPadding: 8
-		bottomPadding: 8
-		leftPadding: 16
-		rightPadding: 16
+		RoundButton {
+			icon.name: "media-skip-backward"
+			icon.width: 24
+			icon.height: 24
+			padding: 0
+			flat: true
 
-		onTapped: {buttonRow.state = buttonRow.state == "WIFI" ? "NONE" : "WIFI"}
+			enabled: canGoPrevious
+
+			onClicked: { previous(); play() }
+		}
+		RoundButton {
+			icon.name: model.isPlaying ? "media-playback-pause" : "media-playback-start"
+			icon.width: 24
+			icon.height: 24
+			padding: 0
+			flat: true
+
+			onClicked: togglePlaying()
+		}
+		RoundButton {
+			icon.name: "media-skip-forward"
+			icon.width: 24
+			icon.height: 24
+			padding: 0
+			flat: true
+
+			enabled: canGoNext
+
+			onClicked: { next(); play() }
+		}
+		Text {
+			color: "white"
+			font.pixelSize: 16
+
+			text: (trackAlbumArtist || trackArtist) + " - " + model.trackTitle
+		}
 	}
 
-	IconButton {
-		source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/media-playback-start.svg"
-		icon_width: 24
-		icon_height: 24
+	ListView {
+		Material.theme: Material.Dark
+		Material.accent: Material.Pink
 
-		topPadding: 8
-		bottomPadding: 8
-		leftPadding: 16
-		rightPadding: 16
+		id: list
 
-		onTapped: {buttonRow.state = buttonRow.state == "WIFI" ? "NONE" : "WIFI"}
-	}
+		anchors.fill: parent
 
-	IconButton {
-		source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/media-skip-forward.svg"
-		icon_width: 24
-		icon_height: 24
+		contentWidth: width
+		contentHeight: contentItem.childrenRect.height
+		height: contentHeight
+		interactive: false
+		spacing: 0
 
-		topPadding: 8
-		bottomPadding: 8
-		leftPadding: 16
-		rightPadding: 16
-
-		onTapped: {buttonRow.state = buttonRow.state == "WIFI" ? "NONE" : "WIFI"}
-	}
-	Text {
-		color: "white"
-		text: "playing title"
+		model: Mpris.players.values
+		delegate: PlayerDelegate {}
 	}
 }
