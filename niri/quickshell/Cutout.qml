@@ -15,7 +15,7 @@ PanelWindow {
 		left: true
 		right: true
 	}
-	// exclusionMode: ExclusionMode.Ignore
+	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 
 	mask: Region { item: cutout }
@@ -27,24 +27,15 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.top: parent.top
-		anchors.topMargin: -4
 
-		implicitWidth: children[0].implicitWidth + 24
-		implicitHeight: children[0].implicitHeight
+		width: 120
+		height: 24
 
 		bottomLeftRadius: 15
 		bottomRightRadius: 15
 
 		color: "black"
 
-		RowLayout {
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.bottom: parent.bottom
-			anchors.bottomMargin: 2
-
-			ClockWidget {}
-			BatteryWidget {}
-		}
 
 		TapHandler {
 			id: mouseHandler
@@ -64,5 +55,13 @@ PanelWindow {
 			function onLeft() { Niri.focusColumnRight() }
 			function onRight() { Niri.focusColumnLeft() }
 		}
+	}
+	RowLayout {
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.top: parent.top
+		anchors.topMargin: -7
+
+		ClockWidget {}
+		BatteryWidget {}
 	}
 }

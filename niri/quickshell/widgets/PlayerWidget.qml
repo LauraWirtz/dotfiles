@@ -17,12 +17,13 @@ Item {
 	Layout.fillWidth: true
 
 	component PlayerDelegate: RowLayout {
-		height: model.index > 0 ? implicitHeight : 0
-		clip: model.index == 0
+		width: list.contentWidth
 
-		spacing: 0
+		spacing: -12
 
 		RoundButton {
+			Layout.leftMargin: 4
+
 			icon.name: "media-skip-backward"
 			icon.width: 24
 			icon.height: 24
@@ -56,6 +57,11 @@ Item {
 		Text {
 			color: "white"
 			font.pixelSize: 16
+			textFormat: Text.PlainText
+			elide: Text.ElideRight
+			Layout.fillWidth: true
+			Layout.leftMargin: 20
+			// Layout.rightMargin: 16
 
 			text: (trackAlbumArtist || trackArtist) + " - " + model.trackTitle
 		}

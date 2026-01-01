@@ -11,23 +11,24 @@ import "../services"
 import QtQuick.Controls.Material
 
 RowLayout {
-	IconButton {
-		source: "/home/laura/.local/share/icons/Breeze-dark/status/24/audio-volume-high.svg"
-		icon_width: 24
-		icon_height: 24
+	Material.theme: Material.Dark
+	Material.accent: Material.Pink
+	Layout.fillWidth: true
+	spacing: 0
 
-		topPadding: 8
-		bottomPadding: 8
-		leftPadding: 16
-		rightPadding: 0
+	Button {
+		icon.name: "audio-volume-high"
+		icon.width: 24
+		icon.height: 24
+		display: AbstractButton.IconOnly
+		background: {}
+		padding: 0
 	}
 
 	Slider {
 		Layout.fillWidth: true
-		Layout.preferredWidth: 200
+		Layout.preferredWidth: 300
 		Layout.preferredHeight: 40
-		Material.theme: Material.Dark
-		Material.accent: Material.Pink
 
 		id: slider
 

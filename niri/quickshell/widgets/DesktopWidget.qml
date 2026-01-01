@@ -53,7 +53,7 @@ Item {
 
 		anchors.fill: parent
 
-		cellWidth: width / 2
+		cellWidth: width / 3
 		cellHeight: 56
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height

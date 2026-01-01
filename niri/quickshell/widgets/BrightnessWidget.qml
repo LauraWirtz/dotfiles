@@ -10,31 +10,29 @@ import "../services"
 import QtQuick.Controls.Material
 
 RowLayout {
+	Material.theme: Material.Dark
+	Material.accent: Material.Pink
 	Layout.fillWidth: true
-	IconButton {
-		source: "/home/laura/.local/share/icons/Breeze-dark/actions/24/brightness-high.svg"
-		icon_width: 24
-		icon_height: 24
+	spacing: 0
 
-		topPadding: 8
-		bottomPadding: 8
-		leftPadding: 16
-		rightPadding: 0
+	Button {
+		icon.name: "brightness-high"
+		icon.width: 24
+		icon.height: 24
+		display: AbstractButton.IconOnly
+		background: {}
+		padding: 0
 	}
 
 	Slider {
 		Layout.fillWidth: true
-		Layout.preferredWidth: 500
+		Layout.preferredWidth: 300
 		Layout.preferredHeight: 40
-		Material.theme: Material.Dark
-		Material.accent: Material.Pink
 
 		id: slider
 
 		from: 0
 		to: 100
-
-		rightPadding: 16
 
 		onMoved: Niri.spawn([ "brightnessctl", "s", value+"%" ])
 

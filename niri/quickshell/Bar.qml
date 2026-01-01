@@ -10,11 +10,13 @@ import "./services"
 import "./widgets"
 import "./items"
 
+import QtQuick.Controls.Material
+
 PanelWindow {
 	color: "transparent"
 
 	anchors {
-		top: true
+		bottom: true
 		left: true
 		right: true
 	}
@@ -31,17 +33,16 @@ PanelWindow {
 
 		spacing: 0
 
-		Button {
+		MenuBarItem {
+			Material.theme: Material.Dark
+			Material.accent: Material.Pink
 			icon.name: "input-keyboard-virtual"
 			icon.width: 32
 			icon.height: 32
 
-			background: {}
-
 			display: AbstractButton.IconOnly
 			verticalPadding: 4
-			horizontalPadding: 8
-			flat: true
+			horizontalPadding: 12
 			hoverEnabled: false
 
 			onClicked: Niri.spawn([ "pkill", "-SIGRTMIN", "wvkbd-deskintl" ])

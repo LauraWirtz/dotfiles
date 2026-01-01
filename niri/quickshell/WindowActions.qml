@@ -49,7 +49,7 @@ PanelWindow {
 		}
 
 		transitions: Transition {
-			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 250 }
+			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
 		}
 
 		RowLayout {

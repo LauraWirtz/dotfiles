@@ -8,6 +8,7 @@ Text {
 	color: "#a0a0a0"
 	font.pixelSize: 20
 	font.weight: 200
+	textFormat: Text.PlainText
 
 	states: [
 		State {

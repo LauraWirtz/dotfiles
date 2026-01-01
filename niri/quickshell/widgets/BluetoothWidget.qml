@@ -12,7 +12,6 @@ import QtQuick.Controls.Material
 
 Item {
 	id: root
-	anchors.fill: parent
 
 	Layout.preferredHeight: list.contentHeight
 	implicitHeight: list.contentHeight
@@ -25,8 +24,8 @@ Item {
 		Text {
 			Layout.horizontalStretchFactor: 1
 			Layout.fillWidth: true
-			Layout.leftMargin: 16
 			color: "white"
+			textFormat: Text.PlainText
 
 			text: model.name+" ("+model.address+")"
 		}
@@ -34,6 +33,7 @@ Item {
 			Layout.alignment: Qt.AlignRight
 			Layout.horizontalStretchFactor: -1
 			Layout.fillWidth: true
+			padding: 0
 
 			text: "Connect"
 			flat: true
@@ -45,7 +45,7 @@ Item {
 			Layout.alignment: Qt.AlignRight
 			Layout.horizontalStretchFactor: -1
 			Layout.fillWidth: true
-			Layout.rightMargin: 16
+			padding: 0
 
 			text: "Disconnect"
 			flat: true
@@ -67,6 +67,7 @@ Item {
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
 		interactive: false
+		spacing: 0
 
 		model: Bluetooth.devices.values
 		delegate: BluetoothDeviceDelegate {}
