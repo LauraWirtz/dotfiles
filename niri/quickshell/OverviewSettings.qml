@@ -35,43 +35,49 @@ PanelWindow {
 		contentWidth: contentItem.childrenRect.width
 		contentHeight: contentItem.childrenRect.height
 		topMargin: 40
-		bottomMargin: root.height - defaultItems.height
+		bottomMargin: root.height - defaultItems.height - 16
 		maximumFlickVelocity: 6000
-		y: -defaultItems.height - 10
+		y: -defaultItems.height - 16 -10
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
 				PropertyChanges {flick.y: 0}
-				StateChangeScript { script: flick.flick(0, -6000) }
+				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -6000) : flick.flick(0, -50) }
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: flick.flick(0, -6000) }
+				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -6000) : flick.flick(0, -50) }
 			}
 		]
 		transitions: Transition {
 			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
 		}
 
-		// boundsBehavior: Flickable.DragOverBounds
+		// boundsBehavior: Flickable.StopAtBounds
 
 		Rectangle {
 			id: window
-			implicitWidth: children[0].implicitWidth
-			implicitHeight: children[0].implicitHeight
+			implicitWidth: children[0].implicitWidth+32
+			implicitHeight: children[0].implicitHeight+32
 			radius: 5
 			color: "#292c30"
 			ColumnLayout {
+				anchors.fill: parent
+				anchors.margins: 16
+				spacing: 16
 				BluetoothWidget {}
 				DesktopWidget {}
 				ColumnLayout {
 					id: defaultItems
 					KeyboardLayoutWidget {}
-					BrightnessWidget {}
-					VolumeWidget {}
+					InputPlumberWidget {}
+					RowLayout {
+						BrightnessWidget {}
+						VolumeWidget {}
+					}
 					PlayerWidget {}
 
 				}
