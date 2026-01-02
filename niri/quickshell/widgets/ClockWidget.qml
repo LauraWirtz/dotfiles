@@ -7,7 +7,7 @@ Text {
 
   // directly access the time property from the Time singleton
   text: Time.time
-  color: "#a0a0a0"
+  color: "#9E9E9E"
   font.pixelSize: 20
   font.weight: 200
   textFormat: Text.PlainText

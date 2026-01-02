@@ -38,7 +38,7 @@ PanelWindow {
 		implicitWidth: children[0].implicitWidth
 		implicitHeight: children[0].implicitHeight
 
-		radius: 5
+		radius: 8
 
 		color: "#292c30"
 
@@ -114,7 +114,8 @@ PanelWindow {
 			z: -1
 			blur: 15
 			spread: 0
-			radius: 5
+			radius: 8
+			cached: true
 		}
 	}
 }

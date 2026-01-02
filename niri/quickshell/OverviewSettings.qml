@@ -35,9 +35,11 @@ PanelWindow {
 		contentWidth: contentItem.childrenRect.width
 		contentHeight: contentItem.childrenRect.height
 		topMargin: 40
-		bottomMargin: root.height - defaultItems.height - 16
+		// bottomMargin: root.height - defaultItems.height - 16
+		bottomMargin: 0.75 * root.height + 10
 		maximumFlickVelocity: 6000
-		y: -defaultItems.height - 16 -10
+		// y: -defaultItems.height - 16 -10
+		y: -0.25 * root.height
 
 		states: [
 			State {
@@ -62,7 +64,7 @@ PanelWindow {
 			id: window
 			implicitWidth: children[0].implicitWidth+32
 			implicitHeight: children[0].implicitHeight+32
-			radius: 5
+			radius: 8
 			color: "#292c30"
 			ColumnLayout {
 				anchors.fill: parent
@@ -72,13 +74,15 @@ PanelWindow {
 				DesktopWidget {}
 				ColumnLayout {
 					id: defaultItems
+					spacing: 16
 					KeyboardLayoutWidget {}
 					InputPlumberWidget {}
+					PlayerWidget {}
 					RowLayout {
+						spacing: 16
 						BrightnessWidget {}
 						VolumeWidget {}
 					}
-					PlayerWidget {}
 
 				}
 			}
@@ -87,7 +91,8 @@ PanelWindow {
 				z: -1
 				blur: 15
 				spread: 0
-				radius: 5
+				radius: 8
+				cached: true
 			}
 		}
 	}

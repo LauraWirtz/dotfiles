@@ -22,7 +22,7 @@ Item {
 		spacing: -12
 
 		RoundButton {
-			Layout.leftMargin: 4
+			Layout.leftMargin: -8
 
 			icon.name: "media-skip-backward"
 			icon.width: 24
@@ -79,7 +79,7 @@ Item {
 		contentHeight: contentItem.childrenRect.height
 		height: contentHeight
 		interactive: false
-		spacing: 0
+		spacing: -8
 
 		model: Mpris.players.values
 		delegate: PlayerDelegate {}

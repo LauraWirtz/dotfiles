@@ -10,6 +10,8 @@ RowLayout {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
 
+	spacing: 16
+
 	Button {
 		text: "Steam + Touchpad"
 		onClicked: InputPlumber.setTargetDevices([ "touchpad", "deck-uhid"] )

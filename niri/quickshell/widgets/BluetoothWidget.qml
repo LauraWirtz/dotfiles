@@ -67,7 +67,7 @@ Item {
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
 		interactive: false
-		spacing: 0
+		spacing: -8
 
 		model: Bluetooth.devices.values
 		delegate: BluetoothDeviceDelegate {}

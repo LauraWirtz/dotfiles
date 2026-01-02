@@ -14,9 +14,11 @@ RowLayout {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
 	Layout.fillWidth: true
-	spacing: 0
+	spacing: -4
 
 	Button {
+		Layout.leftMargin: -12
+
 		icon.name: "audio-volume-high"
 		icon.width: 24
 		icon.height: 24
@@ -28,14 +30,13 @@ RowLayout {
 	Slider {
 		Layout.fillWidth: true
 		Layout.preferredWidth: 300
-		Layout.preferredHeight: 40
+		Layout.preferredHeight: 24
+		padding: 0
 
 		id: slider
 
 		from: 0
 		to: 100
-
-		rightPadding: 16
 
 		onMoved: Niri.spawn([ "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value+"%" ])
 

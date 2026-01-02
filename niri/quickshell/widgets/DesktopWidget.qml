@@ -10,16 +10,16 @@ import "../services"
 
 import QtQuick.Controls.Material
 
-Item {
+Rectangle {
 	id: root
+	color: "#202326"
+	radius: 16
 
 	// Layout.preferredHeight: list.contentHeight
 	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
 
 	component DesktopEntryDelegate: Button {
-		Layout.leftMargin: 16
-		Layout.rightMargin: 16
 		padding: 0
 
 		font.pixelSize: 20
