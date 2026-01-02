@@ -12,29 +12,30 @@ RowLayout {
 
 	spacing: 16
 
+	property var buttonsModel: [
+		{ name: "Steam + Touchpad", targets: [ "touchpad", "deck-uhid" ] },
+		{ name: "Steam Input", targets: [ "deck-uhid" ] },
+		{ name: "Controller", targets: [ "xb360" ] }
+	]
 
-	Button {
-		text: "Steam + Touchpad"
-		onClicked: InputPlumber.setTargetDevices([ "touchpad", "deck-uhid"] )
+	Repeater {
+		model: buttonsModel
+		Button {
+			id: delegate
+			text: modelData.name
+			onClicked: InputPlumber.setTargetDevices(modelData.targets)
+
+			Connections {
+				target: InputPlumber
+				function onUpdated() {
+					delegate.enabled = !checkArrayEquality(InputPlumber.targetStrings, modelData.targets)
+				}
+			}
+		}
 	}
-	Button {
-		text: "Steam Input"
-		onClicked: InputPlumber.setTargetDevices([ "deck-uhid"] )
-	}
-	Button {
-		text: "Controller"
-		onClicked: InputPlumber.setTargetDevices([ "xb360"] )
-	}
-	Button {
-		text: "eh"
-		onClicked: text = InputPlumber.targetStrings.length
-	}
-	Button {
-		text: "eh"
-		onClicked: text = InputPlumber.targetStrings[0]
-	}
-	Button {
-		text: "eh"
-		onClicked: text = InputPlumber.targetStrings[1]
+
+
+	function checkArrayEquality(a, b): bool {
+		return a.every(item => b.includes(item)) && b.every(item => a.includes(item))
 	}
 }

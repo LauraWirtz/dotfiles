@@ -18,6 +18,8 @@ Singleton {
 	property var targetPaths: []
 	property var targetStrings: []
 
+	signal updated()
+
 	Process {
 		id: targetDeviceChangeListener
 		running: true
@@ -67,6 +69,7 @@ Singleton {
 		targetDeviceNameGetter.running = true
 		} else if(targetPaths.length == 0) {
 			//notify event-listeners
+			root.updated()
 		}
 	}
 
@@ -85,20 +88,4 @@ Singleton {
 		command: []
 		stdout: SplitParser { onRead: data => console.log(data) }
 	}
-
-
-
-	function extractEventType(string): string {
-		return string.match(/member=\w+/)[0].split("=")[1]
-	}
-	function extractObjectPath(string): string {
-		return string.match(/object path ".+"/)[0].split('"')[1]
-	}
-
-	// function updateTargetDeviceName() {
-	// 	const command = [ "get-property", "--json=pretty", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "TargetDevices" ]
-	// 	const handler = (data) => { console.log(data) }
- //
-	// 	runner.makeRequest(command, handler)
-	// }
 }
