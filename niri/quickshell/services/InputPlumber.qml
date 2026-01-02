@@ -15,50 +15,78 @@ Singleton {
 	readonly property string dBusCompDeviceInterfacePath: "org.shadowblip.Input.CompositeDevice"
 	readonly property string dBusCompDevicePath: "/org/shadowblip/InputPlumber/CompositeDevice0"
 
-	property var targets: []
+	property var targetPaths: []
 	property var targetStrings: []
 
-	property bool hasInitialConnection: false
-
-	// DBusItem { id: runner }
-
 	Process {
-		id: targetDeviceRemovedListenerr
+		id: targetDeviceChangeListener
 		running: true
 		command: [ "dbus-monitor", "--system", "path='/org/shadowblip/InputPlumber'" ]
 		stdout: SplitParser {
 			splitMarker: "signal "
-			onRead: data => {
-				console.log(data)
-				const eventType = extractEventType(data)
-				const objectPath = extractObjectPath(data)
-				console.log(objectPath)
-			}
+			onRead: () => targetDevicePathGetterTimeout.restart()
 		}
 		onRunningChanged: if (!running) running = true
 	}
+
+
+	Timer {
+		id: targetDevicePathGetterTimeout
+		interval: 500; running: true; repeat: false
+		onTriggered: targetDevicePathGetter.running = true
+	}
 	Process {
-		id: targetDeviceSetter
-		running: true
-		command: [ "dbus-monitor", "--system", "path='/org/shadowblip/InputPlumber'" ]
-		stdout: SplitParser {
-			onRead: data => {
-				console.log(data)
-			}
+		id: targetDevicePathGetter
+		running: false
+		command: ["busctl", "get-property", "--json=short", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "TargetDevices",]
+		stdout: SplitParser { onRead: rawData => {
+			targetPaths = JSON.parse(rawData).data
+			console.log(targetPaths)
+
+			targetStrings = []
+			resetTargetDeviceNameGetter()
+		} }
+	}
+
+	Process {
+		id: targetDeviceNameGetter
+		running: false
+		command: []
+		stdout: SplitParser { onRead: rawData => {
+			const data = JSON.parse(rawData)
+
+			targetStrings.push(data.data)
+			targetPaths.shift()
+			console.log(targetStrings)
+		} }
+		onRunningChanged: resetTargetDeviceNameGetter()
+	}
+	function resetTargetDeviceNameGetter() {
+		if (targetDeviceNameGetter.running == false && targetPaths.length > 0) {
+		targetDeviceNameGetter.command = [ "busctl", "get-property", "--json=short", "org.shadowblip.InputPlumber", targetPaths[0], "org.shadowblip.Input.Target", "DeviceType" ]
+		targetDeviceNameGetter.running = true
+		} else if(targetPaths.length == 0) {
+			//notify event-listeners
 		}
 	}
+
 
 	function setTargetDevices(devices) {
 		const command = [ "busctl", "call", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "SetTargetDevices", "as" ]
 		command.push(devices.length)
 
-		console.log(command.concat(devices))
-
 		targetDeviceSetter.running= false
 		targetDeviceSetter.command= command.concat(devices)
 		targetDeviceSetter.running= true
-
 	}
+	Process {
+		id: targetDeviceSetter
+		running: true
+		command: []
+		stdout: SplitParser { onRead: data => console.log(data) }
+	}
+
+
 
 	function extractEventType(string): string {
 		return string.match(/member=\w+/)[0].split("=")[1]

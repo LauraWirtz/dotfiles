@@ -12,6 +12,7 @@ RowLayout {
 
 	spacing: 16
 
+
 	Button {
 		text: "Steam + Touchpad"
 		onClicked: InputPlumber.setTargetDevices([ "touchpad", "deck-uhid"] )
@@ -23,5 +24,17 @@ RowLayout {
 	Button {
 		text: "Controller"
 		onClicked: InputPlumber.setTargetDevices([ "xb360"] )
+	}
+	Button {
+		text: "eh"
+		onClicked: text = InputPlumber.targetStrings.length
+	}
+	Button {
+		text: "eh"
+		onClicked: text = InputPlumber.targetStrings[0]
+	}
+	Button {
+		text: "eh"
+		onClicked: text = InputPlumber.targetStrings[1]
 	}
 }
