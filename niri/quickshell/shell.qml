@@ -3,6 +3,6 @@ import Quickshell
 Scope {
 	// Bar {}
 	Cutout {}
-	WindowActions {}
+	// WindowActions {}
 	OverviewSettings {}
 }

@@ -32,8 +32,8 @@ PanelWindow {
 		anchors.horizontalCenter: parent.horizontalCenter
 		implicitWidth: contentWidth
 		implicitHeight: root.height
-		contentWidth: contentItem.childrenRect.width
-		contentHeight: contentItem.childrenRect.height
+		contentWidth: contentItem.children[0].implicitWidth
+		contentHeight: contentItem.children[0].implicitHeight
 		topMargin: 40
 		bottomMargin: 0.75 * root.height + 10
 		y: -0.25 * root.height
@@ -74,15 +74,18 @@ PanelWindow {
 				ColumnLayout {
 					id: defaultItems
 					spacing: 16
-					KeyboardLayoutWidget {}
-					InputPlumberWidget {}
+					RowLayout {
+						spacing: 16
+						KeyboardLayoutWidget {}
+						InputPlumberWidget {}
+					}
 					PlayerWidget {}
 					RowLayout {
 						spacing: 16
 						BrightnessWidget {}
 						VolumeWidget {}
 					}
-
+					WindowActionWidget { Layout.alignment: Qt.AlignHCenter }
 				}
 			}
 			RectangularShadow {

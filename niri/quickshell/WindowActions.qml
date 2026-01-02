@@ -16,6 +16,14 @@ PanelWindow {
 	id: root
 	color: "transparent"
 
+	property var buttonsModel: [
+		{ icon: "window-minimize-pip", command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "view-fullscreen", command: ()=>Niri.fullscreenWindow() },
+		{ icon: "view-file-columns", command: ()=>Niri.centerColumn() },
+		{ icon: "view-split-left-right", command: ()=>Niri.switchPresetColumnWidth() },
+		{ icon: "application-exit", command: ()=>Niri.closeWindow() },
+	]
+
 	anchors {
 		top: true
 		bottom: true
@@ -56,56 +64,20 @@ PanelWindow {
 			anchors.horizontalCenter: parent.horizontalCenter
 			anchors.top: parent.top
 
-			MenuBarItem {
-				icon.name: "window-minimize-pip"
-				icon.width: 48
-				icon.height: 48
+			Repeater {
+				model: buttonsModel
+				MenuBarItem {
+					id: delegate
+					icon.name: modelData.icon
+					icon.color: "transparent"
+					icon.width: 48
+					icon.height: 48
 
-				horizontalPadding: 12
-				verticalPadding: 8
+					horizontalPadding: 12
+					verticalPadding: 8
 
-				onClicked: Niri.toggleWindowFloating()
-			}
-			MenuBarItem {
-				icon.name: "view-fullscreen"
-				icon.width: 48
-				icon.height: 48
-
-				horizontalPadding: 12
-				verticalPadding: 8
-
-				onClicked: Niri.fullscreenWindow()
-			}
-			MenuBarItem {
-				icon.name: "view-file-columns"
-				icon.width: 48
-				icon.height: 48
-
-				horizontalPadding: 12
-				verticalPadding: 8
-
-				onClicked: Niri.centerColumn()
-			}
-			MenuBarItem {
-				icon.name: "view-split-left-right"
-				icon.width: 48
-				icon.height: 48
-
-				horizontalPadding: 12
-				verticalPadding: 8
-
-				onClicked: Niri.switchPresetColumnWidth()
-			}
-			MenuBarItem {
-				icon.name: "application-exit"
-				icon.color: "transparent"
-				icon.width: 48
-				icon.height: 48
-
-				horizontalPadding: 12
-				verticalPadding: 8
-
-				onDoubleClicked: Niri.closeWindow()
+					onClicked: modelData.command()
+				}
 			}
 		}
 
