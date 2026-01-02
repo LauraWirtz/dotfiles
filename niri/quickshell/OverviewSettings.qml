@@ -35,23 +35,22 @@ PanelWindow {
 		contentWidth: contentItem.childrenRect.width
 		contentHeight: contentItem.childrenRect.height
 		topMargin: 40
-		// bottomMargin: root.height - defaultItems.height - 16
 		bottomMargin: 0.75 * root.height + 10
-		maximumFlickVelocity: 6000
-		// y: -defaultItems.height - 16 -10
 		y: -0.25 * root.height
+
+		onVerticalOvershootChanged: if(flick.verticalOvershoot>20 && !flick.flicking) Niri.closeOverview()
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
 				PropertyChanges {flick.y: 0}
-				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -6000) : flick.flick(0, -50) }
+				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -flick.maximumFlickVelocity) : flick.flick(0, -50) }
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -6000) : flick.flick(0, -50) }
+				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -flick.maximumFlickVelocity) : flick.flick(0, -50) }
 			}
 		]
 		transitions: Transition {
