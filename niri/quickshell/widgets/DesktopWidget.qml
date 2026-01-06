@@ -1,7 +1,5 @@
 // ClockWidget.qml
 import Quickshell
-import Quickshell.Io
-import Quickshell.Bluetooth
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -13,27 +11,37 @@ import QtQuick.Controls.Material
 Rectangle {
 	id: root
 	color: "#202326"
-	radius: 16
+	radius: 8
 
-	// Layout.preferredHeight: list.contentHeight
-	implicitHeight: list.contentHeight
 	Layout.fillWidth: true
+	Layout.preferredHeight: list.contentItem.childrenRect.height
+
+	property string show: ""
+	property var hide: []
 
 	component DesktopEntryDelegate: Button {
+		id: button
 		padding: 0
 
 		font.pixelSize: 20
 		font.weight: 300
 
-		icon.name: model.icon
+		icon.name: modelData.icon
 		icon.color: "transparent"
 		icon.width: 32
 		icon.height: 32
 		flat: true
 
-		text: customNames(model.name)
+		text: customNames(modelData.name)
 
-		onClicked: { Niri.spawn(model.command); Niri.closeOverview() }
+		onClicked: { Niri.spawn(modelData.command); Niri.closeOverview() }
+	}
+
+	function searchCategories(categories, term): bool {
+		for(var entry in categories) {
+			if(categories[entry] == term) return true
+		}
+		return false
 	}
 
 	function customNames(name): string {
@@ -52,15 +60,16 @@ Rectangle {
 		id: list
 
 		anchors.fill: parent
+		// clip: true
 
 		cellWidth: width / 3
 		cellHeight: 56
-		contentWidth: width
-		contentHeight: contentItem.childrenRect.height
-		height: contentHeight
+		// contentWidth: width
+		// contentHeight: contentItem.childrenRect.height
+		// height: contentHeight
 		interactive: false
 
-		model: DesktopEntries.applications.values
+		model: DesktopService.sortedEntries
 		delegate: DesktopEntryDelegate {}
 	}
 }
