@@ -12,6 +12,8 @@ Singleton {
 	property bool charging
 	property string timeRemaining
 
+	Component.onCompleted: update()
+
 	Connections {
 		target: UPower.displayDevice
 
@@ -19,10 +21,11 @@ Singleton {
 		function onTimeToEmptyChanged(): void { update() }
 		function onTimeToFullChanged(): void { update() }
 
-		function update(): void {
-			percentage = (UPower.displayDevice.percentage * 100).toFixed(0);
-			timeRemaining = formatTime(UPower.displayDevice.timeToFull+UPower.displayDevice.timeToEmpty)
-		}
+	}
+
+	function update(): void {
+		percentage = (UPower.displayDevice.percentage * 100).toFixed(0);
+		timeRemaining = formatTime(UPower.displayDevice.timeToFull+UPower.displayDevice.timeToEmpty)
 	}
 
 	function formatTime(seconds) {
