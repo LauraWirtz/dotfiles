@@ -8,21 +8,23 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-import QtQuick.Controls.Material
+import QtQuick.Controls.Basic
 
 Item {
 	id: root
 
 	implicitHeight: list.contentHeight
+	implicitWidth: list.contentWidth
 	Layout.fillWidth: true
+	Layout.minimumHeight: list.contentHeight
 
 	component PlayerDelegate: RowLayout {
 		width: list.contentWidth
 
-		spacing: -12
+		// spacing: -8
 
 		RoundButton {
-			Layout.leftMargin: -8
+			// Layout.leftMargin: -8
 
 			icon.name: "media-skip-backward"
 			icon.width: 24
@@ -54,13 +56,24 @@ Item {
 
 			onClicked: { next(); play() }
 		}
+		RoundButton {
+			icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
+			icon.color: "transparent"
+			icon.width: 32
+			icon.height: 32
+			Layout.leftMargin: 12
+			Layout.rightMargin: 12
+			padding: 0
+			flat: true
+			background: {}
+		}
 		Text {
 			color: "white"
 			font.pixelSize: 16
 			textFormat: Text.PlainText
 			elide: Text.ElideRight
 			Layout.fillWidth: true
-			Layout.leftMargin: 20
+			// Layout.leftMargin: 12
 			// Layout.rightMargin: 16
 
 			text: (trackAlbumArtist || trackArtist) + " - " + model.trackTitle
@@ -68,8 +81,6 @@ Item {
 	}
 
 	ListView {
-		Material.theme: Material.Dark
-		Material.accent: Material.Pink
 
 		id: list
 
@@ -77,11 +88,15 @@ Item {
 
 		contentWidth: width
 		contentHeight: contentItem.childrenRect.height
-		height: contentHeight
+		// height: contentHeight
 		interactive: false
-		spacing: -8
+		// spacing: -8
 
 		model: Mpris.players.values
 		delegate: PlayerDelegate {}
+	}
+
+	function getIconNameFromDesktopEntry(entry) {
+		return DesktopEntries.heuristicLookup(entry).icon
 	}
 }

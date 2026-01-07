@@ -14,10 +14,10 @@ RowLayout {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
 	Layout.fillWidth: true
-	spacing: -4
+	// spacing: 8
 
 	Button {
-		Layout.leftMargin: -12
+		// Layout.leftMargin: -12
 
 		icon.name: "audio-volume-high"
 		icon.width: 24
@@ -25,12 +25,14 @@ RowLayout {
 		display: AbstractButton.IconOnly
 		background: {}
 		padding: 0
+		Layout.margins: -12
 	}
 
 	Slider {
 		Layout.fillWidth: true
 		Layout.preferredWidth: 300
-		Layout.preferredHeight: 24
+		Layout.topMargin: -12
+		Layout.bottomMargin: -12
 		padding: 0
 
 		id: slider

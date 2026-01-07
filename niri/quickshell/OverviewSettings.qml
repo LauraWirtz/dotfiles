@@ -10,7 +10,7 @@ import "./services"
 import "./widgets"
 import "./items"
 
-import QtQuick.Controls.Material
+import QtQuick.Controls.Basic
 
 PanelWindow {
 	id: root
@@ -25,77 +25,129 @@ PanelWindow {
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Top
 
-	mask: Region { item: flick.contentItem }
+	mask: Region { item: window }
 
-	Flickable {
-		id: flick
+
+	Rectangle {
+		id: window
 		anchors.horizontalCenter: parent.horizontalCenter
-		implicitWidth: contentWidth
-		implicitHeight: root.height
-		contentWidth: contentItem.children[0].implicitWidth
-		contentHeight: contentItem.children[0].implicitHeight
-		topMargin: 40
-		bottomMargin: 0.75 * root.height + 10
-		y: -0.25 * root.height
+		implicitWidth: children[0].implicitWidth
+		implicitHeight: children[0].implicitHeight
+		radius: 8
+		color: "#292c30"
 
-		onVerticalOvershootChanged: if(flick.verticalOvershoot>20 && !flick.flicking) Niri.closeOverview()
+		y: -height - 10
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {flick.y: 0}
-				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -flick.maximumFlickVelocity) : flick.flick(0, -50) }
+				PropertyChanges {window.y: 40}
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: !flick.atYEnd ? flick.flick(0, -flick.maximumFlickVelocity) : flick.flick(0, -50) }
+				StateChangeScript { script: view.currentIndex = 0 }
 			}
 		]
 		transitions: Transition {
 			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
 		}
 
-		// boundsBehavior: Flickable.StopAtBounds
-
-		Rectangle {
-			id: window
-			implicitWidth: children[0].implicitWidth+32
-			implicitHeight: children[0].implicitHeight+32
-			radius: 8
-			color: "#292c30"
-			ColumnLayout {
-				anchors.fill: parent
-				anchors.margins: 16
-				spacing: 16
-				BluetoothWidget {}
-				DesktopWidget {}
-				ColumnLayout {
-					id: defaultItems
-					spacing: 16
-					RowLayout {
-						spacing: 16
-						KeyboardLayoutWidget {}
-						InputPlumberWidget {}
+		ColumnLayout {
+			// anchors.fill: parent
+			// anchors.margins: 16
+			spacing: 0
+			RowLayout {
+				Layout.fillWidth: true
+				Layout.topMargin: 0
+				Layout.bottomMargin: 0
+				// Layout.leftMargin: 16
+				Layout.rightMargin: 16
+				id: defaultItems
+				spacing: 0
+				RowLayout {
+					Layout.topMargin: 16
+					Layout.leftMargin: 0
+					spacing: 0
+					TabBarButton {
+						name: "configure"
+						icon_width: 32
+						icon_height: 32
+						show: view.currentIndex == 0
+						onClicked: view.setCurrentIndex(0)
 					}
-					PlayerWidget {}
+					TabBarButton {
+						name: "applications-system-symbolic"
+						icon_width: 32
+						icon_height: 32
+						show: view.currentIndex == 1
+						onClicked: view.currentIndex == 1 ? view.setCurrentIndex(0) : view.setCurrentIndex(1)
+					}
+					TabBarButton {
+						name: "network-bluetooth"
+						icon_width: 32
+						icon_height: 32
+						show: view.currentIndex == 2
+						onClicked: view.currentIndex == 2 ? view.setCurrentIndex(0) : view.setCurrentIndex(2)
+					}
+					TabBarButton {
+						name: "window-new-symbolic"
+						icon_width: 32
+						icon_height: 32
+						show: view.currentIndex == 3
+						onClicked: view.currentIndex == 3 ? view.setCurrentIndex(0) : view.setCurrentIndex(3)
+					}
+				}
+				Item { Layout.fillWidth: true }
+				WindowActionWidget {
+					Layout.alignment: Qt.AlignRight
+
+				}
+			}
+			Rectangle {
+				Layout.fillWidth: true
+				Layout.preferredWidth: view.contentChildren.reduce((acc, el) => {
+					return Math.max(acc, el.implicitWidth)
+				}, 0) + 32
+				Layout.preferredHeight: view.implicitContentHeight + 32
+				color: "#202326"
+				radius: 8
+				topLeftRadius: view.currentIndex == 0 ? 0 : 8
+
+
+				SwipeView {
+					id: view
+					clip: true
+					anchors.fill: parent
+					anchors.margins: 16
+
 					RowLayout {
 						spacing: 16
 						BrightnessWidget {}
 						VolumeWidget {}
 					}
-					WindowActionWidget { Layout.alignment: Qt.AlignHCenter }
+					ColumnLayout {
+						spacing: 16
+						RowLayout {
+							spacing: 16
+							KeyboardLayoutWidget {}
+							InputPlumberWidget {}
+						}
+						PlayerWidget {}
+					}
+					BluetoothWidget {}
+					DesktopWidget {}
 				}
 			}
-			RectangularShadow {
-				anchors.fill: parent
-				z: -1
-				blur: 15
-				spread: 0
-				radius: 8
-				cached: true
-			}
+		}
+		RectangularShadow {
+			anchors.fill: parent
+			z: -1
+			blur: 15
+			spread: 0
+			radius: 8
+			cached: true
 		}
 	}
 }

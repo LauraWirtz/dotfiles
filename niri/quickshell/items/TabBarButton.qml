@@ -1,26 +1,27 @@
 import QtQuick
+import QtQuick.Controls.Basic
 
 Rectangle {
 	id:root
 
 	property bool show
 
-	property alias source: image.source
+	property alias name: button.icon.name
 
-	property alias icon_width: image.width
-	property alias icon_height: image.height
+	property alias icon_width: button.icon.width
+	property alias icon_height: button.icon.height
 	property real topPadding: 8
 	property real bottomPadding: 8
-	property real leftPadding: 12
-	property real rightPadding: 12
+	property real leftPadding: 24
+	property real rightPadding: 24
 
-	signal tapped
+	signal clicked
 
-	implicitWidth: image.width + leftPadding + rightPadding
-	height: image.height + topPadding + bottomPadding
+	width: icon_width + leftPadding + rightPadding
+	height: icon_height + topPadding + bottomPadding
 
-	topLeftRadius: 5
-	topRightRadius: 5
+	topLeftRadius: 8
+	topRightRadius: 8
 
 	color: "transparent"
 
@@ -36,19 +37,24 @@ Rectangle {
 		ColorAnimation { properties: "root.color"; easing.type: Easing.InOutQuad; duration: 150 }
 	}
 
-
-
-	Image {
-		id: image
-		x: leftPadding
-		y: topPadding
-		width: 32
-		height: 32
+	Item {
+		id: position
+		x: leftPadding + icon_width/2
+		y: topPadding + icon_height/2
 	}
 
-	TapHandler {
+	RoundButton {
+		anchors.horizontalCenter: position.horizontalCenter
+		anchors.verticalCenter: position.verticalCenter
+		id: button
+		padding: 0
+		background: {}
+
+	}
+
+	MouseArea {
 		id: handler
-		gesturePolicy: TapHandler.ReleaseWithinBounds
-		onTapped: root.tapped()
+		anchors.fill: parent
+		onClicked: root.clicked()
 	}
 }

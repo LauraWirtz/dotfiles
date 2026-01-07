@@ -8,13 +8,11 @@ import "../services"
 
 import QtQuick.Controls.Material
 
-Rectangle {
+Item {
 	id: root
-	color: "#202326"
-	radius: 8
 
 	Layout.fillWidth: true
-	Layout.preferredHeight: list.contentItem.childrenRect.height
+	implicitHeight: list.contentItem.childrenRect.height
 
 	property string show: ""
 	property var hide: []
@@ -32,7 +30,7 @@ Rectangle {
 		icon.height: 32
 		flat: true
 
-		text: customNames(modelData.name)
+		text: DesktopService.customNames(modelData.name)
 
 		onClicked: { Niri.spawn(modelData.command); Niri.closeOverview() }
 	}
@@ -42,15 +40,6 @@ Rectangle {
 			if(categories[entry] == term) return true
 		}
 		return false
-	}
-
-	function customNames(name): string {
-		switch(name) {
-			case "GNU Image Manipulation Program": return "GIMP";
-			case "Fcitx 5 Configuration": return "Fcitx5 Config";
-			case "TmForever": return "TmUnited";
-			default: return name;
-		}
 	}
 
 	GridView {
@@ -64,6 +53,7 @@ Rectangle {
 
 		cellWidth: width / 3
 		cellHeight: 56
+		implicitHeight: contentHeight
 		// contentWidth: width
 		// contentHeight: contentItem.childrenRect.height
 		// height: contentHeight
