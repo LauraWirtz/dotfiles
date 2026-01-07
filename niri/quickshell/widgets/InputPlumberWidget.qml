@@ -13,14 +13,17 @@ RowLayout {
 	spacing: 16
 
 	property var buttonsModel: [
-		{ name: "Steam + Touchpad", targets: [ "touchpad", "deck-uhid" ] },
-		{ name: "Steam Input", targets: [ "deck-uhid" ] },
-		{ name: "Controller", targets: [ "xb360" ] }
+		{ name: "Steam Only", icon: "input-touchpad-off", targets: [ "deck-uhid" ] },
+		{ name: "Steam Input", icon: "tablet", targets: [ "keyboard", "touchpad", "deck-uhid" ] },
+		{ name: "Controller", icon: "input-gamepad-symbolic", targets: [ "keyboard", "touchpad", "xb360" ] }
 	]
 
 	Repeater {
 		model: buttonsModel
 		Button {
+			icon.name: modelData.icon
+			icon.width: 24
+			icon.height: 24
 			id: delegate
 			text: modelData.name
 			onClicked: InputPlumber.setTargetDevices(modelData.targets)

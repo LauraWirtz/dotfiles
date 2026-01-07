@@ -43,7 +43,6 @@ Singleton {
 		command: ["busctl", "get-property", "--json=short", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "TargetDevices",]
 		stdout: SplitParser { onRead: rawData => {
 			targetPaths = JSON.parse(rawData).data
-			console.log(targetPaths)
 
 			targetStrings = []
 			resetTargetDeviceNameGetter()
@@ -59,7 +58,6 @@ Singleton {
 
 			targetStrings.push(data.data)
 			targetPaths.shift()
-			console.log(targetStrings)
 		} }
 		onRunningChanged: resetTargetDeviceNameGetter()
 	}
