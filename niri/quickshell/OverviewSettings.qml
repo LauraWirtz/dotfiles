@@ -99,7 +99,11 @@ PanelWindow {
 						onClicked: view.currentIndex == 3 ? view.setCurrentIndex(0) : view.setCurrentIndex(3)
 					}
 				}
-				Item { Layout.fillWidth: true }
+				MouseArea {
+					Layout.fillWidth: true
+					Layout.fillHeight: true
+					onClicked: view.setCurrentIndex(0)
+				}
 				WindowActionWidget {
 					Layout.alignment: Qt.AlignRight
 
@@ -137,7 +141,36 @@ PanelWindow {
 						PlayerWidget {}
 					}
 					BluetoothWidget {}
-					DesktopWidget {}
+					ColumnLayout {
+						Layout.fillWidth: true
+						spacing: 16
+						DesktopWidget {
+							Layout.fillWidth: true
+							model: [
+								DesktopService.byId("net.kuribo64.melonDS"),
+								DesktopService.byId("org.azahar_emu.Azahar"),
+								DesktopService.byId("dolphin-emu"),
+								DesktopService.byId("info.cemu.Cemu"),
+								DesktopService.byId("Ryujinx"),
+							]
+							columns: 5
+							alignment: Qt.AlignHCenter
+							display: AbstractButton.IconOnly
+							interactive: false
+							size: 64
+						}
+						DesktopWidget {
+							Layout.fillWidth: true
+							model: DesktopService.getFilteredEntries([
+								"net.kuribo64.melonDS",
+								"org.azahar_emu.Azahar",
+								"dolphin-emu",
+								"info.cemu.Cemu",
+								"Ryujinx",
+							])
+							columns: 3
+						}
+					}
 				}
 			}
 		}
@@ -147,7 +180,6 @@ PanelWindow {
 			blur: 15
 			spread: 0
 			radius: 8
-			cached: true
 		}
 	}
 }

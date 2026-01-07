@@ -10,6 +10,9 @@ Singleton {
 	readonly property var unsortedEntries: DesktopEntries.applications.values
 	property var sortedEntries: []
 
+	function byId(id) { return DesktopEntries.byId(id) }
+	function heuristicLookup(name) { return DesktopEntries.heuristicLookup(name) }
+
 	Component.onCompleted: createSortedEntries()
 
 	function searchCategories(categories, term): bool {
@@ -34,9 +37,12 @@ Singleton {
 		sortedEntries = Array.from(unsorted).sort((a, b) => customNames(a.name).localeCompare(customNames(b.name)))
 	}
 
-	function getEntriesWithGroup(group) {
+	function getFilteredEntries(ids) {
 		return sortedEntries.filter(el =>{
-			searchCategories(el.categories, group)
+			for(var i in ids) {
+				if(ids[i] == el.id) return false
+			}
+			return true
 		})
 	}
 

@@ -10,30 +10,46 @@ import QtQuick.Controls.Material
 
 Item {
 	id: root
+	Material.theme: Material.Dark
+	Material.accent: Material.Pink
 
-	Layout.fillWidth: true
 	implicitHeight: list.contentItem.childrenRect.height
 
-	property string show: ""
-	property var hide: []
+	property alias model: list.model
+	property alias flow: list.flow
+	property alias interactive: list.interactive
+	property int columns: 1
 
-	component DesktopEntryDelegate: Button {
-		id: button
-		padding: 0
+	property var display: AbstractButton.TextBesideIcon
+	property var alignment: Qt.AlignVCenter | Qt.AlignLeft
+	property int size: 32
 
-		font.pixelSize: 20
-		font.weight: 300
+	component DesktopEntryDelegate: RowLayout {
+		width: list.cellWidth
+		height: list.cellHeight
+		Button {
+			id: button
+			padding: 0
 
-		icon.name: modelData.icon
-		icon.color: "transparent"
-		icon.width: 32
-		icon.height: 32
-		flat: true
+			Layout.alignment: root.alignment
 
-		text: DesktopService.customNames(modelData.name)
+			font.pixelSize: 20
+			font.weight: 300
 
-		onClicked: { Niri.spawn(modelData.command); Niri.closeOverview() }
+			icon.name: modelData.icon
+			icon.color: "transparent"
+			icon.width: root.size
+			icon.height: root.size
+			flat: true
+			display: root.display
+
+			text: DesktopService.customNames(modelData.name)
+
+			onClicked: { Niri.spawn(modelData.command); Niri.closeOverview() }
+		}
+
 	}
+
 
 	function searchCategories(categories, term): bool {
 		for(var entry in categories) {
@@ -43,23 +59,16 @@ Item {
 	}
 
 	GridView {
-		Material.theme: Material.Dark
-		Material.accent: Material.Pink
 
 		id: list
 
 		anchors.fill: parent
-		// clip: true
+		clip: list.interactive
 
-		cellWidth: width / 3
-		cellHeight: 56
+		cellWidth: width / root.columns
+		cellHeight: root.size + 32
 		implicitHeight: contentHeight
-		// contentWidth: width
-		// contentHeight: contentItem.childrenRect.height
-		// height: contentHeight
-		interactive: false
 
-		model: DesktopService.sortedEntries
 		delegate: DesktopEntryDelegate {}
 	}
 }
