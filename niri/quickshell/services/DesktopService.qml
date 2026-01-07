@@ -31,7 +31,7 @@ Singleton {
 	function createSortedEntries() {
 		const unsorted = DesktopEntries.applications.values
 
-		sortedEntries = Array.from(unsorted).sort((a, b) => a.name.localeCompare(b.name))
+		sortedEntries = Array.from(unsorted).sort((a, b) => customNames(a.name).localeCompare(customNames(b.name)))
 	}
 
 	function getEntriesWithGroup(group) {
