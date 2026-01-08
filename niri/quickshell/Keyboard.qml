@@ -24,7 +24,7 @@ Scope {
 		}
 		WlrLayershell.layer: WlrLayer.Top
 
-		implicitHeight: 0
+		implicitHeight: 40
 	}
 
 	PanelWindow {
@@ -61,7 +61,7 @@ Scope {
 					when: KeyboardService.visible
 					PropertyChanges {keeb.anchors.bottomMargin: 40}
 					PropertyChanges {shadow.visible: true}
-					PropertyChanges {doot.implicitHeight: keeb.height}
+					PropertyChanges {doot.implicitHeight: keeb.height + 40}
 				}
 			]
 			transitions: [
@@ -125,12 +125,59 @@ Scope {
 						]
 
 						Text {
-							anchors.centerIn: parent
-							text: KeyboardService.isShift ? modelData.labelCaps : modelData.label
+							id: print1
+							anchors.verticalCenter: parent.verticalCenter
+							anchors.horizontalCenter: parent.horizontalCenter
+							text: modelData.label
 							font.pixelSize: 20
 							font.weight: 200
 							color: "white"
-
+							states: [
+								State {
+									name: "SHIFT"
+									when: modelData.labelCaps && KeyboardService.isShift
+									PropertyChanges {print1.opacity: 0}
+									AnchorChanges {
+										target: print1
+										anchors.verticalCenter: undefined
+										anchors.top: parent.top
+									}
+								}
+							]
+							transitions: [
+								Transition {
+									NumberAnimation { properties: "print1.opacity"; easing.type: Easing.InOutQuad; duration: 100 }
+									AnchorAnimation { duration: 100}
+								},
+							]
+						}
+						Text {
+							id: print2
+							anchors.bottom: parent.bottom
+							anchors.horizontalCenter: parent.horizontalCenter
+							text: modelData.labelCaps
+							font.pixelSize: 20
+							font.weight: 200
+							opacity: 0
+							color: "white"
+							states: [
+								State {
+									name: "SHIFT"
+									when: modelData.labelCaps && KeyboardService.isShift
+									PropertyChanges {print2.opacity: 1}
+									AnchorChanges {
+										target: print2
+										anchors.bottom: undefined
+										anchors.verticalCenter: parent.verticalCenter
+									}
+								}
+							]
+							transitions: [
+								Transition {
+									NumberAnimation { properties: "print2.opacity"; easing.type: Easing.InOutQuad; duration: 100 }
+									AnchorAnimation { duration: 100}
+								},
+							]
 						}
 						PointHandler {
 							id: cap
