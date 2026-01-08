@@ -56,13 +56,13 @@ PanelWindow {
 				to: "VISIBLE"
 				SequentialAnimation{
 					PropertyAction { target: shadow; property: "visible"; value: true }
-					NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 100 }
 				}
 			},
 			Transition {
 				from: "VISIBLE"
 				SequentialAnimation{
-					NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.InQuad; duration: 150 }
+					NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.InQuad; duration: 100 }
 					PropertyAction { target: shadow; property: "visible"; value: false }
 				}
 			},
@@ -79,6 +79,7 @@ PanelWindow {
 			Repeater {
 				model: KeyboardService.layout
 				Rectangle {
+					id: key
 					x: modelData.x * KeyboardService.scale + KeyboardService.padding
 					y: modelData.y * KeyboardService.scale + KeyboardService.padding
 					width: modelData.width * KeyboardService.scale - 2 * KeyboardService.padding
@@ -87,7 +88,24 @@ PanelWindow {
 					radius: KeyboardService.rounding
 					color: "#292c30"
 
-					// font.pixelSize: 0.75 * KeyboardService.scale
+					border.color: "#292c30"
+					border.width: 1
+
+					states: [
+						State {
+							name: "ACTIVE"
+							when: cap.active
+							PropertyChanges {key.border.color: "#e93a9a"}
+							PropertyChanges {key.color: "#462e40"}
+						}
+					]
+					transitions: [
+						Transition {
+							from: "ACTIVE"
+							ColorAnimation { properties: "key.border.color"; easing.type: Easing.OutQuad; duration: 100 }
+							ColorAnimation { properties: "key.color"; easing.type: Easing.OutQuad; duration: 100 }
+						},
+					]
 
 					Text {
 						anchors.centerIn: parent
@@ -96,6 +114,7 @@ PanelWindow {
 
 					}
 					PointHandler {
+						id: cap
 						onActiveChanged: {
 							exec.running = false
 							exec.command = KeyboardService.formKeypressCommand(modelData.key, active)

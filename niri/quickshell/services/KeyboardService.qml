@@ -77,11 +77,11 @@ Singleton {
 		{label: "win", labelCaps: "win", key: "KEY_LEFTMETA", x:1.25, y:4, width:1.25, height:1},
 		{label: "alt", labelCaps: "alt", key: "KEY_LEFTALT", x:2.5, y:4, width:1.25, height:1},
 		{label: "", labelCaps: "", key: "KEY_SPACE", x:3.75, y:4, width:6, height:1},
-		{label: "▤", labelCaps: "▤", key: "KEY_MENU", x:9.75, y:4, width:1.25, height:1},
-		{label: "←", labelCaps: "←", key: "KEY_LEFT", x:11, y:4, width:1, height:1},
-		{label: "↓", labelCaps: "↓", key: "KEY_DOWN", x:12, y:4, width:1, height:1},
-		{label: "↑", labelCaps: "↑", key: "KEY_UP", x:13, y:4, width:1, height:1},
-		{label: "→", labelCaps: "→", key: "KEY_RIGHT", x:14, y:4, width:1, height:1},
+		{label: "←", labelCaps: "←", key: "KEY_LEFT", x:9.75, y:4, width:1, height:1},
+		{label: "↓", labelCaps: "↓", key: "KEY_DOWN", x:10.75, y:4, width:1, height:1},
+		{label: "↑", labelCaps: "↑", key: "KEY_UP", x:11.75, y:4, width:1, height:1},
+		{label: "→", labelCaps: "→", key: "KEY_RIGHT", x:12.75, y:4, width:1, height:1},
+		{label: "ctrl", labelCaps: "ctrl", key: "KEY_RIGHTCTRL", x:13.75, y:4, width:1.25, height:1},
 	]
 
 	property bool visible: true
