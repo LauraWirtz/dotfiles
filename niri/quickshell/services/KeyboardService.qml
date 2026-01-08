@@ -92,6 +92,10 @@ Singleton {
 
 	signal updated()
 
+	function show() { root.visible = true }
+	function hide() { root.visible = false }
+	function toggle() { root.visible = !root.visible }
+
 	function formKeypressCommand(key, down) {
 		const command = ["busctl", "call", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/devices/target/keyboard0", "org.shadowblip.Input.Keyboard", "SendKey", "sb",]
 		command.push(key)

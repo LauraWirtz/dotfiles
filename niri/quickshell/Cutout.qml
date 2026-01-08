@@ -67,11 +67,11 @@ PanelWindow {
 			id: tapHandler
 			acceptedDevices: PointerDevice.TouchScreen
 			gesturePolicy: TapHandler.ReleaseWithinBounds
-			onTapped: KeyboardService.visible = !KeyboardService.visible
+			onTapped: KeyboardService.toggle()
 		}
 
 		GestureHandler {
-			function onUp() { Niri.openOverview() }
+			function onUp() { Niri.openOverview(); KeyboardService.hide() }
 			function onLeft() { Niri.focusColumnRight() }
 			function onRight() { Niri.focusColumnLeft() }
 		}
