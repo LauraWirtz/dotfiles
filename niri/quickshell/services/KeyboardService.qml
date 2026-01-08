@@ -11,11 +11,11 @@ import Quickshell.Wayland
 Singleton {
 	id: root
 
-	readonly property int scale: 60
+	readonly property int scale: 65
 	readonly property int padding: 3
 	readonly property int rounding: 4
 
-	property var layout: [
+	property list<var> layout: [
 		{label: "`", labelCaps: "~", key: "Key_Apostrophe", x:0, y:0, width:1, height:1},
 		{label: "1", labelCaps: "!", key: "KEY_1", x:1, y:0, width:1, height:1},
 		{label: "2", labelCaps: "@", key: "KEY_2", x:2, y:0, width:1, height:1},
@@ -60,7 +60,7 @@ Singleton {
 		{label: "'", labelCaps: '"', key: "KEY_APOSTROPHE", x:11.75, y:2, width:1, height:1},
 		{label: "↵", labelCaps: "↵", key: "KEY_ENTER", x:12.75, y:2, width:2.25, height:1},
 
-		{label: "⇧", labelCaps: "⇧", key: "KEY_LEFTSHIFT", x:0, y:3, width:2.25, height:1},
+		{label: "⇧", labelCaps: "⇧", key: "KEY_LEFTSHIFT", x:0, y:3, width:2.25, height:1, shift: true},
 		{label: "z", labelCaps: "Z", key: "KEY_Z", x:2.25, y:3, width:1, height:1},
 		{label: "x", labelCaps: "X", key: "KEY_X", x:3.25, y:3, width:1, height:1},
 		{label: "c", labelCaps: "C", key: "KEY_C", x:4.25, y:3, width:1, height:1},
@@ -71,7 +71,7 @@ Singleton {
 		{label: ",", labelCaps: "<", key: "KEY_COMMA", x:9.25, y:3, width:1, height:1},
 		{label: ".", labelCaps: ">", key: "KEY_DOT", x:10.25, y:3, width:1, height:1},
 		{label: "/", labelCaps: "?", key: "KEY_SLASH", x:11.25, y:3, width:1, height:1},
-		{label: "⇧", labelCaps: "⇧", key: "KEY_RIGHTSHIFT", x:12.25, y:3, width:2.75, height:1},
+		{label: "⇧", labelCaps: "⇧", key: "KEY_RIGHTSHIFT", x:12.25, y:3, width:2.75, height:1, shift: true},
 
 		{label: "ctrl", labelCaps: "ctrl", key: "KEY_LEFTCTRL", x:0, y:4, width:1.25, height:1},
 		{label: "win", labelCaps: "win", key: "KEY_LEFTMETA", x:1.25, y:4, width:1.25, height:1},
