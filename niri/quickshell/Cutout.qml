@@ -2,6 +2,7 @@
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Shapes
 import "./items"
@@ -58,8 +59,15 @@ PanelWindow {
 
 		TapHandler {
 			id: mouseHandler
+			acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
 			gesturePolicy: TapHandler.ReleaseWithinBounds
 			onTapped: Niri.toggleOverview()
+		}
+		TapHandler {
+			id: tapHandler
+			acceptedDevices: PointerDevice.TouchScreen
+			gesturePolicy: TapHandler.ReleaseWithinBounds
+			onTapped: KeyboardService.visible = !KeyboardService.visible
 		}
 
 		GestureHandler {
