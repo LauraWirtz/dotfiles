@@ -18,6 +18,7 @@ in {
 		".local/share/applications/systemsettings.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.fcitx5-migrator.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.fcitx5-config-qt.desktop".text = desktopHide;
+		".local/share/applications/fcitx5-configtool.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.Fcitx5.desktop".text = desktopHide;
 		".local/share/applications/org.kde.ark.desktop".text = desktopHide;
 		".local/share/applications/org.kde.kwrite.desktop".text = desktopHide;
@@ -26,8 +27,8 @@ in {
 	home.pointerCursor = {
 		gtk.enable = true;
 		x11.enable = true;
-		package = pkgs.rose-pine-cursor;
-		name = "BreezeX-RosePineDawn-Linux";
+		package = pkgs.kdePackages.breeze;
+		name = "Breeze_Light";
 		size = 24;
 	};
 	gtk = {
@@ -35,13 +36,8 @@ in {
 		colorScheme= "dark";
 		theme.name = "Breeze-Dark";
 		theme.package = pkgs.kdePackages.breeze-gtk;
-		iconTheme.name = "Breeze Dark";
+		iconTheme.name = "breeze-dark";
 		iconTheme.package = pkgs.kdePackages.breeze-icons;
-	};
-	qt = {
-		enable = true;
-		platformTheme.name = "kde";
-		style.name = "Breeze";
 	};
 
 	home.stateVersion = "25.05";

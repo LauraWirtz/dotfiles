@@ -40,19 +40,19 @@
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
 
-	systemd.user.services.wvkbd = {
-		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.wvkbd ];
-		serviceConfig = { Restart="always"; };
-		script = "${pkgs.wvkbd}/bin/wvkbd-deskintl --non-exclusive --hidden --fn \"Roboto Thin 24\" --bg 000000b0 --fg 000000b0 --fg-sp 000000b0 --text ffffffb0 --text-sp ffffffb0 --press e93a9ab0 --press-sp e93a9ab0";
-	};
-
 	systemd.user.services.plasma-polkit-agent = {
 		description = "KDE PolicyKit Authentication Agent";
 		wantedBy = [ "graphical-session.target" ];
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
 	};
+
+	qt = {
+		enable = true;
+		platformTheme = "kde";
+		style = "breeze";
+	};
+	environment.sessionVariables.XDG_CONFIG_DIRS = [ "$HOME/.config/kdedefaults" ];
 
 	environment.systemPackages = with pkgs; [
 		xwayland-satellite
@@ -63,5 +63,13 @@
 
 		polkit
 		kdePackages.polkit-kde-agent-1
+
+# 		kdePackages.kirigami
+# 		kdePackages.kirigami-addons
+# 		kdePackages.qqc2-breeze-style
+# 		kdePackages.qqc2-desktop-style
+		kdePackages.kde-gtk-config
+		kdePackages.libplasma
+		kdePackages.plasma-integration
 	];
 }

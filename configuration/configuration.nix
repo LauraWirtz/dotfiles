@@ -25,6 +25,8 @@
 	};
 	nix.settings.auto-optimise-store = true;
 
+	services.dbus.implementation = "broker";
+
 	programs.bash.shellAliases = {
 		e = "nano";
 		f = "ls -hAl --group-directories-first";
