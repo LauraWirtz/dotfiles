@@ -61,23 +61,23 @@ RowLayout {
 			stdout: SplitParser { onRead: rawData => {
 				const event = JSON.parse(rawData)
 				if(event.event_type == "state_applied") {
-					autoButton.enabled = event.period == "static"
+					autoButton.checked = event.period != "static"
 					slider.value = event.current_temp
 				} else if(event.event_type == "period_changed") {
-					autoButton.enabled = event.to_period == "static"
+					autoButton.checked = event.to_period != "static"
 				}
 			}}
 		}
 	}
 
-	Button {
+	CheckBox {
 		id: autoButton
 		icon.name: "clock"
 		icon.width: 24
 		icon.height: 24
-		text: "auto"
-		padding: 0
+		text: "Auto"
+		// padding: 0
 
-		onClicked: Niri.spawn([ "sunsetr", "set", "transition_mode=geo" ])
+		onClicked: Niri.spawn([ "sunsetr", "set", "transition_mode="+checked ? "geo" : "static" ])
 	}
 }
