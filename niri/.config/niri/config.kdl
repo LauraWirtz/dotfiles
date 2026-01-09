@@ -12,7 +12,7 @@ input {
 		click-method "button-areas"
 		scroll-method "edge"
 		accel-profile "adaptive"
-		accel-speed 0.5
+		accel-speed 0
 	}
 	mouse {
 		accel-profile "flat"
@@ -36,6 +36,13 @@ gestures {
 output "eDP-1" {
 	mode "2560x1600@60"
 	scale 2
+
+	layout {
+		preset-column-widths {
+			proportion 0.5
+			proportion 1.0
+		}
+	}
 }
 
 output "DP-1" {
@@ -52,6 +59,7 @@ output "HDMI-A-1" {
 layout {
 	gaps 20
 	center-focused-column "never"
+    empty-workspace-above-first
 
 	background-color "#00000000"
 
@@ -91,25 +99,26 @@ layout {
 	}
 
 	struts {
-        left -20
-        right -20
-        top -20
-        bottom -20
-    }
-}
-
-animations {
-	overview-open-close {
-		curve "cubic-bezier" 0.46 0.03 0.52 0.96
-		duration-ms 150
+		left -20
+		right -20
+		top -20
+		bottom -20
 	}
 }
 
-spawn-sh-at-startup "inputplumber device 0 targets set deck-uhid"
+overview {
+	zoom 0.333333333333333
+	workspace-shadow {
+		off
+	}
+}
+
+spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
+spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yaml"
 spawn-at-startup "quickshell" "-p" "/etc/nixos/niri/lockscreen/shell.qml"
-spawn-at-startup "/etc/nixos/niri/niri-event-listener.sh"
 spawn-at-startup "steam"
 spawn-at-startup "wpaperd" "-d"
+spawn-at-startup "sunsetr"
 
 hotkey-overlay {
 	skip-at-startup
@@ -119,14 +128,19 @@ hotkey-overlay {
 prefer-no-csd
 
 window-rule {
-	geometry-corner-radius 5
+	geometry-corner-radius 8
 	clip-to-geometry true
 	draw-border-with-background true
+//	open-maximized-to-edges true
 }
 window-rule {
 	match is-active=false
-	opacity 0.5
+	opacity 0.8
 	shadow{ off; }
+}
+window-rule {
+	match is-floating=true
+	shadow{ on; }
 }
 
 window-rule {
@@ -145,12 +159,6 @@ window-rule {
 }
 
 window-rule {
-	match app-id="better_control.py"
-	open-floating true
-	open-focused true
-}
-
-window-rule {
 	match app-id="gamescope"
 	match app-id="net.kuribo64.melonDS"
 	match app-id="steam_app_1627610"
@@ -166,7 +174,6 @@ layer-rule {
 }
 
 layer-rule {
-	match namespace="nwg-drawer"
 	match namespace="wvkbd"
 	shadow { on; }
 }

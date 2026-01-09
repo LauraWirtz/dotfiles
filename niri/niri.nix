@@ -35,7 +35,7 @@
 
 	systemd.user.services.quickshell = {
 		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus ];
+		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr ];
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
@@ -58,7 +58,7 @@
 		xwayland-satellite
 		quickshell
 		wpaperd
-		wvkbd
+		sunsetr
 		brightnessctl
 
 		polkit

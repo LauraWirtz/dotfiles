@@ -34,6 +34,7 @@ RowLayout {
 			icon.width: 32
 			icon.height: 32
 			padding: 0
+			flat: true
 
 			onClicked: modelData.command()
 		}

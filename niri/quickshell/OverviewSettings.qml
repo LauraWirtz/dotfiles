@@ -42,7 +42,7 @@ PanelWindow {
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {window.y: 40}
+				PropertyChanges {window.y: 16}
 			},
 			State {
 				name: "NOVERVIEW"
@@ -71,7 +71,7 @@ PanelWindow {
 					Layout.leftMargin: 0
 					spacing: 0
 					TabBarButton {
-						name: "configure"
+						name: "go-home-symbolic"
 						icon_width: 32
 						icon_height: 32
 						show: view.currentIndex == 0
@@ -104,9 +104,14 @@ PanelWindow {
 					Layout.fillHeight: true
 					onClicked: view.setCurrentIndex(0)
 				}
-				WindowActionWidget {
+				RoundButton {
 					Layout.alignment: Qt.AlignRight
 
+					icon.name: "window-close"
+					icon.width: 32
+					icon.height: 32
+
+					onClicked: Niri.closeOverview()
 				}
 			}
 			Rectangle {
@@ -119,7 +124,6 @@ PanelWindow {
 				radius: 8
 				topLeftRadius: view.currentIndex == 0 ? 0 : 8
 
-
 				SwipeView {
 					id: view
 					clip: true
@@ -128,11 +132,16 @@ PanelWindow {
 
 					RowLayout {
 						spacing: 16
-						BrightnessWidget {}
 						VolumeWidget {}
+						WindowActionWidget {}
 					}
 					ColumnLayout {
 						spacing: 16
+						RowLayout {
+							spacing: 16
+							BrightnessWidget {}
+							BluelightWidget {}
+						}
 						RowLayout {
 							spacing: 16
 							KeyboardLayoutWidget {}
