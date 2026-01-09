@@ -4,6 +4,7 @@
 
 	services.tlp = {
 		enable = true;
+		pd.enable = true;
 		settings = {
 			SOUND_POWER_SAVE_ON_AC=10;
 			SOUND_POWER_SAVE_ON_BAT=1;
@@ -38,6 +39,10 @@
 			CPU_ENERGY_PERF_POLICY_ON_BAT="power";
 			CPU_ENERGY_PERF_POLICY_ON_SAV="power";
 
+			PCIE_ASPM_ON_AC="default";
+			PCIE_ASPM_ON_BAT="powersupersave";
+			PCIE_ASPM_ON_SAV="powersupersave";
+
 			USB_EXCLUDE_AUDIO=0;
 		};
 	};
@@ -62,6 +67,8 @@
 	programs.gamescope.enable = true;
 	programs.steam.extest.enable = true;
 	services.inputplumber.enable = true;
+	programs.ydotool.enable = true;
+	programs.ydotool.group = "wheel";
 
 	environment.systemPackages = with pkgs; [
 		powertop
