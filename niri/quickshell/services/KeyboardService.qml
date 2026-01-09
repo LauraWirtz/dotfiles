@@ -60,7 +60,7 @@ Singleton {
 		{label: "'", labelCaps: '"', key: "KEY_APOSTROPHE", x:11.75, y:2, width:1, height:1},
 		{label: "↵", key: "KEY_ENTER", x:12.75, y:2, width:2.25, height:1},
 
-		{label: "⇧", key: "KEY_LEFTSHIFT", x:0, y:3, width:2.25, height:1, shift: true},
+		{label: "⇧", key: "KEY_LEFTSHIFT", x:0, y:3, width:2.25, height:1, exec: value => KeyboardService.setShiftL(value)},
 		{label: "z", labelCaps: "Z", key: "KEY_Z", x:2.25, y:3, width:1, height:1},
 		{label: "x", labelCaps: "X", key: "KEY_X", x:3.25, y:3, width:1, height:1},
 		{label: "c", labelCaps: "C", key: "KEY_C", x:4.25, y:3, width:1, height:1},
@@ -71,7 +71,7 @@ Singleton {
 		{label: ",", labelCaps: "<", key: "KEY_COMMA", x:9.25, y:3, width:1, height:1},
 		{label: ".", labelCaps: ">", key: "KEY_DOT", x:10.25, y:3, width:1, height:1},
 		{label: "/", labelCaps: "?", key: "KEY_SLASH", x:11.25, y:3, width:1, height:1},
-		{label: "⇧", key: "KEY_RIGHTSHIFT", x:12.25, y:3, width:2.75, height:1, shift: true},
+		{label: "⇧", key: "KEY_RIGHTSHIFT", x:12.25, y:3, width:2.75, height:1, exec: value => KeyboardService.setShiftR(value)},
 
 		{label: "ctrl", key: "KEY_LEFTCTRL", x:0, y:4, width:1.25, height:1},
 		{label: "win", key: "KEY_LEFTMETA", x:1.25, y:4, width:1.25, height:1},
@@ -87,6 +87,9 @@ Singleton {
 	property bool visible: true
 
 	property bool isShift: false
+	property bool isShiftL: false
+	property bool isShiftR: false
+
 	property bool isCaps: false
 
 
@@ -95,6 +98,15 @@ Singleton {
 	function show() { root.visible = true }
 	function hide() { root.visible = false }
 	function toggle() { root.visible = !root.visible }
+
+	function setShiftL(value) {
+		isShiftL = value
+		isShift = isShiftL || isShiftR
+	}
+	function setShiftR(value) {
+		isShiftR = value
+		isShift = isShiftL || isShiftR
+	}
 
 	function formKeypressCommand(key, down) {
 		const command = ["busctl", "call", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/devices/target/keyboard0", "org.shadowblip.Input.Keyboard", "SendKey", "sb",]

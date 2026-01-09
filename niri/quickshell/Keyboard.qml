@@ -182,7 +182,7 @@ Scope {
 						PointHandler {
 							id: cap
 							onActiveChanged: {
-								if(modelData.shift) KeyboardService.isShift = active
+								if(modelData.exec) modelData.exec(active)
 								exec.running = false
 								exec.command = KeyboardService.formKeypressCommand(modelData.key, active)
 								exec.running = true
