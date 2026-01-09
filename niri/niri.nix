@@ -39,6 +39,12 @@
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
+	systemd.user.services.qs-keyboard = {
+		wantedBy = [ "graphical-session.target" ];
+		path = [ pkgs.quickshell pkgs.dbus ];
+		serviceConfig = { Restart="always"; };
+		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/keyboard/shell.qml";
+	};
 
 	systemd.user.services.plasma-polkit-agent = {
 		description = "KDE PolicyKit Authentication Agent";
