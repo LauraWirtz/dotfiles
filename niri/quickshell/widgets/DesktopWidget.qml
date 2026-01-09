@@ -50,12 +50,12 @@ Item {
 
 	}
 
+	Connections {
+		target: DesktopService
 
-	function searchCategories(categories, term): bool {
-		for(var entry in categories) {
-			if(categories[entry] == term) return true
+		function onUpdated() {
+			list.model = root.model
 		}
-		return false
 	}
 
 	GridView {

@@ -263,6 +263,9 @@ Singleton {
 	function fullscreenWindow() {
 		return send({"Action": {"FullscreenWindow": {}}})
 	}
+	function maximizeWindowToEdges() {
+		return send({"Action": {"MaximizeWindowToEdges": {}}})
+	}
 
 	function toggleWindowFloating() {
 		return send({"Action": {"ToggleWindowFloating": {}}})

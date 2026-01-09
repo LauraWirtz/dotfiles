@@ -15,6 +15,7 @@ Singleton {
 	readonly property string dBusCompDeviceInterfacePath: "org.shadowblip.Input.CompositeDevice"
 	readonly property string dBusCompDevicePath: "/org/shadowblip/InputPlumber/CompositeDevice0"
 
+	property string profile: ""
 	property var targetPaths: []
 	property var targetStrings: []
 
@@ -46,8 +47,19 @@ Singleton {
 
 			targetStrings = []
 			resetTargetDeviceNameGetter()
+			profileGetter.running = true
 		} }
 	}
+
+	Process {
+		id: profileGetter
+		running: false
+		command: ["busctl", "get-property", "--json=short", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "ProfileName",]
+		stdout: SplitParser { onRead: rawData => {
+			root.profile = JSON.parse(rawData).data
+		} }
+	}
+
 
 	Process {
 		id: targetDeviceNameGetter
@@ -82,7 +94,23 @@ Singleton {
 	}
 	Process {
 		id: targetDeviceSetter
-		running: true
+		running: false
+		command: []
+		stdout: SplitParser { onRead: data => console.log(data) }
+	}
+
+
+	function setProfile(name) {
+		const command = [ "busctl", "call", "org.shadowblip.InputPlumber", "/org/shadowblip/InputPlumber/CompositeDevice0", "org.shadowblip.Input.CompositeDevice", "LoadProfilePath", "s" ]
+		command.push("/etc/nixos/niri/inputplumber/"+name+".yaml")
+
+		profileSetter.running= false
+		profileSetter.command= command
+		profileSetter.running= true
+	}
+	Process {
+		id: profileSetter
+		running: false
 		command: []
 		stdout: SplitParser { onRead: data => console.log(data) }
 	}

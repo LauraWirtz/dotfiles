@@ -51,7 +51,7 @@ ColumnLayout {
 			color: model.connected ? "white" : "#9E9E9E"
 			textFormat: Text.PlainText
 
-			text: model.name+" ("+model.address+")"
+			text: model.name || model.address
 		}
 		Button {
 			Layout.alignment: Qt.AlignRight
@@ -60,7 +60,7 @@ ColumnLayout {
 
 			text: "Connect"
 			flat: true
-			enabled: !model.connected
+			enabled: !model.connected && Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 
 			onClicked: connect()
 		}
@@ -106,7 +106,7 @@ ColumnLayout {
 	}
 
 	RowLayout {
-		CheckBox {
+		Switch {
 			text: "Enable"
 			checked: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled ||
@@ -119,7 +119,7 @@ ColumnLayout {
 				}
 			}
 		}
-		CheckBox {
+		Switch {
 			text: "Scan"
 			checked: Bluetooth.defaultAdapter.discovering
 			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
@@ -137,12 +137,11 @@ ColumnLayout {
 		// Layout.fillHeight: true
 		Layout.preferredWidth: contentItem.childrenRect.width
 		Layout.preferredHeight: contentItem.childrenRect.height
-		// clip: true
+		clip: true
 
 		contentWidth: width
 		contentHeight: height
-		interactive: false
-		// spacing: -8
+		spacing: -8
 		topMargin: 0
 		bottomMargin: 0
 

@@ -13,9 +13,10 @@ RowLayout {
 	spacing: 16
 
 	property var buttonsModel: [
-		{ name: "Steam Only", icon: "input-touchpad-off", targets: [ "deck-uhid" ] },
-		{ name: "Steam Input", icon: "tablet", targets: [ "keyboard", "touchpad", "deck-uhid" ] },
-		{ name: "Controller", icon: "input-gamepad-symbolic", targets: [ "keyboard", "touchpad", "xb360" ] }
+		{ name: "Mouse + Keeb", icon: "input-keyboard-virtual", targets: [ "touchpad", "mouse", "keyboard"], profile: "mkb" },
+		{ name: "Steam Input", icon: "steam_tray_mono", targets: [ "deck-uhid" ], profile: "default" },
+		// { name: "Steam Input", icon: "tablet", targets: [ "keyboard", "touchpad", "deck-uhid" ], profile: "default" },
+		{ name: "Controller", icon: "input-gamepad-symbolic", targets: [ "keyboard", "touchpad", "xb360" ], profile: "default" }
 	]
 
 	Repeater {
@@ -24,14 +25,18 @@ RowLayout {
 			icon.name: modelData.icon
 			icon.width: 24
 			icon.height: 24
+			icon.color: "transparent"
 			id: delegate
 			text: modelData.name
-			onClicked: InputPlumber.setTargetDevices(modelData.targets)
+			onClicked: {
+				InputPlumber.setTargetDevices(modelData.targets)
+				InputPlumber.setProfile(modelData.profile)
+			}
 
 			Connections {
 				target: InputPlumber
 				function onUpdated() {
-					delegate.enabled = !checkArrayEquality(InputPlumber.targetStrings, modelData.targets)
+					delegate.enabled = !checkArrayEquality(InputPlumber.targetStrings, modelData.targets) || modelData.profile != InputPlumber.profile
 				}
 			}
 		}

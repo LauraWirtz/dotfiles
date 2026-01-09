@@ -10,6 +10,8 @@ Item {
 	function onLeft() {}
 	function onRight() {}
 
+	property alias grabPermissions: dragHandler.grabPermissions
+
 	states: [
 		State {
 			name: "STANDBY"

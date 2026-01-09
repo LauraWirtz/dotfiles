@@ -13,7 +13,9 @@ Singleton {
 	function byId(id) { return DesktopEntries.byId(id) }
 	function heuristicLookup(name) { return DesktopEntries.heuristicLookup(name) }
 
-	Component.onCompleted: createSortedEntries()
+	Component.onCompleted: {createSortedEntries(); updated()}
+
+	signal updated()
 
 	function searchCategories(categories, term): bool {
 		for(var entry in categories) {
@@ -51,6 +53,7 @@ Singleton {
 
 		function onApplicationsChanged() {
 			createSortedEntries()
+			root.updated()
 		}
 	}
 }
