@@ -10,12 +10,12 @@ import Quickshell.Io
 Singleton {
 	id: root
 
-	readonly property int scale: 65
+	readonly property int scale: 60
 	readonly property int padding: 3
 	readonly property int rounding: 4
 
 	property list<var> layout: [
-		{label: "`", labelCaps: "~", key: "40", x:0, y:0, width:1, height:1},
+		{label: "`", labelCaps: "~", key: "41", x:0, y:0, width:1, height:1},
 		{label: "1", labelCaps: "!", key: "02", x:1, y:0, width:1, height:1},
 		{label: "2", labelCaps: "@", key: "03", x:2, y:0, width:1, height:1},
 		{label: "3", labelCaps: "#", key: "04", x:3, y:0, width:1, height:1},
@@ -43,7 +43,7 @@ Singleton {
 		{label: "p", labelCaps: "P", key: "25", x:10.5, y:1, width:1, height:1},
 		{label: "[", labelCaps: "{", key: "26", x:11.5, y:1, width:1, height:1},
 		{label: "]", labelCaps: "}", key: "27", x:12.5, y:1, width:1, height:1},
-		{label: "\\", labelCaps: "|", key: "28", x:13.5, y:1, width:1.5, height:1},
+		{label: "\\", labelCaps: "|", key: "43", x:13.5, y:1, width:1.5, height:1},
 
 		{label: "esc", key: "01", x:0, y:2, width:1.75, height:1},
 		{label: "a", labelCaps: "A", key: "30", x:1.75, y:2, width:1, height:1},
@@ -116,7 +116,10 @@ Singleton {
 
 	function formKeypressCommand(key, down) {
 		const command = ["ydotool", "key", `${key}:${down ? "1" : "0"}`,]
-		console.log(key, down, command)
+		return command
+	}
+	function formMouseclickCommand(key, down) {
+		const command = ["ydotool", "click", `0x${down ? "4" : "8"}${key}`,]
 		return command
 	}
 

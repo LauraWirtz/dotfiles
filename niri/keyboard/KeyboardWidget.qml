@@ -45,7 +45,7 @@ Rectangle {
 				states: [
 					State {
 						name: "ACTIVE"
-						when: cap.active
+						when: cap.pressed
 						PropertyChanges {key.border.color: "#e93a9a"}
 						PropertyChanges {key.color: "#462e40"}
 					}
@@ -69,7 +69,7 @@ Rectangle {
 					states: [
 						State {
 							name: "SHIFT"
-							when: modelData.labelCaps && KeyboardService.isShift
+							when: modelData.labelCaps != undefined && KeyboardService.isShift
 							PropertyChanges {print1.opacity: 0}
 							AnchorChanges {
 								target: print1
@@ -113,12 +113,14 @@ Rectangle {
 						},
 					]
 				}
-				PointHandler {
+				TapHandler {
 					id: cap
-					onActiveChanged: {
-						if(modelData.exec) modelData.exec(active)
+					margin: KeyboardService.padding
+					grabPermissions: PointerHandler.ApprovesTakeOverByAnything
+					onPressedChanged: {
+						if(modelData.exec) modelData.exec(pressed)
 						gateronMelodic.running = false
-						gateronMelodic.command = KeyboardService.formKeypressCommand(modelData.key, active)
+						gateronMelodic.command = KeyboardService.formKeypressCommand(modelData.key, pressed)
 						gateronMelodic.running = true
 					}
 				}
@@ -126,6 +128,11 @@ Rectangle {
 					id: gateronMelodic
 					running: false
 					stdout: SplitParser { onRead: data => console.log(data) }
+				}
+				Component.onCompleted: {
+					gateronMelodic.running = false
+					gateronMelodic.command = KeyboardService.formKeypressCommand(modelData.key, false)
+					gateronMelodic.running = true
 				}
 			}
 		}

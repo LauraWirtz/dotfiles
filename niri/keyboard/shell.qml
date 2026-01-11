@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import QtQuick.Controls.Basic
 Scope {
@@ -36,7 +37,7 @@ Scope {
 		exclusionMode: ExclusionMode.Ignore
 		WlrLayershell.layer: WlrLayer.Overlay
 
-		mask: Region { item: keeb }
+		mask: Region { x:0; y: keeb.y; width: root.width; height: keeb.height; }
 
 		KeyboardWidget {
 			id: keeb
@@ -53,6 +54,7 @@ Scope {
 					when: KeyboardService.visible
 					PropertyChanges {keeb.anchors.bottomMargin: 40}
 					PropertyChanges {keeb.visible: true}
+					PropertyChanges {touchpad.visible: true}
 					PropertyChanges {doot.implicitHeight: keeb.height + 40}
 				}
 			]
@@ -76,6 +78,23 @@ Scope {
 					}
 				},
 			]
+		}
+		MouseMoveWidget {
+			id:touchpad
+			anchors.top: keeb.top
+			anchors.right: parent.right
+		}
+		MouseButtonWidget {
+			id: leftclick
+			anchors.top: keeb.top
+			anchors.left: parent.left
+			click: "0"
+		}
+		MouseButtonWidget {
+			id: rightclick
+			anchors.top: keeb.top
+			anchors.left: leftclick.right
+			click: "1"
 		}
 	}
 }
