@@ -85,33 +85,40 @@ Rectangle {
 						},
 					]
 				}
-				Text {
-					id: print2
-					anchors.bottom: parent.bottom
-					anchors.horizontalCenter: parent.horizontalCenter
-					text: modelData.labelCaps
-					font.pixelSize: 20
-					font.weight: 200
-					opacity: 0
-					color: "white"
-					states: [
-						State {
-							name: "SHIFT"
-							when: modelData.labelCaps && KeyboardService.isShift
-							PropertyChanges {print2.opacity: 1}
-							AnchorChanges {
-								target: print2
-								anchors.bottom: undefined
-								anchors.verticalCenter: parent.verticalCenter
-							}
+				Loader{
+					anchors.fill: parent
+					active: modelData.labelCaps != undefined
+					sourceComponent: Item {
+						anchors.fill: parent
+						Text {
+							id: print2
+							anchors.bottom: parent.bottom
+							anchors.horizontalCenter: parent.horizontalCenter
+							text: modelData.labelCaps
+							font.pixelSize: 20
+							font.weight: 200
+							opacity: 0
+							color: "white"
+							states: [
+								State {
+									name: "SHIFT"
+									when: KeyboardService.isShift
+									PropertyChanges {print2.opacity: 1}
+									AnchorChanges {
+										target: print2
+										anchors.bottom: undefined
+										anchors.verticalCenter: parent.verticalCenter
+									}
+								}
+							]
+							transitions: [
+								Transition {
+									NumberAnimation { properties: "print2.opacity"; easing.type: Easing.InOutQuad; duration: 100 }
+									AnchorAnimation { duration: 100}
+								},
+							]
 						}
-					]
-					transitions: [
-						Transition {
-							NumberAnimation { properties: "print2.opacity"; easing.type: Easing.InOutQuad; duration: 100 }
-							AnchorAnimation { duration: 100}
-						},
-					]
+					}
 				}
 				TapHandler {
 					id: cap
@@ -127,7 +134,6 @@ Rectangle {
 				Process {
 					id: gateronMelodic
 					running: false
-					stdout: SplitParser { onRead: data => console.log(data) }
 				}
 				Component.onCompleted: {
 					gateronMelodic.running = false

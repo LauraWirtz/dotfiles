@@ -10,37 +10,33 @@ import QtQuick.Effects
 import QtQuick.Controls.Basic
 
 
-Rectangle {
-	id: root
-
-	width: 3 * KeyboardService.scale + 2*KeyboardService.padding
-	height: 3 * KeyboardService.scale + 2* KeyboardService.padding
-
-	radius: KeyboardService.rounding + 2*KeyboardService.padding
-	color: "#202326"
-
-	readonly property alias active: sensor.active
-	property bool handlerLoop: false
-
-	readonly property real bounds: root.width
-
-	readonly property real flickThreshold: 200
-	readonly property real flickFactor: 2
-	readonly property real flickDecel: 0.98
-
-	property real prevX: 0
-	property real prevY: 0
-	property real errorX: 0
-	property real errorY: 0
-	property real velocityX: 0
-	property real velocityY: 0
-
 	Rectangle {
-		id: relative
-		anchors.fill: parent
-		anchors.margins: 2 * KeyboardService.padding
+		id: root
+		// anchors.fill: parent
+		// anchors.margins: 2 * KeyboardService.padding
 
-		radius: width / 2
+		width: 5 * KeyboardService.scale - 2*KeyboardService.padding
+		height: 4 * KeyboardService.scale - 2* KeyboardService.padding
+
+		readonly property real boundX: root.width
+		readonly property real boundY: root.height
+		readonly property real dragFactor: 0.666
+
+		readonly property real flickThreshold: 200
+		readonly property real flickFactor: 1
+		readonly property real flickDecel: 0.98
+
+		property real prevX: 0
+		property real prevY: 0
+		property real errorX: 0
+		property real errorY: 0
+		property real velocityX: 0
+		property real velocityY: 0
+
+		readonly property alias active: sensor.active
+		property bool handlerLoop: false
+
+		radius: KeyboardService.rounding
 		color: "#292c30"
 
 		border.color: "#292c30"
@@ -50,20 +46,21 @@ Rectangle {
 			State {
 				name: "ACTIVE"
 				when: sensor.active
-				PropertyChanges {relative.border.color: "#e93a9a"}
-				PropertyChanges {relative.color: "#462e40"}
+				PropertyChanges {root.border.color: "#e93a9a"}
+				PropertyChanges {root.color: "#462e40"}
 			}
 		]
 		transitions: [
 			Transition {
 				from: "ACTIVE"
-				ColorAnimation { properties: "key.border.color"; easing.type: Easing.OutQuad; duration: 100 }
-				ColorAnimation { properties: "key.color"; easing.type: Easing.OutQuad; duration: 100 }
+				ColorAnimation { properties: "touchArea.border.color"; easing.type: Easing.OutQuad; duration: 100 }
+				ColorAnimation { properties: "touchArea.color"; easing.type: Easing.OutQuad; duration: 100 }
 			},
 		]
-	}
+
 	PointHandler {
 		id: sensor
+		acceptedDevices: PointerDevice.TouchScreen
 		onActiveChanged: { if(active) {
 			root.prevX = sensor.point.position.x
 			root.prevY = sensor.point.position.y
@@ -84,18 +81,10 @@ Rectangle {
 
 				const posX = sensor.point.position.x
 				const posY = sensor.point.position.y
-				const relX = posX - root.bounds / 2
-				const relY = posY - root.bounds / 2
-				const value = Math.sqrt( Math.pow(relX, 2) + Math.pow(relY, 2) )
 
-				if( value < root.bounds / 2) {
-					if( root.isRelInput ) {
-						root.isRelInput = false
-						root.prevX = sensor.point.position.x
-						root.prevY = sensor.point.position.y
-					}
-					const baseX = posX + root.errorX - root.prevX
-					const baseY = posY + root.errorY - root.prevY
+				if( 0 < posX && posX < root.boundX && 0 < posY && posY < root.boundY ) {
+					const baseX = (posX - root.prevX) * root.dragFactor + root.errorX
+					const baseY = (posY - root.prevY) * root.dragFactor + root.errorY
 
 					const commandX = Math.round(baseX)
 					root.errorX = baseX - commandX
@@ -135,14 +124,5 @@ Rectangle {
 	Process {
 		id: gateronMelodic
 		running: false
-	}
-
-	RectangularShadow {
-		id: shadow
-		anchors.fill: parent
-		z: -1
-		blur: 15
-		spread: 0
-		radius: parent.radius
 	}
 }

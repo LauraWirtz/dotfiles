@@ -42,8 +42,9 @@ Scope {
 		KeyboardWidget {
 			id: keeb
 
-			anchors.horizontalCenter: parent.horizontalCenter
+			anchors.left: parent.left
 			anchors.bottom: parent.bottom
+			anchors.leftMargin: 20
 			anchors.bottomMargin: -height
 
 			visible: false
@@ -79,22 +80,50 @@ Scope {
 				},
 			]
 		}
-		MouseMoveWidget {
-			id:touchpad
+		Rectangle {
+			id: touchpad
 			anchors.top: keeb.top
 			anchors.right: parent.right
-		}
-		MouseButtonWidget {
-			id: leftclick
-			anchors.top: keeb.top
-			anchors.left: parent.left
-			click: "0"
-		}
-		MouseButtonWidget {
-			id: rightclick
-			anchors.top: keeb.top
-			anchors.left: leftclick.right
-			click: "1"
+			anchors.rightMargin: 20
+
+			// width: 5 * KeyboardService.scale + 2*KeyboardService.padding
+			// height: 4 * KeyboardService.scale + 2* KeyboardService.padding
+
+			width: childrenRect.width + 2*KeyboardService.padding
+			height: childrenRect.height + 2* KeyboardService.padding
+
+			radius: KeyboardService.rounding + 2*KeyboardService.padding
+			color: "#202326"
+
+			MouseMoveWidget {
+				id:toucharea
+				anchors.top: parent.top
+				anchors.left: parent.left
+				anchors.margins: 2*KeyboardService.padding
+			}
+			MouseButtonWidget {
+				id: leftclick
+				anchors.top: toucharea.bottom
+				anchors.left: toucharea.left
+				anchors.topMargin: 2*KeyboardService.padding
+				click: "0"
+			}
+			MouseButtonWidget {
+				id: rightclick
+				anchors.top: toucharea.bottom
+				anchors.right: toucharea.right
+				anchors.topMargin: 2*KeyboardService.padding
+				click: "1"
+			}
+
+			RectangularShadow {
+				id: shadow
+				anchors.fill: parent
+				z: -1
+				blur: 15
+				spread: 0
+				radius: parent.radius
+			}
 		}
 	}
 }
