@@ -3,12 +3,13 @@ import QtQuick.Layouts
 import QtQuick.Controls.Fusion
 import Quickshell.Wayland
 
-Rectangle {
+Image {
 	id: root
 	required property LockContext context
 	readonly property ColorGroup colors: Window.active ? palette.active : palette.inactive
 
-	color: colors.window
+	source: "/etc/nixos/home/.config/wpaperd/background.png"
+	fillMode: Image.PreserveAspectCrop
 
 	ColumnLayout{
 		anchors {
