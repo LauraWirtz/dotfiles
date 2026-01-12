@@ -3,11 +3,8 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-
-import QtQuick.Controls.Basic
 Scope {
 	PanelWindow {
 		id:doot
@@ -53,7 +50,7 @@ Scope {
 				State {
 					name: "VISIBLE"
 					when: KeyboardService.visible
-					PropertyChanges {keeb.anchors.bottomMargin: 40}
+					PropertyChanges {keeb.anchors.bottomMargin: 20}
 					PropertyChanges {keeb.visible: true}
 					PropertyChanges {touchpad.visible: true}
 					PropertyChanges {doot.implicitHeight: keeb.height + 40}
@@ -79,15 +76,17 @@ Scope {
 					}
 				},
 			]
+
+			ArrowKeyWidget {
+				x: 12.75 * KeyboardService.scale + 2 * KeyboardService.padding
+				y: 4 * KeyboardService.scale + 2 * KeyboardService.padding
+			}
 		}
 		Rectangle {
 			id: touchpad
 			anchors.top: keeb.top
 			anchors.right: parent.right
 			anchors.rightMargin: 20
-
-			// width: 5 * KeyboardService.scale + 2*KeyboardService.padding
-			// height: 4 * KeyboardService.scale + 2* KeyboardService.padding
 
 			width: childrenRect.width + 2*KeyboardService.padding
 			height: childrenRect.height + 2* KeyboardService.padding

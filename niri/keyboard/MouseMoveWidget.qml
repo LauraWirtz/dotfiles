@@ -1,19 +1,11 @@
 // Bar.qml
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Effects
-
-import QtQuick.Controls.Basic
 
 
 	Rectangle {
 		id: root
-		// anchors.fill: parent
-		// anchors.margins: 2 * KeyboardService.padding
 
 		width: 5 * KeyboardService.scale - 2*KeyboardService.padding
 		height: 4 * KeyboardService.scale - 2* KeyboardService.padding
@@ -22,7 +14,7 @@ import QtQuick.Controls.Basic
 		readonly property real boundY: root.height
 		readonly property real dragFactor: 0.666
 
-		readonly property real flickThreshold: 200
+		readonly property real flickThreshold: 300
 		readonly property real flickFactor: 1
 		readonly property real flickDecel: 0.98
 
@@ -45,7 +37,7 @@ import QtQuick.Controls.Basic
 		states: [
 			State {
 				name: "ACTIVE"
-				when: sensor.active
+				when: false
 				PropertyChanges {root.border.color: "#e93a9a"}
 				PropertyChanges {root.color: "#462e40"}
 			}
