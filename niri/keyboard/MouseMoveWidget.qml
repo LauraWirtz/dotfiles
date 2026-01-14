@@ -14,8 +14,8 @@ import QtQuick
 		readonly property real boundY: root.height
 		readonly property real dragFactor: 0.666
 
-		readonly property real flickThreshold: 300
-		readonly property real flickFactor: 1
+		readonly property real flickThreshold: 200
+		readonly property real flickFactor: 0.666
 		readonly property real flickDecel: 0.98
 
 		property real prevX: 0
@@ -56,15 +56,12 @@ import QtQuick
 		onActiveChanged: { if(active) {
 			root.prevX = sensor.point.position.x
 			root.prevY = sensor.point.position.y
-			root.errorX = 0
-			root.errorY = 0
-			root.handlerLoop = true
-		}
-	} }
-	Timer {
-		interval: 7; running: root.handlerLoop; repeat: true
-		onTriggered: {if(!gateronMelodic.running) {
-			if(sensor.active){
+			root.handlerLoop = false
+		} else {
+
+		} }
+		onPointChanged: {
+			if(sensor.active) {
 				const velX = sensor.point.velocity.x
 				const velY = sensor.point.velocity.y
 				const velValue = Math.sqrt( Math.pow(velX, 2) + Math.pow(velY, 2) )
@@ -91,25 +88,35 @@ import QtQuick
 					gateronMelodic.running = true
 				}
 			} else {
-				if(Math.sqrt( Math.pow(root.velocityX, 2) + Math.pow(velocityY, 2) ) > 2) {
-					const baseX = root.velocityX * 0.007 * root.flickFactor + root.errorX
-					const baseY = root.velocityY * 0.007 * root.flickFactor + root.errorY
+				root.prevX = 0
+				root.prevY = 0
+				root.errorX = 0
+				root.errorY = 0
+				root.handlerLoop = true
+			}
+		}
+	}
+	Timer {
+		interval: 7; running: root.handlerLoop; repeat: true
+		onTriggered: {if(!gateronMelodic.running) {
+			if(Math.sqrt( Math.pow(root.velocityX, 2) + Math.pow(velocityY, 2) ) > 2) {
+				const baseX = root.velocityX * 0.007 * root.flickFactor + root.errorX
+				const baseY = root.velocityY * 0.007 * root.flickFactor + root.errorY
 
-					const commandX = Math.round(baseX)
-					root.errorX = baseX - commandX
+				const commandX = Math.round(baseX)
+				root.errorX = baseX - commandX
 
-					const commandY = Math.round(baseY)
-					root.errorY = baseY - commandY
+				const commandY = Math.round(baseY)
+				root.errorY = baseY - commandY
 
-					const command = [ "ydotool", "mousemove", "-x", `${commandX}`, "-y", `${commandY}`]
-					gateronMelodic.command = command
-					gateronMelodic.running = true
+				const command = [ "ydotool", "mousemove", "-x", `${commandX}`, "-y", `${commandY}`]
+				gateronMelodic.command = command
+				gateronMelodic.running = true
 
-					root.velocityX = root.velocityX * root.flickDecel
-					root.velocityY = root.velocityY * root.flickDecel
-				} else {
-					root.handlerLoop = false
-				}
+				root.velocityX = root.velocityX * root.flickDecel
+				root.velocityY = root.velocityY * root.flickDecel
+			} else {
+				root.handlerLoop = false
 			}
 		} }
 	}
