@@ -18,6 +18,7 @@ import QtQuick
 		readonly property real flickFactor: 0.666
 		readonly property real flickDecel: 0.98
 
+
 		property real prevX: 0
 		property real prevY: 0
 		property real errorX: 0
@@ -26,7 +27,15 @@ import QtQuick
 		property real velocityY: 0
 
 		readonly property alias active: sensor.active
-		property bool handlerLoop: false
+
+		property bool isScrollMode: false
+
+		readonly property real scrollDecel: 0.98
+		readonly property int scrollInterval: 40
+
+		property int scrollCountY: 0
+		property real scrollSum: 0
+
 
 		radius: KeyboardService.rounding
 		color: "#292c30"
@@ -56,50 +65,80 @@ import QtQuick
 		onActiveChanged: { if(active) {
 			root.prevX = sensor.point.position.x
 			root.prevY = sensor.point.position.y
-			root.handlerLoop = false
+			root.scrollCountY = Math.round(sensor.point.position.y / root.scrollInterval)
+			moveFlickLoop.running = false
+			scrollFlickLoop.running = false
+			root.isScrollMode = root.prevX > 4 * KeyboardService.scale
 		} else {
-
+			root.prevX = 0
+			root.prevY = 0
+			root.errorX = 0
+			root.errorY = 0
+			root.scrollSum = 0
+			root.scrollCountY = 0
+			if(root.isScrollMode) {
+				scrollFlickLoop.running = true
+			} else {
+				moveFlickLoop.running = true
+			}
 		} }
 		onPointChanged: {
 			if(sensor.active) {
-				const velX = sensor.point.velocity.x
-				const velY = sensor.point.velocity.y
-				const velValue = Math.sqrt( Math.pow(velX, 2) + Math.pow(velY, 2) )
-				root.velocityX = velValue > root.flickThreshold ? velX : 0
-				root.velocityY = velValue > root.flickThreshold ? velY : 0
-
-				const posX = sensor.point.position.x
-				const posY = sensor.point.position.y
-
-				if( 0 < posX && posX < root.boundX && 0 < posY && posY < root.boundY ) {
-					const baseX = (posX - root.prevX) * root.dragFactor + root.errorX
-					const baseY = (posY - root.prevY) * root.dragFactor + root.errorY
-
-					const commandX = Math.round(baseX)
-					root.errorX = baseX - commandX
-
-					const commandY = Math.round(baseY)
-					root.errorY = baseY - commandY
-
-					const command = [ "ydotool", "mousemove", "-x", `${commandX}`, "-y", `${commandY}`]
-					root.prevX = posX
-					root.prevY = posY
-					gateronMelodic.command = command
-					gateronMelodic.running = true
+				if(root.isScrollMode) {
+					handleActiveScroll()
+				} else {
+					handleActiveMove()
 				}
-			} else {
-				root.prevX = 0
-				root.prevY = 0
-				root.errorX = 0
-				root.errorY = 0
-				root.handlerLoop = true
 			}
+		}
+		function updateVelocity() {
+			const velX = sensor.point.velocity.x
+			const velY = sensor.point.velocity.y
+			const velValue = Math.sqrt( Math.pow(velX, 2) + Math.pow(velY, 2) )
+			root.velocityX = velValue > root.flickThreshold ? velX : 0
+			root.velocityY = velValue > root.flickThreshold ? velY : 0
+		}
+		function handleActiveMove() {
+			updateVelocity()
+
+			const posX = sensor.point.position.x
+			const posY = sensor.point.position.y
+
+			if( 0 < posX && posX < root.boundX && 0 < posY && posY < root.boundY ) {
+				const baseX = (posX - root.prevX) * root.dragFactor + root.errorX
+				const baseY = (posY - root.prevY) * root.dragFactor + root.errorY
+
+				const commandX = Math.round(baseX)
+				root.errorX = baseX - commandX
+
+				const commandY = Math.round(baseY)
+				root.errorY = baseY - commandY
+
+				const command = [ "ydotool", "mousemove", "-x", `${commandX}`, "-y", `${commandY}`]
+				root.prevX = posX
+				root.prevY = posY
+				runner.command = command
+				runner.running = true
+			}
+		}
+		function handleActiveScroll() {
+			updateVelocity()
+
+			const newCountY = Math.round(sensor.point.position.y / root.scrollInterval)
+
+			var command = [ "ydotool", "mousemove", "-w", "-x", "0", "-y", `${newCountY - root.scrollCountY}` ]
+
+			root.scrollCountY = newCountY
+
+			scroller.command = command
+			scroller.running = true
 		}
 	}
 	Timer {
-		interval: 7; running: root.handlerLoop; repeat: true
-		onTriggered: {if(!gateronMelodic.running) {
-			if(Math.sqrt( Math.pow(root.velocityX, 2) + Math.pow(velocityY, 2) ) > 2) {
+		id: moveFlickLoop
+		interval: 7; running: false; repeat: true
+		onTriggered: {if(!runner.running) {
+			if(Math.sqrt( Math.pow(root.velocityX, 2) + Math.pow(root.velocityY, 2) ) > 2) {
 				const baseX = root.velocityX * 0.007 * root.flickFactor + root.errorX
 				const baseY = root.velocityY * 0.007 * root.flickFactor + root.errorY
 
@@ -110,18 +149,43 @@ import QtQuick
 				root.errorY = baseY - commandY
 
 				const command = [ "ydotool", "mousemove", "-x", `${commandX}`, "-y", `${commandY}`]
-				gateronMelodic.command = command
-				gateronMelodic.running = true
+				runner.command = command
+				runner.running = true
 
 				root.velocityX = root.velocityX * root.flickDecel
 				root.velocityY = root.velocityY * root.flickDecel
 			} else {
-				root.handlerLoop = false
+				running = false
 			}
 		} }
 	}
 	Process {
-		id: gateronMelodic
+		id: runner
+		running: false
+	}
+	Timer {
+		id: scrollFlickLoop
+		interval: 7; running: false; repeat: true
+		onTriggered: {if(!scroller.running) {
+			if(Math.abs(root.velocityY) > 50) {
+				root.scrollSum += root.velocityY * 0.007
+				const newCountY = Math.round(root.scrollSum / root.scrollInterval)
+
+				var command = [ "ydotool", "mousemove", "-w", "-x", "0", "-y", `${newCountY- root.scrollCountY}` ]
+
+				root.scrollCountY = newCountY
+
+				scroller.command = command
+				scroller.running = true
+
+				root.velocityY = root.velocityY * root.scrollDecel
+			} else {
+				scrollFlickLoop.running = false
+			}
+		} }
+	}
+	Process {
+		id: scroller
 		running: false
 	}
 }
