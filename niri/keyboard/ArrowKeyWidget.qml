@@ -12,7 +12,7 @@ Rectangle {
 	width: 1 * KeyboardService.scale - 2*KeyboardService.padding
 	height: 1 * KeyboardService.scale - 2* KeyboardService.padding
 
-	readonly property int dragInterval: 12
+	readonly property int dragInterval: 20
 
 	property int countX: 0
 
@@ -60,7 +60,7 @@ Rectangle {
 		} else { root.handlerLoop = false}
 	} }
 	Timer {
-		interval: 7; running: root.handlerLoop; repeat: true
+		interval: 21; running: root.handlerLoop; repeat: true
 		onTriggered: {if(!runner.running) {
 			const newCountX = Math.round(sensor.point.position.x / root.dragInterval)
 

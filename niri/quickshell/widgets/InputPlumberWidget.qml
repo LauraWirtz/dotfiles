@@ -9,24 +9,24 @@ import QtQuick.Controls.Material
 RowLayout {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
-
-	spacing: 16
+	spacing: 4
 
 	property var buttonsModel: [
 		{ name: "Mouse + Keeb", icon: "input-keyboard-virtual", targets: [ "touchpad", "mouse", "keyboard"], profile: "mkb" },
-		{ name: "Steam Input", icon: "steam_tray_mono", targets: [ "deck-uhid" ], profile: "default" },
-		// { name: "Steam Input", icon: "tablet", targets: [ "keyboard", "touchpad", "deck-uhid" ], profile: "default" },
+		{ name: "Steam Input", icon: "steam_tray_mono", targets: [ "keyboard", "touchpad", "deck-uhid" ], profile: "default" },
 		{ name: "Controller", icon: "input-gamepad-symbolic", targets: [ "keyboard", "touchpad", "xb360" ], profile: "default" }
 	]
 
 	Repeater {
 		model: buttonsModel
 		Button {
+			id: delegate
+			Layout.fillWidth: true
+
 			icon.name: modelData.icon
 			icon.width: 24
 			icon.height: 24
 			icon.color: "transparent"
-			id: delegate
 			text: modelData.name
 			onClicked: {
 				InputPlumber.setTargetDevices(modelData.targets)
@@ -36,7 +36,7 @@ RowLayout {
 			Connections {
 				target: InputPlumber
 				function onUpdated() {
-					delegate.enabled = !checkArrayEquality(InputPlumber.targetStrings, modelData.targets) || modelData.profile != InputPlumber.profile
+					delegate.checked = checkArrayEquality(InputPlumber.targetStrings, modelData.targets) && modelData.profile == InputPlumber.profile
 				}
 			}
 		}

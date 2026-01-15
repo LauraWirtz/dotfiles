@@ -27,7 +27,7 @@ PanelWindow {
 	Shape {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 300
+		width: 240
 		height: 28
 		ShapePath {
 			strokeWidth: -1
@@ -39,11 +39,11 @@ PanelWindow {
 				control1X: 50; control1Y: 28
 				control2X: 50; control2Y: 0
 			}
-			PathLine { x: 220; y: 0 }
+			PathLine { x: 160; y: 0 }
 			PathCubic {
-				x: 300; y: 28
-				control1X: 250; control1Y: 0
-				control2X: 250; control2Y: 28
+				x: 240; y: 28
+				control1X: 190; control1Y: 0
+				control2X: 190; control2Y: 28
 			}
 		}
 	}
@@ -54,7 +54,7 @@ PanelWindow {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
 
-		width: 200
+		width: 160
 		height: 24
 
 		TapHandler {
@@ -80,8 +80,10 @@ PanelWindow {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: -4
+		spacing: 0
 
 		ClockWidget {}
+		Item { width: 8 }
 		BatteryWidget {}
 	}
 }

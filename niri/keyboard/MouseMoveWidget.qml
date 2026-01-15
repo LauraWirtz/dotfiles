@@ -7,7 +7,7 @@ import QtQuick
 	Rectangle {
 		id: root
 
-		width: 5 * KeyboardService.scale - 2*KeyboardService.padding
+		width: 6 * KeyboardService.scale - 2*KeyboardService.padding
 		height: 4 * KeyboardService.scale - 2* KeyboardService.padding
 
 		readonly property real boundX: root.width

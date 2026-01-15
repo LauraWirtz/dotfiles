@@ -145,7 +145,8 @@ PanelWindow {
 						RowLayout {
 							spacing: 16
 							KeyboardLayoutWidget {}
-							InputPlumberWidget {}
+							InputPlumberWidget { Layout.fillWidth: false }
+							TlpWidget {}
 						}
 						PlayerWidget {}
 					}
@@ -153,20 +154,30 @@ PanelWindow {
 					ColumnLayout {
 						Layout.fillWidth: true
 						spacing: 16
-						DesktopWidget {
+						Loader {
 							Layout.fillWidth: true
-							model: [
-								DesktopService.byId("net.kuribo64.melonDS"),
-								DesktopService.byId("org.azahar_emu.Azahar"),
-								DesktopService.byId("dolphin-emu"),
-								DesktopService.byId("info.cemu.Cemu"),
-								DesktopService.byId("Ryujinx"),
-							]
-							columns: 5
-							alignment: Qt.AlignHCenter
-							display: AbstractButton.IconOnly
-							interactive: false
-							size: 64
+							active: false
+							sourceComponent: Component {
+								DesktopWidget {
+									Layout.fillWidth: true
+									model: [
+										DesktopService.byId("net.kuribo64.melonDS"),
+										DesktopService.byId("org.azahar_emu.Azahar"),
+										DesktopService.byId("dolphin-emu"),
+										DesktopService.byId("info.cemu.Cemu"),
+										DesktopService.byId("Ryujinx"),
+									]
+									columns: 5
+									alignment: Qt.AlignHCenter
+									display: AbstractButton.IconOnly
+									interactive: false
+									size: 64
+								}
+							}
+							Timer {
+								interval: 3000; running: true; repeat: false
+								onTriggered: parent.active = true
+							}
 						}
 						DesktopWidget {
 							Layout.fillWidth: true

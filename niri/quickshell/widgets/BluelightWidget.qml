@@ -40,6 +40,7 @@ RowLayout {
 		from: 2500
 		to: 6500
 		stepSize: 1
+		live: false
 
 		onMoved: {
 			Niri.spawn([ "sunsetr", "set", "transition_mode=static" ])
@@ -61,16 +62,16 @@ RowLayout {
 			stdout: SplitParser { onRead: rawData => {
 				const event = JSON.parse(rawData)
 				if(event.event_type == "state_applied") {
-					autoButton.checked = event.period != "static"
+					autoButton.enabled = event.period == "static"
 					slider.value = event.current_temp
 				} else if(event.event_type == "period_changed") {
-					autoButton.checked = event.to_period != "static"
+					autoButton.enabled = event.to_period == "static"
 				}
 			}}
 		}
 	}
 
-	CheckBox {
+	Button {
 		id: autoButton
 		icon.name: "clock"
 		icon.width: 24
@@ -78,6 +79,6 @@ RowLayout {
 		text: "Auto"
 		// padding: 0
 
-		onClicked: Niri.spawn([ "sunsetr", "set", "transition_mode="+checked ? "geo" : "static" ])
+		onClicked: Niri.spawn([ "sunsetr", "set", "transition_mode=geo" ])
 	}
 }

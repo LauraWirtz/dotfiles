@@ -10,7 +10,7 @@ import Quickshell.Io
 Singleton {
 	id: root
 
-	readonly property int scale: 60
+	readonly property int scale: 50
 	readonly property int padding: 3
 	readonly property int rounding: 4
 
@@ -76,10 +76,10 @@ Singleton {
 		{label: "win", key: "125", x:1.25, y:4, width:1.25, height:1, active:false},
 		{label: "alt", key: "56", x:2.5, y:4, width:1.25, height:1, active:false},
 		{label: "", key: "57", x:3.75, y:4, width:6, height:1, active:false},
-		// {label: "←", key: "105", x:9.75, y:4, width:1, height:1, active:false},
+		{label: "←", key: "105", x:9.75, y:4, width:1, height:1, active:false},
 		{label: "↓", key: "108", x:10.75, y:4, width:1, height:1, active:false},
 		{label: "↑", key: "103", x:11.75, y:4, width:1, height:1, active:false},
-		// {label: "→", key: "106", x:12.75, y:4, width:1, height:1, active:false},
+		{label: "→", key: "106", x:12.75, y:4, width:1, height:1, active:false},
 		{label: "ctrl", key: "97", x:13.75, y:4, width:1.25, height:1, active:false},
 	]
 

@@ -3,7 +3,7 @@ pragma Singleton
 
 import Quickshell
 import QtQuick
-import Quickshell.Services.UPower
+import Quickshell.Io
 
 Singleton {
   id: root
@@ -12,15 +12,19 @@ Singleton {
 	property bool charging
 	property string timeRemaining
 
-	Component.onCompleted: update()
+	Timer {
+		interval: 10000; running: true; repeat: true
+		onTriggered: {
+			interval = 10000 + 50 * root.percentage
+			runner.running = true
+		}
+	}
 
-	Connections {
-		target: UPower.displayDevice
-
-		function onPercentageChanged(): void { update() }
-		function onTimeToEmptyChanged(): void { update() }
-		function onTimeToFullChanged(): void { update() }
-
+	Process {
+		id: runner
+		running: true
+		command: [ "busctl", "get-property", "--system", "org.freedesktop.UPower", "/org/freedesktop/UPower/devices/DisplayDevice", "org.freedesktop.UPower.Device", "Percentage" ]
+		stdout: SplitParser { onRead: data => root.percentage = data.match(/\d+/) }
 	}
 
 	function update(): void {

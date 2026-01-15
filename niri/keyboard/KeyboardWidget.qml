@@ -29,34 +29,45 @@ Rectangle {
 
 		Repeater {
 			model: KeyboardService.layout
-			Rectangle {
+			Button {
 				id: key
 				x: modelData.x * KeyboardService.scale + KeyboardService.padding
 				y: modelData.y * KeyboardService.scale + KeyboardService.padding
 				width: modelData.width * KeyboardService.scale - 2 * KeyboardService.padding
 				height: modelData.height * KeyboardService.scale - 2 * KeyboardService.padding
 
-				radius: KeyboardService.rounding
-				color: "#292c30"
+				background: Rectangle {
+					id: background
+					radius: KeyboardService.rounding
+					color: "#292c30"
 
-				border.color: "#292c30"
-				border.width: 1
+					border.color: "#292c30"
+					border.width: 1
+
+				}
 
 				states: [
 					State {
 						name: "ACTIVE"
-						when: cap.pressed
-						PropertyChanges {key.border.color: "#e93a9a"}
-						PropertyChanges {key.color: "#462e40"}
+						when: key.pressed
+						PropertyChanges {background.border.color: "#e93a9a"}
+						PropertyChanges {background.color: "#462e40"}
 					}
 				]
 				transitions: [
 					Transition {
 						from: "ACTIVE"
-						ColorAnimation { properties: "key.border.color"; easing.type: Easing.OutQuad; duration: 100 }
-						ColorAnimation { properties: "key.color"; easing.type: Easing.OutQuad; duration: 100 }
+						ColorAnimation { properties: "background.border.color"; easing.type: Easing.OutQuad; duration: 100 }
+						ColorAnimation { properties: "background.color"; easing.type: Easing.OutQuad; duration: 100 }
 					},
 				]
+
+				onPressedChanged: {
+					if(modelData.exec) modelData.exec(pressed)
+						gateronMelodic.running = false
+						gateronMelodic.command = KeyboardService.formKeypressCommand(modelData.key, pressed)
+						gateronMelodic.running = true
+				}
 
 				Text {
 					id: print1
@@ -118,17 +129,6 @@ Rectangle {
 								},
 							]
 						}
-					}
-				}
-				TapHandler {
-					id: cap
-					margin: KeyboardService.padding
-					grabPermissions: PointerHandler.ApprovesTakeOverByAnything
-					onPressedChanged: {
-						if(modelData.exec) modelData.exec(pressed)
-						gateronMelodic.running = false
-						gateronMelodic.command = KeyboardService.formKeypressCommand(modelData.key, pressed)
-						gateronMelodic.running = true
 					}
 				}
 				Process {
