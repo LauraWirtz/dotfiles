@@ -55,7 +55,6 @@
 	environment.systemPackages = with pkgs; [
 		blender-hip
 		clinfo
-		gammastep
 		lact
 		qpwgraph
 		xorg.xrandr

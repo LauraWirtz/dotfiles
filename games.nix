@@ -3,10 +3,11 @@
 	programs.steam.enable = true;
 	programs.gamescope.enable = true;
 	environment.systemPackages = with pkgs; [
-		dolphin-emu
+		azahar
 		cemu
-		ryubing
-		melonDS
+		dolphin-emu
 		gnome-mines
+		melonDS
+		ryubing
 	];
 }

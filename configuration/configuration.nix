@@ -26,6 +26,8 @@
 	nix.settings.auto-optimise-store = true;
 
 	services.dbus.implementation = "broker";
+	services.tlp.enable = true;
+	services.tlp.pd.enable = true;
 
 	programs.bash.shellAliases = {
 		e = "nano";

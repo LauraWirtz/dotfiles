@@ -15,6 +15,7 @@ input {
 		accel-speed 0
 	}
 	mouse {
+		accel-speed 0
 		accel-profile "flat"
 	}
 	touch {
@@ -46,20 +47,24 @@ output "eDP-1" {
 }
 
 output "DP-1" {
-	variable-refresh-rate
+	variable-refresh-rate on-demand=true
+	scale 1.1
 	focus-at-startup
 	position x=0 y=1080
+
+	layout {
+		default-column-width { proportion 0.5; }
+	}
 }
 
 output "HDMI-A-1" {
-	position x=960 y=0
+	position x=600 y=0
 }
 
 
 layout {
 	gaps 20
 	center-focused-column "never"
-    empty-workspace-above-first
 
 	background-color "#00000000"
 
@@ -138,10 +143,6 @@ window-rule {
 	opacity 0.8
 	shadow{ off; }
 }
-window-rule {
-	match is-floating=true
-	shadow{ on; }
-}
 
 window-rule {
 	match app-id="floorp" title="^Picture-in-Picture$"
@@ -173,13 +174,8 @@ layer-rule {
 	place-within-backdrop true
 }
 
-layer-rule {
-	match namespace="wvkbd"
-	shadow { on; }
-}
-
 binds {
-	Super+K { spawn-sh "pkill -SIGRTMIN wvkbd-deskintl"; }
+	Super+K { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
 
 	XF86AudioLowerVolume allow-inhibiting=false { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
 	XF86AudioRaiseVolume allow-inhibiting=false { toggle-overview; }
@@ -189,6 +185,8 @@ binds {
 
 	Mod+Left allow-inhibiting=false { focus-column-left; }
 	Mod+Right allow-inhibiting=false { focus-column-right; }
+	Mod+Up allow-inhibiting=false { focus-workspace-up; }
+	Mod+Down allow-inhibiting=false { focus-workspace-down; }
 
 	Mod+WheelScrollUp cooldown-ms=10 { focus-column-left; }
 	Mod+WheelScrollDown cooldown-ms=10 { focus-column-right; }
@@ -196,10 +194,4 @@ binds {
 	Mod+O allow-inhibiting=false { toggle-overview; }
 
 
-
-	// Move the focused window between the floating and the tiling layout.
-	Mod+V	   { toggle-window-floating; }
-	Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-
-	Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 }
