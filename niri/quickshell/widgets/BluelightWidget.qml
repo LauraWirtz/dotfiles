@@ -10,13 +10,15 @@ import "../services"
 import QtQuick.Controls.Material
 
 RowLayout {
+	id: root
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
 	Layout.fillWidth: true
-	// spacing: 8
+
+	property string tempBuffer: ""
+	property string modeBuffer: ""
 
 	Button {
-		// Layout.leftMargin: -12
 
 		icon.name: "redshift-status-on"
 		icon.width: 24
@@ -39,12 +41,12 @@ RowLayout {
 
 		from: 2500
 		to: 6500
-		stepSize: 1
-		live: false
+		stepSize: 500
 
 		onMoved: {
-			Niri.spawn([ "sunsetr", "set", "transition_mode=static" ])
-			Niri.spawn([ "sunsetr", "set", "static_temp="+value ])
+			root.tempBuffer = value.toString()
+			root.modeBuffer = "static"
+			processQueue()
 		}
 
 		states: [
@@ -54,31 +56,53 @@ RowLayout {
 				PropertyChanges { statusGetter.running: true }
 			}
 		]
-
-		Process {
-			id: statusGetter
-			running: false
-			command: [ "sunsetr", "status", "--json", "--follow" ]
-			stdout: SplitParser { onRead: rawData => {
-				const event = JSON.parse(rawData)
-				if(event.event_type == "state_applied") {
-					autoButton.enabled = event.period == "static"
-					slider.value = event.current_temp
-				} else if(event.event_type == "period_changed") {
-					autoButton.enabled = event.to_period == "static"
-				}
-			}}
-		}
 	}
-
 	Button {
 		id: autoButton
 		icon.name: "clock"
 		icon.width: 24
 		icon.height: 24
 		text: "Auto"
-		// padding: 0
 
-		onClicked: Niri.spawn([ "sunsetr", "set", "transition_mode=geo" ])
+		onClicked: {
+			root.modeBuffer = "geo"
+			processQueue()
+		}
+	}
+
+	Process {
+		id: statusSetter
+		running: false
+		onRunningChanged: processQueue()
+	}
+
+	function processQueue() {
+		if(!statusSetter.running) {
+			if(root.tempBuffer != "") {
+				statusSetter.command = [ "sunsetr", "set", "static_temp="+root.tempBuffer ]
+				root.tempBuffer = ""
+				statusSetter.running = true
+			}
+			else if(root.modeBuffer != "") {
+				statusSetter.command = [ "sunsetr", "set", "transition_mode="+root.modeBuffer ]
+				root.tempBuffer = ""
+				statusSetter.running = true
+			}
+		}
+	}
+
+	Process {
+		id: statusGetter
+		running: false
+		command: [ "sunsetr", "status", "--json", "--follow" ]
+		stdout: SplitParser { onRead: rawData => {
+			const event = JSON.parse(rawData)
+			if(event.event_type == "state_applied") {
+				autoButton.enabled = event.period == "static"
+				slider.value = event.current_temp
+			} else if(event.event_type == "period_changed") {
+				autoButton.enabled = event.to_period == "static"
+			}
+		}}
 	}
 }
