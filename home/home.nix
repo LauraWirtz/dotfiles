@@ -9,6 +9,8 @@ in {
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/kdeglobals";
 		".config/kdedefaults/package".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/package";
+		".config/gtk-3.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/colors.css";
+		".config/gtk-4.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-4.0/colors.css";
 		".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/fcitx5";
 		".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/wpaperd";
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
