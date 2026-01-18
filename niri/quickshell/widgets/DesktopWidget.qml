@@ -13,12 +13,12 @@ Item {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
 
+	implicitWidth: list.contentItem.childrenRect.width
 	implicitHeight: list.contentItem.childrenRect.height
 
 	property alias model: list.model
-	property alias flow: list.flow
+	property alias orientation: list.orientation
 	property alias interactive: list.interactive
-	property int columns: 1
 
 	property var display: AbstractButton.TextBesideIcon
 	property var alignment: Qt.AlignVCenter | Qt.AlignLeft
@@ -45,9 +45,8 @@ Item {
 
 			text: DesktopService.customNames(modelData.name)
 
-			onClicked: { Niri.spawn(modelData.command); Niri.closeOverview() }
+			onClicked: Niri.spawn(modelData.command)
 		}
-
 	}
 
 	Connections {
@@ -58,15 +57,14 @@ Item {
 		}
 	}
 
-	GridView {
+	ListView {
 
 		id: list
 
 		anchors.fill: parent
 		clip: list.interactive
+		spacing: -8
 
-		cellWidth: width / root.columns
-		cellHeight: root.size + 32
 		implicitHeight: contentHeight
 
 		delegate: DesktopEntryDelegate {}

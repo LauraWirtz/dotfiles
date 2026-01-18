@@ -16,7 +16,7 @@ Singleton {
 		interval: 10000; running: true; repeat: true
 		onTriggered: {
 			interval = 10000 + 50 * root.percentage
-			runner.running = true
+			runner.running = root.percentage > 0
 		}
 	}
 

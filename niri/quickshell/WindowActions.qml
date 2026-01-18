@@ -10,19 +10,11 @@ import "./services"
 import "./widgets"
 import "./items"
 
-import QtQuick.Controls.Material
-
 PanelWindow {
 	id: root
+	required property var modelData
+	screen: modelData
 	color: "transparent"
-
-	property var buttonsModel: [
-		{ icon: "window-minimize-pip", command: ()=>Niri.toggleWindowFloating() },
-		{ icon: "view-fullscreen", command: ()=>Niri.fullscreenWindow() },
-		{ icon: "view-file-columns", command: ()=>Niri.centerColumn() },
-		{ icon: "view-split-left-right", command: ()=>Niri.switchPresetColumnWidth() },
-		{ icon: "application-exit", command: ()=>Niri.closeWindow() },
-	]
 
 	anchors {
 		top: true
@@ -37,8 +29,6 @@ PanelWindow {
 
 	Rectangle {
 		id: bar
-		Material.theme: Material.Dark
-		Material.accent: Material.Pink
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		y: 1 * parent.height + 10
@@ -53,33 +43,14 @@ PanelWindow {
 		states: State {
 			name: "OVERVIEW"
 			when: (Niri.inOverview)
-			PropertyChanges {bar.y: 0.75 * root.height - 0.5 * bar.height}
+			PropertyChanges {bar.y: 0.75 * root.height - bar.height - 20}
 		}
 
 		transitions: Transition {
-			NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
+			NumberAnimation { properties: "y"; easing.type: Easing.OutQuad; duration: 150 }
 		}
 
-		RowLayout {
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.top: parent.top
-
-			Repeater {
-				model: buttonsModel
-				MenuBarItem {
-					id: delegate
-					icon.name: modelData.icon
-					icon.color: "transparent"
-					icon.width: 48
-					icon.height: 48
-
-					horizontalPadding: 12
-					verticalPadding: 8
-
-					onClicked: modelData.command()
-				}
-			}
-		}
+		WindowActionWidget {}
 
 		RectangularShadow {
 			anchors.fill: bar

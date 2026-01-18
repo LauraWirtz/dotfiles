@@ -7,15 +7,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "../services"
 
-import QtQuick.Controls.Basic
+import QtQuick.Controls.Material
 
 RowLayout {
 	id: root
-
-	// Layout.fillWidth: true
-	// Layout.preferredHeight: 24
-	// Layout.preferredHeight: children[0].implicitHeight
-	spacing: 12
+	Material.theme: Material.Dark
+	Material.accent: Material.Pink
+	spacing: 0
 
 	property var buttonsModel: [
 		{ icon: "window-minimize-pip", command: ()=>Niri.toggleWindowFloating() },
@@ -33,7 +31,6 @@ RowLayout {
 			icon.color: "transparent"
 			icon.width: 32
 			icon.height: 32
-			padding: 0
 			flat: true
 
 			onClicked: modelData.command()

@@ -1,6 +1,8 @@
 import Quickshell
 
 Scope {
-	OverviewSettings {}
-	Cutout {}
+	Variants {
+		model: Quickshell.screens
+		Cutout {}
+	}
 }

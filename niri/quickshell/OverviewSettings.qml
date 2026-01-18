@@ -10,10 +10,12 @@ import "./services"
 import "./widgets"
 import "./items"
 
-import QtQuick.Controls.Basic
+import QtQuick.Controls.Material
 
 PanelWindow {
 	id: root
+	required property var modelData
+	screen: modelData
 	color: "transparent"
 
 	anchors {
@@ -29,6 +31,8 @@ PanelWindow {
 
 
 	Rectangle {
+		Material.theme: Material.Dark
+		Material.accent: Material.Pink
 		id: window
 		anchors.horizontalCenter: parent.horizontalCenter
 		implicitWidth: children[0].implicitWidth
@@ -42,12 +46,12 @@ PanelWindow {
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {window.y: 16}
+				PropertyChanges {window.y: 0.25 * root.height}
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: view.currentIndex = 0 }
+				StateChangeScript { script: view.currentIndex = -1 }
 			}
 		]
 		transitions: Transition {
@@ -67,59 +71,48 @@ PanelWindow {
 				id: defaultItems
 				spacing: 0
 				RowLayout {
-					Layout.topMargin: 16
-					Layout.leftMargin: 0
 					spacing: 0
-					TabBarButton {
-						name: "go-home-symbolic"
-						icon_width: 32
-						icon_height: 32
-						show: view.currentIndex == 0
-						onClicked: view.setCurrentIndex(0)
+					Button {
+						icon.name: "applications-system-symbolic"
+						icon.width: 32
+						icon.height: 32
+						flat: true
+						checkable: true
+						checked: view.currentIndex == 0
+						onClicked: view.currentIndex == 0 ? view.setCurrentIndex(-1) : view.setCurrentIndex(0)
 					}
-					TabBarButton {
-						name: "applications-system-symbolic"
-						icon_width: 32
-						icon_height: 32
-						show: view.currentIndex == 1
-						onClicked: view.currentIndex == 1 ? view.setCurrentIndex(0) : view.setCurrentIndex(1)
+					Button {
+						icon.name: "network-bluetooth"
+						icon.width: 32
+						icon.height: 32
+						flat: true
+						checkable: true
+						checked: view.currentIndex == 1
+						onClicked: view.currentIndex == 1 ? view.setCurrentIndex(-1) : view.setCurrentIndex(1)
 					}
-					TabBarButton {
-						name: "network-bluetooth"
-						icon_width: 32
-						icon_height: 32
-						show: view.currentIndex == 2
-						onClicked: view.currentIndex == 2 ? view.setCurrentIndex(0) : view.setCurrentIndex(2)
-					}
-					TabBarButton {
-						name: "window-new-symbolic"
-						icon_width: 32
-						icon_height: 32
-						show: view.currentIndex == 3
-						onClicked: view.currentIndex == 3 ? view.setCurrentIndex(0) : view.setCurrentIndex(3)
+					Button {
+						icon.name: "window-new-symbolic"
+						icon.width: 32
+						icon.height: 32
+						flat: true
+						checkable: true
+						checked: view.currentIndex == 2
+						onClicked: view.currentIndex == 2 ? view.setCurrentIndex(-1) : view.setCurrentIndex(2)
 					}
 				}
 				MouseArea {
 					Layout.fillWidth: true
 					Layout.fillHeight: true
-					onClicked: view.setCurrentIndex(0)
+					onClicked: view.setCurrentIndex(-1)
 				}
-				RoundButton {
-					Layout.alignment: Qt.AlignRight
-
-					icon.name: "window-close"
-					icon.width: 32
-					icon.height: 32
-
-					onClicked: Niri.closeOverview()
-				}
+				WindowActionWidget {}
 			}
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.preferredWidth: view.contentChildren.reduce((acc, el) => {
 					return Math.max(acc, el.implicitWidth)
 				}, 0) + 32
-				Layout.preferredHeight: view.implicitContentHeight + 32
+				Layout.preferredHeight: view.currentIndex == -1 ? 0 : view.implicitContentHeight + 32
 				color: "#202326"
 				radius: 8
 				topLeftRadius: view.currentIndex == 0 ? 0 : 8
@@ -130,36 +123,28 @@ PanelWindow {
 					anchors.fill: parent
 					anchors.margins: 16
 
-					RowLayout {
-						spacing: 16
-						VolumeWidget {}
-						WindowActionWidget {}
-					}
 					ColumnLayout {
 						spacing: 16
-						RowLayout {
-							spacing: 16
-							BrightnessWidget {}
-							BluelightWidget {}
-						}
+						VolumeWidget {}
+						BrightnessWidget {}
+						BluelightWidget {}
 						RowLayout {
 							spacing: 16
 							KeyboardLayoutWidget {}
 							InputPlumberWidget { Layout.fillWidth: false }
-							TlpWidget {}
 						}
+						TlpWidget {}
 						PlayerWidget {}
 					}
 					BluetoothWidget {}
-					ColumnLayout {
+					RowLayout {
 						Layout.fillWidth: true
 						spacing: 16
 						Loader {
-							Layout.fillWidth: true
+							// Layout.fillWidth: true
 							active: false
 							sourceComponent: Component {
 								DesktopWidget {
-									Layout.fillWidth: true
 									model: [
 										DesktopService.byId("net.kuribo64.melonDS"),
 										DesktopService.byId("org.azahar_emu.Azahar"),
@@ -167,7 +152,6 @@ PanelWindow {
 										DesktopService.byId("info.cemu.Cemu"),
 										DesktopService.byId("Ryujinx"),
 									]
-									columns: 5
 									alignment: Qt.AlignHCenter
 									display: AbstractButton.IconOnly
 									interactive: false
@@ -188,7 +172,6 @@ PanelWindow {
 								"info.cemu.Cemu",
 								"Ryujinx",
 							])
-							columns: 3
 						}
 					}
 				}
