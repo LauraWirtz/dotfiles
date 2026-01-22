@@ -38,7 +38,7 @@ PanelWindow {
 		id: cutoutShape
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 150
+		width: 140
 		height: 25
 		preferredRendererType: Shape.CurveRenderer
 
@@ -73,10 +73,8 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 90
+		width: 80
 		height: 20
-		Behavior on width { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-		Behavior on height { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
 
 		states: [
 			State {
@@ -84,8 +82,7 @@ PanelWindow {
 				when: Niri.inOverview
 				PropertyChanges {overviewShape.width: 650}
 				PropertyChanges {overviewShape.height: 55}
-				PropertyChanges {leftIcons.opacity: 1}
-				PropertyChanges {rightIcons.opacity: 1}
+				PropertyChanges {icons.opacity: 1}
 				PropertyChanges {overviewShadow.opacity: 1}
 			},
 			State {
@@ -97,27 +94,28 @@ PanelWindow {
 		transitions: [
 			Transition {
 				to: "OVERVIEW"
+
+				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
+				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 150 }
 				SequentialAnimation {
 					PauseAnimation { duration: 75 }
 					ParallelAnimation {
-						NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
-						NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
-						NumberAnimation { properties: "overviewShadow.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
+						NumberAnimation { properties: "icons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
 					}
 				}
 			},
 			Transition {
 				from: "OVERVIEW"
-				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
-				NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
-				NumberAnimation { properties: "overviewShadow.opacity"; easing.type: Easing.InOutQuad; duration: 75 }
+				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.InQuad; duration: 120 }
+				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.InQuad; duration: 120 }
+				NumberAnimation { properties: "icons.opacity"; easing.type: Easing.InQuad; duration: 60 }
 			},
 		]
 		RowLayout {
-			id: leftIcons
+			id: icons
 			anchors.fill: parent
 			spacing: 0
-			opacity: Niri.inOverview ? 1 : 0
+			opacity: 0
 			RoundButton {
 				icon.name: "edit-find"
 				icon.width: 32
@@ -128,7 +126,7 @@ PanelWindow {
 				onClicked: view.currentIndex == 0 ? view.setCurrentIndex(-1) : view.setCurrentIndex(0)
 			}
 			Loader {
-				active: root.screen.name == "DP-1"
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 				sourceComponent:
 					RoundButton {
 						icon.name: "applications-system-symbolic"
@@ -141,7 +139,7 @@ PanelWindow {
 					}
 			}
 			Loader {
-				active: root.screen.name == "DP-1"
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 				sourceComponent:
 				RoundButton {
 					icon.name: "network-bluetooth"
@@ -157,18 +155,20 @@ PanelWindow {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 				onClicked: Niri.toggleOverview()
+				onWheel: event => {
+					if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
+					else { Niri.focusColumnRight() }
+				}
 			}
-			WindowActionWidget {
-				id: rightIcons
-				opacity: 0
-			}
+			WindowActionWidget {}
 		}
 	}
 	Rectangle {
 		id: menu
 		anchors.left: overviewShape.left
+		anchors.right: overviewShape.right
 		anchors.bottom: overviewShape.top
-		implicitWidth: children[0].implicitWidth + 32
+		// implicitWidth: children[0].implicitWidth + 32
 		implicitHeight: children[0].implicitHeight + 32
 		color: "#292c30"
 		visible: view.currentIndex != -1
@@ -176,8 +176,8 @@ PanelWindow {
 
 		SwipeView {
 			id: view
-			x: 16
-			y: 16
+			anchors.fill: parent
+			anchors.margins: 8
 			clip: true
 
 			RowLayout {
@@ -198,6 +198,7 @@ PanelWindow {
 							display: AbstractButton.IconOnly
 							interactive: false
 							size: 64
+							cellHeight: 88
 						}
 					}
 					Timer {
@@ -207,6 +208,7 @@ PanelWindow {
 				}
 				DesktopWidget {
 					Layout.fillWidth: true
+					Layout.fillHeight: true
 					model: DesktopService.getFilteredEntries([
 						"net.kuribo64.melonDS",
 						"org.azahar_emu.Azahar",
@@ -214,27 +216,29 @@ PanelWindow {
 						"info.cemu.Cemu",
 						"Ryujinx",
 					])
+					flow: GridView.FlowTopToBottom
+					cellHeight: 54
 				}
 			}
 			Loader {
-				active: root.screen.name == "DP-1"
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 				sourceComponent:
 					ColumnLayout {
 						spacing: 16
 						VolumeWidget {}
 						BrightnessWidget {}
 						BluelightWidget {}
-						RowLayout {
-							spacing: 16
+						GridLayout {
+							columnSpacing: 16
 							KeyboardLayoutWidget {}
 							InputPlumberWidget { Layout.fillWidth: false }
+							TlpWidget {}
 						}
-						TlpWidget {}
 						PlayerWidget {}
 					}
 			}
 			Loader {
-				active: root.screen.name == "DP-1"
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 				sourceComponent:
 					BluetoothWidget {}
 			}

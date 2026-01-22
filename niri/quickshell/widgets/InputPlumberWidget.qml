@@ -12,7 +12,7 @@ RowLayout {
 	spacing: 4
 
 	property var buttonsModel: [
-		{ name: "Mouse + Keeb", icon: "input-keyboard-virtual", targets: [ "touchpad", "mouse", "keyboard"], profile: "mkb" },
+		// { name: "Mouse + Keeb", icon: "input-keyboard-virtual", targets: [ "touchpad", "mouse", "keyboard"], profile: "mkb" },
 		{ name: "Steam Input", icon: "steam_tray_mono", targets: [ "keyboard", "touchpad", "deck-uhid" ], profile: "default" },
 		{ name: "Controller", icon: "input-gamepad-symbolic", targets: [ "keyboard", "touchpad", "xb360" ], profile: "default" }
 	]

@@ -41,5 +41,6 @@ Item {
 	]
 	DragHandler {
 		id: dragHandler
+		acceptedDevices: PointerDevice.TouchScreen
 	}
 }

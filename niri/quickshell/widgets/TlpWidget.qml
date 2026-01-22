@@ -18,35 +18,24 @@ RowLayout {
 	property string profile: ""
 
 	Button {
-		id: buttonPerf
-		checked: root.profile == "performance"
-
+		id: button
 		padding: 0
 
-		icon.name: "battery-profile-performance"
+		icon.name: root.profile == "performance" ? "battery-profile-performance" : "battery-profile-powersave"
 		icon.width: 24
 		icon.height: 24
-		text: "Performance"
+		icon.color: root.profile == "performance" ? "#F44336" : "#4CAF50"
+		text: root.profile == "performance" ? "Performance" : "Powersave"
 
-		onClicked: { if( root.profile != "performance") {
-			statusSetter.command = [ "tlpctl", "performance" ]
-			statusSetter.running = true
-		} }
-	}
-	Button {
-		id: buttonPower
-		checked: root.profile == "balanced"
-		padding: 0
-
-		icon.name: "battery-profile-powersave"
-		icon.width: 24
-		icon.height: 24
-		text: "Powersave"
-
-		onClicked: { if( root.profile != "balanced") {
-			statusSetter.command = [ "tlpctl", "balanced" ]
-			statusSetter.running = true
-		} }
+		onClicked: {
+			if( root.profile == "performance") {
+				statusSetter.command = [ "tlpctl", "balanced" ]
+				statusSetter.running = true
+			} else if( root.profile == "balanced") {
+				statusSetter.command = [ "tlpctl", "performance" ]
+				statusSetter.running = true
+			}
+		}
 	}
 	states: [
 		State {
@@ -57,7 +46,7 @@ RowLayout {
 	]
 
 	Timer {
-		interval: 3000; running: Niri.inOverview; repeat: true
+		interval: 1000; running: Niri.inOverview; repeat: true
 		onTriggered: { statusGetter.running = true }
 	}
 	Process {

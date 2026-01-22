@@ -62,7 +62,7 @@ ColumnLayout {
 			flat: true
 			enabled: !model.connected && Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 
-			onClicked: connect()
+			onClicked: model.paired ? connect() : pair()
 		}
 		Button {
 			Layout.alignment: Qt.AlignRight
@@ -75,27 +75,15 @@ ColumnLayout {
 
 			onClicked: disconnect()
 		}
-		CheckBox {
+		DelayButton {
 			Layout.alignment: Qt.AlignRight
 			Layout.horizontalStretchFactor: -1
 			padding: 0
 
-			text: "Paired"
-			checked: model.paired
-			enabled: model.connected
+			text: "Forget"
+			enabled: model.bonded
 
-			onClicked: model.paired = !model.paired
-		}
-		CheckBox {
-			Layout.alignment: Qt.AlignRight
-			Layout.horizontalStretchFactor: -1
-			padding: 0
-
-			text: "Trusted"
-			checked: model.trusted
-			enabled: model.connected
-
-			onClicked: model.trusted = !model.trusted
+			onClicked: forget()
 		}
 
 		function batteryIconName(): string {

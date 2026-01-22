@@ -8,10 +8,12 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-import QtQuick.Controls.Basic
+import QtQuick.Controls.Material
 
 Item {
 	id: root
+	Material.theme: Material.Dark
+	Material.accent: Material.Pink
 
 	implicitHeight: list.contentHeight
 	implicitWidth: list.contentWidth
@@ -21,10 +23,23 @@ Item {
 	component PlayerDelegate: RowLayout {
 		width: list.contentWidth
 
-		// spacing: -8
+		spacing: 0
 
 		RoundButton {
-			// Layout.leftMargin: -8
+			id: playerIcon
+			Layout.leftMargin: 0
+			Layout.rightMargin: 4
+			icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
+			icon.color: "transparent"
+			icon.width: 32
+			icon.height: 32
+			padding: 0
+			flat: true
+			background: {}
+		}
+		RoundButton {
+			Layout.leftMargin: -8
+			Layout.rightMargin: -8
 
 			icon.name: "media-skip-backward"
 			icon.width: 24
@@ -37,6 +52,8 @@ Item {
 			onClicked: { previous(); play() }
 		}
 		RoundButton {
+			Layout.leftMargin: -8
+			Layout.rightMargin: -8
 			icon.name: model.isPlaying ? "media-playback-pause" : "media-playback-start"
 			icon.width: 24
 			icon.height: 24
@@ -46,6 +63,8 @@ Item {
 			onClicked: togglePlaying()
 		}
 		RoundButton {
+			Layout.leftMargin: -8
+			Layout.rightMargin: 0
 			icon.name: "media-skip-forward"
 			icon.width: 24
 			icon.height: 24
@@ -55,17 +74,6 @@ Item {
 			enabled: canGoNext
 
 			onClicked: { next(); play() }
-		}
-		RoundButton {
-			icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
-			icon.color: "transparent"
-			icon.width: 32
-			icon.height: 32
-			Layout.leftMargin: 12
-			Layout.rightMargin: 12
-			padding: 0
-			flat: true
-			background: {}
 		}
 		Text {
 			color: "white"

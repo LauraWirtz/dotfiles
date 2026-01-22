@@ -65,7 +65,7 @@ RowLayout {
 		text: "Auto"
 
 		onClicked: {
-			root.modeBuffer = "geo"
+			root.modeBuffer = "finish_by"
 			processQueue()
 		}
 	}

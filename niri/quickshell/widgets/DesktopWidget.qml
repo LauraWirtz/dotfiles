@@ -17,36 +17,34 @@ Item {
 	implicitHeight: list.contentItem.childrenRect.height
 
 	property alias model: list.model
-	property alias orientation: list.orientation
+	property alias flow: list.flow
 	property alias interactive: list.interactive
 
 	property var display: AbstractButton.TextBesideIcon
 	property var alignment: Qt.AlignVCenter | Qt.AlignLeft
 	property int size: 32
+	property alias cellHeight: list.cellHeight
 
-	component DesktopEntryDelegate: RowLayout {
-		width: list.cellWidth
-		height: list.cellHeight
-		Button {
-			id: button
-			padding: 0
+	component DesktopEntryDelegate: Button {
+		Material.roundedScale: Material.MediumScale
+		id: button
+		padding: 0
 
-			Layout.alignment: root.alignment
+		Layout.alignment: root.alignment
 
-			font.pixelSize: 20
-			font.weight: 300
+		font.pixelSize: 20
+		font.weight: 300
 
-			icon.name: modelData.icon
-			icon.color: "transparent"
-			icon.width: root.size
-			icon.height: root.size
-			flat: true
-			display: root.display
+		icon.name: modelData.icon
+		icon.color: "transparent"
+		icon.width: root.size
+		icon.height: root.size
+		flat: true
+		display: root.display
 
-			text: DesktopService.customNames(modelData.name)
+		text: DesktopService.customNames(modelData.name)
 
-			onClicked: Niri.spawn(modelData.command)
-		}
+		onClicked: Niri.spawn(modelData.command)
 	}
 
 	Connections {
@@ -57,13 +55,15 @@ Item {
 		}
 	}
 
-	ListView {
+	GridView {
 
 		id: list
 
 		anchors.fill: parent
 		clip: list.interactive
-		spacing: -8
+		cellWidth: contentItem.children.reduce((acc, el) => {
+			return Math.max(el.implicitWidth, acc)
+		}, 0)
 
 		implicitHeight: contentHeight
 
