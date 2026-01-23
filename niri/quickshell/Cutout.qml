@@ -73,17 +73,18 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 80
-		height: 20
+		width: clock.width
+		height: clock.height / 2
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {overviewShape.width: 650}
+				PropertyChanges {overviewShape.width: 800}
 				PropertyChanges {overviewShape.height: 55}
-				PropertyChanges {icons.opacity: 1}
-				PropertyChanges {overviewShadow.opacity: 1}
+				PropertyChanges {leftIcons.opacity: 1}
+				PropertyChanges {centerIcons.opacity: 1}
+				PropertyChanges {rightIcons.opacity: 1}
 			},
 			State {
 				name: "NOVERVIEW"
@@ -100,7 +101,7 @@ PanelWindow {
 				SequentialAnimation {
 					PauseAnimation { duration: 75 }
 					ParallelAnimation {
-						NumberAnimation { properties: "icons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+						NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
 					}
 				}
 			},
@@ -108,12 +109,22 @@ PanelWindow {
 				from: "OVERVIEW"
 				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.InQuad; duration: 120 }
 				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.InQuad; duration: 120 }
-				NumberAnimation { properties: "icons.opacity"; easing.type: Easing.InQuad; duration: 60 }
+				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.InQuad; duration: 60 }
 			},
 		]
-		RowLayout {
-			id: icons
+		MouseArea {
 			anchors.fill: parent
+			onClicked: Niri.toggleOverview()
+			onWheel: event => {
+				if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
+				else { Niri.focusColumnRight() }
+			}
+		}
+		RowLayout {
+			id: leftIcons
+			anchors.left: parent.left
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
 			spacing: 0
 			opacity: 0
 			RoundButton {
@@ -151,25 +162,40 @@ PanelWindow {
 					onClicked: view.currentIndex == 2 ? view.setCurrentIndex(-1) : view.setCurrentIndex(2)
 				}
 			}
-			MouseArea {
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-				onClicked: Niri.toggleOverview()
-				onWheel: event => {
-					if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
-					else { Niri.focusColumnRight() }
+		}
+		WindowActionWidget {
+			id: centerIcons
+			opacity: 0
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			anchors.horizontalCenter: parent.horizontalCenter
+		}
+		RowLayout {
+			anchors.right: parent.right
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			anchors.rightMargin: Niri.inOverview ? 16 : 0
+			RowLayout {
+				id: rightIcons
+				opacity: 0
+				Loader {
+					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+					sourceComponent: BatteryWidget {}
+				}
+				Loader {
+					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+					sourceComponent: TlpWidget {}
 				}
 			}
-			WindowActionWidget {}
+			ClockWidget {id: clock}
 		}
 	}
 	Rectangle {
 		id: menu
-		anchors.left: overviewShape.left
-		anchors.right: overviewShape.right
+		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: overviewShape.top
-		// implicitWidth: children[0].implicitWidth + 32
-		implicitHeight: children[0].implicitHeight + 32
+		width: 800
+		implicitHeight: view.currentIndex == -1 ? 0 : children[0].implicitHeight + 32
 		color: "#292c30"
 		visible: view.currentIndex != -1
 		radius: 8
@@ -232,7 +258,6 @@ PanelWindow {
 							columnSpacing: 16
 							KeyboardLayoutWidget {}
 							InputPlumberWidget { Layout.fillWidth: false }
-							TlpWidget {}
 						}
 						PlayerWidget {}
 					}
@@ -282,18 +307,5 @@ PanelWindow {
 			function onLeft() { Niri.focusColumnRight() }
 			function onRight() { Niri.focusColumnLeft() }
 		}
-	}
-	RowLayout {
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.bottom: parent.bottom
-		spacing: 0
-
-		ClockWidget {Layout.bottomMargin: -4}
-		Loader {
-			Layout.leftMargin:root.batteryEnabled ? 16 : 0
-			active: root.batteryEnabled
-			sourceComponent: BatteryWidget {}
-		}
-
 	}
 }

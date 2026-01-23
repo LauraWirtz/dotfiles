@@ -1,4 +1,3 @@
-// Time.qml
 pragma Singleton
 
 import Quickshell
@@ -7,10 +6,9 @@ import Quickshell.Io
 
 Singleton {
   id: root
-  // an expression can be broken across multiple lines using {}
-	property real percentage
-	property bool charging
-	property string timeRemaining
+	property real percentage: 0
+	property bool charging: false
+	property string timeRemaining: "00:00"
 
 	Timer {
 		interval: 10000; running: true; repeat: true

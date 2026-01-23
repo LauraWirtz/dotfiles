@@ -13,6 +13,12 @@ Singleton {
 	  // Qt.formatDateTime(clock.date, "HH:mm dd.MM.yyyy")
 	  Qt.formatDateTime(clock.date, "HH:mm")
   }
+  readonly property string date: {
+	  // The passed format string matches the default output of
+	  // the `date` command.
+	  // Qt.formatDateTime(clock.date, "HH:mm dd.MM.yyyy")
+	  Qt.formatDateTime(clock.date, "MM-dd")
+  }
 
   SystemClock {
     id: clock

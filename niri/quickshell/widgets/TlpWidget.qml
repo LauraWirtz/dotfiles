@@ -17,15 +17,16 @@ RowLayout {
 	id:root
 	property string profile: ""
 
-	Button {
+	RoundButton {
 		id: button
 		padding: 0
 
 		icon.name: root.profile == "performance" ? "battery-profile-performance" : "battery-profile-powersave"
-		icon.width: 24
-		icon.height: 24
+		icon.width: 32
+		icon.height: 32
 		icon.color: root.profile == "performance" ? "#F44336" : "#4CAF50"
-		text: root.profile == "performance" ? "Performance" : "Powersave"
+		// text: root.profile == "performance" ? "Performance" : "Powersave"
+		flat: true
 
 		onClicked: {
 			if( root.profile == "performance") {

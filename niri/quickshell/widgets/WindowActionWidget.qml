@@ -16,11 +16,11 @@ RowLayout {
 	spacing: 0
 
 	property var buttonsModel: [
-		{ icon: "window-minimize-pip", command: ()=>Niri.toggleWindowFloating() },
-		{ icon: "view-fullscreen", command: ()=>Niri.fullscreenWindow() },
-		{ icon: "view-file-columns", command: ()=>Niri.centerColumn() },
-		{ icon: "window-maximize", command: ()=>Niri.switchPresetColumnWidth() },
-		{ icon: "window-close", command: ()=>Niri.closeWindow() },
+		{ icon: "window-minimize-pip", size: 24, command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "panel-fit-width", size: 24, command: ()=>Niri.centerColumn() },
+		{ icon: "window-minimize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
+		{ icon: "window-maximize", size: 32, command: ()=>Niri.fullscreenWindow() },
+		{ icon: "window-close", size: 32, command: ()=>Niri.closeWindow() },
 	]
 
 	Repeater {
@@ -29,8 +29,8 @@ RowLayout {
 			id: delegate
 			icon.name: modelData.icon
 			icon.color: "transparent"
-			icon.width: 32
-			icon.height: 32
+			icon.width: modelData.size
+			icon.height: modelData.size
 			flat: true
 
 			onClicked: modelData.command()
