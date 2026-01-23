@@ -24,6 +24,7 @@ input {
 
 	disable-power-key-handling
 	workspace-auto-back-and-forth
+	focus-follows-mouse max-scroll-amount="0%"
 }
 
 
@@ -39,26 +40,35 @@ output "eDP-1" {
 	scale 2
 
 	layout {
-		preset-column-widths {
-			proportion 0.5
-			proportion 1.0
+		struts {
+			left -20
+			right -20
+			top -20
+			bottom -20
 		}
 	}
 }
 
 output "DP-1" {
+	mode "3440x1440@160"
+	scale 1.2
 	variable-refresh-rate on-demand=true
-	scale 1.1
 	focus-at-startup
 	position x=0 y=1080
 
 	layout {
+		preset-column-widths {
+			proportion 0.33
+			proportion 0.5
+			proportion 0.66
+			proportion 1.0
+		}
 		default-column-width { proportion 0.5; }
 	}
 }
 
-output "HDMI-A-1" {
-	position x=600 y=0
+output "DP-2" {
+	position x=473 y=0
 }
 
 
@@ -69,9 +79,7 @@ layout {
 	background-color "#00000000"
 
 	preset-column-widths {
-		proportion 0.33
 		proportion 0.5
-		proportion 0.66
 		proportion 1.0
 	}
 	default-column-width { proportion 1.0; }
@@ -80,39 +88,44 @@ layout {
 
 	focus-ring {
 		off
-		width 1
+		width 2
 		active-color "rgb(233,58,154)"
-		inactive-color "rgba(32,35,38,0.5)"
+		inactive-color "rgb(32,35,38)"
 	}
 
 	border {
-		off
-		width 1
+		on
+		width 2
 
 		active-color "rgb(233,58,154)"
-		inactive-color "rgba(32,35,38,0.5)"
+		inactive-color "#202326"
 
 	}
 	shadow {
 		on
-		softness 15
+		softness 20
 		spread 0
 		offset x=0 y=0
 		draw-behind-window false
 		color "000000ff"
-		inactive-color "00000088"
+		inactive-color "000000ff"
 	}
-
 	struts {
-		left -20
-		right -20
-		top -20
-		bottom -20
+		left 0
+		right 0
+		top 0
+		bottom 20
+	}
+}
+
+animations {
+	overview-open-close {
+		duration-ms 150
+		curve "ease-out-quad"
 	}
 }
 
 overview {
-	zoom 0.333333333333333
 	workspace-shadow {
 		off
 	}
@@ -129,19 +142,12 @@ hotkey-overlay {
 	skip-at-startup
 }
 
-
 prefer-no-csd
 
 window-rule {
 	geometry-corner-radius 8
 	clip-to-geometry true
-	draw-border-with-background true
-//	open-maximized-to-edges true
-}
-window-rule {
-	match is-active=false
-	opacity 0.8
-	shadow{ off; }
+	draw-border-with-background false
 }
 
 window-rule {
@@ -155,18 +161,11 @@ window-rule {
 }
 
 window-rule {
-	match app-id="floorp" title=".*You[tT]ube.*"
-	opacity 1.0
-}
-
-window-rule {
 	match app-id="gamescope"
 	match app-id="net.kuribo64.melonDS"
-	match app-id="steam_app_1627610"
+	match app-id=r"steam_app_\d+"
 	match app-id="steam_proton"
-	focus-ring{ off; }
-	border{ off; }
-	open-maximized-to-edges true
+	variable-refresh-rate true
 }
 
 layer-rule {
