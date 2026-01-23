@@ -17,8 +17,6 @@ PanelWindow {
 	required property var modelData
 	screen: modelData
 
-	property bool batteryEnabled: false
-
 	color: "transparent"
 
 	anchors {
@@ -38,38 +36,56 @@ PanelWindow {
 		id: cutoutShape
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 140
-		height: 25
+		width: 1000
+		height: 55
 		preferredRendererType: Shape.CurveRenderer
+
+		property real offsetX1: 435
+		property real offsetX2: 460
+		property real offsetX3: 485
+		property real offsetY: 30
+
+		states: [
+			State {
+				name: "OVERVIEW"
+				when: Niri.inOverview
+				PropertyChanges {cutoutShape.offsetX1: 0}
+				PropertyChanges {cutoutShape.offsetX2: 65}
+				PropertyChanges {cutoutShape.offsetX3: 130}
+				PropertyChanges {cutoutShape.offsetY: 0}
+			}
+		]
+
+		Behavior on offsetX1 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+		Behavior on offsetX2 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+		Behavior on offsetX3 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+		Behavior on offsetY { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
 
 		ShapePath {
 			strokeWidth: -1
 			fillColor: "black"
 
-			startX: 0; startY: 25
+			startX: cutoutShape.offsetX1; startY: 55
 			PathCubic {
-				x: 50; y: 0
-				control1X: 25; control1Y: 25
-				control2X: 25; control2Y: 0
+				x: cutoutShape.offsetX3; y: cutoutShape.offsetY
+				control1X: cutoutShape.offsetX2; control1Y: 55
+				control2X: cutoutShape.offsetX2; control2Y: cutoutShape.offsetY
 			}
 			PathLine {
-				x: cutoutShape.width - 50
-				y: 0
+				x: cutoutShape.width - cutoutShape.offsetX3
+				y: cutoutShape.offsetY
 			}
 			PathCubic {
-				x: cutoutShape.width; y: 25
-				control1X: cutoutShape.width - 25; control1Y: 0
-				control2X: cutoutShape.width - 25; control2Y: 25
+				x: cutoutShape.width - cutoutShape.offsetX1; y: 55
+				control1X: cutoutShape.width - cutoutShape.offsetX2; control1Y: cutoutShape.offsetY
+				control2X: cutoutShape.width - cutoutShape.offsetX2; control2Y: 55
 			}
 		}
 	}
-	Rectangle {
+	Item {
 		Material.theme: Material.Dark
 		Material.accent: Material.Pink
 		id: overviewShape
-		color: "black"
-		topLeftRadius: 8
-		topRightRadius: 8
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
@@ -81,7 +97,7 @@ PanelWindow {
 				name: "OVERVIEW"
 				when: Niri.inOverview
 				PropertyChanges {overviewShape.width: 800}
-				PropertyChanges {overviewShape.height: 55}
+				PropertyChanges {overviewShape.height: 50}
 				PropertyChanges {leftIcons.opacity: 1}
 				PropertyChanges {centerIcons.opacity: 1}
 				PropertyChanges {rightIcons.opacity: 1}
@@ -102,14 +118,18 @@ PanelWindow {
 					PauseAnimation { duration: 75 }
 					ParallelAnimation {
 						NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+						NumberAnimation { properties: "centerIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+						NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
 					}
 				}
 			},
 			Transition {
 				from: "OVERVIEW"
-				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.InQuad; duration: 120 }
-				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.InQuad; duration: 120 }
-				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.InQuad; duration: 60 }
+				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 120 }
+				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 120 }
+				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
+				NumberAnimation { properties: "centerIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
+				NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
 			},
 		]
 		MouseArea {
@@ -194,6 +214,7 @@ PanelWindow {
 		id: menu
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: overviewShape.top
+		anchors.bottomMargin: 16
 		width: 800
 		implicitHeight: view.currentIndex == -1 ? 0 : children[0].implicitHeight + 32
 		color: "#292c30"
