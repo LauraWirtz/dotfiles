@@ -28,7 +28,7 @@ PanelWindow {
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 
-	mask: Region { item: overviewShape; Region { item: menu } }
+	mask: Region { item: overviewShape; Region { item: menu; Region { item: windowActions } } }
 
 	implicitHeight: 40
 
@@ -36,84 +36,80 @@ PanelWindow {
 		id: cutoutShape
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		width: 1000
-		height: 55
+		width: 100
+		height: 22
 		preferredRendererType: Shape.CurveRenderer
 
-		property real offsetX1: 435
-		property real offsetX2: 460
-		property real offsetX3: 485
-		property real offsetY: 30
-
-		states: [
-			State {
-				name: "OVERVIEW"
-				when: Niri.inOverview
-				PropertyChanges {cutoutShape.offsetX1: 0}
-				PropertyChanges {cutoutShape.offsetX2: 65}
-				PropertyChanges {cutoutShape.offsetX3: 130}
-				PropertyChanges {cutoutShape.offsetY: 0}
-			}
-		]
-
-		Behavior on offsetX1 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-		Behavior on offsetX2 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-		Behavior on offsetX3 { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-		Behavior on offsetY { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-
 		ShapePath {
-			strokeWidth: -1
+			id: cutoutPath
+			strokeWidth: 0
+			strokeColor: "#3daee9"
 			fillColor: "black"
 
-			startX: cutoutShape.offsetX1; startY: 55
+			Behavior on strokeWidth { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+			Behavior on fillColor { ColorAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+
+			startX: 0; startY: 22
 			PathCubic {
-				x: cutoutShape.offsetX3; y: cutoutShape.offsetY
-				control1X: cutoutShape.offsetX2; control1Y: 55
-				control2X: cutoutShape.offsetX2; control2Y: cutoutShape.offsetY
+				x: 32; y: 0
+				control1X: 16; control1Y: 22
+				control2X: 16; control2Y: 0
 			}
 			PathLine {
-				x: cutoutShape.width - cutoutShape.offsetX3
-				y: cutoutShape.offsetY
+				x: cutoutShape.width - 32
+				y: 0
 			}
 			PathCubic {
-				x: cutoutShape.width - cutoutShape.offsetX1; y: 55
-				control1X: cutoutShape.width - cutoutShape.offsetX2; control1Y: cutoutShape.offsetY
-				control2X: cutoutShape.width - cutoutShape.offsetX2; control2Y: 55
+				x: cutoutShape.width; y: 22
+				control1X: cutoutShape.width - 16; control1Y: 0
+				control2X: cutoutShape.width - 16; control2Y: 22
 			}
 		}
 	}
-	Item {
+	Rectangle {
 		Material.theme: Material.Dark
-		Material.accent: Material.Pink
+		Material.accent: Material.Blue
 		id: overviewShape
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
+		anchors.bottomMargin: -32
 		width: clock.width
-		height: clock.height / 2
+		height: children[1].implicitHeight
+
+		radius: 8
+		color: "transparent"
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
 				PropertyChanges {overviewShape.width: 800}
-				PropertyChanges {overviewShape.height: 50}
+				PropertyChanges {overviewShape.anchors.bottomMargin: 0}
+				PropertyChanges {overviewShape.color: "#292c30"}
+				PropertyChanges {overviewShadow.opacity: 1}
 				PropertyChanges {leftIcons.opacity: 1}
 				PropertyChanges {centerIcons.opacity: 1}
 				PropertyChanges {rightIcons.opacity: 1}
+				PropertyChanges {leftIcons.enabled: true}
+				PropertyChanges {centerIcons.enabled: true}
+				PropertyChanges {rightIcons.enabled: true}
 			},
 			State {
 				name: "NOVERVIEW"
 				when: !Niri.inOverview
-				StateChangeScript { script: view.currentIndex = -1 }
+				StateChangeScript { script: PopupService.currentPopup = "" }
 			}
 		]
 		transitions: [
 			Transition {
 				to: "OVERVIEW"
-
+				PropertyAction { properties: "overviewShape.color"; value: "black" }
+				PropertyAction { properties: "overviewShape.border.color"; value: "black" }
+				ColorAnimation { properties: "overviewShape.color"; easing.type: Easing.OutQuad; duration: 150 }
+				ColorAnimation { properties: "overviewShape.border.color"; easing.type: Easing.OutQuad; duration: 150 }
 				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
-				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 150 }
+				NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
 				SequentialAnimation {
 					PauseAnimation { duration: 75 }
 					ParallelAnimation {
@@ -125,11 +121,13 @@ PanelWindow {
 			},
 			Transition {
 				from: "OVERVIEW"
-				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 120 }
-				NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 120 }
-				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
-				NumberAnimation { properties: "centerIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
-				NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 60 }
+				ColorAnimation { properties: "overviewShape.color"; to: "black"; easing.type: Easing.OutQuad; duration: 150 }
+				ColorAnimation { properties: "overviewShape.border.color"; to: "black"; easing.type: Easing.OutQuad; duration: 150 }
+				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
+				NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+				NumberAnimation { properties: "centerIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+				NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
 			},
 		]
 		MouseArea {
@@ -143,190 +141,51 @@ PanelWindow {
 		RowLayout {
 			id: leftIcons
 			anchors.left: parent.left
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
 			spacing: 0
 			opacity: 0
-			RoundButton {
-				icon.name: "edit-find"
-				icon.width: 32
-				icon.height: 32
-				flat: true
-				checkable: true
-				checked: view.currentIndex == 0
-				onClicked: view.currentIndex == 0 ? view.setCurrentIndex(-1) : view.setCurrentIndex(0)
-			}
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent:
-					RoundButton {
-						icon.name: "applications-system-symbolic"
-						icon.width: 32
-						icon.height: 32
-						flat: true
-						checkable: true
-						checked: view.currentIndex == 1
-						onClicked: view.currentIndex == 1 ? view.setCurrentIndex(-1) : view.setCurrentIndex(1)
-					}
-			}
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent:
-				RoundButton {
-					icon.name: "network-bluetooth"
-					icon.width: 32
-					icon.height: 32
-					flat: true
-					checkable: true
-					checked: view.currentIndex == 2
-					onClicked: view.currentIndex == 2 ? view.setCurrentIndex(-1) : view.setCurrentIndex(2)
-				}
-			}
-		}
-		WindowActionWidget {
-			id: centerIcons
-			opacity: 0
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
-			anchors.horizontalCenter: parent.horizontalCenter
+			enabled: false
+
+			ApplicationMenuWidget {}
+			WindowActionWidget {}
 		}
 		RowLayout {
 			anchors.right: parent.right
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
 			anchors.rightMargin: Niri.inOverview ? 16 : 0
+			anchors.verticalCenter: parent.verticalCenter
+			spacing: 0
 			RowLayout {
 				id: rightIcons
 				opacity: 0
+				spacing: 0
+				enabled: false
 				Loader {
 					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-					sourceComponent: BatteryWidget {}
+					sourceComponent: SettingsMenuWidget {}
+				}
+				Loader {
+					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+					sourceComponent: BluetoothMenuWidget {}
 				}
 				Loader {
 					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 					sourceComponent: TlpWidget {}
 				}
-			}
-			ClockWidget {id: clock}
-		}
-	}
-	Rectangle {
-		id: menu
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.bottom: overviewShape.top
-		anchors.bottomMargin: 16
-		width: 800
-		implicitHeight: view.currentIndex == -1 ? 0 : children[0].implicitHeight + 32
-		color: "#292c30"
-		visible: view.currentIndex != -1
-		radius: 8
-
-		SwipeView {
-			id: view
-			anchors.fill: parent
-			anchors.margins: 8
-			clip: true
-
-			RowLayout {
-				Layout.fillWidth: true
-				spacing: 16
 				Loader {
-					active: false
-					sourceComponent: Component {
-						DesktopWidget {
-							model: [
-								DesktopService.byId("net.kuribo64.melonDS"),
-								DesktopService.byId("org.azahar_emu.Azahar"),
-								DesktopService.byId("dolphin-emu"),
-								DesktopService.byId("info.cemu.Cemu"),
-								DesktopService.byId("Ryujinx"),
-							]
-							alignment: Qt.AlignHCenter
-							display: AbstractButton.IconOnly
-							interactive: false
-							size: 64
-							cellHeight: 88
-						}
-					}
-					Timer {
-						interval: 3000; running: true; repeat: false
-						onTriggered: parent.active = true
-					}
-				}
-				DesktopWidget {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					model: DesktopService.getFilteredEntries([
-						"net.kuribo64.melonDS",
-						"org.azahar_emu.Azahar",
-						"dolphin-emu",
-						"info.cemu.Cemu",
-						"Ryujinx",
-					])
-					flow: GridView.FlowTopToBottom
-					cellHeight: 54
+					Layout.rightMargin: 16
+					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+					sourceComponent: BatteryWidget {}
 				}
 			}
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent:
-					ColumnLayout {
-						spacing: 16
-						VolumeWidget {}
-						BrightnessWidget {}
-						BluelightWidget {}
-						GridLayout {
-							columnSpacing: 16
-							KeyboardLayoutWidget {}
-							InputPlumberWidget { Layout.fillWidth: false }
-						}
-						PlayerWidget {}
-					}
-			}
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent:
-					BluetoothWidget {}
-			}
+			ClockWidget { id: clock }
 		}
 		RectangularShadow {
+			id: overviewShadow
 			anchors.fill: parent
 			z: -1
+			opacity: 0
 			blur: 15
 			spread: 0
 			radius: 8
-		}
-	}
-
-	Item {
-		id: cutout
-
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.bottom: parent.bottom
-
-		width: 100
-		height: 25
-
-		MouseArea {
-			anchors.fill: parent
-			id: mouseHandler
-			onClicked: Niri.toggleOverview()
-			onWheel: event => {
-				if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
-				else { Niri.focusColumnRight() }
-			}
-		}
-		TapHandler {
-			id: tapHandler
-			acceptedDevices: PointerDevice.TouchScreen
-			gesturePolicy: TapHandler.ReleaseWithinBounds
-			onTapped: KeyboardService.toggle()
-		}
-
-		GestureHandler {
-			function onUp() { Niri.openOverview(); KeyboardService.hide() }
-			function onLeft() { Niri.focusColumnRight() }
-			function onRight() { Niri.focusColumnLeft() }
 		}
 	}
 }

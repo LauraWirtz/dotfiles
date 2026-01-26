@@ -16,11 +16,11 @@ RowLayout {
 	spacing: 0
 
 	property var buttonsModel: [
-		{ icon: "window-minimize-pip", size: 24, command: ()=>Niri.toggleWindowFloating() },
-		{ icon: "panel-fit-width", size: 24, command: ()=>Niri.centerColumn() },
-		{ icon: "window-minimize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
-		{ icon: "window-maximize", size: 32, command: ()=>Niri.fullscreenWindow() },
+		{ icon: "window-maximize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
 		{ icon: "window-close", size: 32, command: ()=>Niri.closeWindow() },
+		{ icon: "crosshairs", size: 32, command: ()=>Niri.centerColumn() },
+		{ icon: "view-fullscreen-symbolic", size: 32, command: ()=>Niri.fullscreenWindow() },
+		// { icon: "window-minimize-pip", size: 24, command: ()=>Niri.toggleWindowFloating() },
 	]
 
 	Repeater {

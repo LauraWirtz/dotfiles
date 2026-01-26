@@ -6,9 +6,8 @@ Text {
 	id: root
 	text: Math.min(Battery.percentage, 99).toString().padStart(2,"0")+"%\n("+Battery.timeRemaining+")"
 	color: "#9E9E9E"
-	font.pixelSize: 20
-	font.weight: 200
-	lineHeight: 0.8
+	font.pixelSize: 18
+	font.weight: 300
 	horizontalAlignment: Text.AlignHCenter
 	textFormat: Text.PlainText
 	renderType: Text.QtRendering

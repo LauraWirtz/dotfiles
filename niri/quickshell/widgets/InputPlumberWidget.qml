@@ -8,7 +8,7 @@ import QtQuick.Controls.Material
 
 RowLayout {
 	Material.theme: Material.Dark
-	Material.accent: Material.Pink
+	Material.accent: Material.LightBlue
 	spacing: 4
 
 	property var buttonsModel: [

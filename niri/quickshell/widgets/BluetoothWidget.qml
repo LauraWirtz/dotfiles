@@ -13,7 +13,7 @@ import QtQuick.Controls.Material
 ColumnLayout {
 	id: root
 	Material.theme: Material.Dark
-	Material.accent: Material.Pink
+	Material.accent: Material.LightBlue
 
 	// Layout.fillWidth: true
 	// implicitWidth: childrenRect.width
@@ -94,7 +94,7 @@ ColumnLayout {
 	}
 
 	RowLayout {
-		Switch {
+		CheckBox {
 			text: "Enable"
 			checked: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled ||
@@ -107,7 +107,7 @@ ColumnLayout {
 				}
 			}
 		}
-		Switch {
+		CheckBox {
 			text: "Scan"
 			checked: Bluetooth.defaultAdapter.discovering
 			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
