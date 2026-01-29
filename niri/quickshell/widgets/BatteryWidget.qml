@@ -8,6 +8,7 @@ Text {
 	color: "#9E9E9E"
 	font.pixelSize: 18
 	font.weight: 300
+	lineHeight: 0.8
 	horizontalAlignment: Text.AlignHCenter
 	textFormat: Text.PlainText
 	renderType: Text.QtRendering

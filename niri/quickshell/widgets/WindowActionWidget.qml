@@ -18,7 +18,7 @@ RowLayout {
 	property var buttonsModel: [
 		{ icon: "window-maximize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
 		{ icon: "window-close", size: 32, command: ()=>Niri.closeWindow() },
-		{ icon: "crosshairs", size: 32, command: ()=>Niri.centerColumn() },
+		{ icon: "kdenlive-slip", size: 32, command: ()=>Niri.centerColumn() },
 		{ icon: "view-fullscreen-symbolic", size: 32, command: ()=>Niri.fullscreenWindow() },
 		// { icon: "window-minimize-pip", size: 24, command: ()=>Niri.toggleWindowFloating() },
 	]
@@ -31,6 +31,7 @@ RowLayout {
 			icon.color: "transparent"
 			icon.width: modelData.size
 			icon.height: modelData.size
+			radius: 8
 			flat: true
 
 			onClicked: modelData.command()

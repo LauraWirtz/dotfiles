@@ -26,7 +26,7 @@ Item {
 	property alias cellHeight: list.cellHeight
 
 	component DesktopEntryDelegate: Button {
-		Material.roundedScale: Material.MediumScale
+		Material.roundedScale: Material.SmallScale
 		id: button
 		padding: 0
 

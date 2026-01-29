@@ -25,6 +25,7 @@ RowLayout {
 		icon.width: 32
 		icon.height: 32
 		icon.color: root.profile == "performance" ? "#F44336" : "#4CAF50"
+		radius: 8
 		// text: root.profile == "performance" ? "Performance" : "Powersave"
 		flat: true
 

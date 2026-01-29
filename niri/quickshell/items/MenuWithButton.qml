@@ -12,17 +12,15 @@ import "../widgets"
 
 import QtQuick.Controls.Material
 
-Button {
+RoundButton {
 	id: button
 
 	icon.name: ""
 	icon.width: 32
 	icon.height: 32
-
+	radius: 8
 	flat: true
-	checkable: true
 
-	checked: menu.visible
 	onClicked: PopupService.currentPopup = PopupService.currentPopup == button.name ? "" : button.name
 
 	property alias content: rectangle.data
@@ -34,16 +32,24 @@ Button {
 			when: PopupService.currentPopup == button.name
 			PropertyChanges {button.checked: true}
 			PropertyChanges {menu.visible: true}
+			PropertyChanges {button.down: true }
 		},
 	]
 
+	Item {
+		id: anchor
+		anchors.horizontalCenter: parent.horizontalCenter
+	}
+
 	PopupWindow {
 		id: menu
-		anchor.item: button
+		anchor.item: anchor
 		anchor.gravity: Edges.Top | Edges.Right
-		anchor.margins.left: -16
-		width: contentItem.children[0].implicitWidth + 32
-		height: contentItem.children[0].implicitHeight + 32
+		anchor.margins.top: 24
+		anchor.margins.left: -0.5 * rectangle.implicitWidth - 40
+		mask: Region { item: rectangle }
+		implicitWidth: rectangle.implicitWidth + 80
+		implicitHeight: rectangle.implicitHeight + 80
 		visible: false
 		color: "transparent"
 
@@ -59,9 +65,11 @@ Button {
 		RectangularShadow {
 			anchors.fill: rectangle
 			z: -1
-			blur: 15
+			blur: 30
 			spread: 0
 			radius: 8
+			offset.x: 5
+			offset.y: 5
 		}
 	}
 }
