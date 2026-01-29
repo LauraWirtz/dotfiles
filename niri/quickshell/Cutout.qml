@@ -149,16 +149,27 @@ PanelWindow {
 		transitions: [
 			Transition {
 				to: "OVERVIEW"
-				NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
-				NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
-				NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 150 }
-				NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 150 }
+				ParallelAnimation {
+					NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
+					SequentialAnimation {
+						PauseAnimation { duration: 75 }
+						ParallelAnimation {
+							NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+							NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+						}
+						PropertyAction { properties: "leftIcons.enabled"; value: true }
+						PropertyAction { properties: "rightIcons.enabled"; value: true }
+					}
+				}
 			},
 			Transition {
 				from: "OVERVIEW"
 				ParallelAnimation {
 					NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+					NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
 				}
 			},
 		]
@@ -169,10 +180,6 @@ PanelWindow {
 			opacity: 0
 			enabled: false
 
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent: ApplicationMenuWidget {}
-			}
 			WindowActionWidget {}
 		}
 		RowLayout {
@@ -186,6 +193,10 @@ PanelWindow {
 				spacing: 0
 				opacity: 0
 				enabled: false
+				Loader {
+					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+					sourceComponent: ApplicationMenuWidget {}
+				}
 				Loader {
 					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 					sourceComponent: SettingsMenuWidget {}

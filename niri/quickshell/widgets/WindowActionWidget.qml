@@ -16,11 +16,11 @@ RowLayout {
 	spacing: 0
 
 	property var buttonsModel: [
+		{ icon: "window-minimize-pip", size: 32, command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "view-fullscreen-symbolic", size: 32, command: ()=>Niri.fullscreenWindow() },
+		{ icon: "kdenlive-slip", size: 32, command: ()=>Niri.centerColumn() },
 		{ icon: "window-maximize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
 		{ icon: "window-close", size: 32, command: ()=>Niri.closeWindow() },
-		{ icon: "kdenlive-slip", size: 32, command: ()=>Niri.centerColumn() },
-		{ icon: "view-fullscreen-symbolic", size: 32, command: ()=>Niri.fullscreenWindow() },
-		// { icon: "window-minimize-pip", size: 24, command: ()=>Niri.toggleWindowFloating() },
 	]
 
 	Repeater {
