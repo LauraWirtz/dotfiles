@@ -81,6 +81,7 @@
 					./configuration/steamdeck.nix
 					./hardware/steamdeck.nix
 					./niri/niri.nix
+					./niri/steamdeck.nix
  					./kde.nix
 					./games.nix
 					home-manager.nixosModules.home-manager {

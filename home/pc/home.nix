@@ -1,6 +1,5 @@
 { config, lib, ... }: {
 	home.file = {
-		".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/wpaperd/pc";
 		".config/pipewire".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/pipewire";
 
 		".floorp".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.floorp";

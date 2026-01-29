@@ -35,7 +35,53 @@
 		options = [ "bind"];
 	 };
 
+	services.tlp.settings = {
+		SOUND_POWER_SAVE_ON_AC=1;
+		SOUND_POWER_SAVE_ON_BAT=1;
+		SOUND_POWER_SAVE_ON_SAV=1;
 
+		RADEON_DPM_PERF_LEVEL_ON_AC="auto";
+		RADEON_DPM_PERF_LEVEL_ON_BAT="low";
+		RADEON_DPM_PERF_LEVEL_ON_SAV="low";
+		RADEON_DPM_STATE_ON_AC="performance";
+		RADEON_DPM_STATE_ON_BAT="battery";
+		RADEON_DPM_STATE_ON_SAV="battery";
+		AMDGPU_ABM_LEVEL_ON_AC=0;
+		AMDGPU_ABM_LEVEL_ON_BAT=0;
+		AMDGPU_ABM_LEVEL_ON_SAV=3;
+
+		CPU_DRIVER_OPMODE_ON_AC="guided";
+		CPU_DRIVER_OPMODE_ON_BAT="active";
+		CPU_DRIVER_OPMODE_ON_SAV="active";
+		CPU_SCALING_GOVERNOR_ON_AC="schedutil";
+		CPU_SCALING_GOVERNOR_ON_BAT="powersave";
+		CPU_SCALING_GOVERNOR_ON_SAV="powersave";
+		PLATFORM_PROFILE_ON_AC="performance";
+		PLATFORM_PROFILE_ON_BAT="low-power";
+		PLATFORM_PROFILE_ON_SAV="low-power";
+		CPU_SCALING_MIN_FREQ_ON_AC=624476;
+		CPU_SCALING_MAX_FREQ_ON_AC=5455945;
+		CPU_SCALING_MIN_FREQ_ON_BAT=624476;
+		CPU_SCALING_MAX_FREQ_ON_BAT=5455945;
+		CPU_SCALING_MIN_FREQ_ON_SAV=624476;
+		CPU_SCALING_MAX_FREQ_ON_SAV=5455945;
+		CPU_ENERGY_PERF_POLICY_ON_AC="balance_performance";
+		CPU_ENERGY_PERF_POLICY_ON_BAT="power";
+		CPU_ENERGY_PERF_POLICY_ON_SAV="power";
+
+		PCIE_ASPM_ON_AC="default";
+		PCIE_ASPM_ON_BAT="powersupersave";
+		PCIE_ASPM_ON_SAV="powersupersave";
+
+# 		USB_EXCLUDE_AUDIO=0;
+	};
+
+	environment.variables = {
+		RADV_FORCE_VRS = "2x2";
+		RADV_PERFTEST = "sam";
+		VKD3D_CONFIG = "no_upload_hvv";
+		RADV_DEBUG = "novrsflatshading";
+	};
 
 	networking.hostName = "laura-pc";
 
@@ -53,10 +99,7 @@
 	hardware.amdgpu.opencl.enable = true;
 
 	environment.systemPackages = with pkgs; [
-		blender-hip
-		clinfo
-		lact
+		pkgsRocm.blender
 		qpwgraph
-		xorg.xrandr
 	];
 }

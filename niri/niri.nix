@@ -25,11 +25,12 @@
 
 	xdg.portal.enable = true;
 	xdg.portal.wlr.enable = true;
+	xdg.portal.extraPortals = [
+		pkgs.kdePackages.xdg-desktop-portal-kde
+		pkgs.xdg-desktop-portal-gnome
+		pkgs.xdg-desktop-portal-gtk
+	];
 	xdg.portal.configPackages = [ pkgs.kdePackages.plasma-workspace ];
-
-	services.hypridle.enable = true;
-	systemd.user.services.hypridle.path = [ pkgs.quickshell ];
-	systemd.user.services.hypridle.serviceConfig = { Restart="always"; };
 
 	services.playerctld.enable = true;
 
@@ -39,13 +40,6 @@
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
-	systemd.user.services.qs-keyboard = {
-		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.quickshell pkgs.ydotool ];
-		serviceConfig = { Restart="always"; };
-		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/keyboard/shell.qml";
-	};
-
 	systemd.user.services.plasma-polkit-agent = {
 		description = "KDE PolicyKit Authentication Agent";
 		wantedBy = [ "graphical-session.target" ];

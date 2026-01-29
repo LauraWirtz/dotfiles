@@ -15,7 +15,7 @@ input {
 		accel-speed 0
 	}
 	mouse {
-		accel-speed 0
+		accel-speed -0.965
 		accel-profile "flat"
 	}
 	touch {
@@ -40,6 +40,7 @@ output "eDP-1" {
 	scale 2
 
 	layout {
+		gaps 20
 		struts {
 			left -20
 			right -20
@@ -73,7 +74,7 @@ output "DP-2" {
 
 
 layout {
-	gaps 20
+	gaps 40
 	center-focused-column "never"
 
 	background-color "#00000000"
@@ -84,28 +85,27 @@ layout {
 	}
 	default-column-width { proportion 1.0; }
 
-	insert-hint { color "rgb(233,58,154)";}
+	insert-hint { color "#3daee9";}
 
 	focus-ring {
-		off
-		width 2
-		active-color "rgb(233,58,154)"
-		inactive-color "rgb(32,35,38)"
+		on
+		width 1.5
+		active-color "#3daee9"
+		inactive-color "#00000000"
 	}
 
 	border {
-		on
-		width 2
+		off
+		width 1.5
 
-		active-color "rgb(233,58,154)"
-		inactive-color "#202326"
-
+		active-color "#3daee9"
+		inactive-color "#57595c"
 	}
 	shadow {
 		on
-		softness 20
+		softness 35
 		spread 0
-		offset x=0 y=0
+		offset x=5 y=5
 		draw-behind-window false
 		color "000000ff"
 		inactive-color "000000ff"
@@ -114,7 +114,7 @@ layout {
 		left 0
 		right 0
 		top 0
-		bottom 20
+		bottom 0
 	}
 }
 
@@ -133,7 +133,8 @@ overview {
 
 spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
 spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yaml"
-spawn-at-startup "quickshell" "-p" "/etc/nixos/niri/lockscreen/shell.qml"
+//spawn-at-startup "quickshell" "-p" "/etc/nixos/niri/lockscreen/shell.qml"
+spawn-at-startup "tlpctl" "balanced"
 spawn-at-startup "steam"
 spawn-at-startup "wpaperd" "-d"
 spawn-at-startup "sunsetr"
