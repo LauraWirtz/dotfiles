@@ -19,7 +19,6 @@ RoundButton {
 	icon.width: 32
 	icon.height: 32
 	radius: 8
-	flat: true
 
 	onClicked: PopupService.currentPopup = PopupService.currentPopup == button.name ? "" : button.name
 
@@ -32,7 +31,7 @@ RoundButton {
 			when: PopupService.currentPopup == button.name
 			PropertyChanges {button.checked: true}
 			PropertyChanges {menu.visible: true}
-			PropertyChanges {button.down: true }
+			PropertyChanges {button.Material.background: Material.Green }
 		},
 	]
 

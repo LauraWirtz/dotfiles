@@ -13,7 +13,7 @@ import QtQuick.Controls.Material
 ColumnLayout {
 	id: root
 	Material.theme: Material.Dark
-	Material.accent: Material.LightBlue
+	Material.accent: Material.Green
 
 	// Layout.fillWidth: true
 	// implicitWidth: childrenRect.width
@@ -123,7 +123,10 @@ ColumnLayout {
 		// implicitHeight: contentItem.implicitHeight
 		Layout.fillWidth: true
 		// Layout.fillHeight: true
-		Layout.preferredWidth: contentItem.childrenRect.width
+		Layout.preferredWidth:
+			contentItem.children.reduce((acc, el) => {
+				return Math.max(el.implicitWidth, acc)
+			}, 0)
 		Layout.preferredHeight: contentItem.childrenRect.height
 		clip: true
 

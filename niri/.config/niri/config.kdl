@@ -52,7 +52,7 @@ output "eDP-1" {
 
 output "DP-1" {
 	mode "3440x1440@160"
-	scale 1.2
+	scale 1.25
 	variable-refresh-rate on-demand=true
 	focus-at-startup
 	position x=0 y=1080
@@ -85,12 +85,14 @@ layout {
 	}
 	default-column-width { proportion 1.0; }
 
-	insert-hint { color "#3daee9";}
+	insert-hint { color "#A5D6A7";}
 
 	focus-ring {
 		on
 		width 1.5
-		active-color "#3daee9"
+		active-color "#A5D6A7"
+		active-gradient from="#C5E1A5" to="#A5D6A7" angle=135
+
 		inactive-color "#00000000"
 	}
 
@@ -98,7 +100,7 @@ layout {
 		off
 		width 1.5
 
-		active-color "#3daee9"
+		active-color "#A5D6A7"
 		inactive-color "#57595c"
 	}
 	shadow {
@@ -149,6 +151,11 @@ window-rule {
 	geometry-corner-radius 8
 	clip-to-geometry true
 	draw-border-with-background false
+}
+
+window-rule {
+	match is-active=false
+	opacity 0.95
 }
 
 window-rule {

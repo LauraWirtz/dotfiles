@@ -14,6 +14,10 @@
 	
 	qt.enable = true;
 
+	environment.variables = {
+		QT_STYLE_OVERRIDE = "breeze";
+	};
+
 	environment.systemPackages = with pkgs.kdePackages; [
 		breeze
 		breeze-icons
@@ -25,8 +29,6 @@
 		dolphin
 		dolphin-plugins
 		ffmpegthumbs
-
-		gwenview
 
 		kio # provides helper service + a bunch of other stuff
 		kio-admin # managing files as admin

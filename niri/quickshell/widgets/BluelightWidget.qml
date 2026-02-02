@@ -12,7 +12,7 @@ import QtQuick.Controls.Material
 RowLayout {
 	id: root
 	Material.theme: Material.Dark
-	Material.accent: Material.LightBlue
+	Material.accent: Material.Green
 	Layout.fillWidth: true
 
 	property string tempBuffer: ""

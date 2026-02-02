@@ -11,7 +11,7 @@ import QtQuick.Controls.Material
 
 RowLayout {
 	Material.theme: Material.Dark
-	Material.accent: Material.LightBlue
+	Material.accent: Material.Green
 	Layout.fillWidth: true
 	// spacing: 8
 
