@@ -9,11 +9,11 @@ in {
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/";
 
-# 		".config/gtk-3.0/assets/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/assets/";
+		".config/gtk-3.0/settings.ini/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/settings.ini/";
 		".config/gtk-3.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/gtk.css";
 		".config/gtk-3.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/colors.css";
 
-# 		".config/gtk-4.0/assets/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/assets/";
+		".config/gtk-4.0/settings.ini/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/settings.ini/";
 		".config/gtk-4.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/gtk.css";
 		".config/gtk-4.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/colors.css";
 
@@ -22,7 +22,7 @@ in {
 		".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/fcitx5";
 		".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/wpaperd";
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
-# 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
+		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
 		".local/share/applications/foot-server.desktop".text = desktopHide;
 		".local/share/applications/footclient.desktop".text = desktopHide;
