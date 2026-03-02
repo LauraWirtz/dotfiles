@@ -15,6 +15,7 @@ import QtQuick.Controls.Material
 MenuWithButton {
 	name: "apps"
 	icon.name: "edit-find"
+	color: Material.Green
 	content: RowLayout {
 		anchors.centerIn: parent
 		Layout.fillWidth: true

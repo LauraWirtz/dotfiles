@@ -47,14 +47,6 @@ Item {
 		onClicked: Niri.spawn(modelData.command)
 	}
 
-	Connections {
-		target: DesktopService
-
-		function onUpdated() {
-			list.model = root.model
-		}
-	}
-
 	GridView {
 
 		id: list

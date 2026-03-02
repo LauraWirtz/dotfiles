@@ -32,113 +32,41 @@ PanelWindow {
 	implicitWidth: 1000
 	implicitHeight: 100
 
-	Shape {
-		id: cutoutShape
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.bottom: overviewShape.bottom
-		width: 800
-		height: overviewShape.height
-		preferredRendererType: Shape.CurveRenderer
-
-		ShapePath {
-			id: cutoutPath
-			strokeWidth: -1
-			fillColor: "black"
-
-			property real outerX: 340
-
-			property real handle1X: 360
-			property real handle1Y: 29
-
-			property real handle2X: 360
-			property real innerX: 380
-
-			property real lowerY: 29
-			property real upperY: 5
-
-			Behavior on fillColor { ColorAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-
-			Behavior on outerX { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on handle1X { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on handle1Y { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on handle2X { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on handle1X { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on innerX { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-			Behavior on upperY { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
-
-			startX: cutoutPath.outerX; startY: cutoutPath.lowerY
-
-			PathCubic {
-				x: cutoutPath.innerX; y: cutoutPath.upperY
-				control1X: cutoutPath.handle1X; control1Y: cutoutPath.handle1Y
-				control2X: cutoutPath.handle2X; control2Y: cutoutPath.upperY
-			}
-			PathLine {
-				x: cutoutShape.width - cutoutPath.innerX
-				y: cutoutPath.upperY
-			}
-			PathCubic {
-				x: cutoutShape.width - cutoutPath.outerX; y: cutoutPath.lowerY
-				control1X: cutoutShape.width - cutoutPath.handle2X; control1Y: cutoutPath.upperY
-				control2X: cutoutShape.width - cutoutPath.handle1X; control2Y: cutoutPath.handle1Y
-			}
-			PathLine {
-				x: cutoutShape.width - cutoutPath.outerX
-				y: cutoutShape.height - 8
-			}
-			PathArc {
-				x: cutoutShape.width - cutoutPath.outerX - 8
-				y: cutoutShape.height
-				radiusX: 8
-				radiusY: 8
-			}
-			PathLine {
-				x: cutoutPath.outerX + 8
-				y: cutoutShape.height
-			}
-			PathArc {
-				x: cutoutPath.outerX
-				y: cutoutShape.height - 8
-				radiusX: 8
-				radiusY: 8
-			}
-			PathLine {
-				x: cutoutPath.outerX
-				y: cutoutPath.lowerY
-			}
-		}
-	}
-	Item {
+	Rectangle {
 		Material.theme: Material.Dark
 		Material.accent: Material.Blue
 		id: overviewShape
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 29 - height
-		width: clock.implicitWidth
-		height: children[0].implicitHeight
+		anchors.bottomMargin: 16 - height / 4
+		width: 64
+		height: 32
+		radius: Math.min(width, height) / 2
+
+		property real shading: 0.5
+
+		color: "black"
+		gradient: Gradient {
+			GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1 + 0.5*overviewShape.shading) }
+			GradientStop { position: 0.45; color: Qt.lighter("#292c30", 1 + 0.15*overviewShape.shading) }
+			GradientStop { position: 0.55; color: Qt.darker("#292c30", 1 + 0.15*overviewShape.shading) }
+			GradientStop { position: 1.0; color: Qt.darker("#292c30", 1 + 0.5*overviewShape.shading) }
+		}
 
 		states: [
 			State {
 				name: "OVERVIEW"
 				when: Niri.inOverview
-				PropertyChanges {overviewShape.anchors.bottomMargin: 16}
-				PropertyChanges {overviewShape.width: 800}
-				PropertyChanges {overviewShadow.visible: true}
+				// PropertyChanges {overviewShape.anchors.bottomMargin: 0}
+				PropertyChanges {overviewShape.width: 700}
+				PropertyChanges {overviewShape.height: overviewShape.children[1].implicitHeight}
+				PropertyChanges {overviewShape.shading: 1}
+				// PropertyChanges {overviewShadow.visible: true}
 				PropertyChanges {leftIcons.opacity: 1}
 				PropertyChanges {rightIcons.opacity: 1}
 				PropertyChanges {leftIcons.enabled: true}
 				PropertyChanges {rightIcons.enabled: true}
-				PropertyChanges {systemtray.anchors.rightMargin: 12}
-				PropertyChanges {cutoutPath.fillColor: "#292c30"}
-				PropertyChanges {cutoutPath.outerX: 0}
-				PropertyChanges {cutoutPath.handle1X: 0}
-				PropertyChanges {cutoutPath.handle1Y: 0}
-				PropertyChanges {cutoutPath.handle2X: 0}
-				PropertyChanges {cutoutPath.innerX: 20}
-				PropertyChanges {cutoutPath.lowerY: 20}
-				PropertyChanges {cutoutPath.upperY: 0}
 			},
 			State {
 				name: "NOVERVIEW"
@@ -150,13 +78,14 @@ PanelWindow {
 			Transition {
 				to: "OVERVIEW"
 				ParallelAnimation {
-					NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShape.shading"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 150 }
 					SequentialAnimation {
-						PauseAnimation { duration: 75 }
+						PauseAnimation { duration: 50 }
 						ParallelAnimation {
-							NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
-							NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+							NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 50 }
+							NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 50 }
 						}
 						PropertyAction { properties: "leftIcons.enabled"; value: true }
 						PropertyAction { properties: "rightIcons.enabled"; value: true }
@@ -166,16 +95,29 @@ PanelWindow {
 			Transition {
 				from: "OVERVIEW"
 				ParallelAnimation {
-					NumberAnimation { properties: "overviewShape.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShape.shading"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "overviewShape.width"; easing.type: Easing.OutQuad; duration: 150 }
-					NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
-					NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 75 }
+					NumberAnimation { properties: "overviewShape.height"; easing.type: Easing.OutQuad; duration: 150 }
+					SequentialAnimation {
+						PauseAnimation { duration: 50 }
+						ParallelAnimation {
+							NumberAnimation { properties: "leftIcons.opacity"; easing.type: Easing.OutQuad; duration: 50 }
+							NumberAnimation { properties: "rightIcons.opacity"; easing.type: Easing.OutQuad; duration: 50 }
+						}
+					}
 				}
 			},
 		]
+
+		ClockWidget {
+			anchors.centerIn: parent
+			id: clock
+		}
 		RowLayout {
 			id: leftIcons
 			anchors.left: parent.left
+			anchors.verticalCenter: parent.verticalCenter
+			anchors.leftMargin: 0
 			spacing: 0
 			opacity: 0
 			enabled: false
@@ -183,40 +125,38 @@ PanelWindow {
 			WindowActionWidget {}
 		}
 		RowLayout {
-			id: systemtray
+			id: rightIcons
 			anchors.right: parent.right
 			anchors.rightMargin: 0
 			anchors.verticalCenter: parent.verticalCenter
 			spacing: 0
-			RowLayout {
-				id: rightIcons
-				spacing: 0
-				opacity: 0
-				enabled: false
-				Loader {
-					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-					sourceComponent: ApplicationMenuWidget {}
-				}
-				Loader {
-					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-					sourceComponent: SettingsMenuWidget {}
-				}
-				Loader {
-					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-					sourceComponent: BluetoothMenuWidget {}
-				}
-				Loader {
-					active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-					sourceComponent: TlpWidget {}
-				}
-				Loader {
-					active: root.screen.name == "eDP-1"
-					sourceComponent: BatteryWidget { Layout.leftMargin: 12 }
+			opacity: 0
+			enabled: false
+			Loader {
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+				sourceComponent: ApplicationMenuWidget {}
+			}
+			Loader {
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+				sourceComponent: BluetoothMenuWidget {}
+			}
+			Loader {
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+				sourceComponent:
+				MenuWithButton {
+					name: "sunsetr"
+					icon.name: "redshift-status-on"
+					color: Material.Yellow
+					content: BluelightWidget {anchors.centerIn: parent}
 				}
 			}
-			ClockWidget {
-				Layout.leftMargin: 12
-				id: clock
+			Loader {
+				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
+				sourceComponent: TlpWidget {}
+			}
+			Loader {
+				active: root.screen.name == "eDP-1"
+				sourceComponent: BatteryWidget { Layout.leftMargin: 12 }
 			}
 		}
 	}
@@ -224,19 +164,30 @@ PanelWindow {
 		id: overviewShadow
 		anchors.fill: overviewShape
 		z: -1
-		visible: false
-		blur: 30
+		blur: 20
 		spread: 0
-		radius: 8
-		offset.x: 5
-		offset.y: 5
+		radius: overviewShape.radius
+		offset.x: 0
+		offset.y: 0
 	}
 	MouseArea {
 		id: mouseArea
 		anchors.fill: overviewShape
-		anchors.bottomMargin: -16
 		z: -1
-		onClicked: Niri.toggleOverview()
+
+		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
+		onClicked: event => {
+			switch (event.button) {
+				case Qt.BackButton:
+					Niri.focusWorkspaceDown();
+					break;
+				case Qt.ForwardButton:
+					Niri.focusWorkspaceUp();
+					break;
+				default:
+					Niri.toggleOverview()
+			}
+		}
 		onWheel: event => {
 			if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
 			else { Niri.focusColumnRight() }

@@ -15,6 +15,7 @@ import QtQuick.Controls.Material
 MenuWithButton {
 	name: "bluetooth"
 	icon.name: "network-bluetooth"
+	color: Material.LightBlue
 	content: BluetoothWidget {
 		anchors.centerIn: parent
 	}

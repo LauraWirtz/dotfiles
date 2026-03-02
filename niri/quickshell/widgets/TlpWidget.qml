@@ -12,20 +12,20 @@ import QtQuick.Controls.Material
 RowLayout {
 	Material.theme: Material.Dark
 	Material.accent: Material.Pink
-	spacing: 4
+	spacing: 0
 
 	id:root
 	property string profile: ""
 
 	RoundButton {
 		id: button
-		padding: 0
+		// padding: 0
 
 		icon.name: root.profile == "performance" ? "battery-profile-performance" : "battery-profile-powersave"
 		icon.width: 32
 		icon.height: 32
 		Material.foreground: root.profile == "performance" ? Material.Red : Material.Green
-		radius: 8
+		// radius: 8
 		flat: true
 
 		onClicked: {

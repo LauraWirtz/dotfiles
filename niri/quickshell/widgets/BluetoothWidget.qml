@@ -26,32 +26,32 @@ ColumnLayout {
 		spacing: 0
 
 		Button {
-			icon.name: model.batteryAvailable ? batteryIconName() : "battery-000"
+			icon.name: modelData.batteryAvailable ? batteryIconName() : "battery-000"
 			icon.width: 24
 			icon.height: 24
 			padding: 0
 			Layout.leftMargin: -12
 
-			enabled: model.batteryAvailable
+			enabled: modelData.batteryAvailable
 			background: {}
 		}
 		Button {
-			icon.name: model.icon+"-symbolic"
+			icon.name: modelData.icon+"-symbolic"
 			icon.width: 24
 			icon.height: 24
 			padding: 0
 			Layout.leftMargin: -16
 
-			enabled: model.batteryAvailable
+			enabled: modelData.connected
 			background: {}
 		}
 		Text {
 			Layout.horizontalStretchFactor: 1
 			Layout.fillWidth: true
-			color: model.connected ? "white" : "#9E9E9E"
+			color: modelData.connected ? "white" : "#9E9E9E"
 			textFormat: Text.PlainText
 
-			text: model.name || model.address
+			text: modelData.name || modelData.address
 		}
 		Button {
 			Layout.alignment: Qt.AlignRight
@@ -60,9 +60,9 @@ ColumnLayout {
 
 			text: "Connect"
 			flat: true
-			enabled: !model.connected && Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
+			enabled: !modelData.connected && Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 
-			onClicked: model.paired ? connect() : pair()
+			onClicked: modelData.paired ? connect() : pair()
 		}
 		Button {
 			Layout.alignment: Qt.AlignRight
@@ -71,23 +71,13 @@ ColumnLayout {
 
 			text: "Disconnect"
 			flat: true
-			enabled: model.connected
+			enabled: modelData.connected
 
 			onClicked: disconnect()
 		}
-		DelayButton {
-			Layout.alignment: Qt.AlignRight
-			Layout.horizontalStretchFactor: -1
-			padding: 0
-
-			text: "Forget"
-			enabled: model.bonded
-
-			onClicked: forget()
-		}
 
 		function batteryIconName(): string {
-			const number = (model.battery * 100).toString().padStart(3, "0").replace(/\d$/, "0")
+			const number = (modelData.battery * 100).toString().padStart(3, "0").replace(/\d$/, "0")
 			console.log(number)
 			return "battery-"+number
 		}
@@ -136,7 +126,9 @@ ColumnLayout {
 		topMargin: 0
 		bottomMargin: 0
 
-		model: Bluetooth.devices.values
+		model: Bluetooth.devices.values.filter(device => {
+			return device.paired
+		})
 		delegate: BluetoothDeviceDelegate {}
 	}
 }

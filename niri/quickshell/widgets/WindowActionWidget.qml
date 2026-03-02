@@ -16,22 +16,26 @@ RowLayout {
 	spacing: 0
 
 	property var buttonsModel: [
-		{ icon: "window-minimize-pip", size: 32, command: ()=>Niri.toggleWindowFloating() },
-		{ icon: "view-fullscreen-symbolic", size: 32, command: ()=>Niri.fullscreenWindow() },
-		{ icon: "kdenlive-slip", size: 32, command: ()=>Niri.centerColumn() },
-		{ icon: "window-maximize", size: 32, command: ()=>Niri.switchPresetColumnWidth() },
-		{ icon: "window-close", size: 32, command: ()=>Niri.closeWindow() },
+		{ icon: "window-minimize-pip", size: 32, color: Material.Teal, command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "view-fullscreen-symbolic", size: 32, color: Material.Green, command: ()=>Niri.fullscreenWindow() },
+		{ icon: "kdenlive-slip", size: 32, color: Material.Yellow, command: ()=>Niri.centerColumn() },
+		{ icon: "window-maximize", size: 32, color: Material.Orange, command: ()=>Niri.switchPresetColumnWidth() },
+		{ icon: "window-close", size: 32, color: Material.Red, command: ()=>Niri.closeWindow() },
 	]
 
 	Repeater {
 		model: buttonsModel
 		RoundButton {
+			Layout.margins: -0
+
 			id: delegate
+
 			icon.name: modelData.icon
-			icon.color: "transparent"
+			// icon.color: "transparent"
 			icon.width: modelData.size
 			icon.height: modelData.size
-			radius: 8
+			Material.foreground: Material.color(modelData.color, Material.Shade200)
+			// Material.roundedScale: Material.FullScale
 			flat: true
 
 			onClicked: modelData.command()

@@ -24,6 +24,7 @@ RoundButton {
 
 	property alias content: rectangle.data
 	required property string name
+	property var color: Material.Green
 
 	states: [
 		State {
@@ -31,7 +32,13 @@ RoundButton {
 			when: PopupService.currentPopup == button.name
 			PropertyChanges {button.checked: true}
 			PropertyChanges {menu.visible: true}
-			PropertyChanges {button.Material.background: Material.Green }
+			PropertyChanges {button.Material.foreground: "#292c30" }
+			PropertyChanges {button.Material.background: button.color }
+		},
+		State {
+			name: "INACTIVE"
+			when: PopupService.currentPopup != button.name
+			// PropertyChanges {button.Material.foreground: button.color }
 		},
 	]
 
