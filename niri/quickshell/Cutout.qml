@@ -22,14 +22,14 @@ PanelWindow {
 	anchors {
 		// top: true
 		bottom: true
-		// left: true
-		// right: true
+		left: true
+		right: true
 	}
 	exclusionMode: ExclusionMode.Ignore
-	WlrLayershell.layer: WlrLayer.Overlay
+	WlrLayershell.layer: WlrLayer.Top
 
 	mask: Region { item: mouseArea; }
-	implicitWidth: 1000
+	// implicitWidth: 1000
 	implicitHeight: 100
 
 	Rectangle {
@@ -39,7 +39,7 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 16 - height / 4
+		anchors.bottomMargin: 40 - height / 2
 		width: 64
 		height: 32
 		radius: Math.min(width, height) / 2
@@ -49,18 +49,18 @@ PanelWindow {
 		color: "black"
 		gradient: Gradient {
 			GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1 + 0.5*overviewShape.shading) }
-			GradientStop { position: 0.45; color: Qt.lighter("#292c30", 1 + 0.15*overviewShape.shading) }
-			GradientStop { position: 0.55; color: Qt.darker("#292c30", 1 + 0.15*overviewShape.shading) }
+			// GradientStop { position: 0.475; color: Qt.lighter("#292c30", 1 + 0.15*overviewShape.shading) }
+			// GradientStop { position: 0.525; color: Qt.darker("#292c30", 1 + 0.15*overviewShape.shading) }
 			GradientStop { position: 1.0; color: Qt.darker("#292c30", 1 + 0.5*overviewShape.shading) }
 		}
 
 		states: [
 			State {
 				name: "OVERVIEW"
-				when: Niri.inOverview
+				when: Niri.inOverview || true
 				// PropertyChanges {overviewShape.anchors.bottomMargin: 0}
 				PropertyChanges {overviewShape.width: 700}
-				PropertyChanges {overviewShape.height: overviewShape.children[1].implicitHeight}
+				PropertyChanges {overviewShape.height: overviewShape.children[2].implicitHeight}
 				PropertyChanges {overviewShape.shading: 1}
 				// PropertyChanges {overviewShadow.visible: true}
 				PropertyChanges {leftIcons.opacity: 1}
@@ -122,20 +122,7 @@ PanelWindow {
 			opacity: 0
 			enabled: false
 
-			WindowActionWidget {}
-		}
-		RowLayout {
-			id: rightIcons
-			anchors.right: parent.right
-			anchors.rightMargin: 0
-			anchors.verticalCenter: parent.verticalCenter
-			spacing: 0
-			opacity: 0
-			enabled: false
-			Loader {
-				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
-				sourceComponent: ApplicationMenuWidget {}
-			}
+			ApplicationMenuWidget {screen: root.screen.name}
 			Loader {
 				active: root.screen.name == "DP-1" || root.screen.name == "eDP-1"
 				sourceComponent: BluetoothMenuWidget {}
@@ -158,6 +145,17 @@ PanelWindow {
 				active: root.screen.name == "eDP-1"
 				sourceComponent: BatteryWidget { Layout.leftMargin: 12 }
 			}
+		}
+		RowLayout {
+			id: rightIcons
+			anchors.right: parent.right
+			anchors.rightMargin: 0
+			anchors.verticalCenter: parent.verticalCenter
+			spacing: 0
+			opacity: 0
+			enabled: false
+
+			WindowActionWidget {}
 		}
 	}
 	RectangularShadow {

@@ -13,7 +13,8 @@ import "../widgets"
 import QtQuick.Controls.Material
 
 MenuWithButton {
-	name: "apps"
+	required property string screen
+	name: screen+"apps"
 	icon.name: "edit-find"
 	color: Material.Green
 	content: RowLayout {
@@ -54,7 +55,7 @@ MenuWithButton {
 				"Ryujinx",
 			])
 			flow: GridView.FlowTopToBottom
-			cellHeight: 54
+			cellHeight: 48
 		}
 	}
 }
