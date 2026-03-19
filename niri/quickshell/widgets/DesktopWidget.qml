@@ -35,7 +35,7 @@ Item {
 		font.pixelSize: 20
 		font.weight: 300
 
-		icon.name: modelData.icon
+		icon.name: DesktopService.customIcons(modelData.icon)
 		icon.color: "transparent"
 		icon.width: root.size
 		icon.height: root.size

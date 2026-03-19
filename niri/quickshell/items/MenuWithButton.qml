@@ -74,10 +74,10 @@ RoundButton {
 			radius: 20
 			color: "#292c30"
 			gradient: Gradient {
-				GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1 + 0.5*overviewShape.shading) }
+				GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1.2) }
 				// GradientStop { position: 0.475; color: Qt.lighter("#292c30", 1 + 0.15*overviewShape.shading) }
 				// GradientStop { position: 0.525; color: Qt.darker("#292c30", 1 + 0.15*overviewShape.shading) }
-				GradientStop { position: 1.0; color: Qt.darker("#292c30", 1 + 0.5*overviewShape.shading) }
+				GradientStop { position: 1.0; color: Qt.darker("#292c30", 1.2) }
 			}
 		}
 		RoundButton {

@@ -20,6 +20,7 @@ MenuWithButton {
 	content: RowLayout {
 		anchors.centerIn: parent
 		Layout.fillWidth: true
+		Layout.fillHeight: true
 		spacing: 16
 		Loader {
 			active: false
@@ -31,12 +32,13 @@ MenuWithButton {
 						DesktopService.byId("dolphin-emu"),
 						DesktopService.byId("info.cemu.Cemu"),
 						DesktopService.byId("Ryujinx"),
+						DesktopService.byId("steam"),
 					]
 					alignment: Qt.AlignHCenter
 					display: AbstractButton.IconOnly
 					interactive: false
 					size: 64
-					cellHeight: 88
+					cellHeight: 90
 				}
 			}
 			Timer {
@@ -53,9 +55,10 @@ MenuWithButton {
 				"dolphin-emu",
 				"info.cemu.Cemu",
 				"Ryujinx",
+				"steam",
 			])
 			flow: GridView.FlowTopToBottom
-			cellHeight: 48
+			cellHeight: 46
 		}
 	}
 }

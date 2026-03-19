@@ -31,6 +31,12 @@ Singleton {
 			default: return name;
 		}
 	}
+	function customIcons(name): string {
+		switch(name) {
+			case "steam": return "/run/current-system/sw/share/icons/hicolor/256x256/apps/steam.png";
+			default: return name;
+		}
+	}
 
 	function createSortedEntries() {
 		const unsorted = DesktopEntries.applications.values

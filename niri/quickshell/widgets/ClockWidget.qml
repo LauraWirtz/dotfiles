@@ -2,10 +2,14 @@
 import QtQuick
 import "../services"
 
+import QtQuick.Controls.Material
+
 Text {
+	property bool minimized
+
 	text: Time.time
-	color: Niri.inOverview ? "white" : "#9E9E9E"
-	font.pixelSize: Niri.inOverview ? 32 : 18
+	color: Material.color(Material.Green, Material.Shade200)
+	font.pixelSize: minimized ? 16 : 32
 	font.weight: 200
 	lineHeight: 0.8
 	horizontalAlignment: Text.AlignHCenter

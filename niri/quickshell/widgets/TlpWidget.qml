@@ -22,8 +22,8 @@ RowLayout {
 		// padding: 0
 
 		icon.name: root.profile == "performance" ? "battery-profile-performance" : "battery-profile-powersave"
-		icon.width: 32
-		icon.height: 32
+		icon.width: 24
+		icon.height: 24
 		Material.foreground: root.profile == "performance" ? Material.Red : Material.Green
 		// radius: 8
 		flat: true
@@ -38,14 +38,6 @@ RowLayout {
 			}
 		}
 	}
-	states: [
-		State {
-			name: "ACTIVE"
-			when: (Niri.inOverview)
-			StateChangeScript { script: {statusGetter.running = true} }
-		},
-	]
-
 	Timer {
 		interval: 1000; running: Niri.inOverview; repeat: true
 		onTriggered: { statusGetter.running = true }
