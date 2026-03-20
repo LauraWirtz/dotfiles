@@ -31,8 +31,8 @@ Item {
 			Layout.rightMargin: 4
 			icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
 			icon.color: "transparent"
-			icon.width: 32
-			icon.height: 32
+			icon.width: 24
+			icon.height: 24
 			padding: 0
 			flat: true
 			background: {}
@@ -98,7 +98,7 @@ Item {
 		contentHeight: contentItem.childrenRect.height
 		// height: contentHeight
 		interactive: false
-		// spacing: -8
+		spacing: -8
 
 		model: Mpris.players.values
 		delegate: PlayerDelegate {}

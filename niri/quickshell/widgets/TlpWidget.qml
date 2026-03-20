@@ -39,7 +39,7 @@ RowLayout {
 		}
 	}
 	Timer {
-		interval: 1000; running: Niri.inOverview; repeat: true
+		interval: 1000; running: root.enabled; repeat: true
 		onTriggered: { statusGetter.running = true }
 	}
 	Process {

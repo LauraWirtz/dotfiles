@@ -83,27 +83,27 @@ ColumnLayout {
 		}
 	}
 
-	RowLayout {
-		CheckBox {
-			text: "Enable"
-			checked: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
-			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled ||
-				Bluetooth.defaultAdapter.state == BluetoothAdapterState.Disabled
-			onClicked: {
-				if(Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled) {
-					Bluetooth.defaultAdapter.enabled = false
-				} else if(Bluetooth.defaultAdapter.state == BluetoothAdapterState.Disabled) {
-					Bluetooth.defaultAdapter.enabled = true
-				}
-			}
-		}
-		CheckBox {
-			text: "Scan"
-			checked: Bluetooth.defaultAdapter.discovering
-			enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
-			onClicked: Bluetooth.defaultAdapter.discovering = !Bluetooth.defaultAdapter.discovering
-		}
-	}
+	// RowLayout {
+	// 	CheckBox {
+	// 		text: "Enable"
+	// 		checked: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
+	// 		enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled ||
+	// 			Bluetooth.defaultAdapter.state == BluetoothAdapterState.Disabled
+	// 		onClicked: {
+	// 			if(Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled) {
+	// 				Bluetooth.defaultAdapter.enabled = false
+	// 			} else if(Bluetooth.defaultAdapter.state == BluetoothAdapterState.Disabled) {
+	// 				Bluetooth.defaultAdapter.enabled = true
+	// 			}
+	// 		}
+	// 	}
+	// 	CheckBox {
+	// 		text: "Scan"
+	// 		checked: Bluetooth.defaultAdapter.discovering
+	// 		enabled: Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
+	// 		onClicked: Bluetooth.defaultAdapter.discovering = !Bluetooth.defaultAdapter.discovering
+	// 	}
+	// }
 
 
 	ListView {
