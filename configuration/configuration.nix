@@ -103,6 +103,8 @@
 		"steam-original"
 		"steam-run"
 		"steam-unwrapped"
+		"rar"
+		"unrar"
 	];
 
 	programs.foot = {
@@ -112,7 +114,7 @@
 				font = "Roboto Mono:size=10";
 				pad = "10x10";
 			};
-			colors = {
+			colors-dark = {
 				background = "292c30";
 				regular0 = "546E7A";  # black
 				regular1 = "FF5252";  # red
@@ -141,7 +143,10 @@
 		gimp
 		git
 		nvd
+		qimgv
 		quodlibet-full
+		rar
+		unrar
 	];
 
 

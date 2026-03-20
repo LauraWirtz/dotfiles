@@ -6,8 +6,7 @@
 		azahar
 		cemu
 		dolphin-emu
-		gnome-mines
-		melonDS
+		melonds
 		ryubing
 	];
 }

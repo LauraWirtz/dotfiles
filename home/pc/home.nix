@@ -6,7 +6,7 @@
 		".local/share/bottles".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/bottles";
 		".local/share/Cemu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/Cemu";
 		".local/share/dolphin-emu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/dolphin-emu";
-		".local/share/yuzu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/yuzu";
+		".config/Ryujinx".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/Ryujinx";
 		".git-credentials".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.git-credentials";
 	};
 }
