@@ -47,13 +47,13 @@
 		RADEON_DPM_STATE_ON_BAT="battery";
 		RADEON_DPM_STATE_ON_SAV="battery";
 		AMDGPU_ABM_LEVEL_ON_AC=0;
-		AMDGPU_ABM_LEVEL_ON_BAT=0;
+		AMDGPU_ABM_LEVEL_ON_BAT=1;
 		AMDGPU_ABM_LEVEL_ON_SAV=3;
 
-		CPU_DRIVER_OPMODE_ON_AC="guided";
+		CPU_DRIVER_OPMODE_ON_AC="active";
 		CPU_DRIVER_OPMODE_ON_BAT="active";
 		CPU_DRIVER_OPMODE_ON_SAV="active";
-		CPU_SCALING_GOVERNOR_ON_AC="schedutil";
+		CPU_SCALING_GOVERNOR_ON_AC="performance";
 		CPU_SCALING_GOVERNOR_ON_BAT="powersave";
 		CPU_SCALING_GOVERNOR_ON_SAV="powersave";
 		PLATFORM_PROFILE_ON_AC="performance";
@@ -65,7 +65,7 @@
 		CPU_SCALING_MAX_FREQ_ON_BAT=5455945;
 		CPU_SCALING_MIN_FREQ_ON_SAV=624476;
 		CPU_SCALING_MAX_FREQ_ON_SAV=5455945;
-		CPU_ENERGY_PERF_POLICY_ON_AC="balance_performance";
+		CPU_ENERGY_PERF_POLICY_ON_AC="performance";
 		CPU_ENERGY_PERF_POLICY_ON_BAT="power";
 		CPU_ENERGY_PERF_POLICY_ON_SAV="power";
 
@@ -101,6 +101,5 @@
 	environment.systemPackages = with pkgs; [
 		pkgsRocm.blender
 		qmk
-		qpwgraph
 	];
 }
