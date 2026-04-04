@@ -33,7 +33,7 @@ PanelWindow {
 	RectangularShadow {
 		id: overviewShadow
 		anchors.fill: mouseArea
-		z: -1
+		opacity: 0
 		blur: 20
 		spread: 0
 		radius: overviewShape.radius
@@ -44,13 +44,13 @@ PanelWindow {
 		id: mouseArea
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 12
+		anchors.bottomMargin: 11
 		width: 64
-		height: 32
+		height: 26
 		clip: true
 
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
-		hoverEnabled: true
+		hoverEnabled: root.screen.name != "eDP-1"
 
 		onClicked: event => {
 			switch (event.button) {
@@ -75,20 +75,23 @@ PanelWindow {
 			State {
 				name: "OVERVIEW"
 				when: (Niri.inOverview || mouseArea.containsMouse) && !mouseArea.extended
-				PropertyChanges {mouseArea.anchors.bottomMargin: 6}
-				PropertyChanges {mouseArea.width: 800}
+				PropertyChanges {mouseArea.anchors.bottomMargin: 3}
+				PropertyChanges {mouseArea.width: content.implicitWidth}
 				PropertyChanges {mouseArea.height: lowerContent.implicitHeight}
-				PropertyChanges {overviewShape.shading: 1}
-				PropertyChanges {clock.minimized: false}
+				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.5)}
+				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.5)}
+				PropertyChanges {cutoutItem.minimized: false}
 				PropertyChanges {content.opacity: 1}
 				PropertyChanges {content.enabled: true}
+				PropertyChanges {overviewShadow.opacity: 1}
 			},
 			State {
 				name: "EXTENDED"
 				when: (Niri.inOverview || mouseArea.containsMouse) && mouseArea.extended
 				extend: "OVERVIEW"
 				PropertyChanges {mouseArea.height: content.implicitHeight}
-				PropertyChanges {overviewShape.shading: 0.5}
+				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.25)}
+				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.25)}
 
 			},
 			State {
@@ -101,10 +104,12 @@ PanelWindow {
 			Transition {
 				to: "OVERVIEW"
 				ParallelAnimation {
-					NumberAnimation { properties: "overviewShape.shading"; easing.type: Easing.OutQuad; duration: 150 }
+					ColorAnimation { properties: "overviewShape.upperColor"; easing.type: Easing.OutQuad; duration: 150 }
+					ColorAnimation { properties: "overviewShape.lowerColor"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.width"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.height"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShadow.opacity"; easing.type: Easing.OutQuad; duration: 150 }
 					SequentialAnimation {
 						PauseAnimation { duration: 75 }
 						ParallelAnimation {
@@ -116,16 +121,19 @@ PanelWindow {
 			},
 			Transition {
 				to: "EXTENDED"
-				NumberAnimation { properties: "overviewShape.shading"; easing.type: Easing.OutQuad; duration: 150 }
+				ColorAnimation { properties: "overviewShape.upperColor"; easing.type: Easing.OutQuad; duration: 150 }
+				ColorAnimation { properties: "overviewShape.lowerColor"; easing.type: Easing.OutQuad; duration: 150 }
 				NumberAnimation { properties: "mouseArea.height"; easing.type: Easing.OutQuad; duration: 150 }
 			},
 			Transition {
 				to: "NOVERVIEW"
 				ParallelAnimation {
-					NumberAnimation { properties: "overviewShape.shading"; easing.type: Easing.OutQuad; duration: 150 }
+					ColorAnimation { properties: "overviewShape.upperColor"; easing.type: Easing.OutQuad; duration: 150 }
+					ColorAnimation { properties: "overviewShape.lowerColor"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.width"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.height"; easing.type: Easing.OutQuad; duration: 150 }
 					NumberAnimation { properties: "mouseArea.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 150 }
+					NumberAnimation { properties: "overviewShadow.opacity"; easing.type: Easing.OutQuad; duration: 150 }
 					SequentialAnimation {
 						PauseAnimation { duration: 25 }
 						ParallelAnimation {
@@ -144,11 +152,12 @@ PanelWindow {
 			anchors.fill: parent
 			radius: 26
 
-			property real shading: 0.5
+			property color upperColor: "black"
+			property color lowerColor: "black"
 
 			gradient: Gradient {
-				GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1 + 0.5*overviewShape.shading) }
-				GradientStop { position: 1.0; color: Qt.darker("#292c30", 1 + 0.5*overviewShape.shading) }
+				GradientStop { position: 0.0; color: overviewShape.upperColor }
+				GradientStop { position: 1.0; color: overviewShape.lowerColor }
 			}
 
 			ColumnLayout {
@@ -170,17 +179,18 @@ PanelWindow {
 						sourceComponent: Component {
 							DesktopWidget {
 								model: [
+									DesktopService.byId("steam"),
 									DesktopService.byId("net.kuribo64.melonDS"),
 									DesktopService.byId("org.azahar_emu.Azahar"),
 									DesktopService.byId("dolphin-emu"),
 									DesktopService.byId("info.cemu.Cemu"),
 									DesktopService.byId("Ryujinx"),
-									DesktopService.byId("steam"),
 								]
 								orientation: ListView.Vertical
 								display: AbstractButton.IconOnly
 								interactive: false
 								size: 64
+								spacing: -8
 							}
 						}
 						Timer {
@@ -192,26 +202,35 @@ PanelWindow {
 						Layout.fillWidth: true
 						Layout.fillHeight: true
 						model: DesktopService.getFilteredEntries([
+							"steam",
 							"net.kuribo64.melonDS",
 							"org.azahar_emu.Azahar",
 							"dolphin-emu",
 							"info.cemu.Cemu",
 							"Ryujinx",
-							"steam",
 						])
 						orientation: ListView.Vertical
+						interactive: false
 						spacing: -8
+					}
+					Rectangle {
+						Layout.fillHeight: true
+						Layout.leftMargin: -4
+						Layout.rightMargin: -4
+						width: 2
+						radius: 1
+						color: "#22ffffff"
+
 					}
 					ColumnLayout {
 						Layout.fillWidth: true
 						spacing: 16
 						BluetoothWidget {}
 						RowLayout {
-							TlpWidget {}
 							InputPlumberWidget {}
 							KeyboardLayoutWidget {}
 						}
-						BluelightWidget {}
+						// BluelightWidget {}
 						BrightnessWidget {}
 						VolumeWidget {}
 						PlayerWidget {}
@@ -221,16 +240,13 @@ PanelWindow {
 					id: lowerContent
 					spacing: 0
 					RoundButton {
-						icon.name: "plasma-symbolic"
+						icon.name: "user-home-symbolic"
 						icon.width: 24
 						icon.height: 24
-						text: "Overview "
+						text: "Overview  "
 						onClicked: Niri.toggleOverview()
 					}
-					Loader {
-						active: root.screen.name == "eDP-1"
-						sourceComponent: BatteryWidget { Layout.leftMargin: 12 }
-					}
+					TlpWidget {}
 					Item {
 						Layout.fillWidth: true
 						Layout.horizontalStretchFactor: 1
@@ -239,12 +255,30 @@ PanelWindow {
 				}
 
 			}
-
-			ClockWidget {
+			Item{
+				id: cutoutItem
 				anchors.horizontalCenter: parent.horizontalCenter
 				anchors.bottom: parent.bottom
-				id: clock
-				minimized: true
+				height: minimized ? 26 : 56
+
+				property bool minimized: true
+
+				Behavior on height { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+
+				Loader {
+					anchors.centerIn: parent
+					active: root.screen.name == "eDP-1"
+					sourceComponent: BatteryWidget {
+						minimized: cutoutItem.minimized
+					}
+				}
+				Loader {
+					anchors.centerIn: parent
+					active: root.screen.name != "eDP-1"
+					sourceComponent: ClockWidget {
+						minimized: cutoutItem.minimized
+					}
+				}
 			}
 		}
 	}

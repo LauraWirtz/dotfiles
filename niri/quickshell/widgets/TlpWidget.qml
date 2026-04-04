@@ -3,53 +3,33 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
-import "../items"
 import "../services"
 
 import QtQuick.Controls.Material
 
-RowLayout {
-	Material.theme: Material.Dark
+RoundButton {
 	Material.accent: Material.Pink
-	spacing: 0
 
-	id:root
-	property string profile: ""
+	id: root
 
-	RoundButton {
-		id: button
-		// padding: 0
+	icon.width: 24
+	icon.height: 24
+	flat: true
 
-		icon.name: root.profile == "performance" ? "battery-profile-performance" : "battery-profile-powersave"
-		icon.width: 24
-		icon.height: 24
-		Material.foreground: root.profile == "performance" ? Material.Red : Material.Green
-		// radius: 8
-		flat: true
-
-		onClicked: {
-			if( root.profile == "performance") {
-				statusSetter.command = [ "tlpctl", "balanced" ]
-				statusSetter.running = true
-			} else if( root.profile == "balanced") {
-				statusSetter.command = [ "tlpctl", "performance" ]
-				statusSetter.running = true
-			}
-		}
-	}
-	Timer {
-		interval: 1000; running: root.enabled; repeat: true
-		onTriggered: { statusGetter.running = true }
-	}
-	Process {
-		id: statusGetter
-		running: false
-		command: [ "tlpctl", "get", ]
-		stdout: SplitParser { onRead: data => root.profile = data }
-	}
-	Process {
-		id: statusSetter
-		running: false
-	}
+	states: [
+		State {
+			name: "performance"
+			when: TlpService.profile == "performance"
+			PropertyChanges {root.icon.name: "battery-profile-performance"}
+			PropertyChanges {root.Material.foreground: Material.Red}
+			PropertyChanges {root.onClicked: TlpService.set([ "tlpctl", "balanced" ])}
+		},
+		State {
+			name: "balanced"
+			when: TlpService.profile == "balanced"
+			PropertyChanges {root.icon.name: "battery-profile-powersave"}
+			PropertyChanges {root.Material.foreground: Material.Green}
+			PropertyChanges {root.onClicked: TlpService.set([ "tlpctl", "performance" ])}
+		},
+	]
 }

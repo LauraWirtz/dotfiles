@@ -2,16 +2,24 @@
 import QtQuick
 import "../services"
 
+import QtQuick.Controls.Material
+
 Text {
 	id: root
-	text: Math.min(Battery.percentage, 99).toString().padStart(2,"0")+"%\n("+Battery.timeRemaining+")"
-	color: "#9E9E9E"
-	font.pixelSize: 18
-	font.weight: 300
+
+	property bool minimized
+
+	text: Math.min(Battery.percentage, 99).toString().padStart(2,"0")+"%"
+	color: Material.color(Material.Grey, Material.Shade500)
+	font.pixelSize: minimized ? 18 : 32
+	font.weight: minimized ? 300 : 200
 	lineHeight: 0.8
 	horizontalAlignment: Text.AlignHCenter
 	textFormat: Text.PlainText
 	renderType: Text.QtRendering
+
+	Behavior on font.pixelSize { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
+	Behavior on font.weight { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
 
 	states: [
 		State {

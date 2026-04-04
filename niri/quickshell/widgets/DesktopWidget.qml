@@ -26,7 +26,7 @@ Item {
 	property alias spacing: list.spacing
 
 	component DesktopEntryDelegate: Button {
-		Material.roundedScale: root.display == AbstractButton.IconOnly ? Material.SmallScale : Material.FullScale
+		Material.roundedScale: root.display == AbstractButton.IconOnly ? Material.LargeScale : Material.FullScale
 		id: button
 		padding: 0
 
@@ -46,7 +46,6 @@ Item {
 
 		onClicked: {
 			Niri.spawn(modelData.command)
-			PopupService.currentPopup = ""
 		}
 	}
 
