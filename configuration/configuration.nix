@@ -37,10 +37,11 @@
 
 	fonts = {
 		packages = with pkgs; [
-			noto-fonts
-			noto-fonts-cjk-sans
-			roboto
-			roboto-mono
+# 			noto-fonts
+# 			noto-fonts-cjk-sans
+# 			roboto
+# 			roboto-mono
+			google-fonts
 		];
 		fontconfig = {
 			enable = true;
@@ -48,6 +49,8 @@
 			subpixel.rgba = lib.mkDefault "rgb";
 			defaultFonts.serif = [ "Noto Serif"];
 			defaultFonts.sansSerif = [ "Noto Sans"];
+			defaultFonts.monospace  = [ "Noto Color Emoji"];
+			defaultFonts.emoji  = [ "Noto Color Emoji"];
 		};
 	};
 

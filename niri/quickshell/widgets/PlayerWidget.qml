@@ -81,6 +81,7 @@ Item {
 			textFormat: Text.PlainText
 			elide: Text.ElideRight
 			Layout.fillWidth: true
+			wrapMode: Text.WordWrap
 			// Layout.leftMargin: 12
 			// Layout.rightMargin: 16
 

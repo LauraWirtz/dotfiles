@@ -45,7 +45,7 @@ output "eDP-1" {
 			left -20
 			right -20
 			top -20
-			bottom -20
+			bottom 40
 		}
 	}
 }
@@ -88,7 +88,7 @@ layout {
 	insert-hint { color "#A5D6A7";}
 
 	focus-ring {
-		on
+		off
 		width 1.5
 		active-color "#A5D6A7"
 //		active-gradient from="#C5E1A5" to="#A5D6A7" angle=135
@@ -97,11 +97,11 @@ layout {
 	}
 
 	border {
-		off
-		width 1.5
+		on
+		width 0
 
 		active-color "#A5D6A7"
-		inactive-color "#57595c"
+		inactive-color "black"
 	}
 	shadow {
 		on
@@ -109,7 +109,7 @@ layout {
 		spread 0
 		offset x=0 y=0
 		draw-behind-window false
-		color "#A5D6A7"
+		color "000000ff"
 		inactive-color "000000ff"
 	}
 	struts {
@@ -149,9 +149,14 @@ hotkey-overlay {
 prefer-no-csd
 
 window-rule {
+	match is-active=false
+	opacity 0.5
+}
+
+window-rule {
 	geometry-corner-radius 8
 	clip-to-geometry true
-	draw-border-with-background false
+	draw-border-with-background true
 	open-maximized-to-edges false
 }
 
