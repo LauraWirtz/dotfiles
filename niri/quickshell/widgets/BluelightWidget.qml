@@ -48,17 +48,11 @@ RowLayout {
 			root.modeBuffer = "static"
 			processQueue()
 		}
-
-		states: [
-			State {
-				name: "ACTIVE"
-				when: (Niri.inOverview)
-				PropertyChanges { statusGetter.running: true }
-			}
-		]
 	}
 	Button {
 		id: autoButton
+		Layout.topMargin: -12
+		Layout.bottomMargin: -12
 		icon.name: "clock"
 		icon.width: 24
 		icon.height: 24
@@ -93,7 +87,7 @@ RowLayout {
 
 	Process {
 		id: statusGetter
-		running: false
+		running: true
 		command: [ "sunsetr", "status", "--json", "--follow" ]
 		stdout: SplitParser { onRead: rawData => {
 			const event = JSON.parse(rawData)

@@ -34,6 +34,8 @@ Singleton {
 	function customIcons(name): string {
 		switch(name) {
 			case "steam": return "/run/current-system/sw/share/icons/hicolor/256x256/apps/steam.png";
+			case "org.kde.dolphin": return "system-file-manager";
+			case "kate": return "kwrite";
 			default: return name;
 		}
 	}

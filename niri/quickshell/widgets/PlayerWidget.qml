@@ -20,70 +20,62 @@ Item {
 	Layout.fillWidth: true
 	Layout.minimumHeight: list.contentHeight
 
-	component PlayerDelegate: RowLayout {
+	component PlayerDelegate: ColumnLayout {
 		width: list.contentWidth
 
 		spacing: 0
+		RowLayout {
+			Layout.alignment: Qt.AlignHCenter
+			spacing: 0
+			RoundButton {
+				id: playerIcon
+				icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
+				icon.color: "transparent"
+				icon.width: 24
+				icon.height: 24
+				flat: true
+				enabled: false
+			}
+			RoundButton {
+				icon.name: model.isPlaying ? "media-playback-pause" : "media-playback-start"
+				icon.width: 24
+				icon.height: 24
+				flat: true
 
-		RoundButton {
-			id: playerIcon
-			Layout.leftMargin: 0
-			Layout.rightMargin: 4
-			icon.name: getIconNameFromDesktopEntry(model.desktopEntry)
-			icon.color: "transparent"
-			icon.width: 24
-			icon.height: 24
-			padding: 0
-			flat: true
-			background: {}
-		}
-		RoundButton {
-			Layout.leftMargin: -8
-			Layout.rightMargin: -8
+				onClicked: togglePlaying()
+			}
+			RoundButton {
+				icon.name: "media-skip-backward"
+				icon.width: 24
+				icon.height: 24
+				flat: true
 
-			icon.name: "media-skip-backward"
-			icon.width: 24
-			icon.height: 24
-			padding: 0
-			flat: true
+				enabled: canGoPrevious
 
-			enabled: canGoPrevious
+				onClicked: { previous(); play() }
+			}
+			RoundButton {
+				icon.name: "media-skip-forward"
+				icon.width: 24
+				icon.height: 24
+				flat: true
 
-			onClicked: { previous(); play() }
-		}
-		RoundButton {
-			Layout.leftMargin: -8
-			Layout.rightMargin: -8
-			icon.name: model.isPlaying ? "media-playback-pause" : "media-playback-start"
-			icon.width: 24
-			icon.height: 24
-			padding: 0
-			flat: true
+				enabled: canGoNext
 
-			onClicked: togglePlaying()
-		}
-		RoundButton {
-			Layout.leftMargin: -8
-			Layout.rightMargin: 0
-			icon.name: "media-skip-forward"
-			icon.width: 24
-			icon.height: 24
-			padding: 0
-			flat: true
+				onClicked: { next(); play() }
+			}
 
-			enabled: canGoNext
-
-			onClicked: { next(); play() }
 		}
 		Text {
+			Layout.alignment: Qt.AlignHCenter
+			Layout.fillWidth: true
+
 			color: "white"
 			font.pixelSize: 16
 			textFormat: Text.PlainText
 			elide: Text.ElideRight
-			Layout.fillWidth: true
 			wrapMode: Text.WordWrap
-			// Layout.leftMargin: 12
-			// Layout.rightMargin: 16
+			horizontalAlignment: Text.AlignHCenter
 
 			text: (trackAlbumArtist || trackArtist) + " - " + model.trackTitle
 		}

@@ -52,8 +52,7 @@ PanelWindow {
 		clip: true
 
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
-		hoverEnabled: root.screen.name != "eDP-1"
-
+		hoverEnabled: true
 		onClicked: event => {
 			switch (event.button) {
 				case Qt.BackButton:
@@ -90,6 +89,24 @@ PanelWindow {
 
 		Behavior on height { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
 
+		DragHandler {
+			acceptedDevices: PointerDevice.TouchScreen
+
+			readonly property real interval: 50
+			property int currentCount: 0
+
+			target: null
+			xAxis.onActiveValueChanged: delta => {
+				var newCount = Math.round(xAxis.activeValue / interval)
+				if(newCount < currentCount) {
+					Niri.focusColumnRight()
+				} else if(newCount > currentCount) {
+					Niri.focusColumnLeft()
+				}
+				currentCount = newCount
+			}
+			onActiveChanged: currentCount = 0
+		}
 		Rectangle {
 			Material.theme: Material.Dark
 			Material.accent: Material.Blue
@@ -125,12 +142,10 @@ PanelWindow {
 						sourceComponent: Component {
 							DesktopWidget {
 								model: [
-									DesktopService.byId("steam"),
-									DesktopService.byId("net.kuribo64.melonDS"),
-									DesktopService.byId("org.azahar_emu.Azahar"),
-									DesktopService.byId("dolphin-emu"),
-									DesktopService.byId("info.cemu.Cemu"),
-									DesktopService.byId("Ryujinx"),
+									DesktopService.byId("floorp"),
+									DesktopService.byId("org.kde.dolphin"),
+									DesktopService.byId("org.kde.kate"),
+									DesktopService.byId("foot"),
 								]
 								orientation: ListView.Vertical
 								display: AbstractButton.IconOnly
@@ -148,12 +163,10 @@ PanelWindow {
 						Layout.fillWidth: true
 						Layout.fillHeight: true
 						model: DesktopService.getFilteredEntries([
-							"steam",
-							"net.kuribo64.melonDS",
-							"org.azahar_emu.Azahar",
-							"dolphin-emu",
-							"info.cemu.Cemu",
-							"Ryujinx",
+							"floorp",
+							"org.kde.dolphin",
+							"org.kde.kate",
+							"foot",
 						])
 						orientation: ListView.Vertical
 						interactive: false
@@ -176,7 +189,7 @@ PanelWindow {
 							InputPlumberWidget {}
 							KeyboardLayoutWidget {}
 						}
-						// BluelightWidget {}
+						BluelightWidget {}
 						BrightnessWidget {}
 						VolumeWidget {}
 						PlayerWidget {}
@@ -185,13 +198,6 @@ PanelWindow {
 				RowLayout {
 					id: lowerContent
 					spacing: 0
-					RoundButton {
-						icon.name: "user-home-symbolic"
-						icon.width: 24
-						icon.height: 24
-						text: "Overview  "
-						onClicked: Niri.toggleOverview()
-					}
 					TlpWidget {}
 					Item {
 						Layout.fillWidth: true
