@@ -3,6 +3,7 @@
 	boot = {
 		kernelPackages = pkgs.linuxPackages_latest;
 		kernelParams = [ "nowatchdog" ];
+		kernel.sysctl = { "vm.swappiness" = 1; };
 
 		loader = {
 			systemd-boot.enable = true;
@@ -29,6 +30,8 @@
 	services.tlp.enable = true;
 	services.tlp.pd.enable = true;
 
+	services.logind.settings.Login.HandlePowerKey = lib.mkDefault "hibernate";
+
 	programs.bash.shellAliases = {
 		e = "nano";
 		f = "ls -hAl --group-directories-first";
@@ -37,19 +40,16 @@
 
 	fonts = {
 		packages = with pkgs; [
-# 			noto-fonts
-# 			noto-fonts-cjk-sans
-# 			roboto
-# 			roboto-mono
 			google-fonts
 		];
+		fontDir.enable = true;
 		fontconfig = {
 			enable = true;
 			hinting.style = "full";
 			subpixel.rgba = lib.mkDefault "rgb";
 			defaultFonts.serif = [ "Noto Serif"];
 			defaultFonts.sansSerif = [ "Noto Sans"];
-			defaultFonts.monospace  = [ "Noto Color Emoji"];
+			defaultFonts.monospace  = [ "DejaVu Sans Mono"];
 			defaultFonts.emoji  = [ "Noto Color Emoji"];
 		};
 	};
@@ -80,6 +80,7 @@
 	};
 	
 	services.xserver.xkb.layout = lib.mkDefault "us";
+	console.keyMap = lib.mkDefault "us";
 
 	services.pulseaudio.enable = false;
 	security.rtkit.enable = true;
