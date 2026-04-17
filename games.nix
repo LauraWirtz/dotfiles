@@ -4,9 +4,8 @@
 	programs.gamescope.enable = true;
 	environment.systemPackages = with pkgs; [
 		azahar
-		cemu
 		dolphin-emu
 		melonds
-		ryubing
+		eden
 	];
 }

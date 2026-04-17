@@ -4,9 +4,8 @@
 
 		".floorp".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.floorp";
 		".local/share/bottles".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/bottles";
-		".local/share/Cemu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/Cemu";
 		".local/share/dolphin-emu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/dolphin-emu";
-		".config/Ryujinx".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/Ryujinx";
+		".local/share/eden".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/eden";
 		".git-credentials".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.git-credentials";
 	};
 }
