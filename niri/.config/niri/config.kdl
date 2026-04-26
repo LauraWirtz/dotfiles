@@ -55,7 +55,7 @@ output "DP-1" {
 	scale 1.2
 	variable-refresh-rate on-demand=true
 	focus-at-startup
-	position x=0 y=1080
+	position x=1920 y=1080
 
 	layout {
 		preset-column-widths {
@@ -69,7 +69,13 @@ output "DP-1" {
 }
 
 output "DP-2" {
-	position x=473 y=0
+	mode "1920x1080@144.001"
+	variable-refresh-rate on-demand=true
+	position x=0 y=1080
+}
+
+output "HDMI-A-1" {
+	position x=2400 y=0
 }
 
 
@@ -97,26 +103,26 @@ layout {
 	}
 
 	border {
-		on
+		off
 		width 0
 
-		active-color "#A5D6A7"
+		active-color "black"
 		inactive-color "black"
 	}
 	shadow {
 		on
-		softness 20
-		spread 0
+		softness 10
+		spread 5
 		offset x=0 y=0
 		draw-behind-window false
-		color "000000ff"
-		inactive-color "000000ff"
+		color "00000088"
+		inactive-color "00000066"
 	}
 	struts {
 		left 0
 		right 0
 		top 0
-		bottom 20
+		bottom 0
 	}
 }
 
@@ -150,7 +156,7 @@ prefer-no-csd
 
 window-rule {
 	match is-active=false
-	opacity 0.5
+	opacity 0.85
 }
 
 window-rule {
@@ -178,7 +184,7 @@ window-rule {
 window-rule {
 	match app-id="gamescope"
 	match app-id="net.kuribo64.melonDS"
-	match app-id="Ryujinx"
+	match app-id="eden"
 	match app-id=r"steam_app_\d+"
 	match app-id="steam_proton"
 	variable-refresh-rate true
@@ -192,6 +198,7 @@ window-rule {
 
 layer-rule {
 	match namespace="wpaperd.*"
+	match namespace="quickshell"
 	place-within-backdrop true
 }
 
