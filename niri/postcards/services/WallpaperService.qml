@@ -10,7 +10,7 @@ Item {
 	required property int monitorWidth				// monitor width
 	required property int monitorHeight				// monitor height
 
-	readonly property int border: 0					// clear space around monitor edge (can be negative)
+	property int border: 0					// clear space around monitor edge (can be negative)
 	// property int distance: 200
 
 
@@ -87,7 +87,7 @@ Item {
 		}
 		const coords = generateCoordinates()
 		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
-		root.z++
+		root.currentZ++
 		return { url: candidate, x: coords.x, y: coords.y, rotation: rotation, z: root.currentZ }
 	}
 

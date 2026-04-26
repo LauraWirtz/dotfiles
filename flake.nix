@@ -18,6 +18,7 @@
 					./configuration/pc.nix
 					./hardware/pc.nix
 					./niri/niri.nix
+					./niri/pc.nix
  					./kde.nix
 					./games.nix
 					home-manager.nixosModules.home-manager {

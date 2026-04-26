@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 {
-services.qs-postcards = {
+systemd.user.services.qs-postcards = {
 		wantedBy = [ "graphical-session.target" ];
 		path = [ pkgs.quickshell ];
 		serviceConfig = { Restart="always"; };
