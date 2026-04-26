@@ -1,31 +1,28 @@
-pragma Singleton
-
 import Quickshell
 import Quickshell.Io
 import QtQuick
 
-Singleton {
+Item {
 	id: root
 
 	property bool initialized: false
 
-	readonly property int width: 3440				// monitor width
-	readonly property int height: 1440				// monitor height
-	readonly property real scale: 1.2				// monitor scale
+	required property int monitorWidth				// monitor width
+	required property int monitorHeight				// monitor height
 
 	readonly property int border: 0					// clear space around monitor edge (can be negative)
 	// property int distance: 200
 
 
-	readonly property string source: "/home/laura/Pictures/アニメ/"
-	readonly property int size: 400					// postcard size
-	readonly property int count: 20					// # of postcards
-	readonly property int maxRotation: 30			// maximum degree of rotation
-	readonly property int interval: 60000			// interval of new postcards
+	required property string source
+	property int size: 400					// postcard size
+	property int count: 20					// # of postcards
+	property int maxRotation: 30			// maximum degree of rotation
+	property int interval: 60000			// interval of new postcards
 
 	property int nextRemoval: 0
 	property string removalState: "none"
-	property int z: 0
+	property int currentZ: 0
 
 	property var paths: []
 	property var images: []
@@ -91,14 +88,14 @@ Singleton {
 		const coords = generateCoordinates()
 		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
 		root.z++
-		return { url: candidate, x: coords.x, y: coords.y, rotation: rotation, z: root.z }
+		return { url: candidate, x: coords.x, y: coords.y, rotation: rotation, z: root.currentZ }
 	}
 
 	function generateCoordinates(): var {
 		var attempts = []
 		while(attempts.length < 10*(root.images.length+1)) {
-			var x = ((root.width - 2.0 * root.border - root.size) * Math.random() + root.border) / root.scale
-			var y = ((root.height - 2.0 * root.border - root.size) * Math.random() + root.border) / root.scale
+			var x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
+			var y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
 
 			var summedDistance = root.images.reduce((sum, el) => {
 				var distance = Math.sqrt(Math.pow(x - el.x, 2.0), Math.pow(y - el.y, 2.0))

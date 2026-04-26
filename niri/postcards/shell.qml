@@ -6,85 +6,101 @@ import QtQuick.Effects
 import "./services"
 // import "./widgets"
 
-PanelWindow {
-	id: root
-	// required property var modelData
-	// screen: modelData
+Scope {
+	Variants {
+		model: Quickshell.screens
+		PanelWindow {
+			id: root
+			required property var modelData
+			screen: modelData
 
-	color: "transparent"
+			color: "transparent"
 
-	anchors {
-		top: true
-		bottom: true
-		left: true
-		right: true
-	}
-	exclusionMode: ExclusionMode.Ignore
-	WlrLayershell.layer: WlrLayer.Background
+			anchors {
+				top: true
+				bottom: true
+				left: true
+				right: true
+			}
+			exclusionMode: ExclusionMode.Ignore
+			WlrLayershell.layer: WlrLayer.Background
 
-	Repeater {
-		id: repeater
-		anchors.fill: parent
-		model: WallpaperService.initialized ? WallpaperService.count : 0
-		Image {
-			id: component
+			WallpaperService {
+				id: wallpaperService
 
-			x: WallpaperService.images[modelData].x
-			y: WallpaperService.images[modelData].y
-			z: WallpaperService.images[modelData].z
+				monitorWidth: root.screen.width
+				monitorHeight: root.screen.height
 
-			width: WallpaperService.size
-			height: WallpaperService.size
+				source: "/home/laura/Pictures/アニメ/"
+				count: Math.round(root.screen.width * root.screen.height / 200000)
+			}
 
-			rotation: WallpaperService.images[modelData].rotation
+			Repeater {
+				id: repeater
+				anchors.fill: parent
+				model: wallpaperService.initialized ? wallpaperService.count : 0
+				Image {
+					id: component
 
-			source: WallpaperService.images[modelData].url
-			sourceSize.width: 2 * WallpaperService.size
-			sourceSize.height: 2 * WallpaperService.size
+					x: wallpaperService.images[modelData].x
+					y: wallpaperService.images[modelData].y
+					z: wallpaperService.images[modelData].z
 
-			fillMode: Image.PreserveAspectFit
-			asynchronous: true
-			cache: false
-			antialiasing: true
-			mipmap: true
+					width: wallpaperService.size
+					height: wallpaperService.size
 
-			opacity: 0
-			onStatusChanged: if (component.status == Image.Ready) component.opacity = 1
-			Behavior on opacity { NumberAnimation { duration: 1000 } }
+					rotation: wallpaperService.images[modelData].rotation
 
-			states: [
-				State {
-					name: "hide"
-					when: WallpaperService.nextRemoval == modelData && WallpaperService.removalState == "hide"
-					PropertyChanges {component.opacity: 0}
-				},
-				State {
-					name: "update"
-					when: WallpaperService.nextRemoval == modelData && WallpaperService.removalState == "update"
-					PropertyChanges {component.opacity: 0}
-					PropertyChanges {component.source: WallpaperService.images[modelData].url}
-					PropertyChanges {component.x: WallpaperService.images[modelData].x}
-					PropertyChanges {component.y: WallpaperService.images[modelData].y}
-					PropertyChanges {component.z: WallpaperService.images[modelData].z}
-					PropertyChanges {component.rotation: WallpaperService.images[modelData].rotation}
-				},
-				State {
-					name: "reveal"
-					when: WallpaperService.nextRemoval == modelData && WallpaperService.removalState == "reveal"
-					PropertyChanges {component.opacity: 1}
-				},
-			]
+					source: wallpaperService.images[modelData].url
+					sourceSize.width: 2 * wallpaperService.size
+					sourceSize.height: 2 * wallpaperService.size
 
-			RectangularShadow {
-				anchors.centerIn: parent
-				width: parent.paintedWidth
-				height: parent.paintedHeight
-				z: -1
-				color: "#88000000"
-				blur: 10
-				spread: 5
-				radius: 0
+					fillMode: Image.PreserveAspectFit
+					asynchronous: true
+					cache: false
+					antialiasing: true
+					mipmap: true
+
+					opacity: 0
+					onStatusChanged: if (component.status == Image.Ready) component.opacity = 1
+					Behavior on opacity { NumberAnimation { duration: 1000 } }
+
+					states: [
+						State {
+							name: "hide"
+							when: wallpaperService.nextRemoval == modelData && wallpaperService.removalState == "hide"
+							PropertyChanges {component.opacity: 0}
+						},
+						State {
+							name: "update"
+							when: wallpaperService.nextRemoval == modelData && wallpaperService.removalState == "update"
+							PropertyChanges {component.opacity: 0}
+							PropertyChanges {component.source: wallpaperService.images[modelData].url}
+							PropertyChanges {component.x: wallpaperService.images[modelData].x}
+							PropertyChanges {component.y: wallpaperService.images[modelData].y}
+							PropertyChanges {component.z: wallpaperService.images[modelData].z}
+							PropertyChanges {component.rotation: wallpaperService.images[modelData].rotation}
+						},
+						State {
+							name: "reveal"
+							when: wallpaperService.nextRemoval == modelData && wallpaperService.removalState == "reveal"
+							PropertyChanges {component.opacity: 1}
+						},
+					]
+
+					RectangularShadow {
+						anchors.centerIn: parent
+						width: parent.paintedWidth
+						height: parent.paintedHeight
+						z: -1
+						color: "#88000000"
+						blur: 10
+						spread: 5
+						radius: 0
+					}
+				}
 			}
 		}
 	}
 }
+
