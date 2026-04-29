@@ -34,7 +34,7 @@ Scope {
 				border: -100
 
 				source: "/home/laura/Pictures/アニメ/"
-				count: Math.round(root.screen.width * root.screen.height / 200000)
+				count: Math.round(root.screen.width * root.screen.height / 150000)
 			}
 
 			Repeater {
@@ -60,7 +60,7 @@ Scope {
 					fillMode: Image.PreserveAspectFit
 					asynchronous: true
 					cache: false
-					antialiasing: true
+					// antialiasing: true
 					mipmap: true
 
 					opacity: 0
@@ -92,13 +92,28 @@ Scope {
 
 					RectangularShadow {
 						anchors.centerIn: parent
-						width: parent.paintedWidth
-						height: parent.paintedHeight
+						width: parent.paintedWidth + 4
+						height: parent.paintedHeight + 4
 						z: -1
 						color: "#88000000"
 						blur: 10
-						spread: 5
+						// spread: 5
 						radius: 0
+					}
+					Rectangle {
+						anchors.centerIn: parent
+
+						width: parent.paintedWidth + 4
+						height: parent.paintedHeight + 4
+
+						radius: 6
+
+						antialiasing: true
+
+						color: "transparent"
+
+						border.color: "beige"
+						border.width: 4
 					}
 				}
 			}

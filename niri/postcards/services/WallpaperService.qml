@@ -100,13 +100,9 @@ Item {
 			var summedDistance = root.images.reduce((sum, el) => {
 				var distance = Math.sqrt(Math.pow(x - el.x, 2.0), Math.pow(y - el.y, 2.0))
 
-				const lowerLimit = 0.5 * root.size
-				const upperLimit = 2 * root.size
-				const lowerPunishment = -2 * root.size
-
-				distance = distance < lowerLimit ? lowerPunishment : distance
+				const upperLimit = 1.5 * root.size
 				distance = distance > upperLimit ? upperLimit : distance
-				return sum + distance
+				return sum + Math.pow(distance, 0.25)
 			}, 0)
 			attempts.push({x: x, y: y, summedDistance: summedDistance})
 		}
