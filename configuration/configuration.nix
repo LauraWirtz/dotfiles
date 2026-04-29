@@ -2,8 +2,8 @@
 {
 	boot = {
 		kernelPackages = pkgs.linuxPackages_latest;
-		kernelParams = [ "nowatchdog" ];
-		kernel.sysctl = { "vm.swappiness" = 1; };
+		kernelParams = [ "nowatchdog" "split_lock_detect=off" ];
+		kernel.sysctl = { "vm.swappiness" = 10; };
 
 		loader = {
 			systemd-boot.enable = true;
@@ -142,7 +142,7 @@
 
 	environment.systemPackages = with pkgs; [
 		anki
-		bottles
+# 		bottles
 		floorp-bin
 		gimp
 		git

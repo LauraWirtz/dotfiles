@@ -49,7 +49,6 @@ output "eDP-1" {
 		}
 	}
 }
-
 output "DP-1" {
 	mode "3440x1440@160"
 	scale 1.2
@@ -67,13 +66,11 @@ output "DP-1" {
 		default-column-width { proportion 0.5; }
 	}
 }
-
 output "DP-2" {
 	mode "1920x1080@144.001"
 	variable-refresh-rate on-demand=true
 	position x=0 y=1080
 }
-
 output "HDMI-A-1" {
 	position x=2400 y=0
 }
@@ -126,6 +123,7 @@ layout {
 	}
 }
 
+
 animations {
 	overview-open-close {
 		duration-ms 150
@@ -133,11 +131,26 @@ animations {
 	}
 }
 
+
 overview {
 //	zoom 1
 	workspace-shadow {
 		off
 	}
+}
+
+
+blur {
+    on
+    passes 2
+    offset 2
+    noise 0.02
+    saturation 1
+}
+
+
+hotkey-overlay {
+	skip-at-startup
 }
 
 spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
@@ -148,9 +161,6 @@ spawn-at-startup "steam"
 spawn-at-startup "wpaperd" "-d"
 spawn-at-startup "sunsetr"
 
-hotkey-overlay {
-	skip-at-startup
-}
 
 prefer-no-csd
 
@@ -164,6 +174,9 @@ window-rule {
 	clip-to-geometry true
 	draw-border-with-background true
 	open-maximized-to-edges false
+	background-effect {
+        blur true
+    }
 }
 
 window-rule {

@@ -16,6 +16,7 @@
 
 	environment.variables = {
 		QT_STYLE_OVERRIDE = "breeze";
+		QT_QPA_PLATFORMTHEME = "kde";
 	};
 
 	environment.systemPackages = with pkgs.kdePackages; [
@@ -29,6 +30,7 @@
 		dolphin
 		dolphin-plugins
 		ffmpegthumbs
+		plasma-integration
 
 		kio # provides helper service + a bunch of other stuff
 		kio-admin # managing files as admin

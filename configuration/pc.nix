@@ -40,7 +40,7 @@
 		SOUND_POWER_SAVE_ON_BAT=1;
 		SOUND_POWER_SAVE_ON_SAV=1;
 
-		RADEON_DPM_PERF_LEVEL_ON_AC="auto";
+		RADEON_DPM_PERF_LEVEL_ON_AC="high";
 		RADEON_DPM_PERF_LEVEL_ON_BAT="low";
 		RADEON_DPM_PERF_LEVEL_ON_SAV="low";
 		RADEON_DPM_STATE_ON_AC="performance";
@@ -94,7 +94,11 @@
 	hardware.amdgpu.opencl.enable = true;
 
 	environment.systemPackages = with pkgs; [
+		geeqie
+		imagemagick
+		oxipng
 		pkgsRocm.blender
 		qmk
+		stable-diffusion-cpp-rocm
 	];
 }
