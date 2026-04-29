@@ -36,7 +36,7 @@
 
 	systemd.user.services.quickshell = {
 		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd];
+		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd pkgs.quodlibet-full ];
 		serviceConfig = { Restart="always"; };
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};

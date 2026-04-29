@@ -33,8 +33,9 @@ PanelWindow {
 	RectangularShadow {
 		id: overviewShadow
 		anchors.fill: mouseArea
-		blur: 20
-		spread: 0
+		color: "#88000000"
+		blur: 5
+		spread: 5
 		radius: overviewShape.radius
 		offset.x: 0
 		offset.y: 0
@@ -45,7 +46,7 @@ PanelWindow {
 
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 4
+		anchors.bottomMargin: -5
 		width: content.implicitWidth
 		height: lowerContent.implicitHeight
 
@@ -172,15 +173,7 @@ PanelWindow {
 						interactive: false
 						spacing: -10
 					}
-					Rectangle {
-						Layout.fillHeight: true
-						Layout.leftMargin: -4
-						Layout.rightMargin: -4
-						width: 2
-						radius: 1
-						color: "#22ffffff"
-
-					}
+					Separator {}
 					ColumnLayout {
 						Layout.fillWidth: true
 						spacing: 16
@@ -192,17 +185,19 @@ PanelWindow {
 						BluelightWidget {}
 						BrightnessWidget {}
 						VolumeWidget {}
-						PlayerWidget {}
+						Separator { vertical: true }
+						QuodlibetWidget {}
 					}
 				}
 				RowLayout {
 					id: lowerContent
 					spacing: 0
-					TlpWidget {}
 					Item {
 						Layout.fillWidth: true
 						Layout.horizontalStretchFactor: 1
 					}
+					TlpWidget {}
+					Separator {}
 					WindowActionWidget {}
 				}
 			}
