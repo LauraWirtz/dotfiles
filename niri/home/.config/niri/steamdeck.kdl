@@ -35,11 +35,11 @@ output "eDP-1" {
 }
 
 
-blur { off }
+blur { off; }
 
 
 spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
-spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yam
+spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yaml"
 
 
 window-rule {
