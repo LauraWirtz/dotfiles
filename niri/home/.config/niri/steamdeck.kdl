@@ -1,0 +1,66 @@
+input {
+	keyboard {
+		xkb {
+			layout "us, de"
+		}
+	}
+	touchpad {
+		tap
+		drag true
+		natural-scroll
+		click-method "button-areas"
+		scroll-method "edge"
+		accel-profile "adaptive"
+		accel-speed 0
+	}
+	touch {
+		map-to-output "eDP-1"
+	}
+}
+
+
+output "eDP-1" {
+	mode "2560x1600@60"
+	scale 2
+
+	layout {
+		gaps 20
+		struts {
+			left -20
+			right -20
+			top -20
+			bottom 20
+		}
+	}
+}
+
+
+blur { off }
+
+
+spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
+spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yam
+
+
+window-rule {
+	match is-active=false
+	opacity 0.85
+}
+
+window-rule {
+	match app-id="floorp" title="^Picture-in-Picture$"
+	open-floating true
+	opacity 1.0
+	open-focused false
+	min-height 180
+	max-height 180
+	default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+
+binds {
+	Super+K { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
+
+	XF86AudioLowerVolume allow-inhibiting=false { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
+	XF86AudioRaiseVolume allow-inhibiting=false { toggle-overview; }
+}

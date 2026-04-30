@@ -1,0 +1,105 @@
+input {
+	keyboard {
+		xkb {
+			layout "us"
+		}
+		numlock
+	}
+	mouse {
+		accel-speed -0.965
+		accel-profile "flat"
+	}
+
+	disable-power-key-handling
+	workspace-auto-back-and-forth
+	focus-follows-mouse max-scroll-amount="0%"
+}
+
+
+output "DP-1" {
+	mode "3440x1440@160"
+	scale 1.2
+	variable-refresh-rate on-demand=true
+	focus-at-startup
+	position x=1920 y=1080
+
+	layout {
+		preset-column-widths {
+			proportion 0.3333
+			proportion 0.5
+			proportion 0.6666
+			proportion 1.0
+		}
+		default-column-width { proportion 0.5; }
+	}
+}
+output "DP-2" {
+	mode "1920x1080@144.001"
+	variable-refresh-rate on-demand=true
+	position x=0 y=1080
+}
+output "HDMI-A-1" {
+	position x=2400 y=0
+}
+
+
+layout {
+	shadow {
+		on
+		softness 10
+		spread 5
+		offset x=0 y=0
+		draw-behind-window false
+		color "00000088"
+		inactive-color "00000066"
+	}
+}
+
+
+blur {
+    on
+    passes 2
+    offset 2
+    noise 0.15
+    saturation 1
+}
+
+
+spawn-at-startup "wpaperd" "-d"
+
+
+window-rule {
+	match is-active=false
+	opacity 0.85
+}
+
+window-rule {
+	geometry-corner-radius 8
+	clip-to-geometry true
+	draw-border-with-background true
+	open-maximized-to-edges false
+	background-effect {
+        blur true
+    }
+}
+
+window-rule {
+	match app-id="anki"
+	default-column-width { proportion 0.3333; }
+}
+
+window-rule {
+	match app-id="gamescope"
+	match app-id="net.kuribo64.melonDS"
+	match app-id="eden"
+	match app-id=r"steam_app_\d+"
+	match app-id="steam_proton"
+	variable-refresh-rate true
+}
+
+
+layer-rule {
+	match namespace="wpaperd.*"
+	match namespace="quickshell"
+	place-within-backdrop true
+}
