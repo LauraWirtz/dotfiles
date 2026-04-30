@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 {
-services.qs-keyboard = {
+systemd.user.services.qs-keyboard = {
 		wantedBy = [ "graphical-session.target" ];
 		path = [ pkgs.quickshell pkgs.ydotool ];
 		serviceConfig = { Restart="always"; };

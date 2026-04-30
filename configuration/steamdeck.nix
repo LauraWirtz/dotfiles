@@ -48,7 +48,7 @@
 
 	networking.hostName = "laura-steamdeck";
 
-	services.logind.powerKey = "suspend";
+	services.logind.powerKey = "hibernate";
 
 	services.xserver.xkb.layout = "us, de";
 	fonts.fontconfig.subpixel.rgba = "vrgb";
@@ -64,7 +64,7 @@
 
 	programs.steam.enable = true;
 	programs.gamescope.enable = true;
-	programs.steam.extest.enable = true;
+# 	programs.steam.extest.enable = true;
 	services.inputplumber.enable = true;
 	programs.ydotool.enable = true;
 	programs.ydotool.group = "wheel";
