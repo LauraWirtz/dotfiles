@@ -26,7 +26,8 @@
 							imports = [
 								./home/home.nix
 								./home/pc/home.nix
-								./niri/home.nix
+								./niri/home/home.nix
+								./niri/home/pc.nix
 							];
 						};
 					}
@@ -89,7 +90,8 @@
 						home-manager.users.laura = { pkgs, ... }: {
 							imports = [
 								./home/home.nix
-								./niri/home.nix
+								./niri/home/home.nix
+								./niri/home/steamdeck.nix
 							];
 						};
 					}
