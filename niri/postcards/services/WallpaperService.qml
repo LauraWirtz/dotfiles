@@ -23,7 +23,19 @@ Item {
 	property int currentZ: 0
 
 	property var paths: []
-	property ListModel images: ListModel {}
+
+	property ListModel images: ListModel {
+
+		function every(callback): bool {
+			let success = true
+
+			for (let i = 0; i < this.count; i++) {
+				const el = root.images.get(i)
+				if(!callback(el)) { success = false }
+			}
+			return success
+		}
+	}
 
 	Timer {
 		interval: root.interval/2; running: root.initialized; repeat: true
@@ -80,12 +92,10 @@ Item {
 	}
 
 	function next(): var {
-		var candidate = ""
+		let candidate = ""
 		while(
-			!candidate.includes(".png") &&
-			!candidate.includes(".jpg") &&
-			!candidate.includes(".jpeg")
-			// root.images.every(el => { return el.url != candidate })
+			!(candidate.includes(".png") || candidate.includes(".jpg") || candidate.includes(".jpeg")) ||
+			!root.images.every(el => { return el.source != candidate })
 		) {
 			candidate = root.paths[Math.floor(Math.random() * root.paths.length)]
 		}
@@ -96,22 +106,22 @@ Item {
 	}
 
 	function generateCoordinates(): var {
-		var attempts = []
+		let attempts = []
 		while(attempts.length < 10*(root.images.count+1)) {
-			var x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
-			var y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
+			let x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
+			let y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
 
-			var summedDistance = 0
+			let summedDistance = 0
 			for (let i = 0; i < root.images.count; i++) {
 				const el = root.images.get(i)
-				var distance = Math.sqrt(Math.pow(x - el.posX, 2.0), Math.pow(y - el.posY, 2.0))
+				let distance = Math.sqrt(Math.pow(x - el.posX, 2.0), Math.pow(y - el.posY, 2.0))
 				const upperLimit = 1.5 * root.size
 				distance = distance > upperLimit ? upperLimit : distance
 				summedDistance += Math.pow(distance, 0.25)
 			}
 			attempts.push({x: x, y: y, summedDistance: summedDistance})
 		}
-		var best = attempts.reduce((best, el) => {
+		let best = attempts.reduce((best, el) => {
 			return el.summedDistance > best.summedDistance ? el : best
 		})
 		return best
