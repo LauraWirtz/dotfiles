@@ -82,8 +82,8 @@ PanelWindow {
 				when: mouseArea.extended
 				extend: "OVERVIEW"
 				PropertyChanges {mouseArea.height: content.implicitHeight}
-				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.25)}
-				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.25)}
+				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.125)}
+				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.125)}
 
 			},
 		]
@@ -187,6 +187,7 @@ PanelWindow {
 						VolumeWidget {}
 						Separator { vertical: true }
 						QuodlibetWidget {}
+						CalendarWidget {}
 					}
 				}
 				RowLayout {
