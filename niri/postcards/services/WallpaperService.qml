@@ -7,12 +7,10 @@ Item {
 
 	property bool initialized: false
 
-	required property int monitorWidth				// monitor width
-	required property int monitorHeight				// monitor height
+	required property int monitorWidth		// monitor width
+	required property int monitorHeight		// monitor height
 
 	property int border: 0					// clear space around monitor edge (can be negative)
-	// property int distance: 200
-
 
 	required property string source
 	property int size: 400					// postcard size
@@ -21,27 +19,24 @@ Item {
 	property int interval: 60000			// interval of new postcards
 
 	property int nextRemoval: 0
-	property string removalState: "none"
+	property bool removalState: true
 	property int currentZ: 0
 
 	property var paths: []
-	property var images: []
+	property ListModel images: ListModel {}
 
 	Timer {
-		interval: root.interval/4; running: root.initialized; repeat: true
+		interval: root.interval/2; running: root.initialized; repeat: true
 		onTriggered: {
-			if(removalState == "none") {
-				root.removalState = "hide"
-			} else if(removalState == "hide") {
+			if(removalState) {
+				root.images.setProperty(nextRemoval, "source", "")
+			} else {
 				root.replenish()
-				root.removalState = "update"
-			} else if(removalState == "update") {
-				root.removalState = "reveal"
-			} else if(removalState == "reveal") {
+
 				root.nextRemoval++
-				if(root.nextRemoval == root.images.length) {root.nextRemoval = 0}
-				root.removalState = "none"
+				if(root.nextRemoval == root.images.count) {root.nextRemoval = 0}
 			}
+			root.removalState = !root.removalState
 		}
 	}
 	Timer {
@@ -52,27 +47,36 @@ Item {
 			root.initialized = true
 		}
 	}
+	Timer {
+		id: rescan
+		interval: 3600000; running: true; repeat: true
+		onTriggered: {
+			pathfinder.running = true
+		}
+	}
 
 	Process {
 		id: pathfinder
 		running: true
 		command: [ "find", root.source, "f" ]
 		stdout: SplitParser { onRead: data => {
-			root.paths.push(data)
+			if(root.paths.every(el => {
+				return el.url != data
+			})) {
+				root.paths.push(data)
+			}
 			initialRun.restart()
 		} }
 	}
 
 	function populate(): void {
 		for (let i = 0; i < root.count; i++) {
-			root.images.push(next())
+			root.images.append(next())
 		}
 	}
 
 	function replenish(): void {
-		const newEl = next()
-		root.images[root.nextRemoval]= newEl
-
+		root.images.set(nextRemoval, next())
 	}
 
 	function next(): var {
@@ -80,30 +84,31 @@ Item {
 		while(
 			!candidate.includes(".png") &&
 			!candidate.includes(".jpg") &&
-			!candidate.includes(".jpeg") &&
-			root.images.every(el => { return el.url != candidate })
+			!candidate.includes(".jpeg")
+			// root.images.every(el => { return el.url != candidate })
 		) {
 			candidate = root.paths[Math.floor(Math.random() * root.paths.length)]
 		}
 		const coords = generateCoordinates()
 		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
 		root.currentZ++
-		return { url: candidate, x: coords.x, y: coords.y, rotation: rotation, z: root.currentZ }
+		return { "source": candidate, "posX": coords.x, "posY": coords.y, "posZ": root.currentZ, "rotation": rotation }
 	}
 
 	function generateCoordinates(): var {
 		var attempts = []
-		while(attempts.length < 10*(root.images.length+1)) {
+		while(attempts.length < 10*(root.images.count+1)) {
 			var x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
 			var y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
 
-			var summedDistance = root.images.reduce((sum, el) => {
-				var distance = Math.sqrt(Math.pow(x - el.x, 2.0), Math.pow(y - el.y, 2.0))
-
+			var summedDistance = 0
+			for (let i = 0; i < root.images.count; i++) {
+				const el = root.images.get(i)
+				var distance = Math.sqrt(Math.pow(x - el.posX, 2.0), Math.pow(y - el.posY, 2.0))
 				const upperLimit = 1.5 * root.size
 				distance = distance > upperLimit ? upperLimit : distance
-				return sum + Math.pow(distance, 0.25)
-			}, 0)
+				summedDistance += Math.pow(distance, 0.25)
+			}
 			attempts.push({x: x, y: y, summedDistance: summedDistance})
 		}
 		var best = attempts.reduce((best, el) => {
