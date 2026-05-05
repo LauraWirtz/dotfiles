@@ -40,6 +40,12 @@ Singleton {
 	}
 
 	Timer {
+		id: retryLoad
+		interval: 1000; running: false; repeat: true
+		onTriggered: { currentView.reload() }
+	}
+
+	Timer {
 		interval: root.playState == "playing" ? 1000 : 5000; running: true; repeat: true
 		onTriggered: { statusGetter.running = true }
 	}
@@ -82,5 +88,9 @@ Singleton {
 
 	function previous(): void {
 		Niri.spawn(["quodlibet", "--previous"])
+	}
+
+	function seek(time): void {
+		Niri.spawn(["quodlibet", "--seek="+time])
 	}
 }

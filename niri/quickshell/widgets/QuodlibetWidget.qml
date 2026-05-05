@@ -16,64 +16,44 @@ ColumnLayout {
 	RowLayout {
 		spacing: 0
 
-		ColumnLayout {
-			spacing: 0
+		RoundButton {
+			icon.name: QuodlibetService.playState == "playing" ? "media-playback-pause" : "media-playback-start"
+			icon.width: 24
+			icon.height: 24
 
-			RowLayout {
-				spacing: 0
-
-				RoundButton {
-					icon.name: QuodlibetService.playState == "playing" ? "media-playback-pause" : "media-playback-start"
-					icon.width: 24
-					icon.height: 24
-					flat: true
-
-					onClicked: QuodlibetService.playState == "playing" ? QuodlibetService.pause() : QuodlibetService.play()
-				}
-				RoundButton {
-					icon.name: "media-skip-backward"
-					icon.width: 24
-					icon.height: 24
-					flat: true
-
-					enabled: canGoPrevious
-
-					onClicked: QuodlibetService.previous()
-				}
-				RoundButton {
-					icon.name: "media-skip-forward"
-					icon.width: 24
-					icon.height: 24
-					flat: true
-
-					enabled: canGoNext
-
-					onClicked: QuodlibetService.next()
-				}
-			}
-
-			RowLayout {
-				Layout.alignment: Qt.AlignHCenter
-				spacing: 0
-				Repeater {
-					model: [0.2, 0.4, 0.6, 0.8, 1]
-					RatingStar {
-					}
-				}
-			}
+			onClicked: QuodlibetService.playState == "playing" ? QuodlibetService.pause() : QuodlibetService.play()
 		}
-		Text {
+		Button {
+			icon.name: "media-skip-backward"
+			icon.width: 24
+			icon.height: 24
+
+			onClicked: QuodlibetService.previous()
+		}
+		Button {
+			icon.name: "media-skip-forward"
+			icon.width: 24
+			icon.height: 24
+
+			onClicked: QuodlibetService.next()
+		}
+		RowLayout {
 			Layout.alignment: Qt.AlignHCenter
-			Layout.fillWidth: true
-
-			color: "white"
-			font.pixelSize: 16
-			textFormat: Text.PlainText
-			elide: Text.ElideRight
-			wrapMode: Text.WordWrap
-			horizontalAlignment: Text.AlignHCenter
-
-			text: QuodlibetService.current.title + "\n" + QuodlibetService.current.albumartist + "\n" + QuodlibetService.current.album + (QuodlibetService.current.date ? " (" + QuodlibetService.current.date + ")" : "")
+			spacing: 0
+			Repeater {
+				model: [
+					{rating: 0.1, left: true},
+					{rating: 0.2, left: false},
+					{rating: 0.3, left: true},
+					{rating: 0.4, left: false},
+					{rating: 0.5, left: true},
+					{rating: 0.6, left: false},
+					{rating: 0.7, left: true},
+					{rating: 0.8, left: false},
+					{rating: 0.9, left: true},
+					{rating: 1.0, left: false},]
+				RatingStar {}
+			}
 		}
 	}
 	RowLayout {
@@ -85,9 +65,10 @@ ColumnLayout {
 			font.pixelSize: 16
 			textFormat: Text.PlainText
 
-			text: formatDuration(QuodlibetService.current.length * QuodlibetService.progress)
+			text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * QuodlibetService.progress) : "00:00"
 		}
 		Slider {
+			id: slider
 			Layout.fillWidth: true
 
 			from: 0
@@ -96,6 +77,18 @@ ColumnLayout {
 
 			value: QuodlibetService.progress
 			Behavior on value { NumberAnimation { duration: 1000; easing.type: Easing.Linear } }
+			onMoved: {
+				valueCache = value
+				debounce.restart()
+			}
+
+			property real valueCache: 0
+
+			Timer {
+				id: debounce
+				interval: 200; running: false; repeat: false
+				onTriggered: QuodlibetService.seek(formatDuration(QuodlibetService.current.length * slider.valueCache))
+			}
 		}
 		Text {
 			Layout.alignment: Qt.AlignHCenter
@@ -104,7 +97,49 @@ ColumnLayout {
 			font.pixelSize: 16
 			textFormat: Text.PlainText
 
-			text: formatDuration(QuodlibetService.current.length * (1 - QuodlibetService.progress))
+			text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * (1 - QuodlibetService.progress)) : "00:00"
+		}
+	}
+	Rectangle {
+		Layout.fillWidth: true
+		implicitHeight: 26
+		color: "black"
+		radius: 13
+
+		Item {
+			id: quodClip
+			x: 13
+			implicitHeight: 26
+			implicitWidth: parent.width - 26
+			clip: true
+
+			Text {
+				id: quodText
+				color: "white"
+				font.family: "Doto"
+				font.pixelSize: 22
+				font.weight: 800
+
+				text : QuodlibetService.current ? `${QuodlibetService.current.albumartist} - ${QuodlibetService.current.title} - ${QuodlibetService.current.album} | ${QuodlibetService.current.albumartist} - ${QuodlibetService.current.title} - ${QuodlibetService.current.album} | ` : ""
+
+				NumberAnimation on x {
+					running: true
+					loops: Animation.Infinite
+					duration: quodText.contentWidth ? (quodText.contentWidth * 5) : 5000
+
+					from: 0; to: -0.5*quodText.contentWidth
+				}
+			}
+			Rectangle {
+				anchors.fill: parent
+				gradient: Gradient {
+					orientation: Gradient.Horizontal
+					GradientStop { position: 0.0; color: "black" }
+					GradientStop { position: 0.05; color: "transparent" }
+					GradientStop { position: 0.95; color: "transparent" }
+					GradientStop { position: 1.0; color: "black" }
+				}
+			}
 		}
 	}
 
