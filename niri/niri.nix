@@ -30,9 +30,13 @@
 		pkgs.xdg-desktop-portal-gnome
 		pkgs.xdg-desktop-portal-gtk
 	];
+	xdg.portal.config = {
+		preferred = {
+			default = [ "kde" ];
+			"org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
+		};
+	};
 	xdg.portal.configPackages = [ pkgs.kdePackages.plasma-workspace ];
-
-	services.playerctld.enable = true;
 
 	systemd.user.services.quickshell = {
 		wantedBy = [ "graphical-session.target" ];
@@ -60,6 +64,7 @@
 		wpaperd
 		sunsetr
 		brightnessctl
+		swayidle
 
 		polkit
 		kdePackages.polkit-kde-agent-1

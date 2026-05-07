@@ -66,6 +66,7 @@ blur {
 
 
 spawn-at-startup "wpaperd" "-d"
+spawn-at-startup "swayidle" "-w" "before-sleep" "'systemctl --user stop qs-postcards.service'" "after-resume" "'systemctl --user start qs-postcards.service'"
 
 
 window-rule {
