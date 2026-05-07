@@ -1,6 +1,7 @@
 // Bar.qml
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.WindowManager
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -47,8 +48,7 @@ PanelWindow {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: -5
-		width: content.implicitWidth
-		height: lowerContent.implicitHeight
+		width: 1000
 
 		clip: true
 
@@ -78,9 +78,16 @@ PanelWindow {
 
 		states: [
 			State {
+				name: "BAR"
+				when: !mouseArea.extended
+				PropertyChanges {mouseArea.height: 52}
+				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.5)}
+				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.5)}
+
+			},
+			State {
 				name: "EXTENDED"
 				when: mouseArea.extended
-				extend: "OVERVIEW"
 				PropertyChanges {mouseArea.height: content.implicitHeight}
 				PropertyChanges {overviewShape.upperColor: Qt.lighter("#292c30", 1.125)}
 				PropertyChanges {overviewShape.lowerColor: Qt.darker("#292c30", 1.125)}
@@ -138,6 +145,7 @@ PanelWindow {
 					id: upperContent
 					Layout.margins: 16
 					spacing: 16
+
 					Loader {
 						active: false
 						sourceComponent: Component {
@@ -186,16 +194,19 @@ PanelWindow {
 						BrightnessWidget {}
 						VolumeWidget {}
 						Separator { vertical: true }
-						QuodlibetWidget {}
 						CalendarWidget {}
+						QuodlibetWidget {}
 					}
 				}
+
 				RowLayout {
 					id: lowerContent
 					spacing: 0
+					WindowListWidget {}
 					Item {
 						Layout.fillWidth: true
 						Layout.horizontalStretchFactor: 1
+						Layout.minimumWidth: 100
 					}
 					TlpWidget {}
 					Separator {}
