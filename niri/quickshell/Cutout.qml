@@ -19,11 +19,16 @@ PanelWindow {
 
 	color: "transparent"
 
+	anchors.left: true
+	anchors.right: true
 	anchors.bottom: true
+	margins.left: screen.width / 2 - 640 + 13 + 10
+	margins.right: screen.width / 2 + 640 - 80 - 13 - 10
 	margins.bottom: 8
 
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
+	WlrLayershell.namespace: "qs-cutout"
 
 	implicitHeight: 26
 	implicitWidth: 80
@@ -61,17 +66,17 @@ PanelWindow {
 			radius: 13
 
 			color: "black"
-
-			Loader {
-				anchors.centerIn: parent
-				active: root.screen.name == "eDP-1"
-				sourceComponent: BatteryWidget {}
-			}
-			Loader {
-				anchors.centerIn: parent
-				active: root.screen.name != "eDP-1"
-				sourceComponent: ClockWidget {}
-			}
+			opacity: 0.5
+		}
+		Loader {
+			anchors.centerIn: parent
+			active: root.screen.name == "eDP-1"
+			sourceComponent: BatteryWidget {}
+		}
+		Loader {
+			anchors.centerIn: parent
+			active: root.screen.name != "eDP-1"
+			sourceComponent: ClockWidget {}
 		}
 	}
 }

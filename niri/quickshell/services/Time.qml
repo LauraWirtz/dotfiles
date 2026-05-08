@@ -17,7 +17,7 @@ Singleton {
 	  // The passed format string matches the default output of
 	  // the `date` command.
 	  // Qt.formatDateTime(clock.date, "HH:mm dd.MM.yyyy")
-	  Qt.formatDateTime(clock.date, "dd.MM")
+	  Qt.formatDateTime(clock.date, "dd.MM.yyyy")
   }
 
   SystemClock {

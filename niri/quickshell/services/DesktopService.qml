@@ -47,13 +47,22 @@ Singleton {
 		sortedEntries = Array.from(unsorted).sort((a, b) => customNames(a.name).localeCompare(customNames(b.name)))
 	}
 
-	function getFilteredEntries(ids) {
-		return sortedEntries.filter(el =>{
-			for(var i in ids) {
-				if(ids[i] == el.id) return false
-			}
-			return true
-		})
+	function getFilteredEntries(include, ids) {
+		if (include) {
+			return sortedEntries.filter(el => {
+				return ids.some(id => {
+					return el.id == id
+				})
+			}).sort((a, b) => {
+				return ids.findIndex(el => { return el == a.id }) - ids.findIndex(el => { return el == b.id })
+			})
+		} else {
+			return sortedEntries.filter(el => {
+				return ids.every(id => {
+					return el.id != id
+				})
+			})
+		}
 	}
 
 	Connections {

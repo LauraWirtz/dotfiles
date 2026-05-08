@@ -14,11 +14,7 @@ Singleton {
 
 	readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
-	property var workspaces: ({})
-	property var allWorkspaces: []
-	property int focusedWorkspaceIndex: 0
-	property string focusedWorkspaceId: ""
-	property string currentWindowTitle: ""
+	property var workspaces: []
 	property var windows: []
 
 	property bool inOverview: false
@@ -69,7 +65,7 @@ Singleton {
 			handleWorkspaceActivated(event.WorkspaceActivated)
 			break
 		case 'WorkspaceActiveWindowChanged':
-			// handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
+			handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
 			break
 		case 'WindowFocusChanged':
 			handleWindowFocusChanged(event.WindowFocusChanged)
@@ -94,7 +90,7 @@ Singleton {
 			currentKeyboardLayoutIndex = event.KeyboardLayoutSwitched.idx
 			break
 		case 'WorkspaceUrgencyChanged':
-			handleWorkspaceUrgencyChanged(event.WorkspaceUrgencyChanged)
+			// handleWorkspaceUrgencyChanged(event.WorkspaceUrgencyChanged)
 			break
 		}
 	}
@@ -107,7 +103,6 @@ Singleton {
 
 	function handleWindowsChanged(data) {
 		windows = sortWindowsByLayout(data.windows)
-		currentWindowTitle = windows.find(p => p.is_focused).title
 	}
 
 	function handleWindowOpenedOrChanged(data) {
@@ -137,75 +132,41 @@ Singleton {
 	}
 
 	function handleWorkspacesChanged(data) {
-		const workspaces = {}
-
-		for (const ws of data.workspaces) {
-			workspaces[ws.id] = ws
-		}
-
-		root.workspaces = workspaces
-		allWorkspaces = [...data.workspaces].sort((a, b) => a.idx - b.idx)
-
-		focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.is_focused)
-		if (focusedWorkspaceIndex >= 0) {
-			const focusedWs = allWorkspaces[focusedWorkspaceIndex]
-			focusedWorkspaceId = focusedWs.id
-		} else {
-			focusedWorkspaceIndex = 0
-			focusedWorkspaceId = ""
-		}
-		workspacesChanged()
+		workspaces = data.workspaces
 	}
 
 	function handleWorkspaceActivated(data) {
-		const ws = root.workspaces[data.id]
-		if (!ws) {
-			return
-		}
-		const output = ws.output
+		const workspace = workspaces.find(el => {return el.id == data.id})
 
-		for (const id in root.workspaces) {
-			const workspace = root.workspaces[id]
-			const got_activated = workspace.id === data.id
+		workspaces = workspaces.map(el => {
+			const got_activated = el.id === workspace.id
 
-			if (workspace.output === output) {
-				workspace.is_active = got_activated
+			if (el.output === workspace.output) {
+				el.is_active = got_activated
 			}
 
 			if (data.focused) {
-				workspace.is_focused = got_activated
+				el.is_focused = got_activated
 			}
-		}
-
-		focusedWorkspaceId = data.id
-		focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.id === data.id)
-		allWorkspaces = Object.values(root.workspaces).sort((a, b) => a.idx - b.idx)
-		workspacesChanged()
+			return el
+		})
 	}
 
 	function handleWorkspaceActiveWindowChanged(data) {
-		const workspace = allWorkspaces.find(el => { el.id == data.workspace_id } )
+		const workspace = workspaces.find(el => { return el.id == data.workspace_id } )
 		workspace.active_window_id = data.active_window_id
 	}
 
 	function handleWindowFocusChanged(data) {
-		if(data.id) {
-			const newFocusedWindow = windows.find(p => p.id === data.id)
-			// console.log(newFocusedWindow.title)
-
-			currentWindowTitle = newFocusedWindow.title
-			let updatedWindows = windows.map(el => {
-				const updatedWindow = {}
-				for (let prop in el) {
-					updatedWindow[prop] = el[prop]
-				}
-				updatedWindow.is_focused = updatedWindow.id == newFocusedWindow.id
-				return updatedWindow
-			})
-			windows = updatedWindows
-
-		}
-
+		let updatedWindows = windows.map(el => {
+			const updatedWindow = {}
+			for (let prop in el) {
+				updatedWindow[prop] = el[prop]
+			}
+			updatedWindow.is_focused = updatedWindow.id == data.id
+			return updatedWindow
+		})
+		windows = updatedWindows
 	}
 
 
@@ -216,9 +177,9 @@ Singleton {
 
 		ws.is_urgent = data.urgent
 
-		const idx = allWorkspaces.findIndex(w => w.id === data.id)
+		const idx = workspaces.findIndex(w => w.id === data.id)
 		if (idx >= 0) {
-			allWorkspaces[idx].is_urgent = data.urgent
+			workspaces[idx].is_urgent = data.urgent
 		}
 
 		windowUrgentChanged()
@@ -257,8 +218,12 @@ Singleton {
 		return send({"Action": {"SwitchLayout": {"layout": "Next"}}})
 	}
 
-	function closeWindow() {
-		return send({"Action": {"CloseWindow": {}}})
+	function closeWindow(windowId) {
+		if(windowId) {
+			return send({"Action": {"CloseWindow": {"id": windowId}}})
+		} else {
+			return send({"Action": {"CloseWindow": {}}})
+		}
 	}
 
 	function toggleOverview() {
@@ -271,23 +236,39 @@ Singleton {
 		return send({"Action": {"CloseOverview": {}}})
 	}
 
-	function switchPresetColumnWidth() {
-		return send({"Action": {"SwitchPresetColumnWidth": {}}})
+	function switchPresetWindowWidth(windowId) {
+		if(windowId) {
+			return send({"Action": {"SwitchPresetWindowWidth": {"id": windowId}}})
+		} else {
+			return send({"Action": {"SwitchPresetWindowWidth": {}}})
+		}
 	}
 
-	function fullscreenWindow() {
-		return send({"Action": {"FullscreenWindow": {}}})
+	function fullscreenWindow(windowId) {
+		if(windowId) {
+			return send({"Action": {"FullscreenWindow": {"id": windowId}}})
+		} else {
+			return send({"Action": {"FullscreenWindow": {}}})
+		}
 	}
 	function maximizeWindowToEdges() {
 		return send({"Action": {"MaximizeWindowToEdges": {}}})
 	}
 
-	function toggleWindowFloating() {
-		return send({"Action": {"ToggleWindowFloating": {}}})
+	function toggleWindowFloating(windowId) {
+		if(windowId) {
+			return send({"Action": {"ToggleWindowFloating": {"id": windowId}}})
+		} else {
+			return send({"Action": {"ToggleWindowFloating": {}}})
+		}
 	}
 
-	function centerColumn() {
-		return send({"Action": {"CenterColumn": {}}})
+	function centerWindow(windowId) {
+		if(windowId) {
+			return send({"Action": {"CenterWindow": {"id": windowId}}})
+		} else {
+			return send({"Action": {"CenterWindow": {}}})
+		}
 	}
 
 	function focusColumnLeft() {
@@ -305,14 +286,14 @@ Singleton {
 	}
 
 	function getCurrentWorkspaceNumber() {
-		if (focusedWorkspaceIndex >= 0 && focusedWorkspaceIndex < allWorkspaces.length) {
-			return allWorkspaces[focusedWorkspaceIndex].idx + 1
+		if (focusedWorkspaceIndex >= 0 && focusedWorkspaceIndex < workspaces.length) {
+			return workspaces[focusedWorkspaceIndex].idx + 1
 		}
 		return 1
 	}
 
 	function findWorkspaceIndexById(id: int): int {
-		const index = allWorkspaces.findIndex(w => w.id === id)
+		const index = workspaces.findIndex(w => w.id === id)
 		return index
 	}
 
@@ -324,7 +305,7 @@ Singleton {
 	}
 
 	function getWindowsByScreen(screen: string): var {
-		const activeWorkspaceId = allWorkspaces.find(el => {
+		const activeWorkspaceId = workspaces.find(el => {
 			return el.output == screen && el.is_active
 		}).id
 		const screenWindows = windows.filter(el => {

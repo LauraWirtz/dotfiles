@@ -12,87 +12,103 @@ import "../widgets"
 
 import QtQuick.Controls.Material
 
-RoundButton {
+Button {
 	id: button
 
 	icon.name: ""
 	icon.width: 24
 	icon.height: 24
-	onClicked: PopupService.currentPopup = PopupService.currentPopup == button.name ? "" : button.name
+	onClicked: {
+		if(!callback()) {
+			button.active = !button.active
+		}
 
+	}
+
+	property var callback: () => {return false}
 	property alias content: rectangle.data
-	required property string name
-	property var color: Material.Green
+	property real margin: 0
+	property alias radius: background.radius
 
-	states: [
-		State {
-			name: "ACTIVE"
-			when: PopupService.currentPopup == button.name
-			// PropertyChanges {button.checked: true}
-			PropertyChanges {menu.visible: true}
-			// PropertyChanges {button.Material.foreground: "#292c30" }
-			// PropertyChanges {button.Material.background: button.color }
-		},
-		State {
-			name: "INACTIVE"
-			when: PopupService.currentPopup != button.name
-			// PropertyChanges {button.Material.foreground: button.color }
-		},
-	]
+	property bool active: false
+
+	hoverEnabled: true
+	onHoveredChanged: {
+		exitTimer.running = !hovered
+	}
+
+	// states: [
+	// 	State {
+	// 		name: "ACTIVE"
+	// 		when: button.active
+	// 		PropertyChanges {menu.visible: true}
+	// 		PropertyChanges {button.highlighted: true}
+	// 	},
+	// 	State {
+	// 		name: "INACTIVE"
+	// 		when: !button.active
+	// 		PropertyChanges {menu.visible: false}
+	// 	},
+	// ]
 
 	Item {
 		id: anchor
-		anchors.centerIn: parent
+		anchors.verticalCenter: parent.top
+		anchors.horizontalCenter: parent.horizontalCenter
 	}
 
 	PopupWindow {
 		id: menu
-		anchor.item: anchor
-		anchor.gravity: Edges.Top | Edges.Right
-		anchor.margins.top: 20
-		anchor.margins.left: -20
-		mask: Region { item: rectangle }
-		implicitWidth: rectangle.implicitWidth + 40
-		implicitHeight: rectangle.implicitHeight + 40
-		visible: false
+
+		anchor.item: button
+		anchor.gravity: Edges.Top
+		anchor.margins.top: 11
+		anchor.margins.left: button.width / 2
+
+		mask: Region { item: mouseArea }
+
+		implicitWidth: rectangle.implicitWidth + 20 + 2*button.margin
+		implicitHeight: rectangle.implicitHeight + 20 + 2*button.margin
+
+		visible: button.active
 		color: "transparent"
 
 		RectangularShadow {
-			anchors.fill: rectangle
-			blur: 20
-			spread: 0
-			radius: 20
-			offset.x: 0
-			offset.y: 0
+			anchors.fill: mouseArea
+			color: "#88000000"
+			blur: 5
+			spread: 5
+			radius: background.radius
 		}
 		Rectangle {
-			id: rectangle
+			id: background
 			anchors.centerIn: parent
-			implicitWidth: children[0].implicitWidth + 32
-			implicitHeight: children[0].implicitHeight + 32
+			implicitWidth: rectangle.implicitWidth + 2*button.margin
+			implicitHeight: rectangle.implicitHeight + 2*button.margin
 
-			radius: 20
+			radius: 8
 			color: "#292c30"
-			gradient: Gradient {
-				GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1.2) }
-				// GradientStop { position: 0.475; color: Qt.lighter("#292c30", 1 + 0.15*overviewShape.shading) }
-				// GradientStop { position: 0.525; color: Qt.darker("#292c30", 1 + 0.15*overviewShape.shading) }
-				GradientStop { position: 1.0; color: Qt.darker("#292c30", 1.2) }
+		}
+		MouseArea {
+			id: mouseArea
+			anchors.fill: parent
+			anchors.margins: 10
+			hoverEnabled: true
+			onEntered: exitTimer.running = false
+			onExited: exitTimer.running = true
+			Item {
+				id: rectangle
+				anchors.fill: parent
+				anchors.margins: button.margin
+				implicitWidth: children[0].implicitWidth
+				implicitHeight: children[0].implicitHeight
+
 			}
 		}
-		RoundButton {
-			id: closeButton
-			Material.theme: Material.Dark
-			anchors.verticalCenter: rectangle.bottom
-			anchors.horizontalCenter: rectangle.left
-
-			icon.name: button.icon.name
-			icon.width: 24
-			icon.height: 24
-			Material.foreground: "#292c30"
-			Material.background: button.color
-
-			onClicked: PopupService.currentPopup = ""
-		}
+	}
+	Timer {
+		id: exitTimer
+		interval: 125; running: false; repeat: false
+		onTriggered: button.active = false
 	}
 }

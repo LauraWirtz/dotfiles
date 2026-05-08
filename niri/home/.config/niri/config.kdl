@@ -85,6 +85,13 @@ window-rule {
 }
 
 
+layer-rule {
+	match namespace="qs-taskbar"
+	geometry-corner-radius 26
+	shadow { on; }
+}
+
+
 binds {
 	Mod+C repeat=false { close-window; }
 	Mod+Q allow-inhibiting=false { spawn "foot"; }

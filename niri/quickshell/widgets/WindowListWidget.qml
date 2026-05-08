@@ -4,6 +4,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../services"
+import "../widgets"
+import "../items"
 
 import QtQuick.Controls.Material
 
@@ -11,20 +13,35 @@ import QtQuick.Controls.Material
 ListView {
 	Material.theme: Material.Dark
 	Material.accent: Material.Green
+
 	Layout.leftMargin: 6
 	implicitWidth: contentItem.childrenRect.width
-	implicitHeight: contentItem.childrenRect.height
+	implicitHeight: 52
+
 	orientation: ListView.Horizontal
-	model: Niri.getWindowsByScreen(root.screen.name)
-	delegate: Button {
+
+	required property string screen
+
+	model: Niri.getWindowsByScreen(screen)
+
+	delegate: MenuWithButton {
 		id: button
-		// width: 200
 		icon.name: DesktopService.customIcons(modelData.app_id)
 		icon.color: "transparent"
 		// text: modelData.is_focused ? modelData.title : ""
-		// highlighted: modelData.is_focused
-		onClicked: Niri.focusWindow(modelData.id)
 		flat:true
+		radius: 26
+
+
+		content: WindowActionWidget { windowModelData: modelData }
+		callback: () => {
+			if(modelData.is_focused || Niri.inOverview) {
+				return false
+			} else {
+				Niri.focusWindow(modelData.id)
+				return true
+			}
+		}
 
 		states: [
 			State {

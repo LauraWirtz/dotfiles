@@ -11,25 +11,25 @@ Singleton {
 	property var dateArray: []
 
 	Component.onCompleted: {
-		// const now = new Date(Date.now())
-		// now.setMonth(now.getMonth() -1)
-
+		let tempDateArray = []
 		let elDate = new Date(now)
+		elDate.setDate(1)
 		let weekDay = elDate.getDay()
 		weekDay = weekDay == 0 ? 7 : weekDay
+		weekDay = weekDay == 1 ? 8 : weekDay
 		elDate.setDate(elDate.getDate() - weekDay + 1)
 
 		while(elDate.getMonth() <= now.getMonth() || elDate.getDay() != 1) {
-			dateArray.push(new Date(elDate))
+			tempDateArray.push(new Date(elDate))
 			elDate.setDate(elDate.getDate() + 1)
 		}
 
-		if( dateArray[dateArray.length-1].getMonth() == now.getMonth() ) {
+		if( tempDateArray[tempDateArray.length-1].getMonth() == now.getMonth() ) {
 			for (let i = 0; i < 7; i++) {
-				dateArray.push(new Date(elDate))
+				tempDateArray.push(new Date(elDate))
 				elDate.setDate(elDate.getDate() + 1)
 			}
 		}
-		console.log(dateArray)
+		dateArray = tempDateArray
 	}
 }
