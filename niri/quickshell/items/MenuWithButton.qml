@@ -12,12 +12,14 @@ import "../widgets"
 
 import QtQuick.Controls.Material
 
-Button {
+RoundButton {
 	id: button
 
 	icon.name: ""
 	icon.width: 24
 	icon.height: 24
+	flat: true
+
 	onClicked: {
 		if(!callback()) {
 			button.active = !button.active
@@ -27,8 +29,8 @@ Button {
 
 	property var callback: () => {return false}
 	property alias content: rectangle.data
-	property real margin: 0
-	property alias radius: background.radius
+	property real margin: 16
+	property alias menuRadius: background.radius
 
 	property bool active: false
 
@@ -36,20 +38,6 @@ Button {
 	onHoveredChanged: {
 		exitTimer.running = !hovered
 	}
-
-	// states: [
-	// 	State {
-	// 		name: "ACTIVE"
-	// 		when: button.active
-	// 		PropertyChanges {menu.visible: true}
-	// 		PropertyChanges {button.highlighted: true}
-	// 	},
-	// 	State {
-	// 		name: "INACTIVE"
-	// 		when: !button.active
-	// 		PropertyChanges {menu.visible: false}
-	// 	},
-	// ]
 
 	Item {
 		id: anchor
@@ -66,6 +54,7 @@ Button {
 		anchor.margins.left: button.width / 2
 
 		mask: Region { item: mouseArea }
+		BackgroundEffect.blurRegion: Region { item: background }
 
 		implicitWidth: rectangle.implicitWidth + 20 + 2*button.margin
 		implicitHeight: rectangle.implicitHeight + 20 + 2*button.margin

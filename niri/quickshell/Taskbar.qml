@@ -18,27 +18,25 @@ PanelWindow {
 	required property var modelData
 	screen: modelData
 
-	color: "transparent"
+	color: root.screen.name == "eDP-1" ? "black" : "transparent"
 
 	anchors.bottom: true
 	margins.bottom: -5
-	implicitWidth: 1260
+	implicitWidth: 1280
 	implicitHeight: 52
 
-	exclusionMode: ExclusionMode.Ignore
+	// exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Top
 	WlrLayershell.namespace: "qs-taskbar"
 
-	Rectangle {
-		id: overviewShape
-
+	Loader {
 		anchors.fill: parent
-		radius: 26
-		// opacity: 0.9
-
-		gradient: Gradient {
-			GradientStop { position: 0.0; color: Qt.lighter("#292c30", 1.5) }
-			GradientStop { position: 1.0; color: Qt.darker("#292c30", 1.5)  }
+		active: root.screen.name != "eDP-1"
+		sourceComponent: Rectangle {
+			anchors.fill: parent
+			radius: 8
+			// opacity: 0.5
+			color: "#292c30"
 		}
 	}
 	MouseArea {
@@ -63,7 +61,9 @@ PanelWindow {
 			else { Niri.focusColumnRight() }
 		}
 		RowLayout {
-			anchors.fill: parent
+			anchors.left: parent.left
+			anchors.right: parent.right
+			anchors.verticalCenter: parent.verticalCenter
 			id: content
 
 			Material.theme: Material.Dark
@@ -76,10 +76,9 @@ PanelWindow {
 			WindowListWidget {screen: root.screen.name}
 			MenuWithButton {
 				icon.name: "list-add"
-				margin: 16
 
 				content: RowLayout {
-					spacing: 0
+					spacing: 16
 					DesktopWidget {
 						model: DesktopService.getFilteredEntries(true, [
 							"floorp",
@@ -94,12 +93,30 @@ PanelWindow {
 						spacing: -8
 					}
 					DesktopWidget {
+						model: DesktopService.getFilteredEntries(true, [
+							"net.kuribo64.melonDS",
+							"org.azahar_emu.Azahar",
+							"dolphin-emu",
+							"dev.eden_emu.eden",
+						])
+						orientation: ListView.Vertical
+						display: AbstractButton.IconOnly
+						interactive: false
+						size: 64
+						spacing: -8
+					}
+					DesktopWidget {
 						Layout.fillHeight: true
 						model: DesktopService.getFilteredEntries(false, [
 							"floorp",
 							"org.kde.dolphin",
 							"org.kde.kate",
 							"foot",
+
+							"net.kuribo64.melonDS",
+							"org.azahar_emu.Azahar",
+							"dolphin-emu",
+							"dev.eden_emu.eden",
 						])
 						orientation: ListView.Vertical
 						interactive: false
@@ -112,10 +129,9 @@ PanelWindow {
 				Layout.fillWidth: true
 				Layout.horizontalStretchFactor: 1
 			}
+			TlpWidget {}
 			MenuWithButton {
 				icon.name: "settings-configure"
-				flat: true
-				margin: 16
 				content: ColumnLayout {
 					Material.theme: Material.Dark
 					Material.accent: Material.Green
@@ -129,14 +145,14 @@ PanelWindow {
 					BrightnessWidget {}
 					VolumeWidget {}
 					Separator { vertical: true }
-					QuodlibetWidget {}
+					Loader {
+						Layout.fillWidth: true
+						active: root.screen.name != "eDP-1"
+						sourceComponent: QuodlibetWidget {}
+					}
 				}
 			}
-			TlpWidget {}
 			MenuWithButton {
-				Layout.rightMargin: 13
-				flat: true
-				margin: 16
 				text: Time.date
 				content: CalendarWidget {}
 			}

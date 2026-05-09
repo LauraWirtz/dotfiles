@@ -95,14 +95,8 @@ Singleton {
 		}
 	}
 
-	function sortWindowsByLayout(windowList) {
-		return [...windowList].sort((a, b) => {
-			return a.id - b.id
-		})
-	}
-
 	function handleWindowsChanged(data) {
-		windows = sortWindowsByLayout(data.windows)
+		windows = data.windows
 	}
 
 	function handleWindowOpenedOrChanged(data) {
@@ -304,12 +298,33 @@ Singleton {
 		return ""
 	}
 
+	function getWorkspacesByScreen(screen: string): var {
+		return workspaces.filter(el => {
+			return el.output == screen
+		}).sort((a, b) => {
+			return a.idx - b.idx
+		})
+	}
+
+	function getActiveWindowIndexByScreen(screen: string): int {
+		const activeWorkspace = workspaces.find(el => {
+			return el.output == screen && el.is_active
+		})
+		return getWindowsByWorkspace(activeWorkspace.id).findIndex(el => {
+			return el.id == activeWorkspace.active_window_id
+		})
+	}
+
 	function getWindowsByScreen(screen: string): var {
 		const activeWorkspaceId = workspaces.find(el => {
 			return el.output == screen && el.is_active
 		}).id
+		return getWindowsByWorkspace(activeWorkspaceId)
+	}
+
+	function getWindowsByWorkspace(workspace: int): var {
 		const screenWindows = windows.filter(el => {
-			return el.workspace_id == activeWorkspaceId
+			return el.workspace_id == workspace
 		}).sort((a, b) => {
 			return a.layout.pos_in_scrolling_layout[0] - b.layout.pos_in_scrolling_layout[0]
 		})

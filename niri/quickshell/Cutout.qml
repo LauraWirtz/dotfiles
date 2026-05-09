@@ -22,8 +22,8 @@ PanelWindow {
 	anchors.left: true
 	anchors.right: true
 	anchors.bottom: true
-	margins.left: screen.width / 2 - 640 + 13 + 10
-	margins.right: screen.width / 2 + 640 - 80 - 13 - 10
+	margins.left: screen.width / 2 - 640 + 13
+	margins.right: screen.width / 2 + 640 - 80 - 13
 	margins.bottom: 8
 
 	exclusionMode: ExclusionMode.Ignore

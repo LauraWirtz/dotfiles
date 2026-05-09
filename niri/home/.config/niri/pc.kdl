@@ -58,9 +58,9 @@ layout {
 
 blur {
     on
-    passes 2
-    offset 2
-    noise 0.15
+    passes 3
+    offset 1
+    noise 0.0
     saturation 1
 }
 
@@ -102,5 +102,22 @@ window-rule {
 layer-rule {
 	match namespace="wpaperd.*"
 	match namespace="quickshell"
+	match layer="background"
 	place-within-backdrop true
+}
+
+
+layer-rule {
+	match namespace="qs-cutout"
+	geometry-corner-radius 13
+	background-effect {
+		xray false
+		blur true
+	}
+}
+
+layer-rule {
+	match namespace="qs-taskbar"
+	geometry-corner-radius 8
+	shadow { on; }
 }
