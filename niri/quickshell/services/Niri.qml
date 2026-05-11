@@ -76,6 +76,9 @@ Singleton {
 		case 'WindowOpenedOrChanged':
 			handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
 			break
+		case 'WindowLayoutsChanged':
+			handleWindowLayoutsChanged(event.WindowLayoutsChanged)
+			break
 		case 'WindowClosed':
 			windows = windows.filter(w => w.id !== event.WindowClosed.id)
 			break
@@ -123,6 +126,13 @@ Singleton {
 		}
 
 		windows = updatedWindows
+	}
+
+	function handleWindowLayoutsChanged(data) {
+		data.changes.forEach(change => {
+			windows.find(window => window.id == change[0]).layout = change[1]
+		})
+		windows = Array.from(windows)
 	}
 
 	function handleWorkspacesChanged(data) {
@@ -277,6 +287,17 @@ Singleton {
 	}
 	function focusWorkspaceUp() {
 		return send({"Action": {"FocusWorkspaceUp": {}}})
+	}
+
+	function moveColumnToIndex(index) {
+		return send({"Action": {"MoveColumnToIndex": {"index": index}}})
+	}
+
+	function moveColumnLeft() {
+		return send({"Action": {"MoveColumnLeft": {}}})
+	}
+	function moveColumnRight() {
+		return send({"Action": {"MoveColumnRight": {}}})
 	}
 
 	function getCurrentWorkspaceNumber() {
