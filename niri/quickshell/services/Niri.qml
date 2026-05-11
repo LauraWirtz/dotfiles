@@ -315,6 +315,13 @@ Singleton {
 		})
 	}
 
+	function getActiveWindowIdByScreen(screen: string): int {
+		const activeWorkspace = workspaces.find(el => {
+			return el.output == screen && el.is_active
+		})
+		return activeWorkspace.active_window_id
+	}
+
 	function getWindowsByScreen(screen: string): var {
 		const activeWorkspaceId = workspaces.find(el => {
 			return el.output == screen && el.is_active

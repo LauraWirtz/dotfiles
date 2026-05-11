@@ -18,11 +18,11 @@ RowLayout {
 	property var windowModelData
 
 	property var buttonsModel: [
-		{ icon: "window-minimize-pip", size: 24, color: Material.Teal, command: windowModelData=>Niri.toggleWindowFloating(windowModelData.id) },
-		{ icon: "view-fullscreen-symbolic", size: 24, color: Material.Green, command: windowModelData=>Niri.fullscreenWindow(windowModelData.id) },
-		{ icon: "kdenlive-slip", size: 24, color: Material.Yellow, command: windowModelData=>Niri.centerWindow(windowModelData.id) },
-		{ icon: "window-maximize", size: 24, color: Material.Orange, command: windowModelData=>Niri.switchPresetWindowWidth(windowModelData.id) },
-		{ icon: "window-close", size: 24, color: Material.Red, command: windowModelData=>Niri.closeWindow(windowModelData.id) },
+		// { icon: "window-minimize-pip", size: 24, color: Material.Teal, command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "view-fullscreen-symbolic", size: 24, color: Material.Green, command: ()=>Niri.fullscreenWindow() },
+		{ icon: "kdenlive-slip", size: 24, color: Material.Yellow, command: ()=>Niri.centerWindow() },
+		{ icon: "window-maximize", size: 24, color: Material.Orange, command: ()=>Niri.switchPresetWindowWidth() },
+		{ icon: "window-close", size: 24, color: Material.Red, command: ()=>Niri.closeWindow() },
 	]
 
 	Repeater {
@@ -40,7 +40,7 @@ RowLayout {
 			// Material.roundedScale: Material.FullScale
 			flat: true
 
-			onClicked: modelData.command(windowModelData)
+			onClicked: modelData.command()
 		}
 	}
 }

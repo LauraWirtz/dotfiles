@@ -25,17 +25,17 @@ PanelWindow {
 	implicitWidth: 1280
 	implicitHeight: 52
 
-	// exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Top
 	WlrLayershell.namespace: "qs-taskbar"
 
 	Loader {
 		anchors.fill: parent
+		id: background
+		Behavior on opacity { NumberAnimation { duration: 125 } }
 		active: root.screen.name != "eDP-1"
 		sourceComponent: Rectangle {
 			anchors.fill: parent
 			radius: 8
-			// opacity: 0.5
 			color: "#292c30"
 		}
 	}
@@ -60,6 +60,8 @@ PanelWindow {
 			if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
 			else { Niri.focusColumnRight() }
 		}
+		onEntered: background.opacity = 1
+		onExited: background.opacity = 0.85
 		RowLayout {
 			anchors.left: parent.left
 			anchors.right: parent.right
@@ -71,64 +73,16 @@ PanelWindow {
 
 			spacing: 0
 			Item{
-				width: 80 + 13
+				width: 80 + 13 + 13
 			}
 			WindowListWidget {screen: root.screen.name}
-			MenuWithButton {
-				icon.name: "list-add"
-
-				content: RowLayout {
-					spacing: 16
-					DesktopWidget {
-						model: DesktopService.getFilteredEntries(true, [
-							"floorp",
-							"org.kde.dolphin",
-							"org.kde.kate",
-							"foot",
-						])
-						orientation: ListView.Vertical
-						display: AbstractButton.IconOnly
-						interactive: false
-						size: 64
-						spacing: -8
-					}
-					DesktopWidget {
-						model: DesktopService.getFilteredEntries(true, [
-							"net.kuribo64.melonDS",
-							"org.azahar_emu.Azahar",
-							"dolphin-emu",
-							"dev.eden_emu.eden",
-						])
-						orientation: ListView.Vertical
-						display: AbstractButton.IconOnly
-						interactive: false
-						size: 64
-						spacing: -8
-					}
-					DesktopWidget {
-						Layout.fillHeight: true
-						model: DesktopService.getFilteredEntries(false, [
-							"floorp",
-							"org.kde.dolphin",
-							"org.kde.kate",
-							"foot",
-
-							"net.kuribo64.melonDS",
-							"org.azahar_emu.Azahar",
-							"dolphin-emu",
-							"dev.eden_emu.eden",
-						])
-						orientation: ListView.Vertical
-						interactive: false
-						spacing: -10
-					}
-				}
-
-			}
 			Item {
 				Layout.fillWidth: true
 				Layout.horizontalStretchFactor: 1
 			}
+			DesktopMenuWidget {}
+			WindowActionWidget {}
+			Separator {inset: 0}
 			TlpWidget {}
 			MenuWithButton {
 				icon.name: "settings-configure"

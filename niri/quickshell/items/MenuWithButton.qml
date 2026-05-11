@@ -54,7 +54,6 @@ RoundButton {
 		anchor.margins.left: button.width / 2
 
 		mask: Region { item: mouseArea }
-		BackgroundEffect.blurRegion: Region { item: background }
 
 		implicitWidth: rectangle.implicitWidth + 20 + 2*button.margin
 		implicitHeight: rectangle.implicitHeight + 20 + 2*button.margin
