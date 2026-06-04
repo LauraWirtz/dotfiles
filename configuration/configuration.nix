@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 {
 	boot = {
-		kernelPackages = pkgs.linuxPackages_latest;
+		kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 		kernelParams = [ "nowatchdog" "split_lock_detect=off" ];
-		kernel.sysctl = { "vm.swappiness" = 10; };
+		tmp.useTmpfs = true;
 
 		loader = {
 			systemd-boot.enable = true;
@@ -11,6 +11,7 @@
 			systemd-boot.configurationLimit = 3;
 			timeout = 0;
 		};
+		zswap.enable = true;
 	};
 
 	nix.gc = {
@@ -27,10 +28,17 @@
 	nix.settings.auto-optimise-store = true;
 
 	services.dbus.implementation = "broker";
+
+	services.power-profiles-daemon.enable = false;
 	services.tlp.enable = true;
 	services.tlp.pd.enable = true;
+	services.fwupd.enable = true;
 
 	services.logind.settings.Login.HandlePowerKey = lib.mkDefault "hibernate";
+
+	systemd.coredump.settings.Coredump = {
+		Storage = "none";
+	};
 
 	programs.bash.shellAliases = {
 		e = "nano";
@@ -45,7 +53,7 @@
 		fontDir.enable = true;
 		fontconfig = {
 			enable = true;
-			hinting.style = "full";
+# 			hinting.style = "full";
 			subpixel.rgba = lib.mkDefault "rgb";
 			defaultFonts.serif = [ "Noto Serif"];
 			defaultFonts.sansSerif = [ "Noto Sans"];
@@ -56,6 +64,8 @@
 
 	hardware.bluetooth.enable = lib.mkDefault true;
 	networking.networkmanager.enable = lib.mkDefault true;
+	networking.networkmanager.wifi.powersave  = lib.mkDefault false;
+	boot.initrd.systemd.network.wait-online.enable = false;
 
 	time.timeZone = "Europe/Berlin";
 
@@ -115,7 +125,7 @@
 		enable = true;
 		settings = {
 			main = {
-				font = "Roboto Mono:size=10";
+				font = "DejaVu Sans Mono:size=10";
 				pad = "10x10";
 			};
 			colors-dark = {
@@ -140,16 +150,21 @@
 		};
 	};
 
+	systemd.user.services.speech-dispatcher.enable = false; #floorp dependancy
+	systemd.user.sockets.speech-dispatcher.enable = false;
+
+	environment.defaultPackages = lib.mkForce [];
 	environment.systemPackages = with pkgs; [
 		anki
 # 		bottles
 		floorp-bin
 		gimp
 		git
+		nano
 		nvd
-		qimgv
-		quodlibet-full
+		quodlibet
 		rar
+		rsync
 		unrar
 	];
 

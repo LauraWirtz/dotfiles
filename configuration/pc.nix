@@ -1,39 +1,111 @@
 { config, pkgs, inputs, ... }:
 {
+# 	nix.settings.system-features = [
+# 		"nixos-test"
+# 		"benchmark"
+# 		"big-parallel"
+# 		"kvm"
+# 		"gccarch-x86-64-v2"
+# 	];
+# 	nixpkgs.buildPlatform = {
+# 		gcc.arch = "x86-64-v2";
+# 		gcc.tune = "x86-64-v2";
+# 		system = "x86_64-linux";
+# 	};
+# 	nix.settings.cores = 1;
+
+	boot.kernelPackages = pkgs.linuxPackagesFor
+		(pkgs.linuxKernel.kernels.linux_latest.override {
+			NIX_ENFORCE_NO_NATIVE = "0";
+			extraMakeFlags = [
+				# Gcc flags.
+				"KCFLAGS+=-O3"
+				"KCFLAGS+=-march=znver5"
+				"KCFLAGS+=-mtune=znver5"
+
+				# Clang/llvm flags
+				"KCFLAGS+=-O3"
+				"KCFLAGS+=-mtune=znver5"
+				"KCFLAGS+=-march=znver5"
+				"KCFLAGS+=-Wno-unused-command-line-argument"
+				"CC=${pkgs.llvmPackages.clang-unwrapped}/bin/clang"
+				"AR=${pkgs.llvm}/bin/llvm-ar"
+				"NM=${pkgs.llvm}/bin/llvm-nm"
+				"LD=${pkgs.lld}/bin/ld.lld"
+				"LLVM=1"
+			];
+	});
+
 	fileSystems."/run/mnt/data" = {
-		device = "/dev/disk/by-uuid/3b3775ff-058a-4a90-a5c7-7bc35bc22503";
+		device = "/dev/mapper/luks-data";
 		fsType = "ext4";
 		options = [
-			"users" # Allows any user to mount and unmount
-			"nofail" # Prevent system from failing if this drive doesn't mount
-			"exec"
+			"nouser"
+			"noexec"
+			"nosuid"
+			"nodev"
+			"noatime"
+			"data=journal"
+			"X-mount.owner=laura"
 		];
 	};
 
-	fileSystems."/home/laura/Documents" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/Documents";
-		fsType = "none";
-		options = [ "bind"];
-	 };
-	fileSystems."/home/laura/Downloads" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/Downloads";
-		fsType = "none";
-		options = [ "bind"];
-	 };
-	fileSystems."/home/laura/Music" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/Music";
-		fsType = "none";
-		options = [ "bind"];
-	 };
-	fileSystems."/home/laura/Pictures" = {
-		depends = [ "/run/mnt/data" ];
-		device = "/run/mnt/data/laura/Pictures";
-		fsType = "none";
-		options = [ "bind"];
-	 };
+	fileSystems."/run/mnt/steam1" = {
+		device = "/dev/disk/by-uuid/d63224c3-335a-4f49-9bf8-10f364f4ffaa";
+		fsType = "f2fs";
+		options = [
+			"nofail" # Prevent system from failing if this drive doesn't mount
+			"nouser"
+			"exec"
+			"nosuid"
+			"nodev"
+			"noatime"
+			"atgc"
+			"gc_merge"
+			"X-mount.owner=laura"
+		];
+	};
+
+	fileSystems."/run/mnt/steam2" = {
+		device = "/dev/disk/by-uuid/663c49a2-45a3-478a-bb1e-4181979137bd";
+		fsType = "f2fs";
+		options = [
+			"nofail" # Prevent system from failing if this drive doesn't mount
+			"nouser"
+			"exec"
+			"nosuid"
+			"nodev"
+			"noatime"
+			"atgc"
+			"gc_merge"
+			"X-mount.owner=laura"
+		];
+	};
+
+# 	fileSystems."/home/laura/Documents" = {
+# 		depends = [ "/run/mnt/data" ];
+# 		device = "/run/mnt/data/laura/Documents";
+# 		fsType = "none";
+# 		options = [ "bind"];
+# 	 };
+# 	fileSystems."/home/laura/Downloads" = {
+# 		depends = [ "/run/mnt/data" ];
+# 		device = "/run/mnt/data/laura/Downloads";
+# 		fsType = "none";
+# 		options = [ "bind"];
+# 	 };
+# 	fileSystems."/home/laura/Music" = {
+# 		depends = [ "/run/mnt/data" ];
+# 		device = "/run/mnt/data/laura/Music";
+# 		fsType = "none";
+# 		options = [ "bind"];
+# 	 };
+# 	fileSystems."/home/laura/Pictures" = {
+# 		depends = [ "/run/mnt/data" ];
+# 		device = "/run/mnt/data/laura/Pictures";
+# 		fsType = "none";
+# 		options = [ "bind"];
+# 	 };
 
 	services.tlp.settings = {
 		SOUND_POWER_SAVE_ON_AC=1;
@@ -85,17 +157,19 @@
 		RADV_PERFTEST = "sam";
 		VKD3D_CONFIG = "no_upload_hvv";
 		RADV_DEBUG = "novrsflatshading";
+		MESA_GLTHREAD = "true";
 	};
 
 	networking.hostName = "laura-pc";
 
 	boot.initrd.kernelModules = [ "amdgpu" ];
-	services.xserver.videoDrivers = ["amdgpu"];
+	services.xserver.videoDrivers = [ "amdgpu" ];
 	hardware.amdgpu.opencl.enable = true;
 
 	environment.systemPackages = with pkgs; [
 		geeqie
 		imagemagick
+		nix-tree
 		oxipng
 		pkgsRocm.blender
 		qmk
