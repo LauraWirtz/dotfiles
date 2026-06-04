@@ -14,7 +14,6 @@ in {
 
 		".config/xsettingsd/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/xsettingsd/";
 
-		".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/fcitx5";
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
