@@ -9,18 +9,12 @@ in {
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/";
 
-		".config/gtk-3.0/settings.ini/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/settings.ini/";
-		".config/gtk-3.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/gtk.css";
-		".config/gtk-3.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/colors.css";
-
-		".config/gtk-4.0/settings.ini/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/settings.ini/";
-		".config/gtk-4.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/gtk.css";
-		".config/gtk-4.0/colors.css".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/colors.css";
+		".config/gtk-3.0/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/";
+		".config/gtk-4.0/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-4.0/";
 
 		".config/xsettingsd/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/xsettingsd/";
 
 		".config/fcitx5".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/fcitx5";
-		".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/wpaperd";
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
@@ -44,6 +38,13 @@ in {
 		package = pkgs.kdePackages.breeze;
 		name = "Breeze_Light";
 		size = 24;
+	};
+
+	dconf.settings = {
+		"org/gnome/desktop/interface" = {
+			gtk-theme = "Breeze-Dark";
+			color-scheme = "prefer-dark";
+		};
 	};
 
 	home.stateVersion = "25.05";
