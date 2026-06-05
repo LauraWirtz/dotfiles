@@ -3,17 +3,22 @@
 
 	inputs = {
  		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+
+ 		lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
+		lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
 		home-manager.url = "github:nix-community/home-manager";
 		home-manager.inputs.nixpkgs.follows = "nixpkgs";
 	};
 
-	outputs = { self, nixpkgs, home-manager, ... }:
+	outputs = { self, nixpkgs, lanzaboote, home-manager, ... }:
 		let
 			system = "x86_64-linux";
 		in {
 			nixosConfigurations.laura-pc = nixpkgs.lib.nixosSystem {
 				inherit system;
 				modules = [
+					lanzaboote.nixosModules.lanzaboote
 					./configuration/configuration.nix
 					./configuration/pc.nix
 					./hardware/pc.nix
@@ -79,6 +84,8 @@
 								});
 						})
 					]; })
+
+					lanzaboote.nixosModules.lanzaboote
 					./configuration/configuration.nix
 					./configuration/steamdeck.nix
 					./hardware/steamdeck.nix

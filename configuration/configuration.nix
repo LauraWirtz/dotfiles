@@ -6,10 +6,14 @@
 		tmp.useTmpfs = true;
 
 		loader = {
-			systemd-boot.enable = true;
+			systemd-boot.enable = false;
 			efi.canTouchEfiVariables = true;
 			systemd-boot.configurationLimit = 3;
 			timeout = 0;
+		};
+        lanzaboote = {
+			enable = true;
+			pkiBundle = "/var/lib/sbctl";
 		};
 		zswap.enable = true;
 	};
@@ -165,6 +169,7 @@
 		quodlibet
 		rar
 		rsync
+		sbctl
 		unrar
 	];
 

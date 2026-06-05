@@ -20,12 +20,17 @@
 		"luks-root".device = "/dev/disk/by-uuid/048efcc0-0cfa-4295-8ae8-bcaa6f0a0cda";
 		"luks-root".allowDiscards = true;
 		"luks-root".bypassWorkqueues = true;
+		"luks-root".crypttabExtraOpts = [ "tpm2-device=auto" ];
+
 		"luks-swap".device = "/dev/disk/by-uuid/386fb810-eaf6-40b6-bedd-e57f07cf788e";
 		"luks-swap".allowDiscards = true;
 		"luks-swap".bypassWorkqueues = true;
+		"luks-swap".crypttabExtraOpts = [ "tpm2-device=auto" ];
+
 		"luks-data".device = "/dev/disk/by-uuid/27120715-1c13-42f0-9249-b4ca44e69d77";
 		"luks-data".allowDiscards = true;
 		"luks-data".bypassWorkqueues = true;
+		"luks-data".crypttabExtraOpts = [ "tpm2-device=auto" ];
 	};
 
 	fileSystems."/boot" =
