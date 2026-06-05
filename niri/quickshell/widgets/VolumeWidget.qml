@@ -1,6 +1,6 @@
 // ClockWidget.qml
 import Quickshell
-import Quickshell.Io
+import Quickshell.Services.Pipewire
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -15,6 +15,10 @@ RowLayout {
 	Material.accent: Material.Green
 	Layout.fillWidth: true
 	// spacing: 8
+
+	PwObjectTracker {
+		objects: Pipewire.defaultAudioSink
+	}
 
 	Button {
 		// Layout.leftMargin: -12
@@ -38,26 +42,12 @@ RowLayout {
 		id: slider
 
 		from: 0
-		to: 100
+		to: 1
+		stepSize: 0.01
 
-		onMoved: Niri.spawn([ "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value+"%" ])
+		value: Pipewire.defaultAudioSink.audio.volume
 
-		states: [
-			State {
-				name: "ACTIVE"
-				when: (Niri.inOverview)
-				PropertyChanges { volume_getter.running: true }
-			}
-		]
-
-		Process {
-			id: volume_getter
-			running: false
-			command: [ "wpctl", "get-volume", "@DEFAULT_AUDIO_SINK@" ]
-			stdout: StdioCollector {
-				onStreamFinished: { slider.value= this.text.match(/\d[.]\d\d/)[0] * 100 }
-			}
-		}
+		onMoved: Pipewire.defaultAudioSink.audio.volume = slider.value
 	}
 }
 
