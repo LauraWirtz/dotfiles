@@ -78,6 +78,13 @@ spawn-at-startup "steam"
 spawn-at-startup "sunsetr"
 spawn-at-startup "tlpctl" "balanced"
 
+
+layer-rule {
+	match layer="background"
+	place-within-backdrop true
+}
+
+
 window-rule {
 	block-out-from "screencast"
 }

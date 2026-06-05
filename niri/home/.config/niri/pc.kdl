@@ -42,12 +42,6 @@ blur {
 }
 
 
-overview {
-	workspace-shadow {
-		off
-	}
-}
-
 window-rule {
 	match is-active=false
 	opacity 0.85
@@ -89,13 +83,6 @@ window-rule {
 	match app-id=r"steam_app_\d+"
 	match app-id="steam_proton"
 	variable-refresh-rate true
-}
-
-
-layer-rule {
-	match namespace="quickshell"
-	match layer="background"
-	place-within-backdrop true
 }
 
 

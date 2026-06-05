@@ -34,6 +34,7 @@
 #		CapabilityboundingSet="";
 # 		DeviceAllow="char-gpu";
 		NoNewPrivileges="yes";
+# 		PrivateDevices="yes";
 # 		PrivateNetwork="yes";
 		PrivateTmp="yes";
 #  		ProtectSystem="strict";
