@@ -76,7 +76,7 @@
 			RestrictSUIDSGID="yes";
 			SystemCallArchitectures="native";
 
-			BindReadOnlyPaths="/home/laura/.config/quodlibet/ /home/laura/.local/share/applications/ /home/laura/.icons/";
+			BindReadOnlyPaths="-/home/laura/.config/quodlibet/ -/home/laura/.local/share/applications/ -/home/laura/.icons/";
 			BindPaths="/run/user/1000/ /home/laura/.cache/";
 # 			TemporaryFileSystem="/home/laura:ro";
 		};
