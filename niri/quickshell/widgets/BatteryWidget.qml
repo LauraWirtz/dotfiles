@@ -9,13 +9,11 @@ Text {
 
 	text: Math.min(Battery.percentage, 99).toString().padStart(2,"0")+"%"
 	color: Material.color(Material.Grey, Material.Shade500)
-	font.family: "Silkscreen"
 	font.pixelSize: 20
 	font.weight: 400
 
 	horizontalAlignment: Text.AlignHCenter
 	textFormat: Text.PlainText
-	renderType: Text.QtRendering
 
 	states: [
 		State {
