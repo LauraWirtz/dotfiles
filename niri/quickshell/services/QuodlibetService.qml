@@ -23,25 +23,28 @@ Singleton {
 		watchChanges: true
 		onFileChanged: reload()
 		onTextChanged: {
-			const lines = text().split("\n")
-			var newState = {}
+			if(text() == ""){
+				retryLoad.running = true
+			} else {
+				const lines = text().split("\n")
+				var newState = {}
 
-			lines.forEach(el => {
-				if(el) {
-					const parts = el.split("=")
-					const key = parts[0].match( /(\w+)/g )[0]
-					const value = parts[1]
-					newState[key] = value
-				}
-			})
-
-			root.current = newState
+				lines.forEach(el => {
+					if(el) {
+						const parts = el.split("=")
+						const key = parts[0].match( /(\w+)/g )[0]
+						const value = parts[1]
+						newState[key] = value
+					}
+				})
+				root.current = newState
+			}
 		}
 	}
 
 	Timer {
 		id: retryLoad
-		interval: 1000; running: false; repeat: true
+		interval: 1000; running: false; repeat: false
 		onTriggered: { currentView.reload() }
 	}
 

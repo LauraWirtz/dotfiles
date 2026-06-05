@@ -14,6 +14,7 @@ ColumnLayout {
 	spacing: 0
 
 	RowLayout {
+		Layout.fillWidth: true
 		spacing: 0
 
 		RoundButton {
@@ -37,7 +38,12 @@ ColumnLayout {
 
 			onClicked: QuodlibetService.next()
 		}
+		Item {
+			Layout.fillWidth: true
+			Layout.horizontalStretchFactor: 1
+		}
 		RowLayout {
+			Layout.fillWidth: false
 			Layout.alignment: Qt.AlignHCenter
 			spacing: 0
 			Repeater {
@@ -55,6 +61,33 @@ ColumnLayout {
 				RatingStar {}
 			}
 		}
+	}
+	Text {
+		Layout.alignment: Qt.AlignHCenter
+
+		color: "white"
+		font.pixelSize: 16
+		textFormat: Text.PlainText
+
+		text: QuodlibetService.current.title
+	}
+	Text {
+		Layout.alignment: Qt.AlignHCenter
+
+		color: "white"
+		font.pixelSize: 16
+		textFormat: Text.PlainText
+
+		text: QuodlibetService.current.albumartist
+	}
+	Text {
+		Layout.alignment: Qt.AlignHCenter
+
+		color: "white"
+		font.pixelSize: 16
+		textFormat: Text.PlainText
+
+		text: QuodlibetService.current.album
 	}
 	RowLayout {
 		Layout.fillWidth: true
@@ -98,48 +131,6 @@ ColumnLayout {
 			textFormat: Text.PlainText
 
 			text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * (1 - QuodlibetService.progress)) : "00:00"
-		}
-	}
-	Rectangle {
-		Layout.fillWidth: true
-		implicitHeight: 26
-		color: "black"
-		radius: 13
-
-		Item {
-			id: quodClip
-			x: 13
-			implicitHeight: 26
-			implicitWidth: parent.width - 26
-			clip: true
-
-			Text {
-				id: quodText
-				color: "white"
-				font.family: "Doto"
-				font.pixelSize: 22
-				font.weight: 800
-
-				text : QuodlibetService.current ? `${QuodlibetService.current.albumartist} - ${QuodlibetService.current.title} - ${QuodlibetService.current.album} | ${QuodlibetService.current.albumartist} - ${QuodlibetService.current.title} - ${QuodlibetService.current.album} | ` : ""
-
-				NumberAnimation on x {
-					running: true
-					loops: Animation.Infinite
-					duration: quodText.contentWidth ? (quodText.contentWidth * 5) : 5000
-
-					from: 0; to: -0.5*quodText.contentWidth
-				}
-			}
-			Rectangle {
-				anchors.fill: parent
-				gradient: Gradient {
-					orientation: Gradient.Horizontal
-					GradientStop { position: 0.0; color: "black" }
-					GradientStop { position: 0.05; color: "transparent" }
-					GradientStop { position: 0.95; color: "transparent" }
-					GradientStop { position: 1.0; color: "black" }
-				}
-			}
 		}
 	}
 
