@@ -5,8 +5,6 @@ import QtQuick
 Item {
 	id: root
 
-	property bool initialized: false
-
 	required property int monitorWidth		// monitor width
 	required property int monitorHeight		// monitor height
 
@@ -38,10 +36,11 @@ Item {
 	}
 
 	Timer {
-		interval: root.interval/2; running: root.initialized; repeat: true
+		id: cardUpdater
+		interval: root.interval/2; running: false; repeat: true
 		onTriggered: {
 			if(removalState) {
-				root.images.setProperty(nextRemoval, "source", "")
+				root.images.setProperty(nextRemoval, "url", "")
 			} else {
 				root.replenish()
 
@@ -56,24 +55,17 @@ Item {
 		interval: 100; running: true; repeat: false
 		onTriggered: {
 			root.populate()
-			root.initialized = true
-		}
-	}
-	Timer {
-		id: rescan
-		interval: 3600000; running: true; repeat: true
-		onTriggered: {
-			pathfinder.running = true
+			cardUpdater.running = true
 		}
 	}
 
 	Process {
 		id: pathfinder
 		running: true
-		command: [ "find", root.source, "f" ]
+		command: [ "find", root.source, "-type", "f" ]
 		stdout: SplitParser { onRead: data => {
 			if(root.paths.every(el => {
-				return el.url != data
+				return el != data
 			})) {
 				root.paths.push(data)
 			}
@@ -95,19 +87,19 @@ Item {
 		let candidate = ""
 		while(
 			!(candidate.includes(".png") || candidate.includes(".jpg") || candidate.includes(".jpeg")) ||
-			!root.images.every(el => { return el.source != candidate })
+			!root.images.every(el => { return el.url != candidate })
 		) {
 			candidate = root.paths[Math.floor(Math.random() * root.paths.length)]
 		}
 		const coords = generateCoordinates()
 		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
 		root.currentZ++
-		return { "source": candidate, "posX": coords.x, "posY": coords.y, "posZ": root.currentZ, "rotation": rotation }
+		return { "url": candidate, "posX": coords.x, "posY": coords.y, "posZ": root.currentZ, "rot": rotation }
 	}
 
 	function generateCoordinates(): var {
 		let attempts = []
-		while(attempts.length < 10*(root.images.count+1)) {
+		while(attempts.length < 10*Math.pow(2, root.images.count)) {
 			let x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
 			let y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
 

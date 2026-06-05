@@ -7,7 +7,7 @@ input {
 	}
 
 	mouse {
-		accel-speed -0.965
+		accel-speed 0
 		accel-profile "flat"
 	}
 
@@ -23,7 +23,7 @@ gestures {
 
 
 layout {
-	gaps 40
+	gaps 0
 	center-focused-column "never"
 
 	background-color "#00000000"
@@ -78,9 +78,13 @@ spawn-at-startup "steam"
 spawn-at-startup "sunsetr"
 spawn-at-startup "tlpctl" "balanced"
 
+window-rule {
+	block-out-from "screencast"
+}
 
 window-rule {
 	match app-id=r"steam_app_293760"
+	match app-id=r"steam_app_397540"	//Borderlands 3
 	open-fullscreen true
 }
 

@@ -34,71 +34,76 @@ Scope {
 				border: -100
 
 				source: "/home/laura/Pictures/アニメ/"
-				count: Math.round(root.screen.width * root.screen.height / 150000)
+				count: Math.round(root.screen.width * root.screen.height / 200000)
 			}
 
-			Repeater {
-				id: repeater
+			Item {
 				anchors.fill: parent
-				model: wallpaperService.images.count
-				Image {
-					id: component
+				layer.enabled: true
 
-					x: wallpaperService.images.get(modelData).posX
-					y: wallpaperService.images.get(modelData).posY
-					z: wallpaperService.images.get(modelData).posZ
+				Repeater {
+					id: repeater
+					anchors.fill: parent
+					model: wallpaperService.images
+					Image {
+						id: component
 
-					width: wallpaperService.size
-					height: wallpaperService.size
+						x: posX
+						y: posY
+						z: posZ
 
-					rotation: wallpaperService.images.get(modelData).rotation
+						width: wallpaperService.size
+						height: wallpaperService.size
 
-					source: wallpaperService.images.get(modelData).source
-					sourceSize.width: 2 * wallpaperService.size
-					sourceSize.height: 2 * wallpaperService.size
+						rotation: rot
 
-					fillMode: Image.PreserveAspectFit
-					asynchronous: true
-					cache: false
-					mipmap: true
+						source: url
+						sourceSize.width: 2 * wallpaperService.size
+						sourceSize.height: 2 * wallpaperService.size
 
-					visible: component.status == Image.Ready
+						fillMode: Image.PreserveAspectFit
+						asynchronous: true
+						cache: false
+						mipmap: true
+
+						visible: component.status == Image.Ready
 
 
-					Rectangle {
-						anchors.centerIn: parent
+						Rectangle {
+							anchors.centerIn: parent
 
-						z: -2
+							z: -2
 
-						width: parent.paintedWidth
-						height: parent.paintedHeight
-						color: "beige"
-					}
+							width: parent.paintedWidth
+							height: parent.paintedHeight
+							color: "beige"
+						}
 
-					RectangularShadow {
-						anchors.centerIn: parent
-						width: parent.paintedWidth + 4
-						height: parent.paintedHeight + 4
-						z: -1
-						color: "#88000000"
-						blur: 10
-						// spread: 5
-						radius: 0
-					}
-					Rectangle {
-						anchors.centerIn: parent
+						RectangularShadow {
+							anchors.centerIn: parent
+							width: parent.paintedWidth + 4
+							height: parent.paintedHeight + 4
+							z: -1
+							color: "#88000000"
+							blur: 10
+							// spread: 5
+							radius: 0
+						}
+						Rectangle {
+							anchors.centerIn: parent
 
-						width: parent.paintedWidth + 4
-						height: parent.paintedHeight + 4
+							width: parent.paintedWidth + 4
+							height: parent.paintedHeight + 4
 
-						radius: 6
+							radius: 6
 
-						antialiasing: true
+							antialiasing: true
 
-						color: "transparent"
+							color: "transparent"
 
-						border.color: "beige"
-						border.width: 4
+							border.color: "beige"
+							border.width: 4
+						}
 					}
 				}
 			}

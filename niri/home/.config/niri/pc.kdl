@@ -1,21 +1,3 @@
-input {
-	keyboard {
-		xkb {
-			layout "us"
-		}
-		numlock
-	}
-	mouse {
-		accel-speed -0.965
-		accel-profile "flat"
-	}
-
-	disable-power-key-handling
-	workspace-auto-back-and-forth
-	focus-follows-mouse max-scroll-amount="0%"
-}
-
-
 output "DP-1" {
 	mode "3440x1440@160"
 	scale 1.2
@@ -24,12 +6,6 @@ output "DP-1" {
 	position x=1920 y=1080
 
 	layout {
-		preset-column-widths {
-			proportion 0.3333
-			proportion 0.5
-			proportion 0.6666
-			proportion 1.0
-		}
 		default-column-width { proportion 0.5; }
 	}
 }
@@ -44,10 +20,11 @@ output "HDMI-A-1" {
 
 
 layout {
+	gaps 10
 	shadow {
 		on
-		softness 10
-		spread 5
+		softness 9
+		spread 3
 		offset x=0 y=0
 		draw-behind-window false
 		color "00000088"
@@ -65,28 +42,44 @@ blur {
 }
 
 
-spawn-at-startup "wpaperd" "-d"
-spawn-at-startup "swayidle" "-w" "before-sleep" "'systemctl --user stop qs-postcards.service'" "after-resume" "'systemctl --user start qs-postcards.service'"
-
+overview {
+	workspace-shadow {
+		off
+	}
+}
 
 window-rule {
 	match is-active=false
 	opacity 0.85
+	shadow {
+	//	off
+	}
+}
+window-rule {
+	match is-floating=true
+	background-effect {
+		xray false
+		blur true
+	}
+}
+window-rule {
+	exclude app-id="floorp"
+	popups {
+		background-effect {
+			xray false
+			blur true
+		}
+	}
 }
 
 window-rule {
-	geometry-corner-radius 8
-	clip-to-geometry true
-	draw-border-with-background true
+	//geometry-corner-radius 8
+	//clip-to-geometry true
+	//draw-border-with-background true
 	open-maximized-to-edges false
 	background-effect {
-        blur true
-    }
-}
-
-window-rule {
-	match app-id="anki"
-	default-column-width { proportion 0.3333; }
+		blur true
+	}
 }
 
 window-rule {
@@ -100,7 +93,6 @@ window-rule {
 
 
 layer-rule {
-	match namespace="wpaperd.*"
 	match namespace="quickshell"
 	match layer="background"
 	place-within-backdrop true
@@ -118,6 +110,10 @@ layer-rule {
 
 layer-rule {
 	match namespace="qs-taskbar"
-	geometry-corner-radius 8
+	//geometry-corner-radius 8
 	shadow { on; }
+	background-effect {
+		xray true
+		blur true
+	}
 }

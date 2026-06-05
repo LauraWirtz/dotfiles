@@ -6,6 +6,8 @@ in {
 	home.homeDirectory = "/home/laura";
 
 	home.file = {
+		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
+
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/";
 
@@ -14,7 +16,6 @@ in {
 
 		".config/xsettingsd/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/xsettingsd/";
 
-		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
 		".local/share/applications/foot-server.desktop".text = desktopHide;

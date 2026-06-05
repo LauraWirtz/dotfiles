@@ -19,29 +19,66 @@
  	};
 
 	programs.niri.enable = true;
+	programs.niri.package = pkgs.niri.override {withScreencastSupport = false;};
 	programs.niri.useNautilus = false;
+	services.gnome.gnome-keyring.enable = false;
+	xdg.portal.config.niri = lib.mkForce {};
+	xdg.portal.extraPortals = lib.mkDefault [];
 
 	security.polkit.enable = true;
 
-	xdg.portal.enable = true;
-	xdg.portal.wlr.enable = true;
-	xdg.portal.extraPortals = [
-		pkgs.kdePackages.xdg-desktop-portal-kde
-		pkgs.xdg-desktop-portal-gnome
-		pkgs.xdg-desktop-portal-gtk
-	];
-	xdg.portal.config = {
-		preferred = {
-			default = [ "kde" ];
-			"org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
-		};
-	};
-	xdg.portal.configPackages = [ pkgs.kdePackages.plasma-workspace ];
+	systemd.user.services.niri.serviceConfig = {
+		User="laura";
+		Group="users";
 
+#		CapabilityboundingSet="";
+# 		DeviceAllow="char-gpu";
+		NoNewPrivileges="yes";
+# 		PrivateNetwork="yes";
+		PrivateTmp="yes";
+#  		ProtectSystem="strict";
+#		ProtectHome="read-only";
+		ProtectKernelTunables="yes";
+		ProtectKernelModules="yes";
+		ProtectKernelLogs="yes";
+		ProtectProc="invisible";
+# 		RestrictAddressFamilies="AF_UNIX";
+# 		RestrictNamespaces="yes";
+		RestrictSUIDSGID="yes";
+# 		SystemCallArchitectures="native";
+
+		ReadWritePaths="/etc/nixos";
+	};
 	systemd.user.services.quickshell = {
 		wantedBy = [ "graphical-session.target" ];
-		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd pkgs.quodlibet-full ];
-		serviceConfig = { Restart="always"; };
+		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd pkgs.quodlibet pkgs.swayidle ];
+		serviceConfig = {
+			Restart="always";
+
+			User="laura";
+			Group="users";
+
+			CapabilityBoundingSet="";
+			DeviceAllow="char-gpu";
+			NoNewPrivileges="yes";
+			PrivateDevices="yes";
+			PrivateNetwork="yes";
+			PrivateTmp="yes";
+			ProtectSystem="strict";
+			ProtectHome="tmpfs";
+			ProtectKernelTunables="yes";
+			ProtectKernelModules="yes";
+			ProtectKernelLogs="yes";
+			ProtectProc="invisible";
+			RestrictAddressFamilies="AF_UNIX";
+			RestrictNamespaces="yes";
+			RestrictSUIDSGID="yes";
+			SystemCallArchitectures="native";
+
+			BindReadOnlyPaths="/home/laura/.config/quodlibet/ /home/laura/.local/share/applications/ /home/laura/.icons/";
+			BindPaths="/run/user/1000/ /home/laura/.cache/";
+# 			TemporaryFileSystem="/home/laura:ro";
+		};
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/quickshell/shell.qml";
 	};
 	systemd.user.services.plasma-polkit-agent = {
@@ -51,30 +88,14 @@
 		script = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
 	};
 
-	qt = {
-		enable = true;
-		platformTheme = "kde";
-		style = "breeze";
-	};
-	environment.sessionVariables.XDG_CONFIG_DIRS = [ "$HOME/.config/kdedefaults" ];
-
 	environment.systemPackages = with pkgs; [
 		xwayland-satellite
 		quickshell
-		wpaperd
 		sunsetr
 		brightnessctl
-		swayidle
+		swaybg
 
 		polkit
 		kdePackages.polkit-kde-agent-1
-
-# 		kdePackages.kirigami
-# 		kdePackages.kirigami-addons
-# 		kdePackages.qqc2-breeze-style
-# 		kdePackages.qqc2-desktop-style
-		kdePackages.kde-gtk-config
-		kdePackages.libplasma
-		kdePackages.plasma-integration
 	];
 }
