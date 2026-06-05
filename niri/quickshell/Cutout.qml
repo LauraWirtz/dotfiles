@@ -19,64 +19,36 @@ PanelWindow {
 
 	color: "transparent"
 
-	anchors.left: true
-	anchors.right: true
 	anchors.bottom: true
-	margins.left: screen.width / 2 - 640 + 13
-	margins.right: screen.width / 2 + 640 - 80 - 13
-	margins.bottom: 8
+	margins.bottom: 13 + 10
 
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
 	WlrLayershell.namespace: "qs-cutout"
+	mask: Region { item: Item {} }
 
 	implicitHeight: 26
-	implicitWidth: 80
+	implicitWidth: 70
 
-	MouseArea {
-		id: mouseArea
+	Rectangle {
+		Material.theme: Material.Dark
+		Material.accent: Material.Blue
+		id: overviewShape
 
 		anchors.fill: parent
+		radius: 13
 
-		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
-
-		onClicked: event => {
-			switch (event.button) {
-				case Qt.BackButton:
-					Niri.focusWorkspaceDown();
-					break;
-				case Qt.ForwardButton:
-					Niri.focusWorkspaceUp();
-					break;
-				default:
-					Niri.toggleOverview()
-			}
-		}
-		onWheel: event => {
-			if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
-			else { Niri.focusColumnRight() }
-		}
-
-		Rectangle {
-			Material.theme: Material.Dark
-			Material.accent: Material.Blue
-			id: overviewShape
-
-			anchors.fill: parent
-			radius: 13
-
-			color: "black"
-			opacity: 0.5
-		}
-		Loader {
-			anchors.centerIn: parent
-			active: root.screen.name == "eDP-1"
-			sourceComponent: BatteryWidget {}
-		}
-		Loader {
-			anchors.centerIn: parent
-			active: root.screen.name != "eDP-1"
-			sourceComponent: ClockWidget {}
-		}
+		color: "black"
+		opacity: 0.33
+	}
+	Loader {
+		anchors.centerIn: parent
+		active: root.screen.name == "eDP-1"
+		sourceComponent: BatteryWidget {}
+	}
+	Loader {
+		anchors.centerIn: parent
+		active: root.screen.name != "eDP-1"
+		sourceComponent: ClockWidget {}
 	}
 }

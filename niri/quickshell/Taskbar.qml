@@ -20,32 +20,25 @@ PanelWindow {
 
 	color: root.screen.name == "eDP-1" ? "black" : "transparent"
 
+	// anchors.left: true
+	// anchors.right: true
 	anchors.bottom: true
-	margins.bottom: -5
-	implicitWidth: 1280
+	margins.bottom: screen.width > 1280 ? 10 : 0
+	implicitWidth: screen.width > 1280 ? 1280 : screen.width
 	implicitHeight: 52
 
 	WlrLayershell.layer: WlrLayer.Top
 	WlrLayershell.namespace: "qs-taskbar"
 
-	Loader {
-		anchors.fill: parent
-		id: background
-		Behavior on opacity { NumberAnimation { duration: 125 } }
-		active: root.screen.name != "eDP-1"
-		sourceComponent: Rectangle {
-			anchors.fill: parent
-			radius: 8
-			color: "#292c30"
-		}
-	}
 	MouseArea {
+		Material.theme: Material.Dark
+		Material.accent: Material.Blue
 		id: mouseArea
 
 		anchors.fill: parent
 
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
-		hoverEnabled: true
+		hoverEnabled: root.screen.name != "eDP-1"
 		onClicked: event => {
 			switch (event.button) {
 				case Qt.BackButton:
@@ -60,29 +53,26 @@ PanelWindow {
 			if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
 			else { Niri.focusColumnRight() }
 		}
-		onEntered: background.opacity = 1
-		onExited: background.opacity = 0.85
-		RowLayout {
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.verticalCenter: parent.verticalCenter
-			id: content
+		onEntered: mouseArea.opacity = 1
+		onExited: mouseArea.opacity = 0.85
 
-			Material.theme: Material.Dark
-			Material.accent: Material.Blue
+		Rectangle {
+			anchors.fill: parent
+			color: "#292c30"
+		}
+
+		RowLayout {
+			anchors.centerIn: parent
+			id: content
+			width: Math.min(root.width, 1920)
 
 			spacing: 0
-			Item{
-				width: 80 + 13 + 13
-			}
 			WindowListWidget {screen: root.screen.name}
-			Item {
-				Layout.fillWidth: true
-				Layout.horizontalStretchFactor: 1
-			}
+			// Item {width: 52}
+			Item{Layout.fillWidth: true; Layout.horizontalStretchFactor: 1}
 			DesktopMenuWidget {}
 			WindowActionWidget {}
-			Separator {inset: 0}
+			// Separator {inset: 0}
 			TlpWidget {}
 			MenuWithButton {
 				icon.name: "settings-configure"
@@ -110,6 +100,13 @@ PanelWindow {
 				text: Time.date
 				content: CalendarWidget {}
 			}
+		}
+		Button {
+			anchors.centerIn: parent
+			width: 70 + 13
+			height: 52
+			flat: true
+			onClicked: Niri.toggleOverview()
 		}
 	}
 }
