@@ -44,13 +44,15 @@ Repeater {
 			id: handler
 			xAxis.enabled: false
 			yAxis.enabled: false
+			property real x
 			onActiveChanged: {
 				if(active) {
 					button.z = 10
+					x = button.x
 				} else {
 					const movement = Math.sign(persistentTranslation.x) * Math.round(Math.abs(persistentTranslation.x / button.width) - 0.5)
 					const oldPos = modelData.layout.pos_in_scrolling_layout[0]
-					handler.enabled = false
+					button.x = x
 					Niri.moveColumnToIndex(oldPos + movement)
 				}
 			}
