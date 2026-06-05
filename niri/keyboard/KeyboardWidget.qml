@@ -50,8 +50,8 @@ Rectangle {
 					State {
 						name: "ACTIVE"
 						when: key.pressed
-						PropertyChanges {background.border.color: "#e93a9a"}
-						PropertyChanges {background.color: "#462e40"}
+						PropertyChanges {background.border.color: "#A5D6A7"}
+						PropertyChanges {background.color: "#3c4642"}
 					}
 				]
 				transitions: [

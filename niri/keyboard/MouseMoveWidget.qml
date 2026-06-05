@@ -4,60 +4,60 @@ import Quickshell.Io
 import QtQuick
 
 
-	Rectangle {
-		id: root
+Rectangle {
+	id: root
 
-		width: 6 * KeyboardService.scale - 2*KeyboardService.padding
-		height: 4 * KeyboardService.scale - 2* KeyboardService.padding
+	width: 6 * KeyboardService.scale - 2*KeyboardService.padding
+	height: 4 * KeyboardService.scale - 2* KeyboardService.padding
 
-		readonly property real boundX: root.width
-		readonly property real boundY: root.height
-		readonly property real dragFactor: 0.666
+	readonly property real boundX: root.width
+	readonly property real boundY: root.height
+	readonly property real dragFactor: 0.666
 
-		readonly property real flickThreshold: 200
-		readonly property real flickFactor: 0.666
-		readonly property real flickDecel: 0.98
-
-
-		property real prevX: 0
-		property real prevY: 0
-		property real errorX: 0
-		property real errorY: 0
-		property real velocityX: 0
-		property real velocityY: 0
-
-		readonly property alias active: sensor.active
-
-		property bool isScrollMode: false
-
-		readonly property real scrollDecel: 0.98
-		readonly property int scrollInterval: 40
-
-		property int scrollCountY: 0
-		property real scrollSum: 0
+	readonly property real flickThreshold: 200
+	readonly property real flickFactor: 0.666
+	readonly property real flickDecel: 0.98
 
 
-		radius: KeyboardService.rounding
-		color: "#292c30"
+	property real prevX: 0
+	property real prevY: 0
+	property real errorX: 0
+	property real errorY: 0
+	property real velocityX: 0
+	property real velocityY: 0
 
-		border.color: "#292c30"
-		border.width: 1
+	readonly property alias active: sensor.active
 
-		states: [
-			State {
-				name: "ACTIVE"
-				when: false
-				PropertyChanges {root.border.color: "#e93a9a"}
-				PropertyChanges {root.color: "#462e40"}
-			}
-		]
-		transitions: [
-			Transition {
-				from: "ACTIVE"
-				ColorAnimation { properties: "touchArea.border.color"; easing.type: Easing.OutQuad; duration: 100 }
-				ColorAnimation { properties: "touchArea.color"; easing.type: Easing.OutQuad; duration: 100 }
-			},
-		]
+	property bool isScrollMode: false
+
+	readonly property real scrollDecel: 0.98
+	readonly property int scrollInterval: 40
+
+	property int scrollCountY: 0
+	property real scrollSum: 0
+
+
+	radius: KeyboardService.rounding
+	color: "#292c30"
+
+	border.color: "#292c30"
+	border.width: 1
+
+	states: [
+		State {
+			name: "ACTIVE"
+			when: false
+			PropertyChanges {root.border.color: "#e93a9a"}
+			PropertyChanges {root.color: "#462e40"}
+		}
+	]
+	transitions: [
+		Transition {
+			from: "ACTIVE"
+			ColorAnimation { properties: "touchArea.border.color"; easing.type: Easing.OutQuad; duration: 100 }
+			ColorAnimation { properties: "touchArea.color"; easing.type: Easing.OutQuad; duration: 100 }
+		},
+	]
 
 	PointHandler {
 		id: sensor
