@@ -5,6 +5,30 @@
 		serviceConfig = {
 			Restart="always";
 			RestartSec="1s";
+
+			User="laura";
+			Group="users";
+
+			CapabilityBoundingSet="";
+			DeviceAllow="";
+			NoNewPrivileges="yes";
+			PrivateDevices="yes";
+			PrivateNetwork="yes";
+			PrivateTmp="yes";
+			ProtectSystem="strict";
+			ProtectHome="tmpfs";
+			ProtectKernelTunables="yes";
+			ProtectKernelModules="yes";
+			ProtectKernelLogs="yes";
+			ProtectProc="invisible";
+			RestrictAddressFamilies="AF_UNIX";
+			RestrictNamespaces="yes";
+			RestrictSUIDSGID="yes";
+			SystemCallArchitectures="native";
+
+# 			BindReadOnlyPaths="/run/user/1000/";
+			BindPaths="/run/user/1000/";
+# 			TemporaryFileSystem="/run/user/1000/";
 		};
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/keyboard/shell.qml";
 	};

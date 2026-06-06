@@ -23,8 +23,8 @@ PanelWindow {
 	implicitWidth: keeb.width
 	implicitHeight: keeb.height
 
-	property real x: screen.width / 2 - keeb.width / 2
-	property real y: screen.height / 2
+	property real x
+	property real y
 
 	margins.left: KeyboardService.visible ? x : -keeb.width
 	margins.top: KeyboardService.visible ? y : -keeb.height
@@ -43,6 +43,7 @@ PanelWindow {
 		height: KeyboardService.scale - KeyboardService.padding
 
 		icon.name: "drag-surface"
+        icon.color: "white"
 		icon.width: 32
 		icon.height: 32
 
@@ -52,20 +53,21 @@ PanelWindow {
 			id: dragHandler
 
 			target: null
+			dragThreshold: 4
 
 			onPersistentTranslationChanged: {
-				if(persistentTranslation.x < 0) persistentTranslation.x = 0;
-				if(persistentTranslation.x > root.screen.width - root.implicitWidth) persistentTranslation.x = root.screen.width - root.implicitWidth;
-				if(persistentTranslation.y < 0) persistentTranslation.y = 0;
-				if(persistentTranslation.y > root.screen.height - root.implicitHeight) persistentTranslation.y = root.screen.height - root.implicitHeight;
+				if(persistentTranslation.x < 0) {persistentTranslation.x = 0;}
+				if(persistentTranslation.x > root.screen.width - keeb.width) {persistentTranslation.x = root.screen.width - keeb.width;}
+				if(persistentTranslation.y < 0) {persistentTranslation.y = 0;}
+				if(persistentTranslation.y > root.screen.height - keeb.height) {persistentTranslation.y = root.screen.height - keeb.height;}
 
 				root.x = persistentTranslation.x
 				root.y = persistentTranslation.y
 			}
 
 			Component.onCompleted: {
-				persistentTranslation.x = root.x
-				persistentTranslation.y = root.y
+				persistentTranslation.x = screen.width / 2 - keeb.width / 2
+				persistentTranslation.y = screen.height - keeb.height - 56 - 2*10
 			}
 		}
 	}

@@ -73,7 +73,7 @@ PanelWindow {
 			WindowActionWidget {}
 			Loader {
 				Layout.fillWidth: true
-				active: root.screen.name != "eDP-1"
+				active: root.screen.name == "eDP-1"
 				sourceComponent: RoundButton {
 					icon.name: "input-keyboard-virtual-show"
 					icon.color: Material.color(Material.Purple, Material.Shade200)
