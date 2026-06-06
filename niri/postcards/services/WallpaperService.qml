@@ -5,10 +5,18 @@ import QtQuick
 Item {
 	id: root
 
+	component Borders: QtObject {
+		property int top: -9999
+		property int bottom: -9999
+		property int left: -9999
+		property int right: -9999
+	}
+
 	required property int monitorWidth		// monitor width
 	required property int monitorHeight		// monitor height
 
 	property int border: 0					// clear space around monitor edge (can be negative)
+	property Borders borders: Borders {}
 
 	required property string source
 	property int size: 400					// postcard size
@@ -98,10 +106,16 @@ Item {
 	}
 
 	function generateCoordinates(): var {
-		let attempts = []
+		const top = root.borders.top != -9999 ? root.borders.top : root.border
+		const bottom = root.borders.bottom != -9999 ? root.borders.bottom : root.border
+		const left = root.borders.left != -9999 ? root.borders.left : root.border
+		const right = root.borders.right != -9999 ? root.borders.right : root.border
+
+		const attempts = []
+
 		while(attempts.length < 10*Math.pow(2, root.images.count)) {
-			let x = (root.monitorWidth - 2.0 * root.border - root.size) * Math.random() + root.border
-			let y = (root.monitorHeight - 2.0 * root.border - root.size) * Math.random() + root.border
+			const x = (root.monitorWidth - left - right - root.size) * Math.random() + left
+			const y = (root.monitorHeight - top - bottom - root.size) * Math.random() + top
 
 			let summedDistance = 0
 			for (let i = 0; i < root.images.count; i++) {
@@ -113,9 +127,8 @@ Item {
 			}
 			attempts.push({x: x, y: y, summedDistance: summedDistance})
 		}
-		let best = attempts.reduce((best, el) => {
+		return attempts.reduce((best, el) => {
 			return el.summedDistance > best.summedDistance ? el : best
 		})
-		return best
 	}
 }

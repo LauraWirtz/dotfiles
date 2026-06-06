@@ -31,7 +31,8 @@ Scope {
 				monitorWidth: root.screen.width
 				monitorHeight: root.screen.height
 
-				border: -100
+				border: 10
+				borders.bottom: 56 + 2*10
 
 				source: "/home/laura/Pictures/アニメ/"
 				count: Math.round(root.screen.width * root.screen.height / 200000)
