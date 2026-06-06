@@ -2,7 +2,10 @@
 	systemd.user.services.qs-keyboard = {
 		wantedBy = [ "graphical-session.target" ];
 		path = [ pkgs.quickshell pkgs.ydotool ];
-		serviceConfig = { Restart="always"; };
+		serviceConfig = {
+			Restart="always";
+			RestartSec="1s";
+		};
 		script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/niri/keyboard/shell.qml";
 	};
 
@@ -11,6 +14,7 @@
 		path = [ pkgs.swaybg ];
 		serviceConfig = {
 			Restart="always";
+			RestartSec="1s";
 
 			User="laura";
 			Group="users";

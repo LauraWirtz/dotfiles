@@ -17,6 +17,29 @@
 			default_session = initial_session;
  		};
  	};
+	systemd.services.greetd.serviceConfig = {
+# 		User="laura";
+# 		Group="users";
+
+# 		CapabilityboundingSet="";
+# 		DeviceAllow="";
+		NoNewPrivileges="yes";
+# 		PrivateDevices="yes";
+		PrivateNetwork="yes";
+		PrivateTmp="yes";
+ 		ProtectSystem="strict";
+		ProtectHome="read-only";
+		ProtectKernelTunables="yes";
+		ProtectKernelModules="yes";
+		ProtectKernelLogs="yes";
+		ProtectProc="invisible";
+# 		RestrictAddressFamilies="AF_UNIX";
+# 		RestrictNamespaces="yes";
+		RestrictSUIDSGID="yes";
+		SystemCallArchitectures="native";
+
+# 		BindPaths="/run/user/1000/";
+	};
 
 	programs.niri.enable = true;
 	programs.niri.package = pkgs.niri.override {withScreencastSupport = false;};
@@ -55,6 +78,7 @@
 		path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd pkgs.quodlibet pkgs.swayidle ];
 		serviceConfig = {
 			Restart="always";
+			RestartSec="1s";
 
 			User="laura";
 			Group="users";

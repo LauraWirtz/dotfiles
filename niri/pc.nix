@@ -5,6 +5,7 @@ systemd.user.services.qs-postcards = {
 		path = [ pkgs.quickshell ];
 		serviceConfig = {
 			Restart="always";
+			RestartSec="1s";
 
 			Nice=19;
 			CPUWeight=1;
@@ -41,6 +42,7 @@ systemd.user.services.qs-postcards = {
 		path = [ pkgs.swaybg ];
 		serviceConfig = {
 			Restart="always";
+			RestartSec="1s";
 
 			User="laura";
 			Group="users";
