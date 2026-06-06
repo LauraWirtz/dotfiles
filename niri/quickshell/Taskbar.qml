@@ -18,13 +18,13 @@ PanelWindow {
 	required property var modelData
 	screen: modelData
 
-	color: root.screen.name == "eDP-1" ? "black" : "transparent"
+	color: "transparent"
 
 	// anchors.left: true
 	// anchors.right: true
 	anchors.bottom: true
-	margins.bottom: screen.width > 1280 ? 10 : 0
-	implicitWidth: screen.width > 1280 ? 1280 : screen.width
+	margins.bottom: 10
+	implicitWidth: Math.min(screen.width - 20, 1260)
 	implicitHeight: 52
 
 	WlrLayershell.layer: WlrLayer.Top
@@ -37,8 +37,9 @@ PanelWindow {
 
 		anchors.fill: parent
 
+		opacity: 0.85
+
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
-		hoverEnabled: root.screen.name != "eDP-1"
 		onClicked: event => {
 			switch (event.button) {
 				case Qt.BackButton:
@@ -53,8 +54,6 @@ PanelWindow {
 			if(event.angleDelta.y > 0) { Niri.focusColumnLeft() }
 			else { Niri.focusColumnRight() }
 		}
-		onEntered: mouseArea.opacity = 1
-		onExited: mouseArea.opacity = 0.85
 
 		Rectangle {
 			anchors.fill: parent

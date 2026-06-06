@@ -22,30 +22,12 @@ input {
 output "eDP-1" {
 	mode "2560x1600@60"
 	scale 2
-
-	layout {
-		gaps 20
-		struts {
-			left -20
-			right -20
-			top -20
-			bottom 20
-		}
-	}
 }
-
-
-blur { off; }
 
 
 spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
 spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yaml"
 
-
-window-rule {
-	match is-active=false
-	opacity 0.85
-}
 
 window-rule {
 	match app-id="floorp" title="^Picture-in-Picture$"

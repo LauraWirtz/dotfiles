@@ -18,64 +18,6 @@ output "HDMI-A-1" {
 	position x=2400 y=0
 }
 
-
-layout {
-	gaps 10
-	shadow {
-		on
-		softness 9
-		spread 3
-		offset x=0 y=0
-		draw-behind-window false
-		color "00000088"
-		inactive-color "00000066"
-	}
-}
-
-
-blur {
-    on
-    passes 3
-    offset 1
-    noise 0.0
-    saturation 1
-}
-
-
-window-rule {
-	match is-active=false
-	opacity 0.85
-	shadow {
-	//	off
-	}
-}
-window-rule {
-	match is-floating=true
-	background-effect {
-		xray false
-		blur true
-	}
-}
-window-rule {
-	exclude app-id="floorp"
-	popups {
-		background-effect {
-			xray false
-			blur true
-		}
-	}
-}
-
-window-rule {
-	//geometry-corner-radius 8
-	//clip-to-geometry true
-	//draw-border-with-background true
-	open-maximized-to-edges false
-	background-effect {
-		blur true
-	}
-}
-
 window-rule {
 	match app-id="gamescope"
 	match app-id="net.kuribo64.melonDS"
@@ -83,24 +25,4 @@ window-rule {
 	match app-id=r"steam_app_\d+"
 	match app-id="steam_proton"
 	variable-refresh-rate true
-}
-
-
-layer-rule {
-	match namespace="qs-cutout"
-	geometry-corner-radius 13
-	background-effect {
-		xray false
-		blur true
-	}
-}
-
-layer-rule {
-	match namespace="qs-taskbar"
-	//geometry-corner-radius 8
-	shadow { on; }
-	background-effect {
-		xray true
-		blur true
-	}
 }

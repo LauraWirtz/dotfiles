@@ -7,76 +7,60 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
 
-Scope {
-	PanelWindow {
-		id:doot
-		visible: true
-		color: "transparent"
 
-		anchors {
-			bottom: true
-			left: true
-			right: true
-		}
-		WlrLayershell.layer: WlrLayer.Top
+PanelWindow {
+    id:root
+    color: "transparent"
 
-		implicitHeight: 0
-	}
+    anchors {
+        top: true
+        bottom: true
+        left: true
+        right: true
+    }
+    exclusionMode: ExclusionMode.Ignore
+    WlrLayershell.layer: WlrLayer.Overlay
 
-	PanelWindow {
-		id:root
-		color: "transparent"
+    mask: Region { x:0; y: keeb.y; width: root.width; height: keeb.height; }
 
-		anchors {
-			top: true
-			bottom: true
-			left: true
-			right: true
-		}
-		exclusionMode: ExclusionMode.Ignore
-		WlrLayershell.layer: WlrLayer.Overlay
+    KeyboardWidget {
+        id: keeb
 
-		mask: Region { x:0; y: keeb.y; width: root.width; height: keeb.height; }
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 20
+        anchors.bottomMargin: -height
 
-		KeyboardWidget {
-			id: keeb
+        visible: false
 
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.bottom: parent.bottom
-			anchors.leftMargin: 20
-			anchors.bottomMargin: -height
+        states: [
+            State {
+                name: "VISIBLE"
+                when: KeyboardService.visible
+                PropertyChanges {keeb.anchors.bottomMargin: 0}
+                PropertyChanges {keeb.visible: true}
+                PropertyChanges {touchpad.visible: true}
+                PropertyChanges {doot.implicitHeight: keeb.height + 10}
+            }
+        ]
+        transitions: [
+            Transition {
+                to: "VISIBLE"
+                SequentialAnimation{
+                    PropertyAction { target: keeb; property: "visible"; value: true }
+                    NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 100 }
+                    PropertyAction { target: doot; property: "implicitHeight"; value: keeb.height }
 
-			visible: false
-
-			states: [
-				State {
-					name: "VISIBLE"
-					when: KeyboardService.visible
-					PropertyChanges {keeb.anchors.bottomMargin: 0}
-					PropertyChanges {keeb.visible: true}
-					PropertyChanges {touchpad.visible: true}
-					PropertyChanges {doot.implicitHeight: keeb.height + 10}
-				}
-			]
-			transitions: [
-				Transition {
-					to: "VISIBLE"
-					SequentialAnimation{
-						PropertyAction { target: keeb; property: "visible"; value: true }
-						NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 100 }
-						PropertyAction { target: doot; property: "implicitHeight"; value: keeb.height }
-
-					}
-				},
-				Transition {
-					from: "VISIBLE"; to: "*"
-					SequentialAnimation{
-						NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.InQuad; duration: 100 }
-						PropertyAction { target: keeb; property: "visible"; value: false }
-						PropertyAction { target: doot; property: "implicitHeight"; value: 0 }
-					}
-				},
-			]
-		}
-	}
+                }
+            },
+            Transition {
+                from: "VISIBLE"; to: "*"
+                SequentialAnimation{
+                    NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.InQuad; duration: 100 }
+                    PropertyAction { target: keeb; property: "visible"; value: false }
+                    PropertyAction { target: doot; property: "implicitHeight"; value: 0 }
+                }
+            },
+        ]
+    }
 }

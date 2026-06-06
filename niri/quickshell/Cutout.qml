@@ -20,7 +20,7 @@ PanelWindow {
 	color: "transparent"
 
 	anchors.bottom: true
-	margins.bottom: screen.width > 1280 ? 23 : 13
+	margins.bottom: 23
 
 	exclusionMode: ExclusionMode.Ignore
 	WlrLayershell.layer: WlrLayer.Overlay
