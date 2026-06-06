@@ -59,32 +59,6 @@
 			nixosConfigurations.laura-steamdeck = nixpkgs.lib.nixosSystem {
 				inherit system;
 				modules = [
-					({ config, pkgs, ... }: { nixpkgs.overlays = [
-						(final: prev:
-							{
-								extest = prev.extest.overrideAttrs (previousAttrs: rec {
-									version = "0d068672fdaefd6f6565036ddd8e6949ee82eb63";
-									src = prev.fetchFromGitHub {
-										owner = "Supreeeme";
-										repo = "extest";
-										rev = "${version}";
-										hash = "sha256-4SVZD0aHKsn97B5bhCf7URR6iQhJlYGALKWhDg+lGhU=";
-									};
-									cargoDeps = prev.rustPlatform.importCargoLock {
-										lockFile = src + "/Cargo.lock";
-										allowBuiltinFetchGit = true;
-									};
-									cargoHash = null;
-								});
-						})
-						(final: prev:
-							{
-								wvkbd = prev.wvkbd.overrideAttrs (previousAttrs: rec {
-									makeFlags = [ "LAYOUT=deskintl" ];
-								});
-						})
-					]; })
-
 					lanzaboote.nixosModules.lanzaboote
 					./configuration/configuration.nix
 					./configuration/steamdeck.nix
