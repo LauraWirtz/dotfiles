@@ -93,7 +93,6 @@ prefer-no-csd
 
 spawn-at-startup "steam"
 spawn-at-startup "sunsetr"
-spawn-at-startup "tlpctl" "balanced"
 
 
 layer-rule {

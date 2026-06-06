@@ -3,6 +3,12 @@
 	services.power-profiles-daemon.enable = false;
 
 	services.tlp.settings = {
+		TLP_PROFILE_DEFAULT="BAL";
+		TLP_DEFAULT_MODE="BAL";
+		TLP_AUTO_SWITCH=1;
+		TLP_PROFILE_AC="PRF";
+		TLP_PROFILE_BAT="BAL";
+
 		SOUND_POWER_SAVE_ON_AC=10;
 		SOUND_POWER_SAVE_ON_BAT=1;
 		SOUND_POWER_SAVE_ON_SAV=1;
