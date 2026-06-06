@@ -1,5 +1,30 @@
 { config, pkgs, ... }:
 {
+<<<<<<< HEAD
+=======
+	boot.kernelPackages = pkgs.linuxPackagesFor
+		(pkgs.linuxKernel.kernels.linux_latest.override {
+			NIX_ENFORCE_NO_NATIVE = "0";
+			extraMakeFlags = [
+				# Gcc flags.
+				"KCFLAGS+=-O3"
+				"KCFLAGS+=-march=znver4"
+				"KCFLAGS+=-mtune=znver4"
+
+				# Clang/llvm flags
+				"KCFLAGS+=-O3"
+				"KCFLAGS+=-mtune=znver4"
+				"KCFLAGS+=-march=znver4"
+				"KCFLAGS+=-Wno-unused-command-line-argument"
+				"CC=${pkgs.llvmPackages.clang-unwrapped}/bin/clang"
+				"AR=${pkgs.llvm}/bin/llvm-ar"
+				"NM=${pkgs.llvm}/bin/llvm-nm"
+				"LD=${pkgs.lld}/bin/ld.lld"
+				"LLVM=1"
+			];
+	});
+
+>>>>>>> 1dddbe6 (native compiled kernel for steamdeck)
 	services.tlp.settings = {
 		TLP_PROFILE_DEFAULT="BAL";
 		TLP_DEFAULT_MODE="BAL";
@@ -7,7 +32,7 @@
 		TLP_PROFILE_AC="PRF";
 		TLP_PROFILE_BAT="BAL";
 
-		SOUND_POWER_SAVE_ON_AC=10;
+		SOUND_POWER_SAVE_ON_AC=1;
 		SOUND_POWER_SAVE_ON_BAT=1;
 		SOUND_POWER_SAVE_ON_SAV=1;
 
