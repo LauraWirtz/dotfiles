@@ -1,66 +1,72 @@
 // Bar.qml
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Effects
+import "./items"
+
+import QtQuick.Controls.Basic
 
 
 PanelWindow {
-    id:root
-    color: "transparent"
+	id:root
+	color: "transparent"
+	property var screen: Quickshell.screens[0]
 
-    anchors {
-        top: true
-        bottom: true
-        left: true
-        right: true
-    }
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: WlrLayer.Overlay
+	anchors.left: true
+	anchors.top: true
 
-    mask: Region { x:0; y: keeb.y; width: root.width; height: keeb.height; }
+	exclusionMode: ExclusionMode.Ignore
+	WlrLayershell.layer: WlrLayer.Overlay
+	WlrLayershell.namespace: "qs-keyboard"
 
-    KeyboardWidget {
-        id: keeb
+	// mask: Region { item: keeb; }
+	implicitWidth: keeb.width
+	implicitHeight: keeb.height
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: 20
-        anchors.bottomMargin: -height
+	property real x: screen.width / 2 - keeb.width / 2
+	property real y: screen.height / 2
 
-        visible: false
+	margins.left: KeyboardService.visible ? x : -keeb.width
+	margins.top: KeyboardService.visible ? y : -keeb.height
 
-        states: [
-            State {
-                name: "VISIBLE"
-                when: KeyboardService.visible
-                PropertyChanges {keeb.anchors.bottomMargin: 0}
-                PropertyChanges {keeb.visible: true}
-                PropertyChanges {touchpad.visible: true}
-                PropertyChanges {doot.implicitHeight: keeb.height + 10}
-            }
-        ]
-        transitions: [
-            Transition {
-                to: "VISIBLE"
-                SequentialAnimation{
-                    PropertyAction { target: keeb; property: "visible"; value: true }
-                    NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.OutQuad; duration: 100 }
-                    PropertyAction { target: doot; property: "implicitHeight"; value: keeb.height }
+	KeyboardWidget {
+		id: keeb
 
-                }
-            },
-            Transition {
-                from: "VISIBLE"; to: "*"
-                SequentialAnimation{
-                    NumberAnimation { properties: "keeb.anchors.bottomMargin"; easing.type: Easing.InQuad; duration: 100 }
-                    PropertyAction { target: keeb; property: "visible"; value: false }
-                    PropertyAction { target: doot; property: "implicitHeight"; value: 0 }
-                }
-            },
-        ]
-    }
+		opacity: dragHandler.active ? 0.5 : 1
+	}
+
+	KeyboardButton {
+		id: handle
+		x: 14 * KeyboardService.scale + 1 * KeyboardService.padding
+		y: 1 * KeyboardService.padding
+		width: KeyboardService.scale - KeyboardService.padding
+		height: KeyboardService.scale - KeyboardService.padding
+
+		icon.name: "drag-surface"
+		icon.width: 32
+		icon.height: 32
+
+		state: dragHandler.active ? "ACTIVE" : ""
+
+		DragHandler {
+			id: dragHandler
+
+			target: null
+
+			onPersistentTranslationChanged: {
+				if(persistentTranslation.x < 0) persistentTranslation.x = 0;
+				if(persistentTranslation.x > root.screen.width - root.implicitWidth) persistentTranslation.x = root.screen.width - root.implicitWidth;
+				if(persistentTranslation.y < 0) persistentTranslation.y = 0;
+				if(persistentTranslation.y > root.screen.height - root.implicitHeight) persistentTranslation.y = root.screen.height - root.implicitHeight;
+
+				root.x = persistentTranslation.x
+				root.y = persistentTranslation.y
+			}
+
+			Component.onCompleted: {
+				persistentTranslation.x = root.x
+				persistentTranslation.y = root.y
+			}
+		}
+	}
 }

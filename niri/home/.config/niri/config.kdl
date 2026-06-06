@@ -110,13 +110,22 @@ layer-rule {
 	}
 }
 
-
 layer-rule {
 	match namespace="qs-cutout"
 	geometry-corner-radius 13
 	background-effect {
 		xray false
 		blur true
+	}
+}
+
+layer-rule {
+	match namespace="qs-keyboard"
+	//geometry-corner-radius 8
+	shadow { on; }
+	background-effect {
+		//xray false
+		//blur true
 	}
 }
 

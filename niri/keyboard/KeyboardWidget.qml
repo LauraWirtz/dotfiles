@@ -1,14 +1,8 @@
 // Bar.qml
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Effects
-
-import QtQuick.Controls.Basic
-
+import "./items"
 
 Rectangle {
 	id: keeb
@@ -16,7 +10,7 @@ Rectangle {
 	width: childrenRect.width + 2*KeyboardService.padding
 	height: childrenRect.height + 2* KeyboardService.padding
 
-	radius: KeyboardService.rounding + 2*KeyboardService.padding
+	// radius: KeyboardService.rounding + 2*KeyboardService.padding
 	color: "#202326"
 
 	Item{
@@ -29,38 +23,14 @@ Rectangle {
 
 		Repeater {
 			model: KeyboardService.layout
-			Button {
+			KeyboardButton {
 				id: key
-				x: modelData.x * KeyboardService.scale + KeyboardService.padding
-				y: modelData.y * KeyboardService.scale + KeyboardService.padding
-				width: modelData.width * KeyboardService.scale - 2 * KeyboardService.padding
-				height: modelData.height * KeyboardService.scale - 2 * KeyboardService.padding
+				x: modelData.x * KeyboardService.scale
+				y: modelData.y * KeyboardService.scale
+				width: modelData.width * KeyboardService.scale - 1 * KeyboardService.padding
+				height: modelData.height * KeyboardService.scale - 1 * KeyboardService.padding
 
-				background: Rectangle {
-					id: background
-					radius: KeyboardService.rounding
-					color: "#292c30"
-
-					border.color: "#292c30"
-					border.width: 1
-
-				}
-
-				states: [
-					State {
-						name: "ACTIVE"
-						when: key.pressed
-						PropertyChanges {background.border.color: "#A5D6A7"}
-						PropertyChanges {background.color: "#3c4642"}
-					}
-				]
-				transitions: [
-					Transition {
-						from: "ACTIVE"
-						ColorAnimation { properties: "background.border.color"; easing.type: Easing.OutQuad; duration: 100 }
-						ColorAnimation { properties: "background.color"; easing.type: Easing.OutQuad; duration: 100 }
-					},
-				]
+				state: key.pressed ? "ACTIVE" : ""
 
 				onPressedChanged: {
 					if(modelData.exec) modelData.exec(pressed)
@@ -142,13 +112,5 @@ Rectangle {
 				}
 			}
 		}
-	}
-	RectangularShadow {
-		id: shadow
-		anchors.fill: parent
-		z: -1
-		blur: 15
-		spread: 0
-		radius: parent.radius
 	}
 }

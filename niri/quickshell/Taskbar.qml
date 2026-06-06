@@ -71,6 +71,16 @@ PanelWindow {
 			Item{Layout.fillWidth: true; Layout.horizontalStretchFactor: 1}
 			DesktopMenuWidget {}
 			WindowActionWidget {}
+			Loader {
+				Layout.fillWidth: true
+				active: root.screen.name != "eDP-1"
+				sourceComponent: RoundButton {
+					icon.name: "input-keyboard-virtual-show"
+					icon.color: Material.color(Material.Purple, Material.Shade200)
+					flat: true
+					onClicked: Niri.spawn(["qs", "-p", "/etc/nixos/niri/keyboard/shell.qml", "ipc", "call", "root", "toggle"]);
+				}
+			}
 			// Separator {inset: 0}
 			TlpWidget {}
 			MenuWithButton {
