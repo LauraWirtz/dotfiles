@@ -8,7 +8,8 @@ Text {
 	text: Time.time
 	textFormat: Text.PlainText
 
-	color: TlpService.profile == "performance" ?  Material.color(Material.Red, Material.Shade200) : Material.color(Material.Green, Material.Shade200)
+	color: "white"
 	font.pixelSize: 20
 	font.weight: 300
+	opacity: 0.67
 }

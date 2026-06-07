@@ -31,17 +31,29 @@
 	};
 	nix.settings.auto-optimise-store = true;
 
+	systemd.coredump.settings.Coredump = {
+		Storage = "none";
+	};
+
+	services.logind.settings.Login.HandlePowerKey = lib.mkDefault "hibernate";
+	services.logind.settings.Login.KillUserProcesses = lib.mkDefault true;
+
+	security.polkit.enable = true;
+
+	services.upower.enable = true;
+	services.udisks2.enable = true;
+
 	services.dbus.implementation = "broker";
 
 	services.power-profiles-daemon.enable = false;
 	services.tlp.enable = true;
 	services.tlp.pd.enable = true;
 
-	services.logind.settings.Login.HandlePowerKey = lib.mkDefault "hibernate";
+	services.swaybg.enable = true;
+	services.swaybg.path = "/etc/nixos/home/background.png";
 
-	systemd.coredump.settings.Coredump = {
-		Storage = "none";
-	};
+	services.swayidle.enable = true;
+	services.swayidle.config = "-w before-sleep 'systemctl --user start qs-lockscreen.service'";
 
 	programs.bash.shellAliases = {
 		e = "nano";
@@ -156,6 +168,8 @@
 	systemd.user.services.speech-dispatcher.enable = false; #floorp dependancy
 	systemd.user.sockets.speech-dispatcher.enable = false;
 
+	programs.qs-shell.enable = true;
+
 	environment.defaultPackages = lib.mkForce [];
 	environment.systemPackages = with pkgs; [
 		anki
@@ -169,6 +183,7 @@
 		rar
 		rsync
 		sbctl
+		sunsetr
 		unrar
 	];
 

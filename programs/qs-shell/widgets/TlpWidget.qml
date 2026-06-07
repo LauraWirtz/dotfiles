@@ -14,14 +14,14 @@ RoundButton {
 
 	icon.width: 24
 	icon.height: 24
-	flat: true
+	// flat: false
 
 	states: [
 		State {
 			name: "performance"
 			when: TlpService.profile == "performance"
 			PropertyChanges {root.icon.name: "battery-profile-performance"}
-			PropertyChanges {root.Material.foreground: Material.Red}
+			PropertyChanges {root.Material.background: Material.Red}
 			PropertyChanges {root.onClicked: TlpService.set([ "tlpctl", "balanced" ])}
 		},
 		State {

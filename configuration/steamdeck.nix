@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 {
-	services.power-profiles-daemon.enable = false;
-
 	services.tlp.settings = {
 		TLP_PROFILE_DEFAULT="BAL";
 		TLP_DEFAULT_MODE="BAL";
@@ -54,12 +52,8 @@
 
 	networking.hostName = "laura-steamdeck";
 
-	services.logind.powerKey = "hibernate";
-
 	services.xserver.xkb.layout = "us, de";
 	fonts.fontconfig.subpixel.rgba = "vrgb";
-
-	hardware.bluetooth.enable = true;
 
 	environment.variables = {
 		RADV_FORCE_VRS = "2x2";
@@ -68,8 +62,8 @@
 		RADV_DEBUG = "novrsflatshading";
 	};
 
-	programs.steam.enable = true;
-	programs.gamescope.enable = true;
+	programs.qs-lockscreen.enable = true;
+	programs.qs-keyboard.enable = true;
 # 	programs.steam.extest.enable = true;
 	services.inputplumber.enable = true;
 	programs.ydotool.enable = true;

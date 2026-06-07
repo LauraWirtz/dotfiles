@@ -170,6 +170,8 @@
 	services.xserver.videoDrivers = [ "amdgpu" ];
 	hardware.amdgpu.opencl.enable = true;
 
+	programs.qs-postcards.enable = true;
+
 	environment.systemPackages = with pkgs; [
 		geeqie
 		imagemagick
@@ -177,6 +179,7 @@
 		oxipng
 		pkgsRocm.blender
 		qmk
+		quickshell
 		stable-diffusion-cpp-rocm
 	];
 }

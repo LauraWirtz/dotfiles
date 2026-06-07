@@ -26,7 +26,7 @@ output "eDP-1" {
 
 
 spawn-sh-at-startup "inputplumber device 0 targets set keyboard touchpad deck-uhid"
-spawn-sh-at-startup "inputplumber device 0 profile load /etc/nixos/niri/inputplumber/default.yaml"
+spawn-sh-at-startup "inputplumber device 0 profile load /home/laura/.config/inputplumber/default.yaml"
 
 
 window-rule {

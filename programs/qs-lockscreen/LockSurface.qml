@@ -1,14 +1,18 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls.Fusion
+import QtQuick.Controls.Material
+import Quickshell
 import Quickshell.Wayland
 
 Image {
+	Material.theme: Material.Dark
+	Material.accent: Material.Green
+
 	id: root
 	required property LockContext context
 	readonly property ColorGroup colors: Window.active ? palette.active : palette.inactive
 
-	source: "/etc/nixos/home/.config/wpaperd/background.png"
+	source: "/etc/nixos/home/background.png"
 	fillMode: Image.PreserveAspectCrop
 
 	ColumnLayout{
@@ -19,30 +23,17 @@ Image {
 			right: parent.right
 		}
 		Label {
-			id: clock
-			property var date: new Date()
-
 			Layout.alignment: Qt.AlignHCenter
 
-			// The native font renderer tends to look nicer at large sizes.
 			renderType: Text.NativeRendering
 			font.pointSize: 80
 
-			// updates the clock every second
-			Timer {
-				running: true
-				repeat: true
-				interval: 1000
-
-				onTriggered: clock.date = new Date();
+			SystemClock {
+				id: clock
+				precision: SystemClock.Minutes
 			}
 
-			// updated when the date changes
-			text: {
-				const hours = this.date.getHours().toString().padStart(2, '0');
-				const minutes = this.date.getMinutes().toString().padStart(2, '0');
-				return `${hours}:${minutes}`;
-			}
+			text: Qt.formatDateTime(clock.date, "HH:mm")
 		}
 		RowLayout {
 			Layout.alignment: Qt.AlignHCenter

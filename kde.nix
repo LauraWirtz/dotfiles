@@ -21,6 +21,16 @@
 		serviceConfig.Type = "oneshot";
 		script = ''rm -fv "$HOME/.cache/ksycoca"*'';
 	};
+	systemd.user.services.plasma-polkit-agent = {
+		description = "KDE PolicyKit Authentication Agent";
+		wantedBy = [ "graphical-session.target" ];
+		serviceConfig = { Restart="always"; };
+		script = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+	};
+
+	environment.pathsToLink = [
+		"/share" # TODO: https://github.com/NixOS/nixpkgs/issues/47173
+	];
 
 	qt = {
 		enable = true;
@@ -51,11 +61,11 @@
 		dolphin-plugins
 # 		ffmpegthumbs
 
-# 		kio # provides helper service + a bunch of other stuff
-# 		kio-admin # managing files as admin
-# 		kio-extras # stuff for MTP, AFC, etc
-# 		kio-fuse # fuse interface for KIO
-# 		kio-extras-kf5
+ 		kio # provides helper service + a bunch of other stuff
+ 		kio-admin # managing files as admin
+ 		kio-extras # stuff for MTP, AFC, etc
+ 		kio-fuse # fuse interface for KIO
+ 		kio-extras-kf5
 
 # 		kirigami
 # 		kirigami-addons
@@ -64,5 +74,8 @@
 		kde-gtk-config
 		libplasma
 		plasma-integration
+
+		pkgs.polkit
+		polkit-kde-agent-1
 	];
 }

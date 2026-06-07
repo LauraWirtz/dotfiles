@@ -29,8 +29,8 @@ Scope {
 		// Its best to have a custom pam config for quickshell, as the system one
 		// might not be what your interface expects, and break in some way.
 		// This particular example only supports passwords.
-		configDirectory: "pam"
-		config: "password.conf"
+		// configDirectory: "pam"
+		// config: "password.conf"
 
 		// pam_unix will ask for a response for the password prompt
 		onPamMessage: {

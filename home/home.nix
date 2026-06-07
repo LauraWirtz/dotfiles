@@ -8,14 +8,13 @@ in {
 	home.file = {
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
 
+		".config/niri/config.kdl".source = with pkgs; config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/config.kdl";
+
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/";
-
 		".config/gtk-3.0/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-3.0/";
 		".config/gtk-4.0/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/gtk-4.0/";
-
 		".config/xsettingsd/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/xsettingsd/";
-
 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
 		".local/share/applications/foot-server.desktop".text = desktopHide;
