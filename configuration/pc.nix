@@ -179,7 +179,6 @@
 		oxipng
 		pkgsRocm.blender
 		qmk
-		quickshell
 		stable-diffusion-cpp-rocm
 	];
 }

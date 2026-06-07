@@ -78,7 +78,7 @@ PanelWindow {
 					icon.name: "input-keyboard-virtual-show"
 					icon.color: Material.color(Material.Purple, Material.Shade200)
 					flat: true
-					onClicked: Niri.spawn(["qs", "-p", "/etc/nixos/niri/keyboard/shell.qml", "ipc", "call", "root", "toggle"]);
+					onClicked: Niri.spawn(["qs", "-p", "/etc/nixos/programs/qs-keyboard/shell.qml", "ipc", "call", "root", "toggle"]);
 				}
 			}
 			// Separator {inset: 0}

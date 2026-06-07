@@ -46,5 +46,7 @@ in {
 			};
 			script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/programs/qs-keyboard/shell.qml";
 		};
+
+        environment.systemPackages = with pkgs; [ quickshell ];
 	};
 }

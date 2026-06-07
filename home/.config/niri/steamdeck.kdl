@@ -41,8 +41,8 @@ window-rule {
 
 
 binds {
-	Super+K { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
+	Super+K { spawn "qs" "-p" "/etc/nixos/programs/qs-keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
 
-	XF86AudioLowerVolume allow-inhibiting=false { spawn "qs" "-p" "/etc/nixos/niri/keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
+	XF86AudioLowerVolume allow-inhibiting=false { spawn "qs" "-p" "/etc/nixos/programs/qs-keyboard/shell.qml" "ipc" "call" "root" "toggle"; }
 	XF86AudioRaiseVolume allow-inhibiting=false { toggle-overview; }
 }
