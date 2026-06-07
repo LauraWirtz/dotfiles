@@ -4,8 +4,6 @@ import Quickshell.Wayland
 import QtQuick
 import "./items"
 
-import QtQuick.Controls.Basic
-
 
 PanelWindow {
 	id:root
@@ -19,15 +17,10 @@ PanelWindow {
 	WlrLayershell.layer: WlrLayer.Overlay
 	WlrLayershell.namespace: "qs-keyboard"
 
-	// mask: Region { item: keeb; }
 	implicitWidth: keeb.width
 	implicitHeight: keeb.height
 
-	property real x
-	property real y
-
-	margins.left: KeyboardService.visible ? x : -keeb.width
-	margins.top: KeyboardService.visible ? y : -keeb.height
+	visible: KeyboardService.visible
 
 	KeyboardWidget {
 		id: keeb
@@ -56,13 +49,8 @@ PanelWindow {
 			dragThreshold: 4
 
 			onPersistentTranslationChanged: {
-				if(persistentTranslation.x < 0) {persistentTranslation.x = 0;}
-				if(persistentTranslation.x > root.screen.width - keeb.width) {persistentTranslation.x = root.screen.width - keeb.width;}
-				if(persistentTranslation.y < 0) {persistentTranslation.y = 0;}
-				if(persistentTranslation.y > root.screen.height - keeb.height) {persistentTranslation.y = root.screen.height - keeb.height;}
-
-				root.x = persistentTranslation.x
-				root.y = persistentTranslation.y
+				root.margins.left = Math.min(Math.max(persistentTranslation.x, 0), root.screen.width - keeb.width)
+				root.margins.top = Math.min(Math.max(persistentTranslation.y, 0), root.screen.height - keeb.height)
 			}
 
 			Component.onCompleted: {

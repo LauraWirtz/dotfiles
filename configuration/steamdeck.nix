@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 {
-<<<<<<< HEAD
-=======
 	boot.kernelPackages = pkgs.linuxPackagesFor
 		(pkgs.linuxKernel.kernels.linux_latest.override {
 			NIX_ENFORCE_NO_NATIVE = "0";
@@ -24,7 +22,6 @@
 			];
 	});
 
->>>>>>> 1dddbe6 (native compiled kernel for steamdeck)
 	services.tlp.settings = {
 		TLP_PROFILE_DEFAULT="BAL";
 		TLP_DEFAULT_MODE="BAL";
@@ -89,7 +86,7 @@
 
 	programs.qs-lockscreen.enable = true;
 	programs.qs-keyboard.enable = true;
-# 	programs.steam.extest.enable = true;
+	programs.steam.extest.enable = true;
 	services.inputplumber.enable = true;
 	programs.ydotool.enable = true;
 	programs.ydotool.group = "wheel";
