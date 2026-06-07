@@ -7,7 +7,6 @@
 		".config/sunsetr".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/sunsetr";
 		".floorp".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.floorp";
 		".local/share/bottles".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/bottles";
-		".git-credentials".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.git-credentials";
 
 		".config/dolphin-emu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/dolphin-emu";
 		".config/eden".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/eden";

@@ -169,6 +169,24 @@
 	systemd.user.sockets.speech-dispatcher.enable = false;
 
 	programs.qs-shell.enable = true;
+	programs.git.enable = true;
+	programs.git.config = {
+		user = {
+			email = "lw.laura.wirtz@gmail.com";
+			name = "LauraWirtz";
+		};
+		credential = {
+			helper = "store";
+			useHttpPath = true;
+		};
+		credentials = {
+			helper = "store";
+			useHttpPath = true;
+		};
+		safe = {
+			directory = "/etc/nixos/";
+		};
+	};
 
 	environment.defaultPackages = lib.mkForce [];
 	environment.systemPackages = with pkgs; [
@@ -176,7 +194,6 @@
 # 		bottles
 		floorp-bin
 		gimp
-		git
 		nano
 		nvd
 		quodlibet

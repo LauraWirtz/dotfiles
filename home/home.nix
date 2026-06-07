@@ -6,8 +6,6 @@ in {
 	home.homeDirectory = "/home/laura";
 
 	home.file = {
-		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
-
 		".config/niri/config.kdl".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/config.kdl";
 
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
