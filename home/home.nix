@@ -8,7 +8,7 @@ in {
 	home.file = {
 		".config/git/config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/git/config";
 
-		".config/niri/config.kdl".source = with pkgs; config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/config.kdl";
+		".config/niri/config.kdl".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/config.kdl";
 
 		".config/kdeglobals".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdeglobals";
 		".config/kdedefaults/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/kdedefaults/";

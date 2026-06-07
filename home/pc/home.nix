@@ -1,6 +1,6 @@
 { config, lib, ... }: {
 	home.file = {
-		".config/niri/pc.kdl".source = with pkgs; config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/pc.kdl";
+		".config/niri/pc.kdl".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/pc.kdl";
 
 		".config/pipewire".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/pipewire";
 		".config/quodlibet".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/quodlibet";
