@@ -13,7 +13,7 @@ Singleton {
 	readonly property int padding: 4
 	readonly property int rounding: 4
 
-	property list<var> layout: [
+	readonly property list<var> layout: [
 		{label: "esc", key: "01", x:0, y:0, width:1, height:1, active:false},
 		{label: "F1", key: "59", x:1.25, y:0, width:1, height:1, active:false},
 		{label: "F2", key: "60", x:2.25, y:0, width:1, height:1, active:false},
@@ -58,7 +58,7 @@ Singleton {
 		{label: "]", labelCaps: "}", key: "27", x:12.5, y:2, width:1, height:1, active:false},
 		{label: "\\", labelCaps: "|", key: "43", x:13.5, y:2, width:1.5, height:1, active:false},
 
-		{label: "esc", key: "01", x:0, y:3, width:1.75, height:1, active:false},
+		// {label: "esc", key: "01", x:0, y:3, width:1.75, height:1, active:false},
 		{label: "a", labelCaps: "A", key: "30", x:1.75, y:3, width:1, height:1, active:false},
 		{label: "s", labelCaps: "S", key: "31", x:2.75, y:3, width:1, height:1, active:false},
 		{label: "d", labelCaps: "D", key: "32", x:3.75, y:3, width:1, height:1, active:false},
@@ -95,6 +95,13 @@ Singleton {
 		{label: "→", key: "106", x:12.75, y:5, width:1, height:1, active:false},
 		{label: "ctrl", key: "97", x:13.75, y:5, width:1.25, height:1, active:false},
 	]
+
+	enum Mode {
+		Floating,
+		Docked
+	}
+
+	property int mode: Mode.Floating
 
 	property bool visible: false
 
