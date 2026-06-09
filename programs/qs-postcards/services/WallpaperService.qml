@@ -17,6 +17,7 @@ Item {
 
 	property int border: 0					// clear space around monitor edge (can be negative)
 	property Borders borders: Borders {}
+	property Borders bounds: Borders {}
 
 	required property string source
 	property int size: 400					// postcard size
@@ -27,6 +28,9 @@ Item {
 	property int nextRemoval: 0
 	property bool removalState: true
 	property int currentZ: 0
+
+	// property int stepCount: 10000
+	property real stepSize: 1
 
 	property var paths: []
 
@@ -92,6 +96,10 @@ Item {
 	}
 
 	function populate(): void {
+		root.bounds.top = 0.5 * root.size + (root.borders.top != -9999 ? root.borders.top : root.border)
+		root.bounds.bottom = root.monitorHeight - (root.borders.bottom != -9999 ? root.borders.bottom : root.border) - 0.5 * root.size
+		root.bounds.left = 0.5 * root.size + (root.borders.left != -9999 ? root.borders.left : root.border)
+		root.bounds.right = root.monitorWidth - (root.borders.right != -9999 ? root.borders.right : root.border) - 0.5 * root.size
 		for (let i = 0; i < root.count; i++) {
 			root.images.append(next())
 		}
@@ -116,28 +124,58 @@ Item {
 	}
 
 	function generateCoordinates(): var {
-		const top = root.borders.top != -9999 ? root.borders.top : root.border
-		const bottom = root.borders.bottom != -9999 ? root.borders.bottom : root.border
-		const left = root.borders.left != -9999 ? root.borders.left : root.border
-		const right = root.borders.right != -9999 ? root.borders.right : root.border
-
 		const attempts = []
 
-		while(attempts.length < 1*Math.pow(2, root.images.count)) {
-			const x = (root.monitorWidth - (left + right + root.size)) * Math.random() + left + 0.5 * root.size
-			const y = (root.monitorHeight - (top + bottom + root.size)) * Math.random() + top + 0.5 * root.size
+		while(attempts.length < root.images.count + 1) {
+			let x = root.monitorWidth * Math.random()
+			let y = root.monitorHeight * Math.random()
 
-			let summedOverlap = root.images.reduce((acc, el) => {
-				let distance = Math.sqrt(Math.pow(x - el.posX, 2.0), Math.pow(y - el.posY, 2.0))
-				const upperLimit = 1.5 * root.size
-				distance = distance > upperLimit ? 0 : upperLimit - distance
-				return acc + Math.pow(distance, 4)
-			}, 0)
+			let prevSummedOverlap = 0
+			let currentRot = 2 * 3.14 * Math.random()
+			let summedOverlap
+			let currentStepSize = root.stepSize
+
+			for (let i = 0; i < Math.pow(2, root.images.count); i++) {
+				const newCoords = clampedMove(x, y, currentStepSize, currentRot)
+				x = newCoords.x
+				y = newCoords.y
+
+				summedOverlap = root.images.reduce((acc, el) => {
+					let distance = computeOverlap({posX: x, posY: y}, el)
+					return acc + Math.pow(distance, 2)
+				}, 0)
+
+				if(summedOverlap == 0) {
+					break;
+				} else if(summedOverlap > prevSummedOverlap) {
+					currentRot = 2 * 3.14 * Math.random()
+				}
+				prevSummedOverlap = summedOverlap
+			}
 
 			attempts.push({x: x, y: y, summedOverlap: summedOverlap})
+			if(summedOverlap == 0) break;
 		}
+
 		return attempts.reduce((best, el) => {
 			return el.summedOverlap < best.summedOverlap ? el : best
 		})
+	}
+
+	function clampedMove(x, y, stepSize, rot) {
+		x = x + stepSize * Math.sin(rot)
+		y = y + stepSize * Math.cos(rot)
+
+		x = Math.max(root.bounds.left, Math.min(x, root.bounds.right))
+		y = Math.max(root.bounds.top, Math.min(y, root.bounds.bottom))
+
+		return {x: x, y: y}
+	}
+
+	function computeOverlap(el1, el2): real {
+		let distance = Math.sqrt(Math.pow(el1.posX - el2.posX, 2.0), Math.pow(el1.posX - el2.posY, 2.0))
+		const upperLimit = 1.5 * root.size
+		distance = distance > upperLimit ? 0 : upperLimit - distance
+		return distance
 	}
 }
