@@ -36,10 +36,20 @@ Item {
 			let success = true
 
 			for (let i = 0; i < this.count; i++) {
-				const el = root.images.get(i)
+				const el = this.get(i)
 				if(!callback(el)) { success = false }
 			}
 			return success
+		}
+		function reduce(callback, initialValue) {
+			const hasInit = initialValue != null
+			let accumulator = hasInit ? initialValue : this.get(0)
+
+			for (let i = hasInit ? 0 : 1; i < this.count; i++) {
+				const currentValue = this.get(i)
+				accumulator = callback(accumulator, currentValue, i , this)
+			}
+			return accumulator
 		}
 	}
 
@@ -113,22 +123,21 @@ Item {
 
 		const attempts = []
 
-		while(attempts.length < 10*Math.pow(2, root.images.count)) {
-			const x = (root.monitorWidth - left - right - root.size) * Math.random() + left
-			const y = (root.monitorHeight - top - bottom - root.size) * Math.random() + top
+		while(attempts.length < 1*Math.pow(2, root.images.count)) {
+			const x = (root.monitorWidth - (left + right + root.size)) * Math.random() + left + 0.5 * root.size
+			const y = (root.monitorHeight - (top + bottom + root.size)) * Math.random() + top + 0.5 * root.size
 
-			let summedDistance = 0
-			for (let i = 0; i < root.images.count; i++) {
-				const el = root.images.get(i)
+			let summedOverlap = root.images.reduce((acc, el) => {
 				let distance = Math.sqrt(Math.pow(x - el.posX, 2.0), Math.pow(y - el.posY, 2.0))
 				const upperLimit = 1.5 * root.size
-				distance = distance > upperLimit ? upperLimit : distance
-				summedDistance += Math.pow(distance, 0.25)
-			}
-			attempts.push({x: x, y: y, summedDistance: summedDistance})
+				distance = distance > upperLimit ? 0 : upperLimit - distance
+				return acc + Math.pow(distance, 4)
+			}, 0)
+
+			attempts.push({x: x, y: y, summedOverlap: summedOverlap})
 		}
 		return attempts.reduce((best, el) => {
-			return el.summedDistance > best.summedDistance ? el : best
+			return el.summedOverlap < best.summedOverlap ? el : best
 		})
 	}
 }

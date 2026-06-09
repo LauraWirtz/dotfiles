@@ -31,7 +31,7 @@ Scope {
 				monitorWidth: root.screen.width
 				monitorHeight: root.screen.height
 
-				border: 10
+				border: 0
 				borders.bottom: 56 + 2*10
 
 				source: "/home/laura/Pictures/アニメ/"
@@ -46,45 +46,20 @@ Scope {
 					id: repeater
 					anchors.fill: parent
 					model: wallpaperService.images
-					Image {
+					Item {
 						id: component
 
 						x: posX
 						y: posY
 						z: posZ
-
-						width: wallpaperService.size
-						height: wallpaperService.size
-
 						rotation: rot
 
-						source: url
-						sourceSize.width: 2 * wallpaperService.size
-						sourceSize.height: 2 * wallpaperService.size
-
-						fillMode: Image.PreserveAspectFit
-						asynchronous: true
-						cache: false
-						mipmap: true
-
-						visible: component.status == Image.Ready
-
-
-						Rectangle {
-							anchors.centerIn: parent
-
-							z: -2
-
-							width: parent.paintedWidth
-							height: parent.paintedHeight
-							color: "beige"
-						}
+						visible: image.status == Image.Ready
 
 						RectangularShadow {
 							anchors.centerIn: parent
-							width: parent.paintedWidth + 4
-							height: parent.paintedHeight + 4
-							z: -1
+							width: image.paintedWidth + 4
+							height: image.paintedHeight + 4
 							color: "#88000000"
 							blur: 10
 							// spread: 5
@@ -93,8 +68,32 @@ Scope {
 						Rectangle {
 							anchors.centerIn: parent
 
-							width: parent.paintedWidth + 4
-							height: parent.paintedHeight + 4
+							width: image.paintedWidth
+							height: image.paintedHeight
+							color: "beige"
+						}
+						Image {
+							id: image
+							anchors.centerIn: parent
+
+							width: wallpaperService.size
+							height: wallpaperService.size
+
+
+							source: url
+							sourceSize.width: 2 * wallpaperService.size
+							sourceSize.height: 2 * wallpaperService.size
+
+							fillMode: Image.PreserveAspectFit
+							asynchronous: true
+							cache: false
+							mipmap: true
+						}
+						Rectangle {
+							anchors.centerIn: parent
+
+							width: image.paintedWidth + 4
+							height: image.paintedHeight + 4
 
 							radius: 6
 
