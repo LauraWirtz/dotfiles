@@ -21,6 +21,13 @@ RoundButton {
 	flat: true
 
 	onClicked: {
+		const point = QsWindow.mapFromItem(this, 0, 0)
+		let x = (QsWindow.window.screen.width - QsWindow.window.implicitWidth)/2 + point.x + implicitWidth/2 - popup.implicitWidth/2
+		x = x + popup.implicitWidth <= QsWindow.window.screen.width ? x : QsWindow.window.screen.width - popup.implicitWidth
+		x = x > 0 ? x : 0
+		popup.margins.left = x
+		popup.screen = QsWindow.window.screen
+
 		if(!callback()) {
 			button.active = !button.active
 		}
@@ -39,64 +46,52 @@ RoundButton {
 		exitTimer.running = !hovered
 	}
 
-	Item {
-		id: anchor
-		anchors.verticalCenter: parent.top
-		anchors.horizontalCenter: parent.horizontalCenter
-	}
-
-	PopupWindow {
-		id: menu
-
-		anchor.item: button
-		anchor.gravity: Edges.Top
-		anchor.margins.top: 11
-		anchor.margins.left: button.width / 2
-
-		mask: Region { item: mouseArea }
-
-		implicitWidth: rectangle.implicitWidth + 20 + 2*button.margin
-		implicitHeight: rectangle.implicitHeight + 20 + 2*button.margin
-
-		visible: button.active
-		color: "transparent"
-
-		RectangularShadow {
-			anchors.fill: mouseArea
-			color: "#88000000"
-			blur: 5
-			spread: 5
-			radius: background.radius
-		}
-		Rectangle {
-			id: background
-			anchors.centerIn: parent
-			implicitWidth: rectangle.implicitWidth + 2*button.margin
-			implicitHeight: rectangle.implicitHeight + 2*button.margin
-
-			radius: 8
-			color: "#292c30"
-		}
-		MouseArea {
-			id: mouseArea
-			anchors.fill: parent
-			anchors.margins: 10
-			hoverEnabled: true
-			onEntered: exitTimer.running = false
-			onExited: exitTimer.running = true
-			Item {
-				id: rectangle
-				anchors.fill: parent
-				anchors.margins: button.margin
-				implicitWidth: children[0].implicitWidth
-				implicitHeight: children[0].implicitHeight
-
-			}
-		}
-	}
 	Timer {
 		id: exitTimer
 		interval: 125; running: false; repeat: false
 		onTriggered: button.active = false
+	}
+
+	PanelWindow {
+		id: popup
+
+		anchors.left: true
+		anchors.bottom: true
+		margins.bottom: 72
+
+		color: "transparent"
+
+		exclusionMode: ExclusionMode.Ignore
+		WlrLayershell.namespace: "qs-taskbar-popup"
+
+		visible: button.active
+
+		implicitWidth: rectangle.implicitWidth + 2*button.margin
+		implicitHeight: rectangle.implicitHeight  + 2*button.margin
+
+		Rectangle {
+			id: background
+			anchors.fill: parent
+
+			opacity: 0.85
+			color: "#292c30"
+
+			MouseArea {
+				id: mouseArea
+				anchors.fill: parent
+				hoverEnabled: true
+				onEntered: exitTimer.running = false
+				onExited: exitTimer.running = true
+
+				Item {
+					id: rectangle
+					anchors.fill: parent
+					anchors.margins: button.margin
+					implicitWidth: children[0].implicitWidth
+					implicitHeight: children[0].implicitHeight
+
+				}
+			}
+		}
 	}
 }

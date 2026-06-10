@@ -40,12 +40,12 @@ layout {
 	border { off; }
 	shadow {
 		on
-		softness 9
-		spread 3
+		softness 10
+		spread 0
 		offset x=0 y=0
 		draw-behind-window false
-		color "00000088"
-		inactive-color "00000066"
+		color "000000AA"
+		inactive-color "000000AA"
 	}
 
 	struts {
@@ -105,7 +105,7 @@ layer-rule {
 	//geometry-corner-radius 8
 	shadow { on; }
 	background-effect {
-		xray true
+		xray false
 		blur true
 	}
 }
