@@ -20,7 +20,7 @@ Item {
 	property Borders bounds: Borders {}
 
 	required property string source
-	property int size: 400					// postcard size
+	property int size: 350					// postcard size
 	property int count: 20					// # of postcards
 	property int maxRotation: 30			// maximum degree of rotation
 	property int interval: 60000			// interval of new postcards
@@ -126,40 +126,44 @@ Item {
 	function generateCoordinates(): var {
 		const attempts = []
 
-		while(attempts.length < root.images.count + 1) {
-			let x = root.monitorWidth * Math.random()
-			let y = root.monitorHeight * Math.random()
-
-			let prevSummedOverlap = 0
-			let currentRot = 2 * 3.14 * Math.random()
-			let summedOverlap
-			let currentStepSize = root.stepSize
-
-			for (let i = 0; i < Math.pow(2, root.images.count); i++) {
-				const newCoords = clampedMove(x, y, currentStepSize, currentRot)
-				x = newCoords.x
-				y = newCoords.y
-
-				summedOverlap = root.images.reduce((acc, el) => {
-					let distance = computeOverlap({posX: x, posY: y}, el)
-					return acc + Math.pow(distance, 2)
-				}, 0)
-
-				if(summedOverlap == 0) {
-					break;
-				} else if(summedOverlap > prevSummedOverlap) {
-					currentRot = 2 * 3.14 * Math.random()
-				}
-				prevSummedOverlap = summedOverlap
-			}
-
-			attempts.push({x: x, y: y, summedOverlap: summedOverlap})
-			if(summedOverlap == 0) break;
+		const startingPoints = []
+		for (let i = 0; i < 1000; i++) {
+			const x = (root.bounds.right - root.bounds.left) * Math.random() + root.bounds.left
+			const y = (root.bounds.bottom - root.bounds.top) * Math.random() + root.bounds.top
+			const summedOverlap = root.images.reduce((acc, el) => {
+				let distance = computeOverlap({posX: x, posY: y}, el)
+				return acc + Math.pow(distance, 4)
+			}, 0)
+			startingPoints.push({x: x, y: y, summedOverlap: summedOverlap})
 		}
-
-		return attempts.reduce((best, el) => {
-			return el.summedOverlap < best.summedOverlap ? el : best
+		const startingPoint = startingPoints.reduce((acc, el) => {
+			return acc.summedOverlap > el.summedOverlap ? el : acc
 		})
+
+		let x = startingPoint.x
+		let y = startingPoint.y
+
+		let prevSummedOverlap = 0
+		let currentRot = 2 * 3.14 * Math.random()
+		let summedOverlap
+		let currentStepSize = root.stepSize
+
+		for (let i = 0; i < 1000; i++) {
+			const newCoords = clampedMove(x, y, currentStepSize, currentRot)
+			x = newCoords.x
+			y = newCoords.y
+
+			summedOverlap = root.images.reduce((acc, el) => {
+				let overlap = computeOverlap({posX: x, posY: y}, el)
+				return acc + overlap //Math.pow(distance, 2)
+			}, 0)
+
+			if(summedOverlap > prevSummedOverlap) {
+				currentRot = 2 * 3.14 * Math.random()
+			}
+			prevSummedOverlap = summedOverlap
+		}
+		return {x: x, y: y}
 	}
 
 	function clampedMove(x, y, stepSize, rot) {
@@ -174,8 +178,8 @@ Item {
 
 	function computeOverlap(el1, el2): real {
 		let distance = Math.sqrt(Math.pow(el1.posX - el2.posX, 2.0), Math.pow(el1.posX - el2.posY, 2.0))
-		const upperLimit = 1.5 * root.size
-		distance = distance > upperLimit ? 0 : upperLimit - distance
-		return distance
+		// const upperLimit = 1.5 * root.size
+		// distance = distance > upperLimit ? 0 : upperLimit - distance
+		return 1/distance
 	}
 }

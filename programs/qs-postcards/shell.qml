@@ -6,7 +6,8 @@ import QtQuick.Effects
 import "./services"
 // import "./widgets"
 
-Scope {
+ShellRoot {
+	settings.watchFiles: false
 	Variants {
 		model: Quickshell.screens
 		PanelWindow {
@@ -31,11 +32,11 @@ Scope {
 				monitorWidth: root.screen.width
 				monitorHeight: root.screen.height
 
-				border: 0
+				border: 20
 				borders.bottom: 56 + 2*10
 
 				source: "/home/laura/Pictures/アニメ/"
-				count: Math.round(root.screen.width * root.screen.height / 200000)
+				count: Math.round(root.screen.width * root.screen.height / 300000)
 			}
 
 			Item {
@@ -49,12 +50,30 @@ Scope {
 					Item {
 						id: component
 
+						required property real posX
+						required property real posY
+						required property real posZ
+						required property real rot
+						required property string url
+
 						x: posX
 						y: posY
 						z: posZ
 						rotation: rot
 
-						visible: image.status == Image.Ready
+						opacity: 0
+
+						Behavior on opacity {
+							NumberAnimation { duration: 1000; easing: Easing.InOutQuad }
+						}
+
+						onUrlChanged: {
+							if(url != "") {
+								image.source = url
+							} else {
+								opacity = 0
+							}
+						}
 
 						RectangularShadow {
 							anchors.centerIn: parent
@@ -63,7 +82,7 @@ Scope {
 							color: "#88000000"
 							blur: 10
 							// spread: 5
-							radius: 0
+							radius: 6
 						}
 						Rectangle {
 							anchors.centerIn: parent
@@ -76,18 +95,22 @@ Scope {
 							id: image
 							anchors.centerIn: parent
 
-							width: wallpaperService.size
-							height: wallpaperService.size
-
-
-							source: url
-							sourceSize.width: 2 * wallpaperService.size
-							sourceSize.height: 2 * wallpaperService.size
+							sourceSize.width: 4 * wallpaperService.size
+							sourceSize.height: 4 * wallpaperService.size
 
 							fillMode: Image.PreserveAspectFit
 							asynchronous: true
 							cache: false
 							mipmap: true
+
+							onStatusChanged: {
+								if(status == Image.Ready) {
+									const volFactor = Math.pow(Math.max(paintedWidth/paintedHeight, paintedHeight/paintedWidth), 0.5)
+									width = volFactor * wallpaperService.size
+									height = volFactor  * wallpaperService.size
+									component.opacity = 1
+								}
+							}
 						}
 						Rectangle {
 							anchors.centerIn: parent

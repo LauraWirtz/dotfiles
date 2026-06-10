@@ -28,7 +28,7 @@ in {
 				Group="users";
 
 				CapabilityBoundingSet="";
-				DeviceAllow="";
+				DeviceAllow="char-gpu";
 				NoNewPrivileges="yes";
 				PrivateDevices="yes";
 				PrivateNetwork="yes";
