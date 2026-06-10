@@ -29,7 +29,7 @@ in {
 	# 			JoinsNamespaceOf="user@1000.service";
 
 	# 			CapabilityBoundingSet="";
-				DeviceAllow="char-gpu";
+# 				DeviceAllow="char-gpu";
 	# 			NoNewPrivileges="yes";
 	# 			PrivateDevices="yes";
 	# 			PrivateNetwork="yes";
@@ -49,7 +49,7 @@ in {
 	# 			BindPaths="/run/user/1000/ /home/laura/.cache/";
 	# 			TemporaryFileSystem="/home/laura/.cache/";
 			};
-			script = "${pkgs.swayidle}/bin/swayidle ${escapeShellArg cfg.config}";
+			script = "${pkgs.swayidle}/bin/swayidle ${cfg.config}";
 		};
 	};
 }

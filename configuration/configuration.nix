@@ -52,9 +52,6 @@
 	services.swaybg.enable = true;
 	services.swaybg.path = "/etc/nixos/home/background.png";
 
-	services.swayidle.enable = true;
-	services.swayidle.config = "-w before-sleep 'systemctl --user start qs-lockscreen.service'";
-
 	programs.bash.shellAliases = {
 		e = "nano";
 		f = "ls -hAl --group-directories-first";

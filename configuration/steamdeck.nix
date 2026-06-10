@@ -86,6 +86,10 @@
 
 	programs.qs-lockscreen.enable = true;
 	programs.qs-keyboard.enable = true;
+
+	services.swayidle.enable = true;
+	services.swayidle.config = "-w before-sleep 'systemctl --user start qs-lockscreen.service'";
+
 	programs.steam.extest.enable = true;
 	services.inputplumber.enable = true;
 	programs.ydotool.enable = true;
