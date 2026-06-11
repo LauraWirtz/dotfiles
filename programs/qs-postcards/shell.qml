@@ -36,7 +36,7 @@ ShellRoot {
 				borders.bottom: 56 + 2*10
 
 				source: "/home/laura/Pictures/アニメ/"
-				count: Math.round(root.screen.width * root.screen.height / 300000)
+				count: Math.round(root.screen.width * root.screen.height / 200000)
 			}
 
 			Item {
@@ -52,19 +52,17 @@ ShellRoot {
 
 						required property real posX
 						required property real posY
-						required property real posZ
 						required property real rot
 						required property string url
 
 						x: posX
 						y: posY
-						z: posZ
 						rotation: rot
 
 						opacity: 0
 
 						Behavior on opacity {
-							NumberAnimation { duration: 1000; easing: Easing.InOutQuad }
+							NumberAnimation { duration: 1000; easing: Easing.OutQuad }
 						}
 
 						onUrlChanged: {

@@ -27,7 +27,6 @@ Item {
 
 	property int nextRemoval: 0
 	property bool removalState: true
-	property int currentZ: 0
 
 	// property int stepCount: 10000
 	property real stepSize: 1
@@ -100,6 +99,7 @@ Item {
 		root.bounds.bottom = root.monitorHeight - (root.borders.bottom != -9999 ? root.borders.bottom : root.border) - 0.5 * root.size
 		root.bounds.left = 0.5 * root.size + (root.borders.left != -9999 ? root.borders.left : root.border)
 		root.bounds.right = root.monitorWidth - (root.borders.right != -9999 ? root.borders.right : root.border) - 0.5 * root.size
+
 		for (let i = 0; i < root.count; i++) {
 			root.images.append(next())
 		}
@@ -107,6 +107,7 @@ Item {
 
 	function replenish(): void {
 		root.images.set(nextRemoval, next())
+		root.images.move(nextRemoval, root.images.count - 1, 1)
 	}
 
 	function next(): var {
@@ -119,8 +120,7 @@ Item {
 		}
 		const coords = generateCoordinates()
 		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
-		root.currentZ++
-		return { "url": candidate, "posX": coords.x, "posY": coords.y, "posZ": root.currentZ, "rot": rotation }
+		return { "url": candidate, "posX": coords.x, "posY": coords.y, "rot": rotation }
 	}
 
 	function generateCoordinates(): var {
