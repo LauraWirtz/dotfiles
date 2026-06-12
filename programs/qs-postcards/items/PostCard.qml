@@ -84,6 +84,8 @@ Item {
 				root.service.positionPostcard(root.index)
 
 				root.opacity = 1
+			} else if (status == Image.Error) {
+				root.service.handleMissingImage(root.index)
 			}
 		}
 	}

@@ -16,16 +16,18 @@ Item {
 	required property int monitorHeight		// monitor height
 
 	property int border: 0					// clear space around monitor edge (can be negative)
-	property Borders borders: Borders {}
-	property Borders bounds: Borders {}
+	property Borders borders: Borders {}	// clear space around monitor edge (can be negative) (per edge)
 
 	required property string source
-	property int size: 350					// postcard size
+	property int size: 320					// postcard size
 	property int count: 20					// # of postcards
 	property int maxRotation: 30			// maximum degree of rotation
 	property int interval: 60000			// interval of new postcards
 
+	property int attempts: 500				// maximum attempts for finding ideal postcard position
+
 	property var paths: []
+	property Borders bounds: Borders {}
 
 	property ListModel images: ListModel {
 
@@ -81,6 +83,12 @@ Item {
 		}
 	}
 
+	function handleMissingImage(index: int): void {
+		const url = root.images.get(index).url
+		root.images.setProperty(index, "url", getUniqueUrl())
+		root.paths = root.paths.filter(el => { return el != url })
+	}
+
 	function addPostcard(): void {
 		const coords = generateCoordinates(root.size, root.size)
 		root.images.append({ "service": this, "url": getUniqueUrl(), "posX": coords.x, "posY": coords.y, "rot": 0, "w": 0, "h": 0 })
@@ -99,10 +107,9 @@ Item {
 
 	function positionPostcard(index: int): void {
 		const subject = root.images.get(index)
-		const attempts = []
 
-		const startingPoints = []
-		for (let i = 0; i < 1000; i++) {
+		let startingPoint = {summedOverlap: 999999999}
+		for (let i = 0; i < root.attempts; i++) {
 			const coords = generateCoordinates(subject.w, subject.h)
 			const candidate = {"posX": coords.x, "posY": coords.y, "w": subject.w, "h": subject.h}
 
@@ -110,13 +117,9 @@ Item {
 				let overlap = computeOverlap(candidate, el)
 				return acc + Math.pow(overlap, 1)
 			}, 0)
-			startingPoints.push({x: coords.x, y: coords.y, summedOverlap: summedOverlap})
+			if(summedOverlap < startingPoint.summedOverlap) startingPoint = {x: coords.x, y: coords.y, summedOverlap: summedOverlap}
+			if(summedOverlap == 0) break
 		}
-
-		const startingPoint = startingPoints.reduce((acc, el) => {
-			return acc.summedOverlap > el.summedOverlap ? el : acc
-		})
-		// console.log(startingPoint.x, startingPoint.y)
 
 		root.images.setProperty(index, "posX", startingPoint.x)
 		root.images.setProperty(index, "posY", startingPoint.y)

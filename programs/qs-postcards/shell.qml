@@ -33,8 +33,8 @@ ShellRoot {
 				monitorWidth: root.screen.width
 				monitorHeight: root.screen.height
 
-				border: 20
-				borders.bottom: 56 + 2*10
+				// border: 20
+				// borders.bottom: 56 + 2*10
 
 				source: Quickshell.env("QS_SOURCE").replace(/'/g, "")
 				count: Math.round(root.screen.width * root.screen.height / 200000)
