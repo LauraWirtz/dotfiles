@@ -25,12 +25,6 @@ Item {
 	property int maxRotation: 30			// maximum degree of rotation
 	property int interval: 60000			// interval of new postcards
 
-	property int nextRemoval: 0
-	property bool removalState: true
-
-	// property int stepCount: 10000
-	property real stepSize: 1
-
 	property var paths: []
 
 	property ListModel images: ListModel {
@@ -58,25 +52,9 @@ Item {
 
 	Timer {
 		id: cardUpdater
-		interval: root.interval/2; running: false; repeat: true
+		interval: root.interval; running: false; repeat: true
 		onTriggered: {
-			if(removalState) {
-				root.images.setProperty(nextRemoval, "url", "")
-			} else {
-				root.replenish()
-
-				root.nextRemoval++
-				if(root.nextRemoval == root.images.count) {root.nextRemoval = 0}
-			}
-			root.removalState = !root.removalState
-		}
-	}
-	Timer {
-		id: initialRun
-		interval: 100; running: true; repeat: false
-		onTriggered: {
-			root.populate()
-			cardUpdater.running = true
+			root.images.setProperty(0, "url", getUniqueUrl())
 		}
 	}
 
@@ -84,33 +62,31 @@ Item {
 		id: pathfinder
 		running: true
 		command: [ "find", root.source, "-type", "f" ]
-		stdout: SplitParser { onRead: data => {
-			if(root.paths.every(el => {
-				return el != data
-			})) {
-				root.paths.push(data)
-			}
-			initialRun.restart()
+		stdout: StdioCollector { onStreamFinished: () => {
+			root.paths = text.split("\n")
+
+			root.bounds.top = root.borders.top != -9999 ? root.borders.top : root.border
+			root.bounds.bottom = root.monitorHeight - (root.borders.bottom != -9999 ? root.borders.bottom : root.border)
+			root.bounds.left = (root.borders.left != -9999 ? root.borders.left : root.border)
+			root.bounds.right = root.monitorWidth - (root.borders.right != -9999 ? root.borders.right : root.border)
+
+			root.populate()
+			cardUpdater.running = true
 		} }
 	}
 
 	function populate(): void {
-		root.bounds.top = 0.5 * root.size + (root.borders.top != -9999 ? root.borders.top : root.border)
-		root.bounds.bottom = root.monitorHeight - (root.borders.bottom != -9999 ? root.borders.bottom : root.border) - 0.5 * root.size
-		root.bounds.left = 0.5 * root.size + (root.borders.left != -9999 ? root.borders.left : root.border)
-		root.bounds.right = root.monitorWidth - (root.borders.right != -9999 ? root.borders.right : root.border) - 0.5 * root.size
-
 		for (let i = 0; i < root.count; i++) {
-			root.images.append(next())
+			addPostcard()
 		}
 	}
 
-	function replenish(): void {
-		root.images.set(nextRemoval, next())
-		root.images.move(nextRemoval, root.images.count - 1, 1)
+	function addPostcard(): void {
+		const coords = generateCoordinates(root.size, root.size)
+		root.images.append({ "service": this, "url": getUniqueUrl(), "posX": coords.x, "posY": coords.y, "rot": 0, "w": 0, "h": 0 })
 	}
 
-	function next(): var {
+	function getUniqueUrl(): string {
 		let candidate = ""
 		while(
 			!(candidate.includes(".png") || candidate.includes(".jpg") || candidate.includes(".jpeg")) ||
@@ -118,68 +94,49 @@ Item {
 		) {
 			candidate = root.paths[Math.floor(Math.random() * root.paths.length)]
 		}
-		const coords = generateCoordinates()
-		const rotation = root.maxRotation * Math.random() - 0.5 * root.maxRotation
-		return { "url": candidate, "posX": coords.x, "posY": coords.y, "rot": rotation }
+		return candidate
 	}
 
-	function generateCoordinates(): var {
+	function positionPostcard(index: int): void {
+		const subject = root.images.get(index)
 		const attempts = []
 
 		const startingPoints = []
 		for (let i = 0; i < 1000; i++) {
-			const x = (root.bounds.right - root.bounds.left) * Math.random() + root.bounds.left
-			const y = (root.bounds.bottom - root.bounds.top) * Math.random() + root.bounds.top
+			const coords = generateCoordinates(subject.w, subject.h)
+			const candidate = {"posX": coords.x, "posY": coords.y, "w": subject.w, "h": subject.h}
+
 			const summedOverlap = root.images.reduce((acc, el) => {
-				let distance = computeOverlap({posX: x, posY: y}, el)
-				return acc + Math.pow(distance, 4)
+				let overlap = computeOverlap(candidate, el)
+				return acc + Math.pow(overlap, 1)
 			}, 0)
-			startingPoints.push({x: x, y: y, summedOverlap: summedOverlap})
+			startingPoints.push({x: coords.x, y: coords.y, summedOverlap: summedOverlap})
 		}
+
 		const startingPoint = startingPoints.reduce((acc, el) => {
 			return acc.summedOverlap > el.summedOverlap ? el : acc
 		})
+		// console.log(startingPoint.x, startingPoint.y)
 
-		let x = startingPoint.x
-		let y = startingPoint.y
-
-		let prevSummedOverlap = 0
-		let currentRot = 2 * 3.14 * Math.random()
-		let summedOverlap
-		let currentStepSize = root.stepSize
-
-		for (let i = 0; i < 1000; i++) {
-			const newCoords = clampedMove(x, y, currentStepSize, currentRot)
-			x = newCoords.x
-			y = newCoords.y
-
-			summedOverlap = root.images.reduce((acc, el) => {
-				let overlap = computeOverlap({posX: x, posY: y}, el)
-				return acc + overlap //Math.pow(distance, 2)
-			}, 0)
-
-			if(summedOverlap > prevSummedOverlap) {
-				currentRot = 2 * 3.14 * Math.random()
-			}
-			prevSummedOverlap = summedOverlap
-		}
-		return {x: x, y: y}
+		root.images.setProperty(index, "posX", startingPoint.x)
+		root.images.setProperty(index, "posY", startingPoint.y)
+		root.images.setProperty(index, "rot", root.maxRotation * Math.random() - 0.5 * root.maxRotation)
+		root.images.move(index, root.images.count - 1, 1)
 	}
 
-	function clampedMove(x, y, stepSize, rot) {
-		x = x + stepSize * Math.sin(rot)
-		y = y + stepSize * Math.cos(rot)
-
-		x = Math.max(root.bounds.left, Math.min(x, root.bounds.right))
-		y = Math.max(root.bounds.top, Math.min(y, root.bounds.bottom))
-
+	function generateCoordinates(width, height): var {
+		const x = (root.bounds.right - root.bounds.left - width) * Math.random() + root.bounds.left + width/2
+		const y = (root.bounds.bottom - root.bounds.top - height) * Math.random() + root.bounds.top + height/2
 		return {x: x, y: y}
 	}
 
 	function computeOverlap(el1, el2): real {
-		let distance = Math.sqrt(Math.pow(el1.posX - el2.posX, 2.0), Math.pow(el1.posX - el2.posY, 2.0))
-		// const upperLimit = 1.5 * root.size
-		// distance = distance > upperLimit ? 0 : upperLimit - distance
-		return 1/distance
+		const el1TopLeft = {x: el1.posX - el1.w/2, y: el1.posY - el1.h/2}
+		const el1BottomRight = {x: el1.posX + el1.w/2, y: el1.posY + el1.h/2}
+		const el2TopLeft = {x: el2.posX - el2.w/2, y: el2.posY - el2.h/2}
+		const el2BottomRight = {x: el2.posX + el2.w/2, y: el2.posY + el2.h/2}
+
+		const overlap = Math.max(0, Math.min(el1BottomRight.x, el2BottomRight.x) - Math.max(el1TopLeft.x, el2TopLeft.x)) * Math.max(0, Math.min(el1BottomRight.y, el2BottomRight.y) - Math.max(el1TopLeft.y, el2TopLeft.y))
+		return overlap
 	}
 }

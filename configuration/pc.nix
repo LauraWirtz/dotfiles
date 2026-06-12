@@ -171,6 +171,7 @@
 	hardware.amdgpu.opencl.enable = true;
 
 	programs.qs-postcards.enable = true;
+	programs.qs-postcards.path = "/home/laura/Pictures/アニメ/";
 
 	environment.systemPackages = with pkgs; [
 		geeqie

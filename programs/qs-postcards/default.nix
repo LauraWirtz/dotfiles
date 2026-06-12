@@ -9,6 +9,10 @@ in {
 
 	options.programs.qs-postcards = {
 		enable = lib.mkEnableOption "Enable qs-postcards";
+		path = mkOption {
+			type = types.str;
+			default = "";
+		};
 	};
 
 	config = lib.mkIf cfg.enable {
@@ -16,6 +20,7 @@ in {
 		systemd.user.services.qs-postcards = {
 			wantedBy = [ "graphical-session.target" ];
 			path = [ pkgs.quickshell ];
+			environment = { QS_SOURCE = "${escapeShellArg cfg.path}"; };
 			serviceConfig = {
 				Restart="always";
 				RestartSec="1s";
@@ -44,7 +49,7 @@ in {
 				RestrictSUIDSGID="yes";
 				SystemCallArchitectures="native";
 
-				BindReadOnlyPaths="/home/laura/Pictures/";
+				BindReadOnlyPaths="${escapeShellArg cfg.path}";
 				BindPaths="/run/user/1000/ /home/laura/.cache/";
 	# 			TemporaryFileSystem="/home/laura:ro";
 			};
