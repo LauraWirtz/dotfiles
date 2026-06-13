@@ -2,6 +2,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "../items"
 import "../services"
 
 import QtQuick.Controls.Material
@@ -19,15 +20,16 @@ RowLayout {
 
 	Repeater {
 		model: buttonsModel
-		Button {
+		BreezeButton {
 			id: delegate
-			Layout.fillWidth: true
 
 			icon.name: modelData.icon
 			icon.width: 24
 			icon.height: 24
-			icon.color: "transparent"
+			square: false
+
 			text: modelData.name
+
 			onClicked: {
 				InputPlumber.setTargetDevices(modelData.targets)
 				InputPlumber.setProfile(modelData.profile)
@@ -36,7 +38,7 @@ RowLayout {
 			Connections {
 				target: InputPlumber
 				function onUpdated() {
-					delegate.checked = checkArrayEquality(InputPlumber.targetStrings, modelData.targets) && modelData.profile == InputPlumber.profile
+					delegate.highlighted = checkArrayEquality(InputPlumber.targetStrings, modelData.targets) && modelData.profile == InputPlumber.profile
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 // ClockWidget.qml
 import Quickshell
 import Quickshell.Io
-import Quickshell.Services.Mpris
+// import Quickshell.Services.Mpris
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -17,21 +17,21 @@ ColumnLayout {
 		Layout.fillWidth: true
 		spacing: 0
 
-		RoundButton {
+		BreezeButton {
 			icon.name: QuodlibetService.playState == "playing" ? "media-playback-pause" : "media-playback-start"
 			icon.width: 24
 			icon.height: 24
 
 			onClicked: QuodlibetService.playState == "playing" ? QuodlibetService.pause() : QuodlibetService.play()
 		}
-		Button {
+		BreezeButton {
 			icon.name: "media-skip-backward"
 			icon.width: 24
 			icon.height: 24
 
 			onClicked: QuodlibetService.previous()
 		}
-		Button {
+		BreezeButton {
 			icon.name: "media-skip-forward"
 			icon.width: 24
 			icon.height: 24

@@ -102,7 +102,7 @@ layer-rule {
 
 layer-rule {
 	match namespace="qs-taskbar"
-	//geometry-corner-radius 8
+	geometry-corner-radius 5
 	shadow { on; }
 	background-effect {
 		xray false
@@ -135,8 +135,8 @@ window-rule {
 	opacity 0.85
 }
 window-rule {
-	//geometry-corner-radius 8
-	//clip-to-geometry true
+	geometry-corner-radius 5
+	clip-to-geometry true
 	//draw-border-with-background true
 	open-maximized-to-edges false
 	background-effect {

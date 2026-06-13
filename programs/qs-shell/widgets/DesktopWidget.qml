@@ -25,10 +25,19 @@ Item {
 	property int size: 24
 	property alias spacing: list.spacing
 
-	component DesktopEntryDelegate: Button {
-		Material.roundedScale: root.display == AbstractButton.IconOnly ? Material.LargeScale : Material.FullScale
+	component DesktopEntryDelegate: BreezeButton {
+		// Material.roundedScale: root.display == AbstractButton.IconOnly ? Material.LargeScale : Material.FullScale
 		id: button
-		padding: 0
+
+		square: root.display == AbstractButton.IconOnly
+		topInset: 2
+		leftInset: 2
+		rightInset: 2
+		bottomInset: 2
+		leftPadding: 8
+		rightPadding: 8
+		topPadding: 8
+		bottomPadding: 8
 
 		Layout.alignment: root.alignment
 
@@ -39,7 +48,6 @@ Item {
 		icon.color: "transparent"
 		icon.width: root.size
 		icon.height: root.size
-		flat: true
 		display: root.display
 
 		text: DesktopService.customNames(modelData.name)

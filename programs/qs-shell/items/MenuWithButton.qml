@@ -3,22 +3,18 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Effects
-import QtQuick.Layouts
-import QtQuick.Shapes
 import "../items"
 import "../services"
 import "../widgets"
 
 import QtQuick.Controls.Material
 
-RoundButton {
+BreezeButton {
 	id: button
 
 	icon.name: ""
 	icon.width: 24
 	icon.height: 24
-	flat: true
 
 	onClicked: {
 		const point = QsWindow.mapFromItem(this, 0, 0)
@@ -40,6 +36,7 @@ RoundButton {
 	property alias menuRadius: background.radius
 
 	property bool active: false
+	highlighted: active
 
 	hoverEnabled: true
 	onHoveredChanged: {
@@ -57,7 +54,7 @@ RoundButton {
 
 		anchors.left: true
 		anchors.bottom: true
-		margins.bottom: 72
+		margins.bottom: 62
 
 		color: "transparent"
 
@@ -75,6 +72,7 @@ RoundButton {
 
 			opacity: 0.85
 			color: "#292c30"
+			radius: 5
 
 			MouseArea {
 				id: mouseArea

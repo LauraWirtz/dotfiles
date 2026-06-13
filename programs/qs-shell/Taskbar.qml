@@ -1,12 +1,10 @@
 // Bar.qml
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.WindowManager
+// import Quickshell.WindowManager
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Effects
 import QtQuick.Layouts
-import QtQuick.Shapes
 import "./items"
 import "./services"
 import "./widgets"
@@ -42,6 +40,9 @@ PanelWindow {
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
 		onClicked: event => {
 			switch (event.button) {
+				case Qt.LeftButton:
+					Niri.toggleOverview();
+					break;
 				case Qt.BackButton:
 					Niri.focusWorkspaceDown();
 					break;
@@ -58,10 +59,14 @@ PanelWindow {
 		Rectangle {
 			anchors.fill: parent
 			color: "#292c30"
+			radius: 5
+			// border.color: Material.color(Material.Red, Material.Shade200)
+			border.color: "red"
+			border.width: TlpService.profile == "performance" ? 2 : 0
 		}
 
 		RowLayout {
-			anchors.centerIn: parent
+			anchors.fill: parent
 			id: content
 			width: Math.min(root.width, 1920)
 
@@ -92,6 +97,7 @@ PanelWindow {
 					BluetoothWidget {}
 					RowLayout {
 						InputPlumberWidget {}
+						Item{Layout.fillWidth: true; Layout.horizontalStretchFactor: 1}
 						KeyboardLayoutWidget {}
 					}
 					BluelightWidget {}
@@ -106,16 +112,15 @@ PanelWindow {
 				}
 			}
 			MenuWithButton {
-				text: Time.date
+				Layout.rightMargin: (52 - implicitHeight) / 2
+				square: false
+				leftPadding: 10
+				rightPadding: 10
+				topPadding: 10
+				bottomPadding: 10
+				contentItem: ClockWidget {height: 24; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter}
 				content: CalendarWidget {}
 			}
-		}
-		Button {
-			anchors.centerIn: parent
-			width: 70 + 13
-			height: 52
-			flat: true
-			onClicked: Niri.toggleOverview()
 		}
 	}
 }

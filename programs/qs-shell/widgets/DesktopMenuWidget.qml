@@ -25,7 +25,7 @@ MenuWithButton {
 			display: AbstractButton.IconOnly
 			interactive: false
 			size: 64
-			spacing: -8
+			spacing: 0
 		}
 		DesktopWidget {
 			model: DesktopService.getFilteredEntries(true, [
@@ -38,7 +38,7 @@ MenuWithButton {
 			display: AbstractButton.IconOnly
 			interactive: false
 			size: 64
-			spacing: -8
+			spacing: 0
 		}
 		DesktopWidget {
 			Layout.fillHeight: true
@@ -55,7 +55,7 @@ MenuWithButton {
 			])
 			orientation: ListView.Vertical
 			interactive: false
-			spacing: -10
+			spacing: 0
 		}
 	}
 

@@ -4,9 +4,9 @@ import QtQuick.Controls
 // import QtQuick.Layouts
 import "../services"
 // import "../widgets"
-// import "../items"
+import "../items"
 
-import QtQuick.Controls.Material
+import QtQuick.Controls.Basic
 
 
 Repeater {
@@ -16,18 +16,25 @@ Repeater {
 
 	model: Niri.getWindowsByScreen(screen)
 
-	delegate: Button {
-		Material.theme: Material.Dark
-		Material.accent: Material.Green
-		Material.roundedScale: Material.NotRounded
-
+	delegate: BreezeButton {
 		id: button
 
 		icon.name: DesktopService.customIcons(modelData.app_id)
 		icon.color: "transparent"
 		icon.width: 40
 		icon.height: 40
-		flat: true
+
+		topInset: 0
+		leftInset: 0
+		rightInset: 0
+		bottomInset: 0
+
+		leftPadding: 0
+		rightPadding: 0
+		topPadding: 0
+		bottomPadding: 0
+
+		implicitHeight: 52
 
 		onClicked: Niri.focusWindow(modelData.id)
 

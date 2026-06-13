@@ -1,4 +1,3 @@
-// ClockWidget.qml
 import QtQuick
 import "../services"
 

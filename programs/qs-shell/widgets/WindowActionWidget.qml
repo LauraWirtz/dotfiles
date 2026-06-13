@@ -1,10 +1,8 @@
 // Bar.qml
-import Quickshell
-import Quickshell.Io
-import Quickshell.Wayland
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "../items"
 import "../services"
 
 import QtQuick.Controls.Material
@@ -27,18 +25,15 @@ RowLayout {
 
 	Repeater {
 		model: buttonsModel
-		RoundButton {
-			Layout.margins: -0
-
+		BreezeButton {
 			id: delegate
 
+			square: true
+
 			icon.name: modelData.icon
-			// icon.color: "transparent"
 			icon.width: modelData.size
 			icon.height: modelData.size
-			Material.foreground: Material.color(modelData.color, Material.Shade200)
-			// Material.roundedScale: Material.FullScale
-			flat: true
+			icon.color: Material.color(modelData.color, Material.Shade200)
 
 			onClicked: modelData.command()
 		}
