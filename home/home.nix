@@ -40,6 +40,7 @@ in {
 	dconf.settings = {
 		"org/gnome/desktop/interface" = {
 			gtk-theme = "Breeze-Dark";
+			icon-theme = "breeze-dark";
 			color-scheme = "prefer-dark";
 		};
 	};
