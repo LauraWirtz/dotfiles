@@ -4,7 +4,7 @@
 	inputs = {
  		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
- 		lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
+ 		lanzaboote.url = "github:nix-community/lanzaboote/2a9c6ba61f2e1bd6eaf4e1e12aca77699bf7ea95";
 		lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
 		home-manager.url = "github:nix-community/home-manager";
