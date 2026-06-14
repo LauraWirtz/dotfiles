@@ -1,19 +1,5 @@
 { config, pkgs, inputs, ... }:
 {
-# 	nix.settings.system-features = [
-# 		"nixos-test"
-# 		"benchmark"
-# 		"big-parallel"
-# 		"kvm"
-# 		"gccarch-x86-64-v2"
-# 	];
-# 	nixpkgs.buildPlatform = {
-# 		gcc.arch = "x86-64-v2";
-# 		gcc.tune = "x86-64-v2";
-# 		system = "x86_64-linux";
-# 	};
-# 	nix.settings.cores = 1;
-
 	boot.kernelPackages = pkgs.linuxPackagesFor
 		(pkgs.linuxKernel.kernels.linux_latest.override {
 			NIX_ENFORCE_NO_NATIVE = "0";
@@ -82,31 +68,6 @@
 		];
 	};
 
-# 	fileSystems."/home/laura/Documents" = {
-# 		depends = [ "/run/mnt/data" ];
-# 		device = "/run/mnt/data/laura/Documents";
-# 		fsType = "none";
-# 		options = [ "bind"];
-# 	 };
-# 	fileSystems."/home/laura/Downloads" = {
-# 		depends = [ "/run/mnt/data" ];
-# 		device = "/run/mnt/data/laura/Downloads";
-# 		fsType = "none";
-# 		options = [ "bind"];
-# 	 };
-# 	fileSystems."/home/laura/Music" = {
-# 		depends = [ "/run/mnt/data" ];
-# 		device = "/run/mnt/data/laura/Music";
-# 		fsType = "none";
-# 		options = [ "bind"];
-# 	 };
-# 	fileSystems."/home/laura/Pictures" = {
-# 		depends = [ "/run/mnt/data" ];
-# 		device = "/run/mnt/data/laura/Pictures";
-# 		fsType = "none";
-# 		options = [ "bind"];
-# 	 };
-
 	services.tlp.settings = {
 		TLP_PROFILE_DEFAULT="BAL";
 		TLP_DEFAULT_MODE="BAL";
@@ -173,13 +134,17 @@
 	programs.qs-postcards.enable = true;
 	programs.qs-postcards.path = "/home/laura/Pictures/アニメ/";
 
+	virtualisation.waydroid.enable = true;
+	virtualisation.waydroid.package = pkgs.waydroid-nftables;
+
 	environment.systemPackages = with pkgs; [
 		geeqie
 		imagemagick
-		nix-tree
 		oxipng
 		pkgsRocm.blender
 		qmk
 		stable-diffusion-cpp-rocm
+
+		wl-clipboard
 	];
 }
