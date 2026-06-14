@@ -15,18 +15,19 @@ in {
 		".config/xsettingsd/".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/xsettingsd/";
 		".gtkrc-2.0".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.gtkrc-2.0";
 
+		".local/share/applications/fcitx5-configtool.desktop".text = desktopHide;
 		".local/share/applications/foot-server.desktop".text = desktopHide;
 		".local/share/applications/footclient.desktop".text = desktopHide;
 		".local/share/applications/io.github.quodlibet.ExFalso.desktop".text = desktopHide;
 		".local/share/applications/kbd-layout-viewer5.desktop".text = desktopHide;
 		".local/share/applications/kdesystemsettings.desktop".text = desktopHide;
-		".local/share/applications/systemsettings.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.fcitx5-migrator.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.fcitx5-config-qt.desktop".text = desktopHide;
-		".local/share/applications/fcitx5-configtool.desktop".text = desktopHide;
 		".local/share/applications/org.fcitx.Fcitx5.desktop".text = desktopHide;
 		".local/share/applications/org.kde.ark.desktop".text = desktopHide;
 		".local/share/applications/org.kde.kwrite.desktop".text = desktopHide;
+		".local/share/applications/systemsettings.desktop".text = desktopHide;
+		".local/share/applications/Waydroid.desktop".text = desktopHide;
 	};
 
 	home.pointerCursor = {
