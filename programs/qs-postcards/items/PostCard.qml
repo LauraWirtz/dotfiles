@@ -47,7 +47,7 @@ Item {
 		color: "#88000000"
 		blur: 10
 		// spread: 5
-		radius: 6
+		radius: 5
 	}
 	Rectangle {
 		anchors.centerIn: parent
@@ -60,8 +60,8 @@ Item {
 		id: image
 		anchors.centerIn: parent
 
-		sourceSize.width: 4 * wallpaperService.size
-		sourceSize.height: 4 * wallpaperService.size
+		sourceSize.width: 2 * wallpaperService.size
+		sourceSize.height: 2 * wallpaperService.size
 
 		width: wallpaperService.size
 		height: wallpaperService.size
@@ -95,7 +95,7 @@ Item {
 		width: image.paintedWidth + 4
 		height: image.paintedHeight + 4
 
-		radius: 6
+		radius: 5
 
 		antialiasing: true
 

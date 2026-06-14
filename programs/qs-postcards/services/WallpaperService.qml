@@ -4,6 +4,7 @@ import QtQuick
 
 Item {
 	id: root
+	visible: false
 
 	component Borders: QtObject {
 		property int top: -9999
@@ -19,9 +20,9 @@ Item {
 	property Borders borders: Borders {}	// clear space around monitor edge (can be negative) (per edge)
 
 	required property string source
-	property int size: 320					// postcard size
-	property int count: 20					// # of postcards
-	property int maxRotation: 30			// maximum degree of rotation
+	required property int size				// postcard size
+	required property int count				// # of postcards
+	property int maxRotation: 0				// maximum degree of rotation
 	property int interval: 60000			// interval of new postcards
 
 	property int attempts: 500				// maximum attempts for finding ideal postcard position
@@ -62,7 +63,7 @@ Item {
 
 	Process {
 		id: pathfinder
-		running: true
+		running: root.enabled
 		command: [ "find", root.source, "-type", "f" ]
 		stdout: StdioCollector { onStreamFinished: () => {
 			root.paths = text.split("\n")
@@ -123,7 +124,7 @@ Item {
 
 		root.images.setProperty(index, "posX", startingPoint.x)
 		root.images.setProperty(index, "posY", startingPoint.y)
-		root.images.setProperty(index, "rot", root.maxRotation * Math.random() - 0.5 * root.maxRotation)
+		root.images.setProperty(index, "rot", (Math.random() + Math.random() - 1) * root.maxRotation)
 		root.images.move(index, root.images.count - 1, 1)
 	}
 
