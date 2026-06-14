@@ -85,9 +85,53 @@
 	i18n.inputMethod = {
 		enable = true;
 		type = "fcitx5";
-		fcitx5.addons = with pkgs; [
-			fcitx5-mozc
-		];
+		fcitx5 = {
+			waylandFrontend = true;
+			ignoreUserConfig = true;
+			addons = with pkgs; [
+				fcitx5-mozc-ut
+				kdePackages.fcitx5-qt
+			];
+			settings.inputMethod = {
+				GroupOrder."0" = "Default";
+				"Groups/0" = {
+					Name = "Default";
+					"Default Layout" = "us";
+					DefaultIM = "mozc";
+				};
+				"Groups/0/Items/0".Name = "keyboard-us";
+				"Groups/0/Items/1".Name = "mozc";
+			};
+			settings.addons = {
+				classicui.globalSection = {
+					"Vertical Candidate List" = "False";
+					WheelForPaging = "True";
+					Font = "\"Sans 10\"";
+					MenuFont = "\"Sans 10\"";
+					TrayFont = "\"Sans Bold 10\"";
+					TrayOutlineColor = "#000000";
+					TrayTextColor = "#ffffff";
+					PreferTextIcon = "False";
+					ShowLayoutNameInIcon = "True";
+					UseInputMethodLanguageToDisplayText = "True";
+					Theme = "default";
+					DarkTheme = "default-dark";
+					UseDarkTheme = "True";
+					UseAccentColor = "True";
+					PerScreenDPI = "False";
+					ForceWaylandDPI = "0";
+					EnableFractionalScale = "True";
+				};
+				clipboard.globalSection = {
+					PastePrimaryKey = "";
+					"Number of entries" = "5";
+					IgnorePasswordFromPasswordManager = "True";
+					ShowPassword = "False";
+					ClearPasswordAfter = "30";
+				};
+				clipboard.sections.TriggerKey = { "0"="Super+V"; };
+			};
+		};
 	};
 	i18n.extraLocaleSettings = {
 		LC_ADDRESS = "de_DE.UTF-8";
@@ -190,7 +234,7 @@
 		anki
 # 		bottles
 		floorp-bin
-		gimp
+		krita
 		nano
 		nvd
 		quodlibet
