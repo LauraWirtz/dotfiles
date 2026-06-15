@@ -55,7 +55,7 @@
 	programs.bash.shellAliases = {
 		e = "nano";
 		f = "ls -hAl --group-directories-first";
-		nixos-diff = ''nixos-rebuild build "$@" && nvd diff /run/current-system result'';
+		nixos-diff = ''run0 nixos-rebuild build "$@" && nvd diff /run/current-system result'';
 	};
 
 	fonts = {
