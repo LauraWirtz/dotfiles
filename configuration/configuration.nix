@@ -232,7 +232,6 @@
 	environment.defaultPackages = lib.mkForce [];
 	environment.systemPackages = with pkgs; [
 		anki
-# 		bottles
 		floorp-bin
 		krita
 		nano

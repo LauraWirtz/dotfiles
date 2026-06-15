@@ -7,5 +7,12 @@
 		dolphin-emu
 		melonds
 		eden
+
+		wineWow64Packages.waylandFull
+		(lutris.override {
+			extraPkgs = pkgs: [
+				wineWow64Packages.waylandFull
+			];
+		})
 	];
 }
