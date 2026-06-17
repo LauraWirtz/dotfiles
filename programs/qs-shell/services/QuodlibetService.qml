@@ -15,7 +15,7 @@ Singleton {
 	property string repeat: "off"
 	property real progress: 0.0
 
-	property int fastPollCount: 40
+	property int activeWidgetsCount: 0
 
 	FileView {
 		id: currentView
@@ -49,15 +49,15 @@ Singleton {
 	}
 
 	Timer {
-		interval: root.playState == "playing" ? 1000 : 5000; running: true; repeat: true
+		interval: 100; running: activeWidgetsCount > 0; repeat: true
 		onTriggered: { statusGetter.running = true }
 	}
 	Process {
 		id: statusGetter
 		running: false
 		command: [ "quodlibet", "--status", ]
-		stdout: SplitParser { onRead: data => {
-			const parts = data.split(" ")
+		stdout: StdioCollector { onStreamFinished: () => {
+			const parts = text.split(" ")
 
 			root.playState = parts[0]
 			root.volume = parts[2]
