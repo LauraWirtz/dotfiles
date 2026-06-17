@@ -24,7 +24,7 @@ Button {
 
 	palette {
 		accent: "#A5D6A7"
-		buttonText: "white"
+		buttonText: enabled ? "white" : "gray"
 		// button: "lavender"
 	}
 
@@ -34,7 +34,7 @@ Button {
 			id: background
 			// color: "#A5D6A7"
 			color: "white"
-			opacity: 0.1 * highlighted + 0.1 * pressed + 0.1 * hovered
+			opacity: enabled ? (0.1 * highlighted + 0.1 * pressed + 0.1 * hovered) : 0.1
 			radius: 5
 
 			Behavior on opacity { NumberAnimation { easing: Easing.OutQuad; duration: 50 } }
@@ -43,7 +43,7 @@ Button {
 			anchors.fill: parent
 			id: hover
 			color: "transparent"
-			opacity: 0.3 * (hovered || pressed || highlighted)
+			opacity: enabled ? (0.2 * (hovered || pressed || highlighted)) : 0
 			radius: 5
 
 			// border.color: "#A5D6A7"
