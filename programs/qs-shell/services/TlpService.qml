@@ -7,30 +7,42 @@ import QtQuick
 Singleton {
 	id:root
 
+	readonly property string dbusService: "org.freedesktop.UPower.PowerProfiles"
+	readonly property string dbusObject: "/org/freedesktop/UPower/PowerProfiles"
+	readonly property string dbusInterface: "org.freedesktop.UPower.PowerProfiles"
+
+	readonly property string dbusPropertiesInterface: "org.freedesktop.DBus.Properties"
+	readonly property string dbusSignal: "PropertiesChanged"
+
 	property string profile: ""
-	property int fastPollCount: 40
+	property string newProfile: ""
 
-	function set(val): void {
-		fastPollCount = 40
-		statusSetter.command = val
-		statusSetter.running = true
-	}
-
-	Timer {
-		interval: root.fastPollCount > 0 ? 250 : 10000; running: true; repeat: true
-		onTriggered: { statusGetter.running = true }
+	Process {
+		id: statusInitializer
+		running: true
+		command: [ "busctl", "get-property", "--json=short", root.dbusService, root.dbusObject, root.dbusInterface, "ActiveProfile" ]
+		stdout: StdioCollector { onStreamFinished: () => {
+			root.profile = JSON.parse(text).data
+		} }
 	}
 	Process {
-		id: statusGetter
-		running: false
-		command: [ "tlpctl", "get", ]
-		stdout: SplitParser { onRead: data => {
-			if(root.fastPollCount > 0) { root.fastPollCount-- }
-			root.profile = data
+		id: statusUpdater
+		running: true
+		command: [ "busctl", "wait", "-N", "1", "--json=short", root.dbusObject, root.dbusPropertiesInterface, root.dbusSignal ]
+		stdout: StdioCollector { onStreamFinished: () => {
+			const reply = JSON.parse(text).data[1]
+			if(Object.keys(reply)[0] == "ActiveProfile") root.profile = reply["ActiveProfile"].data
+			statusUpdater.running = true
 		} }
 	}
 	Process {
 		id: statusSetter
 		running: false
+		command: [ "busctl", "set-property", root.dbusService, root.dbusObject, root.dbusInterface, "ActiveProfile", "s", root.newProfile ]
+	}
+
+	function setProfile(profile: string): void {
+		newProfile = profile
+		statusSetter.running = true
 	}
 }

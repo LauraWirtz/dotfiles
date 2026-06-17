@@ -15,7 +15,7 @@ in {
 		#config contents
 		systemd.user.services.qs-shell = {
 			wantedBy = [ "graphical-session.target" ];
-			path = [ pkgs.quickshell pkgs.brightnessctl pkgs.wireplumber pkgs.dbus pkgs.sunsetr pkgs.tlp-pd pkgs.quodlibet pkgs.swayidle ];
+			path = [ pkgs.quickshell pkgs.brightnessctl pkgs.dbus pkgs.sunsetr pkgs.quodlibet ];
 			serviceConfig = {
 				Restart="always";
 				RestartSec="1s";
@@ -23,14 +23,14 @@ in {
 				User="laura";
 				Group="users";
 
-				CapabilityBoundingSet="";
+# 				CapabilityBoundingSet="";
 				DeviceAllow="char-gpu";
 				NoNewPrivileges="yes";
 				PrivateDevices="yes";
 				PrivateNetwork="yes";
-				PrivateTmp="yes";
+# 				PrivateTmp="yes";
 				ProtectSystem="strict";
-				ProtectHome="tmpfs";
+# 				ProtectHome="tmpfs";
 				ProtectKernelTunables="yes";
 				ProtectKernelModules="yes";
 				ProtectKernelLogs="yes";
@@ -40,8 +40,8 @@ in {
 				RestrictSUIDSGID="yes";
 				SystemCallArchitectures="native";
 
-				BindReadOnlyPaths="-/home/laura/.config/quodlibet/ -/home/laura/.local/share/applications/ -/home/laura/.icons/";
-				BindPaths="/run/user/1000/ /home/laura/.cache/";
+# 				BindReadOnlyPaths="-/home/laura/.config/quodlibet/ -/home/laura/.local/share/ -/home/laura/.icons/";
+# 				BindPaths="/run/user/1000/ /home/laura/.cache/";
 	# 			TemporaryFileSystem="/home/laura:ro";
 			};
 			script = "${pkgs.quickshell}/bin/quickshell --path /etc/nixos/programs/qs-shell/shell.qml";
