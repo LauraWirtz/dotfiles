@@ -57,9 +57,12 @@
 		kate
 		ktexteditor
 
+		ksystemstats
+		plasma-systemmonitor
+
 		dolphin
 		dolphin-plugins
-# 		ffmpegthumbs
+		ffmpegthumbs
 
  		kio # provides helper service + a bunch of other stuff
  		kio-admin # managing files as admin
