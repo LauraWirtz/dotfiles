@@ -115,6 +115,8 @@
 		PCIE_ASPM_ON_SAV="powersupersave";
 
 # 		USB_EXCLUDE_AUDIO=0;
+		DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan";
+		DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan";
 	};
 
 	environment.variables = {
