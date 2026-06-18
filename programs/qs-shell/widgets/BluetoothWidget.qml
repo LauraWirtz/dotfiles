@@ -8,12 +8,8 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-import QtQuick.Controls.Material
-
 ColumnLayout {
 	id: root
-	Material.theme: Material.Dark
-	Material.accent: Material.Green
 
 	// Layout.fillWidth: true
 	// implicitWidth: childrenRect.width
@@ -29,8 +25,8 @@ ColumnLayout {
 			icon.name: modelData.batteryAvailable ? batteryIconName() : "battery-000"
 			icon.width: 24
 			icon.height: 24
-			padding: 0
-			Layout.leftMargin: -12
+			// padding: 0
+			// Layout.leftMargin: -12
 
 			enabled: modelData.batteryAvailable
 			background: {}
@@ -39,8 +35,8 @@ ColumnLayout {
 			icon.name: modelData.icon+"-symbolic"
 			icon.width: 24
 			icon.height: 24
-			padding: 0
-			Layout.leftMargin: -16
+			// padding: 0
+			// Layout.leftMargin: -16
 
 			enabled: modelData.connected
 			background: {}
@@ -53,24 +49,24 @@ ColumnLayout {
 
 			text: modelData.name || modelData.address
 		}
-		Button {
+		BreezeButton {
 			Layout.alignment: Qt.AlignRight
 			Layout.horizontalStretchFactor: -1
-			padding: 0
+			// padding: 0
+			square: false
 
 			text: "Connect"
-			flat: true
 			enabled: !modelData.connected && Bluetooth.defaultAdapter.state == BluetoothAdapterState.Enabled
 
 			onClicked: modelData.paired ? connect() : pair()
 		}
-		Button {
+		BreezeButton {
 			Layout.alignment: Qt.AlignRight
 			Layout.horizontalStretchFactor: -1
-			padding: 0
+			// padding: 0
+			square: false
 
 			text: "Disconnect"
-			flat: true
 			enabled: modelData.connected
 
 			onClicked: disconnect()
