@@ -39,6 +39,7 @@
 	services.logind.settings.Login.KillUserProcesses = lib.mkDefault true;
 
 	security.polkit.enable = true;
+	security.sudo.enable = false;
 
 	services.upower.enable = true;
 	services.udisks2.enable = true;
