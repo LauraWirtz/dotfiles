@@ -7,8 +7,6 @@ import "../items"
 import "../services"
 import "../widgets"
 
-import QtQuick.Controls.Material
-
 BreezeButton {
 	id: button
 
@@ -54,7 +52,7 @@ BreezeButton {
 
 		anchors.left: true
 		anchors.bottom: true
-		margins.bottom: 62
+		margins.bottom: 60
 
 		color: "transparent"
 
@@ -70,25 +68,25 @@ BreezeButton {
 			id: background
 			anchors.fill: parent
 
-			opacity: 0.85
+			opacity: 0.75
 			color: "#292c30"
 			radius: 5
+		}
 
-			MouseArea {
-				id: mouseArea
+		MouseArea {
+			id: mouseArea
+			anchors.fill: parent
+			hoverEnabled: true
+			onEntered: exitTimer.running = false
+			onExited: exitTimer.running = true
+
+			Item {
+				id: rectangle
 				anchors.fill: parent
-				hoverEnabled: true
-				onEntered: exitTimer.running = false
-				onExited: exitTimer.running = true
+				anchors.margins: button.margin
+				implicitWidth: children[0].implicitWidth
+				implicitHeight: children[0].implicitHeight
 
-				Item {
-					id: rectangle
-					anchors.fill: parent
-					anchors.margins: button.margin
-					implicitWidth: children[0].implicitWidth
-					implicitHeight: children[0].implicitHeight
-
-				}
 			}
 		}
 	}

@@ -28,14 +28,22 @@ PanelWindow {
 	WlrLayershell.layer: WlrLayer.Top
 	WlrLayershell.namespace: "qs-taskbar"
 
+	Rectangle {
+		anchors.fill: parent
+		color: "#292c30"
+		radius: 5
+		opacity: 0.75
+		// border.color: Material.color(Material.Red, Material.Shade200)
+		border.color: "red"
+		border.width: TlpService.profile == "performance" ? 2 : 0
+	}
+
 	MouseArea {
 		Material.theme: Material.Dark
 		Material.accent: Material.Blue
 		id: mouseArea
 
 		anchors.fill: parent
-
-		opacity: 0.85
 
 		acceptedButtons: Qt.LeftButton | Qt.BackButton | Qt.ForwardButton
 		onClicked: event => {
@@ -56,15 +64,6 @@ PanelWindow {
 			else { Niri.focusColumnRight() }
 		}
 
-		Rectangle {
-			anchors.fill: parent
-			color: "#292c30"
-			radius: 5
-			// border.color: Material.color(Material.Red, Material.Shade200)
-			border.color: "red"
-			border.width: TlpService.profile == "performance" ? 2 : 0
-		}
-
 		RowLayout {
 			anchors.fill: parent
 			id: content
@@ -72,10 +71,10 @@ PanelWindow {
 
 			spacing: 0
 			WindowListWidget {screen: root.screen.name}
-			// Item {width: 52}
-			Item{Layout.fillWidth: true; Layout.horizontalStretchFactor: 1}
+			Item { width: 26; }
 			DesktopMenuWidget {}
 			WindowActionWidget {}
+			Item{Layout.fillWidth: true; Layout.horizontalStretchFactor: 1}
 			Loader {
 				Layout.fillWidth: true
 				active: root.screen.name == "eDP-1"
@@ -86,9 +85,15 @@ PanelWindow {
 					onClicked: Niri.spawn(["qs", "-p", "/etc/nixos/programs/qs-keyboard/shell.qml", "ipc", "call", "root", "toggle"]);
 				}
 			}
+			Loader {
+				Layout.fillWidth: true
+				active: root.screen.name != "eDP-1"
+				sourceComponent: QuodlibetMenuWidget {}
+			}
 			// Separator {inset: 0}
 			TlpWidget {}
 			MenuWithButton {
+				id: settingsMenu
 				icon.name: "settings-configure"
 				content: ColumnLayout {
 					Material.theme: Material.Dark
@@ -103,12 +108,7 @@ PanelWindow {
 					BluelightWidget {}
 					BrightnessWidget {}
 					VolumeWidget {}
-					Separator { vertical: true }
-					Loader {
-						Layout.fillWidth: true
-						active: root.screen.name != "eDP-1"
-						sourceComponent: QuodlibetWidget {}
-					}
+					// Separator { vertical: true }
 				}
 			}
 			MenuWithButton {

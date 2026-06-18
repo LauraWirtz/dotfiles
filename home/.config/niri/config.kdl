@@ -59,9 +59,9 @@ layout {
 
 blur {
     on
-    passes 3
-    offset 1
-    noise 0.0
+    passes 4
+    offset 4
+    noise 0.01
     saturation 1
 }
 
@@ -105,6 +105,15 @@ layer-rule {
 	geometry-corner-radius 5
 	shadow { on; }
 	background-effect {
+		xray true
+		blur true
+	}
+}
+layer-rule {
+	match namespace="qs-taskbar-popup"
+	geometry-corner-radius 5
+	shadow { on; }
+	background-effect {
 		xray false
 		blur true
 	}
@@ -132,7 +141,7 @@ layer-rule {
 
 window-rule {
 	match is-active=false
-	opacity 0.85
+	opacity 0.75
 }
 window-rule {
 	geometry-corner-radius 5
