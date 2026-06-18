@@ -18,6 +18,7 @@ Item {
 
 	property int border: 0					// clear space around monitor edge (can be negative)
 	property Borders borders: Borders {}	// clear space around monitor edge (can be negative) (per edge)
+	property list<rect> exclusionZones
 
 	required property string source
 	required property int size				// postcard size
@@ -114,10 +115,7 @@ Item {
 			const coords = generateCoordinates(subject.w, subject.h)
 			const candidate = {"posX": coords.x, "posY": coords.y, "w": subject.w, "h": subject.h}
 
-			const summedOverlap = root.images.reduce((acc, el) => {
-				let overlap = computeOverlap(candidate, el)
-				return acc + Math.pow(overlap, 1)
-			}, 0)
+			const summedOverlap = computeSummedOverlap(candidate)
 			if(summedOverlap < startingPoint.summedOverlap) startingPoint = {x: coords.x, y: coords.y, summedOverlap: summedOverlap}
 			if(summedOverlap == 0) break
 		}
@@ -132,6 +130,21 @@ Item {
 		const x = (root.bounds.right - root.bounds.left - width) * Math.random() + root.bounds.left + width/2
 		const y = (root.bounds.bottom - root.bounds.top - height) * Math.random() + root.bounds.top + height/2
 		return {x: x, y: y}
+	}
+
+	function computeSummedOverlap(element): real {
+		let summedOverlap = root.images.reduce((acc, el) => {
+			const overlap = computeOverlap(element, el)
+			return acc + overlap
+		}, 0)
+
+		summedOverlap += root.exclusionZones.reduce((acc, el) => {
+			const formedEl = { posX: el.x + el.width/2, posY: el.y + el.height/2, w: el.width, h: el.height }
+			const overlap = computeOverlap(element, formedEl)
+			return acc + overlap
+		}, 0)
+
+		return summedOverlap
 	}
 
 	function computeOverlap(el1, el2): real {

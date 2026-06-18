@@ -37,6 +37,15 @@ ShellRoot {
 				size: 320
 				maxRotation: 15
 
+				exclusionZones: [
+					{
+						x: root.screen.width/2 - Math.min(root.screen.width - 20, 1260)/2,
+						y: root.screen.height - 62,
+						width: Math.min(root.screen.width - 20, 1260),
+						height: 62
+					}
+				]
+
 				// border: 20
 				// borders.bottom: 56 + 2*10
 
