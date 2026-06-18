@@ -1,5 +1,7 @@
 { config, lib, ... }: {
 	home.file = {
+		".git-credentials".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.git-credentials";
+
 		".config/niri/pc.kdl".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/pc.kdl";
 
 		".config/pipewire".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/pipewire";
