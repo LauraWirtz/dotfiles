@@ -35,7 +35,6 @@ RowLayout {
 		Layout.preferredWidth: 300
 		Layout.topMargin: -12
 		Layout.bottomMargin: -12
-		padding: 0
 
 		id: slider
 
