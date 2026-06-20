@@ -27,7 +27,7 @@ RowLayout {
 		Layout.margins: -12
 	}
 
-	Slider {
+	BreezeSlider {
 		Layout.fillWidth: true
 		Layout.alignment: Qt.AlignVCenter
 		Layout.preferredWidth: 300

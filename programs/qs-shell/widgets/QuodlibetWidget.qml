@@ -22,7 +22,7 @@ Item {
 	ColumnLayout {
 		anchors.fill: parent
 		id: layout
-		spacing: 0
+		spacing: 16
 		Material.theme: Material.Dark
 		Material.accent: Material.Green
 
@@ -75,7 +75,8 @@ Item {
 			}
 		}
 		Text {
-			Layout.alignment: Qt.AlignHCenter
+			Layout.fillWidth: true
+			horizontalAlignment: Text.AlignHCenter
 
 			color: "white"
 			font.pixelSize: 16
@@ -85,7 +86,8 @@ Item {
 			text: QuodlibetService.current.title ?? "-"
 		}
 		Text {
-			Layout.alignment: Qt.AlignHCenter
+			Layout.fillWidth: true
+			horizontalAlignment: Text.AlignHCenter
 
 			color: "white"
 			font.pixelSize: 16
@@ -95,7 +97,8 @@ Item {
 			text: QuodlibetService.current.albumartist ?? "-"
 		}
 		Text {
-			Layout.alignment: Qt.AlignHCenter
+			Layout.fillWidth: true
+			horizontalAlignment: Text.AlignHCenter
 
 			color: "white"
 			font.pixelSize: 16
@@ -115,7 +118,7 @@ Item {
 
 				text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * QuodlibetService.progress) : "00:00"
 			}
-			Slider {
+			BreezeSlider {
 				id: slider
 				Layout.fillWidth: true
 
@@ -124,7 +127,7 @@ Item {
 				stepSize: 0.01
 
 				value: QuodlibetService.progress
-				// Behavior on value { NumberAnimation { duration: 100; easing.type: Easing.Linear } }
+				Behavior on value { NumberAnimation { duration: 100; easing.type: Easing.Linear } }
 				onMoved: {
 					valueCache = value
 					debounce.restart()

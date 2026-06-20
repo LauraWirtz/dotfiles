@@ -29,7 +29,7 @@ RowLayout {
 		Layout.margins: -12
 	}
 
-	Slider {
+	BreezeSlider {
 		Layout.fillWidth: true
 		Layout.alignment: Qt.AlignVCenter
 		Layout.preferredWidth: 300
@@ -49,13 +49,14 @@ RowLayout {
 			processQueue()
 		}
 	}
-	Button {
+	BreezeButton {
 		id: autoButton
-		Layout.topMargin: -12
-		Layout.bottomMargin: -12
-		icon.name: "clock"
-		icon.width: 24
-		icon.height: 24
+		// Layout.topMargin: -12
+		// Layout.bottomMargin: -12
+		square: false
+		// icon.name: "clock"
+		// icon.width: 24
+		// icon.height: 24
 		text: "Auto"
 
 		onClicked: {

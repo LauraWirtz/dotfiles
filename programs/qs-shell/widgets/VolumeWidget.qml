@@ -32,7 +32,7 @@ RowLayout {
 		Layout.margins: -12
 	}
 
-	Slider {
+	BreezeSlider {
 		Layout.fillWidth: true
 		Layout.preferredWidth: 300
 		Layout.topMargin: -12
