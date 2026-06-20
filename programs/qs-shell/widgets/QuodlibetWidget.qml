@@ -8,8 +8,6 @@ import QtQuick.Layouts
 import "../items"
 import "../services"
 
-import QtQuick.Controls.Material
-
 Item {
 	required property bool active
 	implicitWidth: 400
@@ -23,8 +21,6 @@ Item {
 		anchors.fill: parent
 		id: layout
 		spacing: 16
-		Material.theme: Material.Dark
-		Material.accent: Material.Green
 
 		RowLayout {
 			Layout.fillWidth: true
@@ -55,22 +51,44 @@ Item {
 				Layout.fillWidth: true
 				Layout.horizontalStretchFactor: 1
 			}
-			RowLayout {
-				Layout.fillWidth: false
-				spacing: 0
-				Repeater {
-					model: [
-						{rating: 0.1, left: true},
-						{rating: 0.2, left: false},
-						{rating: 0.3, left: true},
-						{rating: 0.4, left: false},
-						{rating: 0.5, left: true},
-						{rating: 0.6, left: false},
-						{rating: 0.7, left: true},
-						{rating: 0.8, left: false},
-						{rating: 0.9, left: true},
-						{rating: 1.0, left: false},]
-						RatingStar {}
+			MouseArea {
+				id: ratingWidget
+				implicitWidth: ratingList.implicitWidth
+				implicitHeight: ratingList.implicitHeight
+				hoverEnabled: true
+				Rectangle {
+					anchors.fill: parent
+					radius: 5
+					opacity: ratingWidget.containsMouse ? 0.1 : 0
+					Behavior on opacity { NumberAnimation { easing: Easing.OutQuad; duration: 50 } }
+				}
+				Rectangle {
+					anchors.fill: parent
+					radius: 5
+					color: "transparent"
+					border.color: "white"
+					border.width: 1
+					opacity: ratingWidget.containsMouse ? 0.2 : 0
+					Behavior on opacity { NumberAnimation { easing: Easing.OutQuad; duration: 50 } }
+				}
+				RowLayout {
+					id: ratingList
+					anchors.fill: parent
+					spacing: 0
+					Repeater {
+						model: [
+							{rating: 0.1, left: true},
+							{rating: 0.2, left: false},
+							{rating: 0.3, left: true},
+							{rating: 0.4, left: false},
+							{rating: 0.5, left: true},
+							{rating: 0.6, left: false},
+							{rating: 0.7, left: true},
+							{rating: 0.8, left: false},
+							{rating: 0.9, left: true},
+							{rating: 1.0, left: false},]
+						delegate: RatingStar {}
+					}
 				}
 			}
 		}

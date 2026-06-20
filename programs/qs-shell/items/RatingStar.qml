@@ -5,15 +5,21 @@ import "../services"
 import QtQuick.Controls.Basic
 
 Item {
-	implicitWidth: 16
-	implicitHeight: 24
+	id: root
+	implicitWidth: 12 + 8
+	implicitHeight: 24 + 16
 	clip: true
 
+	required property var modelData
+
 	RoundButton {
-		id: background
+		id: foreground
 
 		anchors.horizontalCenter: modelData.left ? parent.right : parent.left
 		anchors.verticalCenter: parent.verticalCenter
+		implicitWidth: 24 + 16
+		implicitHeight: 24 + 16
+		flat: true
 
 		background: Item {
 		}
@@ -21,23 +27,14 @@ Item {
 		icon.name: "starred"
 		icon.width: 24
 		icon.height: 24
-		icon.color: QuodlibetService.current && QuodlibetService.current.rating >= modelData.rating ? "#FFF59D" : "black"
-		flat: true
-	}
-	RoundButton {
-		id: foreground
-
-		anchors.horizontalCenter: modelData.left ? parent.right : parent.left
-		anchors.verticalCenter: parent.verticalCenter
-
-		background: Item {
+		icon.color: {
+			if(ratingWidget.containsMouse) {
+				return ratingWidget.mouseX/ratingWidget.width + 0.1 >= modelData.rating ? "#A5D6A7" : "black"
+			} else if(QuodlibetService.current) {
+				return QuodlibetService.current.rating >= modelData.rating ? "#A5D6A7" : "#90000000"
+			}
+			return "black"
 		}
-
-		icon.name: "non-starred"
-		icon.width: 24
-		icon.height: 24
-		icon.color: QuodlibetService.current && QuodlibetService.current.rating >= modelData.rating? "#FFEB3B" : "black"
-		flat: true
 
 		onClicked: QuodlibetService.rate(modelData.rating)
 	}
