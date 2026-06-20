@@ -9,14 +9,16 @@ Item {
 	required property WallpaperService service
 	required property int index
 	required property string url
-	required property real posX
-	required property real posY
+	required property real rectX
+	required property real rectY
+	required property real rectWidth
+	required property real rectHeight
 	required property real rot
-	required property real w
-	required property real h
 
-	x: posX
-	y: posY
+	x: rectX
+	y: rectY
+	width: rectWidth
+	height: rectHeight
 	rotation: rot
 
 	opacity: 0
@@ -41,16 +43,15 @@ Item {
 	}
 
 	RectangularShadow {
-		anchors.centerIn: parent
-		width: image.paintedWidth + 4
-		height: image.paintedHeight + 4
+		anchors.fill: parent
+		anchors.margins: -2
 		color: "#88000000"
 		blur: 10
 		// spread: 5
 		radius: 5
 	}
 	Rectangle {
-		anchors.centerIn: parent
+		anchors.fill: parent
 
 		width: image.paintedWidth
 		height: image.paintedHeight
@@ -58,13 +59,10 @@ Item {
 	}
 	Image {
 		id: image
-		anchors.centerIn: parent
+		anchors.fill: parent
 
-		sourceSize.width: 2 * wallpaperService.size
-		sourceSize.height: 2 * wallpaperService.size
-
-		width: wallpaperService.size
-		height: wallpaperService.size
+		sourceSize.width: 2 * root.service.size
+		sourceSize.height: 2 * root.service.size
 
 		fillMode: Image.PreserveAspectFit
 		asynchronous: true
@@ -73,13 +71,10 @@ Item {
 
 		onStatusChanged: {
 			if(status == Image.Ready) { //calculate size + get new position once image loaded
-				const aspect = Math.max(paintedWidth/paintedHeight, paintedHeight/paintedWidth)
-				const areaFactor = Math.pow(aspect, 0.5)
+				const areaFactor = Math.pow(paintedWidth/paintedHeight, 0.5)
 
-				root.w = areaFactor * paintedWidth
-				root.h = areaFactor * paintedHeight
-				width = areaFactor * wallpaperService.size
-				height = areaFactor  * wallpaperService.size
+				root.rectWidth = root.service.size * areaFactor
+				root.rectHeight = root.service.size / areaFactor
 
 				root.service.positionPostcard(root.index)
 
@@ -90,10 +85,8 @@ Item {
 		}
 	}
 	Rectangle {
-		anchors.centerIn: parent
-
-		width: image.paintedWidth + 4
-		height: image.paintedHeight + 4
+		anchors.fill: parent
+		anchors.margins: -2
 
 		radius: 5
 

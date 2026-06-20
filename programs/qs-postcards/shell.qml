@@ -9,7 +9,9 @@ import "./services"
 ShellRoot {
 	settings.watchFiles: false
 	Variants {
-		model: Quickshell.screens
+		model: Quickshell.screens.filter(screen => {
+			return screen.name == "DP-1" || screen.name == "HDMI-A-1"
+		})
 		PanelWindow {
 			id: root
 			required property var modelData
@@ -29,7 +31,6 @@ ShellRoot {
 
 			WallpaperService {
 				id: wallpaperService
-				enabled: root.screen.name == "DP-1" || root.screen.name == "HDMI-A-1"
 
 				monitorWidth: root.screen.width
 				monitorHeight: root.screen.height

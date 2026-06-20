@@ -64,7 +64,7 @@ Item {
 
 	Process {
 		id: pathfinder
-		running: root.enabled
+		running: true
 		command: [ "find", root.source, "-type", "f" ]
 		stdout: StdioCollector { onStreamFinished: () => {
 			root.paths = text.split("\n")
@@ -88,12 +88,12 @@ Item {
 	function handleMissingImage(index: int): void {
 		const url = root.images.get(index).url
 		root.images.setProperty(index, "url", getUniqueUrl())
-		root.paths = root.paths.filter(el => { return el != url })
+		root.pathfinder.running = true
 	}
 
 	function addPostcard(): void {
 		const coords = generateCoordinates(root.size, root.size)
-		root.images.append({ "service": this, "url": getUniqueUrl(), "posX": coords.x, "posY": coords.y, "rot": 0, "w": 0, "h": 0 })
+		root.images.append({ "service": this, "url": getUniqueUrl(), "rectX": coords.x, "rectY": coords.y, "rot": 0, "rectWidth": root.size, "rectHeight": root.size })
 	}
 
 	function getUniqueUrl(): string {
@@ -112,23 +112,23 @@ Item {
 
 		let startingPoint = {summedOverlap: 999999999}
 		for (let i = 0; i < root.attempts; i++) {
-			const coords = generateCoordinates(subject.w, subject.h)
-			const candidate = {"posX": coords.x, "posY": coords.y, "w": subject.w, "h": subject.h}
+			const coords = generateCoordinates(subject.rectWidth, subject.rectHeight)
+			const candidate = {"rectX": coords.x, "rectY": coords.y, "rectWidth": subject.rectWidth, "rectHeight": subject.rectHeight}
 
 			const summedOverlap = computeSummedOverlap(candidate)
 			if(summedOverlap < startingPoint.summedOverlap) startingPoint = {x: coords.x, y: coords.y, summedOverlap: summedOverlap}
 			if(summedOverlap == 0) break
 		}
 
-		root.images.setProperty(index, "posX", startingPoint.x)
-		root.images.setProperty(index, "posY", startingPoint.y)
+		root.images.setProperty(index, "rectX", startingPoint.x)
+		root.images.setProperty(index, "rectY", startingPoint.y)
 		root.images.setProperty(index, "rot", (Math.random() + Math.random() - 1) * root.maxRotation)
 		root.images.move(index, root.images.count - 1, 1)
 	}
 
 	function generateCoordinates(width, height): var {
-		const x = (root.bounds.right - root.bounds.left - width) * Math.random() + root.bounds.left + width/2
-		const y = (root.bounds.bottom - root.bounds.top - height) * Math.random() + root.bounds.top + height/2
+		const x = (root.bounds.right - root.bounds.left - width) * Math.random() + root.bounds.left
+		const y = (root.bounds.bottom - root.bounds.top - height) * Math.random() + root.bounds.top
 		return {x: x, y: y}
 	}
 
@@ -139,7 +139,7 @@ Item {
 		}, 0)
 
 		summedOverlap += root.exclusionZones.reduce((acc, el) => {
-			const formedEl = { posX: el.x + el.width/2, posY: el.y + el.height/2, w: el.width, h: el.height }
+			const formedEl = { rectX: el.x, rectY: el.y, rectWidth: el.width, rectHeight: el.height }
 			const overlap = computeOverlap(element, formedEl)
 			return acc + overlap
 		}, 0)
@@ -148,12 +148,7 @@ Item {
 	}
 
 	function computeOverlap(el1, el2): real {
-		const el1TopLeft = {x: el1.posX - el1.w/2, y: el1.posY - el1.h/2}
-		const el1BottomRight = {x: el1.posX + el1.w/2, y: el1.posY + el1.h/2}
-		const el2TopLeft = {x: el2.posX - el2.w/2, y: el2.posY - el2.h/2}
-		const el2BottomRight = {x: el2.posX + el2.w/2, y: el2.posY + el2.h/2}
-
-		const overlap = Math.max(0, Math.min(el1BottomRight.x, el2BottomRight.x) - Math.max(el1TopLeft.x, el2TopLeft.x)) * Math.max(0, Math.min(el1BottomRight.y, el2BottomRight.y) - Math.max(el1TopLeft.y, el2TopLeft.y))
+		const overlap = Math.max(0, Math.min(el1.rectX + el1.rectWidth, el2.rectX + el2.rectWidth) - Math.max(el1.rectX, el2.rectX)) * Math.max(0, Math.min(el1.rectY + el1.rectHeight, el2.rectY + el2.rectHeight) - Math.max(el1.rectY, el2.rectY))
 		return overlap
 	}
 }
