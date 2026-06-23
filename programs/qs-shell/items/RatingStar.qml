@@ -19,7 +19,7 @@ Item {
 		anchors.verticalCenter: parent.verticalCenter
 		implicitWidth: 24 + 16
 		implicitHeight: 24 + 16
-		flat: true
+		padding: 0
 
 		background: Item {
 		}

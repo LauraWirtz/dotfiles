@@ -33,12 +33,12 @@ Slider {
 			Behavior on opacity { NumberAnimation { easing: Easing.OutQuad; duration: 50 } }
 		}
 		Rectangle {
-			x: control.leftPadding + 3
-			y: control.topPadding + 3
-			width: control.visualPosition * (control.availableWidth - 8 - 6) + 8
-			height: control.availableHeight - 6
+			x: control.leftPadding + 5
+			y: control.topPadding + 5
+			width: control.visualPosition * (control.availableWidth - 2*5 - 4) + 4
+			height: control.availableHeight - 2*5
 			color: "#A5D6A7"
-			radius: 4
+			radius: 2
 			opacity: control.hovered ? 1 : 0.5
 			Behavior on opacity { NumberAnimation { easing: Easing.OutQuad; duration: 50 } }
 		}

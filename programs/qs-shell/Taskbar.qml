@@ -18,8 +18,6 @@ PanelWindow {
 
 	color: "transparent"
 
-	// anchors.left: true
-	// anchors.right: true
 	anchors.bottom: true
 	margins.bottom: 10
 	implicitWidth: Math.min(screen.width - 20, 1260)
@@ -33,14 +31,11 @@ PanelWindow {
 		color: "#292c30"
 		radius: 5
 		opacity: 0.75
-		// border.color: Material.color(Material.Red, Material.Shade200)
 		border.color: "red"
 		border.width: TlpService.profile == "performance" ? 2 : 0
 	}
 
 	MouseArea {
-		Material.theme: Material.Dark
-		Material.accent: Material.Blue
 		id: mouseArea
 
 		anchors.fill: parent
