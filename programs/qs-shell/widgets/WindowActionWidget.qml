@@ -16,7 +16,7 @@ RowLayout {
 	property var windowModelData
 
 	property var buttonsModel: [
-		// { icon: "window-minimize-pip", size: 24, color: Material.Teal, command: ()=>Niri.toggleWindowFloating() },
+		{ icon: "window-minimize-pip", size: 24, color: Material.Teal, command: ()=>Niri.toggleWindowFloating() },
 		{ icon: "view-fullscreen-symbolic", size: 24, color: Material.Green, command: ()=>Niri.fullscreenWindow() },
 		{ icon: "kdenlive-slip", size: 24, color: Material.Yellow, command: ()=>Niri.centerWindow() },
 		{ icon: "window-maximize", size: 24, color: Material.Orange, command: ()=>Niri.switchPresetWindowWidth() },

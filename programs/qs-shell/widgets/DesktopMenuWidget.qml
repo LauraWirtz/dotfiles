@@ -10,7 +10,7 @@ import QtQuick.Controls.Material
 
 MenuWithButton {
 	icon.name: "list-add"
-	icon.color: Material.color(Material.Teal, Material.Shade200)
+	icon.color: Material.color(Material.Blue, Material.Shade200)
 
 	content: RowLayout {
 		spacing: 16
