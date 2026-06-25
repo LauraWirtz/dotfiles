@@ -53,9 +53,11 @@
 		breeze-gtk
 
 		ark
+		filelight
 		gwenview
 		kate
 		ktexteditor
+		partitionmanager
 
 		ksystemstats
 		plasma-systemmonitor
