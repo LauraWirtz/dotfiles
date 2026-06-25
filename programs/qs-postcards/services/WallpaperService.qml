@@ -7,23 +7,26 @@ Item {
 	visible: false
 
 	component Borders: QtObject {
-		property int top: -9999
-		property int bottom: -9999
-		property int left: -9999
-		property int right: -9999
+		property real top: -9999
+		property real bottom: -9999
+		property real left: -9999
+		property real right: -9999
 	}
 
 	required property int monitorWidth		// monitor width
 	required property int monitorHeight		// monitor height
 
-	property int border: 0					// clear space around monitor edge (can be negative)
+	property real border: 0					// clear space around monitor edge (can be negative)
 	property Borders borders: Borders {}	// clear space around monitor edge (can be negative) (per edge)
 	property list<rect> exclusionZones
 
-	required property string source
-	required property int size				// postcard size
+	required property string source			// source folder for images
+	required property real size				// postcard size
 	required property int count				// # of postcards
-	property int maxRotation: 0				// maximum degree of rotation
+	property real maxRotation: 0			// maximum degree of rotation
+	property real frameWidth: 5				// width of the frame around the image
+	property color frameColor: "beige"		// color of the frame around the image
+
 	property int interval: 60000			// interval of new postcards
 
 	property int attempts: 500				// maximum attempts for finding ideal postcard position
@@ -80,14 +83,13 @@ Item {
 	}
 
 	function populate(): void {
-		for (let i = 0; i < root.count; i++) {
+		while (root.images.count < root.count) {
 			addPostcard()
 		}
 	}
 
 	function handleMissingImage(index: int): void {
-		const url = root.images.get(index).url
-		root.images.setProperty(index, "url", getUniqueUrl())
+		root.images.remove(index)
 		root.pathfinder.running = true
 	}
 
@@ -99,7 +101,7 @@ Item {
 	function getUniqueUrl(): string {
 		let candidate = ""
 		while(
-			!(candidate.includes(".png") || candidate.includes(".jpg") || candidate.includes(".jpeg")) ||
+			!(candidate.endsWith(".png") || candidate.endsWith(".jpg") || candidate.endsWith(".jpeg") || candidate.endsWith(".webp")) ||
 			!root.images.every(el => { return el.url != candidate })
 		) {
 			candidate = root.paths[Math.floor(Math.random() * root.paths.length)]
@@ -107,13 +109,15 @@ Item {
 		return candidate
 	}
 
-	function positionPostcard(index: int): void {
-		const subject = root.images.get(index)
+	function positionPostcard(index: int, paintedWidth: real, paintedHeight: real): void {
+		const areaFactor = Math.pow(paintedWidth/paintedHeight, 0.5)
+		const rectWidth = root.size * areaFactor + 2*root.frameWidth
+		const rectHeight = root.size / areaFactor + 2*root.frameWidth
 
 		let startingPoint = {summedOverlap: 999999999}
 		for (let i = 0; i < root.attempts; i++) {
-			const coords = generateCoordinates(subject.rectWidth, subject.rectHeight)
-			const candidate = {"rectX": coords.x, "rectY": coords.y, "rectWidth": subject.rectWidth, "rectHeight": subject.rectHeight}
+			const coords = generateCoordinates(rectWidth, rectHeight)
+			const candidate = {"rectX": coords.x, "rectY": coords.y, "rectWidth": rectWidth, "rectHeight": rectHeight}
 
 			const summedOverlap = computeSummedOverlap(candidate)
 			if(summedOverlap < startingPoint.summedOverlap) startingPoint = {x: coords.x, y: coords.y, summedOverlap: summedOverlap}
@@ -122,6 +126,8 @@ Item {
 
 		root.images.setProperty(index, "rectX", startingPoint.x)
 		root.images.setProperty(index, "rectY", startingPoint.y)
+		root.images.setProperty(index, "rectWidth", rectWidth)
+		root.images.setProperty(index, "rectHeight", rectHeight)
 		root.images.setProperty(index, "rot", (Math.random() + Math.random() - 1) * root.maxRotation)
 		root.images.move(index, root.images.count - 1, 1)
 	}

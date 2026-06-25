@@ -29,7 +29,6 @@ Item {
 
 	onOpacityChanged: {
 		if(opacity == 0) {
-			// position = Qt.point(0, 0)
 			image.source = url //update image once fully hidden
 		}
 	}
@@ -44,22 +43,23 @@ Item {
 
 	RectangularShadow {
 		anchors.fill: parent
-		anchors.margins: -2
 		color: "#88000000"
 		blur: 10
-		// spread: 5
-		radius: 5
+		radius: root.service.frameWidth
 	}
 	Rectangle {
 		anchors.fill: parent
 
-		width: image.paintedWidth
-		height: image.paintedHeight
-		color: "beige"
+		radius: root.service.frameWidth
+
+		antialiasing: true
+
+		color: root.service.frameColor
 	}
 	Image {
 		id: image
 		anchors.fill: parent
+		anchors.margins: root.service.frameWidth
 
 		sourceSize.width: 2 * root.service.size
 		sourceSize.height: 2 * root.service.size
@@ -68,33 +68,15 @@ Item {
 		asynchronous: true
 		cache: false
 		mipmap: true
+		antialiasing: true
 
 		onStatusChanged: {
-			if(status == Image.Ready) { //calculate size + get new position once image loaded
-				const areaFactor = Math.pow(paintedWidth/paintedHeight, 0.5)
-
-				root.rectWidth = root.service.size * areaFactor
-				root.rectHeight = root.service.size / areaFactor
-
-				root.service.positionPostcard(root.index)
-
+			if(status == Image.Ready) { //get new position once image loaded
+				root.service.positionPostcard(root.index, paintedWidth, paintedHeight)
 				root.opacity = 1
-			} else if (status == Image.Error) {
+			} else if (status == Image.Error) { //notify service on missing Image
 				root.service.handleMissingImage(root.index)
 			}
 		}
-	}
-	Rectangle {
-		anchors.fill: parent
-		anchors.margins: -2
-
-		radius: 5
-
-		antialiasing: true
-
-		color: "transparent"
-
-		border.color: "beige"
-		border.width: 4
 	}
 }
