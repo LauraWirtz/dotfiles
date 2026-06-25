@@ -78,7 +78,7 @@
 		SOUND_POWER_SAVE_ON_SAV=1;
 
 		RADEON_DPM_PERF_LEVEL_ON_AC="high";
-		RADEON_DPM_PERF_LEVEL_ON_BAT="low";
+		RADEON_DPM_PERF_LEVEL_ON_BAT="auto";
 		RADEON_DPM_PERF_LEVEL_ON_SAV="low";
 		RADEON_DPM_STATE_ON_AC="performance";
 		RADEON_DPM_STATE_ON_BAT="battery";
@@ -135,6 +135,10 @@
 
 	programs.qs-postcards.enable = true;
 	programs.qs-postcards.path = "/home/laura/Pictures/アニメ/";
+
+	programs.firefox-custom.enable = true;
+# 	programs.firefox-custom.arch.enable = true;
+	programs.firefox-custom.arch.c = "znver5";
 
 	virtualisation.waydroid.enable = true;
 	virtualisation.waydroid.package = pkgs.waydroid-nftables;
