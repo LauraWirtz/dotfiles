@@ -17,7 +17,7 @@
 		};
 
 	boot.initrd.luks.devices = {
-		"luks-root".device = "/dev/disk/by-uuid/048efcc0-0cfa-4295-8ae8-bcaa6f0a0cda";
+		"luks-root".device = "/dev/disk/by-uuid/57e8fd77-78bb-48bb-9832-e77869e4718b";
 		"luks-root".allowDiscards = true;
 		"luks-root".bypassWorkqueues = true;
 		"luks-root".crypttabExtraOpts = [ "tpm2-device=auto" ];

@@ -4,12 +4,6 @@
 		(pkgs.linuxKernel.kernels.linux_latest.override {
 			NIX_ENFORCE_NO_NATIVE = "0";
 			extraMakeFlags = [
-				# Gcc flags.
-				"KCFLAGS+=-O3"
-				"KCFLAGS+=-march=znver5"
-				"KCFLAGS+=-mtune=znver5"
-
-				# Clang/llvm flags
 				"KCFLAGS+=-O3"
 				"KCFLAGS+=-mtune=znver5"
 				"KCFLAGS+=-march=znver5"
@@ -32,25 +26,24 @@
 			"nodev"
 			"noatime"
 			"data=journal"
-			"X-mount.owner=laura"
 		];
 	};
 
-	fileSystems."/run/mnt/steam1" = {
-		device = "/dev/disk/by-uuid/d63224c3-335a-4f49-9bf8-10f364f4ffaa";
-		fsType = "f2fs";
-		options = [
-			"nofail" # Prevent system from failing if this drive doesn't mount
-			"nouser"
-			"exec"
-			"nosuid"
-			"nodev"
-			"noatime"
-			"atgc"
-			"gc_merge"
-			"X-mount.owner=laura"
-		];
-	};
+#	fileSystems."/run/mnt/steam1" = {
+#		device = "/dev/disk/by-uuid/d63224c3-335a-4f49-9bf8-10f364f4ffaa";
+#		fsType = "f2fs";
+#		options = [
+#			"nofail" # Prevent system from failing if this drive doesn't mount
+#			"nouser"
+#			"exec"
+#			"nosuid"
+#			"nodev"
+#			"noatime"
+#			"atgc"
+#			"gc_merge"
+#			"X-mount.owner=laura"
+#		];
+#	};
 
 	fileSystems."/run/mnt/steam2" = {
 		device = "/dev/disk/by-uuid/663c49a2-45a3-478a-bb1e-4181979137bd";
@@ -64,7 +57,6 @@
 			"noatime"
 			"atgc"
 			"gc_merge"
-			"X-mount.owner=laura"
 		];
 	};
 
@@ -137,7 +129,7 @@
 	programs.qs-postcards.path = "/home/laura/Pictures/アニメ/";
 
 	programs.firefox-custom.enable = true;
-# 	programs.firefox-custom.arch.enable = true;
+ 	programs.firefox-custom.arch.enable = true;
 	programs.firefox-custom.arch.c = "znver5";
 
 	virtualisation.waydroid.enable = true;
@@ -150,7 +142,5 @@
 		pkgsRocm.blender
 		qmk
 		stable-diffusion-cpp-rocm
-
-		wl-clipboard
 	];
 }
