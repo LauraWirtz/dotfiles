@@ -54,11 +54,19 @@ in {
 				});
 			})
 		];
+
+		systemd.user.services.speech-dispatcher.enable = false;
+		systemd.user.sockets.speech-dispatcher.enable = false;
+		nixpkgs.config.firefox.speechSynthesisSupport = false;
 		programs.firefox = {
 			enable = true;
 			languagePacks = [ "en-US" "de" "en-GB" ];
 			package = pkgs.firefox.override {
-				cfg.speechSynthesisSupport=false;
+				cfg.speechSynthesisSupport = false;
+			};
+			wrapperConfig = {
+				speechSynthesisSupport = false;
+				cfg.speechSynthesisSupport = false;
 			};
 
 			# Check about:policies#documentation for options.
@@ -208,8 +216,17 @@ in {
 	# 			"extensions.webextensions.restrictedDomains" = "";
 # 				"media.webrtc.camera.allow-pipewire" = true;
 # 				"browser.download.always_ask_before_handling_new_types" = true;
+				"browser.cache.disk.enable" = false;
+				"browser.urlbar.trimURLs" = false;
 
+				"browser.low_commit_space_threshold_percent" = 100;
+				"browser.tabs.unloadOnLowMemory" = true;
+				"browser.tabs.min_inactive_duration_before_unload" = 600000;
 
+				"browser.bookmarks.restore_default_bookmarks" = false;
+				"browser.bookmarks.showMobileBookmarks" = false;
+				"browser.toolbars.bookmarks.showOtherBookmarks" = false;
+				"browser.toolbars.bookmarks.visibility" = "always";
 				#### DEBLOAT ###
 				"browser.discovery.enabled" = false;
 				"app.shield.optoutstudies.enabled" = false;

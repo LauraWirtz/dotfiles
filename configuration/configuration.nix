@@ -207,9 +207,6 @@
 		};
 	};
 
-	systemd.user.services.speech-dispatcher.enable = false; #floorp dependancy
-	systemd.user.sockets.speech-dispatcher.enable = false;
-
 	programs.qs-shell.enable = true;
 	programs.git.enable = true;
 	programs.git.config = {
@@ -233,7 +230,6 @@
 	environment.defaultPackages = lib.mkForce [];
 	environment.systemPackages = with pkgs; [
 		anki
-		floorp-bin
 		krita
 		nano
 		nvd
@@ -245,7 +241,8 @@
 		unrar
 	];
 
-
+	nix.settings.cores = 4;
+	nix.settings.max-jobs = 1;
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 	system.stateVersion = "25.05"; # Did you read the comment?
 }

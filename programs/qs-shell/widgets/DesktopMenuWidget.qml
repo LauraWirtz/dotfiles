@@ -16,7 +16,7 @@ MenuWithButton {
 		spacing: 16
 		DesktopWidget {
 			model: DesktopService.getFilteredEntries(true, [
-				"floorp",
+				"firefox",
 				"org.kde.dolphin",
 				"org.kde.kate",
 				"foot",
@@ -43,7 +43,7 @@ MenuWithButton {
 		DesktopWidget {
 			Layout.fillHeight: true
 			model: DesktopService.getFilteredEntries(false, [
-				"floorp",
+				"firefox",
 				"org.kde.dolphin",
 				"org.kde.kate",
 				"foot",

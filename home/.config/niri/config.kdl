@@ -160,7 +160,7 @@ window-rule {
 	}
 }
 window-rule {
-	exclude app-id="floorp"
+	exclude app-id="firefox"
 	popups {
 		background-effect {
 			xray false
