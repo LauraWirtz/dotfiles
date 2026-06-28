@@ -30,10 +30,10 @@ in {
 		nixpkgs.overlays = lib.mkIf cfg.arch.enable [
 			(final: prev: {
 				firefox-unwrapped = prev.firefox-unwrapped.overrideAttrs (previousAttrs: rec {
-					rustFlags = previousAttrs.makeFlags ++ [
-						"-C"
-						"target-cpu=${cfg.arch.rust}"
-					];
+# 					cargoBuildFlags = [
+# 						"-C"
+# 						"target-cpu=${cfg.arch.rust}"
+# 					];
 					makeFlags = previousAttrs.makeFlags ++ [
 						"CXXFLAGS+=-O3"
 						"CXXFLAGS+=-mtune=${cfg.arch.c}"
@@ -49,7 +49,7 @@ in {
 # 						"AR=${pkgs.llvm}/bin/llvm-ar"
 # 						"NM=${pkgs.llvm}/bin/llvm-nm"
 # 						"LD=${pkgs.lld}/bin/ld.lld"
-# 						"LLVM=1"
+						"LLVM=1"
 					];
 				});
 			})
@@ -61,14 +61,6 @@ in {
 		programs.firefox = {
 			enable = true;
 			languagePacks = [ "en-US" "de" "en-GB" ];
-			package = pkgs.firefox.override {
-				cfg.speechSynthesisSupport = false;
-			};
-			wrapperConfig = {
-				speechSynthesisSupport = false;
-				cfg.speechSynthesisSupport = false;
-			};
-
 			# Check about:policies#documentation for options.
 			policies = {
 				AIControls = {
@@ -79,6 +71,9 @@ in {
 				};
 				AutofillAddressEnabled = false;
 				AutofillCreditCardEnabled = false;
+				Cookies = {
+					Behavior = "reject-foreign";
+				};
 				DisableAppUpdate = true;
 				DisableFirefoxScreenshots = true;
 				DisableFirefoxStudies = true;
@@ -97,6 +92,18 @@ in {
 					Fingerprinting = true;
 					SuspectedFingerprinting = true;
 				};
+				FirefoxHome = {
+					Search = true;
+					TopSites = false;
+					SponsoredTopSites = false;
+					Highlights = false;
+					Pocket = false;
+					Stories = false;
+					SponsoredPocket = false;
+					SponsoredStories = false;
+					Snippets = false;
+					Locked = true;
+				};
 				FirefoxSuggest = {
 					WebSuggestions = false;
 					SponsoredSuggestions = false;
@@ -113,6 +120,7 @@ in {
 					"http://127.0.0.1"
 				];
 				HttpsOnlyMode = "force_enabled";
+				IPProtectionAvailable = false;
 				NetworkPrediction = false;
 				NewTabPage = false;
 				NoDefaultBookmarks = true;
@@ -149,11 +157,25 @@ in {
 						Locked = true;
 					};
 				};
+				PictureInPicture = {
+					Enabled = false;
+					Locked = true;
+				};
+				PopupBlocking = {
+					Allow = [
+						"https://www.pixiv.net"
+					];
+					Default = false;
+					Locked = true;
+				};
 				PostQuantumKeyAgreementEnabled = true;
 				SanitizeOnShutdown = {
 					Cache = true;
+					Cookies = false;
 					FormData = true;
-# 					History = true;
+					History = false;
+					Sessions = false;
+					SiteSettings = true;
 					Locked = true;
 				};
 				SSLVersionMin = "tls1.2";
@@ -167,12 +189,14 @@ in {
 					FirefoxLabs = false;
 					Locked = true;
 				};
+				VisualSearchEnabled = false;
 
 				SearchEngines = {
 					Remove = [
 						"Bing"
 						"eBay"
 						"Ecosia"
+						"Google"
 						"Perplexity"
 						"Tagesschau"
 						"Wikipedia"
@@ -186,12 +210,6 @@ in {
 							Alias = "ddg";
 							Description = "Duckduckgo without AI integrations";
 						}
-# 						{
-# 							"Name" = "Wikipedia";
-# 							"URLTemplate" = "https://en.wikipedia.org/wiki/Special:Search?go=Go&search={searchTerms}";
-# 							"IconURL" = "https://en.wikipedia.org/favicon.ico";
-# 							"Alias" = "wiki";
-# 						}
 					];
 					Default = "DuckDuckGo";
 				};
@@ -207,29 +225,28 @@ in {
 
 			preferencesStatus = "locked";
 			preferences = {
-
-				#### FEATURES ###
-# 				"layout.spellcheckDefault" = 1;
-				# Use the systems native filechooser portal
-				"widget.use-xdg-desktop-portal.file-picker" = 1;
-				# allow adblockers to act everywhere. WARNING this is a security hole.
-	# 			"extensions.webextensions.restrictedDomains" = "";
-# 				"media.webrtc.camera.allow-pipewire" = true;
-# 				"browser.download.always_ask_before_handling_new_types" = true;
+				"layout.spellcheckDefault" = 0;										#disable spellcheck
+				"widget.use-xdg-desktop-portal.file-picker" = 1;					# Use the systems native filechooser portal
 				"browser.cache.disk.enable" = false;
-				"browser.urlbar.trimURLs" = false;
+				"browser.urlbar.trimURLs" = false;									#show full urls
 
-				"browser.low_commit_space_threshold_percent" = 100;
-				"browser.tabs.unloadOnLowMemory" = true;
-				"browser.tabs.min_inactive_duration_before_unload" = 600000;
+				"browser.low_commit_space_threshold_percent" = 100;					#unload idle tabs
+				"browser.tabs.unloadOnLowMemory" = true;							#unload idle tabs
+				"browser.tabs.min_inactive_duration_before_unload" = 600000;		#unload idle tabs
+
+				"browser.tabs.insertAfterCurrent" = true;
+				"browser.tabs.insertRelatedAfterCurrent" = false;
+				"browser.tabs.selectOwnerOnClose" = false;
+
+				"browser.tabs.hoverPreview.enabled" = false;
 
 				"browser.bookmarks.restore_default_bookmarks" = false;
 				"browser.bookmarks.showMobileBookmarks" = false;
 				"browser.toolbars.bookmarks.showOtherBookmarks" = false;
 				"browser.toolbars.bookmarks.visibility" = "always";
-				#### DEBLOAT ###
 				"browser.discovery.enabled" = false;
 				"app.shield.optoutstudies.enabled" = false;
+				"browser.sessionstore.interval" = 60000;
 				"browser.topsites.contile.enabled" = false;
 				"browser.urlbar.suggest.addons" = false;
 				"browser.urlbar.suggest.amp" = false;
@@ -241,7 +258,7 @@ in {
 				"browser.urlbar.suggest.importantDates" = false;
 				"browser.urlbar.suggest.mdn" = false;
 				"browser.urlbar.suggest.openpage" = false;
-				"browser.urlbar.suggest.quickactions" = false;
+				"browser.urlbar.suggest.quickactions" = true;
 				"browser.urlbar.suggest.quicksuggest.sponsored" = false;
 				"browser.urlbar.suggest.remotetab" = false;
 				"browser.urlbar.suggest.sports" = false;
@@ -270,6 +287,10 @@ in {
 				"browser.tabs.inTitlebar"=0;
 				"toolkit.legacyUserProfileCustomizations.stylesheets"=true;
 
+				"full-screen-api.transition-duration.enter" = "0 0";
+				"full-screen-api.transition-duration.leave" = "0 0";
+				"full-screen-api.warning.timeout" = 0;
+
 				#### PRIVACY ###
 				"privacy.resistFingerprinting" = "true";
 				# disable sending downloaded files to the internet
@@ -284,6 +305,7 @@ in {
 				"privacy.globalprivacycontrol.enabled" = true;
 				"privacy.clearOnShutdown_v2.cookiesAndStorage" = true;
 				"privacy.fingerprintingProtection" = true;
+				"privacy.firstparty.isolate" = true;
 
 				"browser.contentblocking.category" = "strict";
 				"extensions.pocket.enabled" = false;
@@ -308,24 +330,18 @@ in {
 				# Security: Restrict directories from which extensions can be loaded (Unclear)
 				# https://archive.is/DYjAM
 				"extensions.enabledScopes" = 5;
+				"media.peerconnection.enabled" = false;
+# 				"network.http.referer.XOriginPolicy" = 2;
 
 				#### SSL ###
-				# Security: Require safe SSL negotiation to avoid potentially MITMed sites
-				"security.ssl.require_safe_negotiation" = true;
-				# Security: Disable TLS1.3 0-RTT as key encryption may not be forward secret
-				# https://github.com/tlswg/tls13-spec/issues/1001
-				"security.tls.enable_0rtt_data" = 2;
-				# Security: Enable strict public key pinning, prevents some MITM attacks
-				"security.cert_pinning.enforcement_level" = 2;
-				# Security: Enable CRLite to ensure that revoked certificates are detected
-				"security.pki.crlite_mode" = 2;
-				# Security: Treat unsafe negotiation as broken
-				# https://wiki.mozilla.org/Security:Renegotiation
-				# https://bugzilla.mozilla.org/1353705
-				"security.ssl.treat_unsafe_negotiation_as_broken" = true;
-				#  Security: Display more information on Insecure Connection warning pages
+
+				"security.ssl.require_safe_negotiation" = true;						# Security: Require safe SSL negotiation to avoid potentially MITMed sites
+				"security.tls.enable_0rtt_data" = 2;								# Security: Disable TLS1.3 0-RTT as key encryption may not be forward secret
+				"security.cert_pinning.enforcement_level" = 2;						# Security: Enable strict public key pinning, prevents some MITM attacks
+				"security.pki.crlite_mode" = 2;										# Security: Enable CRLite to ensure that revoked certificates are detected
+				"security.ssl.treat_unsafe_negotiation_as_broken" = true;			# Security: Treat unsafe negotiation as broken
 				# Test: https://badssl.com
-				"browser.xul.error_pages.expert_bad_cert" = true;
+				"browser.xul.error_pages.expert_bad_cert" = true;					#  Security: Display more information on Insecure Connection warning pages
 			};
 		};
 	};

@@ -4,11 +4,12 @@
 
 		".config/niri/pc.kdl".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/.config/niri/pc.kdl";
 
+		".config/mozilla".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/mozilla";
 		".config/pipewire".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/pipewire";
 		".config/wireplumber".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/wireplumber";
 		".config/quodlibet".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/quodlibet";
 		".config/sunsetr".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/pc/.config/sunsetr";
-		".floorp".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.floorp";
+
 		".local/share/bottles".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.local/share/bottles";
 
 		".config/dolphin-emu".source = config.lib.file.mkOutOfStoreSymlink "/run/mnt/data/laura/.config/dolphin-emu";
