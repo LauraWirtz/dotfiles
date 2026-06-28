@@ -14,6 +14,9 @@ BreezeButton {
 	icon.width: 24
 	icon.height: 24
 
+	property real availablePopupWidth
+	property real availablePopupHeight
+
 	onClicked: {
 		const point = QsWindow.mapFromItem(this, 0, 0)
 		let x = (QsWindow.window.screen.width - QsWindow.window.implicitWidth)/2 + point.x + implicitWidth/2 - popup.implicitWidth/2
@@ -21,6 +24,9 @@ BreezeButton {
 		x = x > 0 ? x : 0
 		popup.margins.left = x
 		popup.screen = QsWindow.window.screen
+
+		availablePopupWidth = QsWindow.window.screen.width - 2*button.margin
+		availablePopupHeight = QsWindow.window.screen.height - popup.margins.bottom - 2*button.margin
 
 		if(!callback()) {
 			button.active = !button.active
