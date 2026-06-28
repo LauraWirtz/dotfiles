@@ -1,12 +1,12 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-	imports =
-		[ (modulesPath + "/installer/scan/not-detected.nix")
-		];
+	imports = [
+		(modulesPath + "/installer/scan/not-detected.nix")
+	];
 
 	boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "thunderbolt" "usb_storage" "usbhid" "sd_mod" ];
-	boot.initrd.kernelModules = [];
+	boot.initrd.kernelModules = [ "usbhid" ];
 	boot.kernelModules = [ "kvm-amd" ];
 	boot.extraModulePackages = [];
 
@@ -17,33 +17,28 @@
 		};
 
 	boot.initrd.luks.devices = {
-		"luks-root".device = "/dev/disk/by-uuid/57e8fd77-78bb-48bb-9832-e77869e4718b";
+		"luks-root".device = "/dev/disk/by-uuid/41574655-83b4-472d-9a0d-089f086580d7";
 		"luks-root".allowDiscards = true;
 		"luks-root".bypassWorkqueues = true;
-		"luks-root".crypttabExtraOpts = [ "tpm2-device=auto" ];
 
-		"luks-swap".device = "/dev/disk/by-uuid/386fb810-eaf6-40b6-bedd-e57f07cf788e";
+		"luks-swap".device = "/dev/disk/by-uuid/2a32f383-f8ab-4996-9a6f-74dce37f0af1";
 		"luks-swap".allowDiscards = true;
 		"luks-swap".bypassWorkqueues = true;
-		"luks-swap".crypttabExtraOpts = [ "tpm2-device=auto" ];
 
-		"luks-data".device = "/dev/disk/by-uuid/27120715-1c13-42f0-9249-b4ca44e69d77";
+		"luks-data".device = "/dev/disk/by-uuid/ec6491ba-eb7a-4766-b567-f21811e22b72";
 		"luks-data".allowDiscards = true;
 		"luks-data".bypassWorkqueues = true;
-		"luks-data".crypttabExtraOpts = [ "tpm2-device=auto" ];
 	};
 
-	fileSystems."/boot" =
-		{ device = "/dev/disk/by-uuid/EAE3-3732";
+	fileSystems."/boot" = {
+	device = "/dev/disk/by-uuid/EAE3-3732";
 			fsType = "vfat";
 			options = [ "fmask=0077" "dmask=0077" ];
 		};
 
-	swapDevices =
-		[ {
-			device = "/dev/mapper/luks-swap";
-			options = [ "discard" ];
-		} ];
+	swapDevices = [
+		{ device = "/dev/mapper/luks-swap"; options = [ "discard" ]; }
+	];
 		boot.resumeDevice = "/dev/mapper/luks-swap";
 
 

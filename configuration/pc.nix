@@ -20,6 +20,7 @@
 		device = "/dev/mapper/luks-data";
 		fsType = "ext4";
 		options = [
+			"nofail"
 			"nouser"
 			"noexec"
 			"nosuid"
@@ -29,23 +30,7 @@
 		];
 	};
 
-#	fileSystems."/run/mnt/steam1" = {
-#		device = "/dev/disk/by-uuid/d63224c3-335a-4f49-9bf8-10f364f4ffaa";
-#		fsType = "f2fs";
-#		options = [
-#			"nofail" # Prevent system from failing if this drive doesn't mount
-#			"nouser"
-#			"exec"
-#			"nosuid"
-#			"nodev"
-#			"noatime"
-#			"atgc"
-#			"gc_merge"
-#			"X-mount.owner=laura"
-#		];
-#	};
-
-	fileSystems."/run/mnt/steam2" = {
+	fileSystems."/run/mnt/steam" = {
 		device = "/dev/disk/by-uuid/663c49a2-45a3-478a-bb1e-4181979137bd";
 		fsType = "f2fs";
 		options = [
