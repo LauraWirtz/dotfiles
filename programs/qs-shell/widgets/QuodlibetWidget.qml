@@ -101,7 +101,7 @@ Item {
 			textFormat: Text.PlainText
 			wrapMode: Text.Wrap
 
-			text: QuodlibetService.current.title ?? "-"
+			text: QuodlibetService.hasCurrent ? QuodlibetService.current.title ?? "-" : "-"
 		}
 		Text {
 			Layout.fillWidth: true
@@ -112,7 +112,7 @@ Item {
 			textFormat: Text.PlainText
 			wrapMode: Text.Wrap
 
-			text: QuodlibetService.current.albumartist ?? "-"
+			text: QuodlibetService.hasCurrent ? QuodlibetService.current.artist ?? QuodlibetService.current.albumartist ?? "-" : "-"
 		}
 		Text {
 			Layout.fillWidth: true
@@ -123,7 +123,7 @@ Item {
 			textFormat: Text.PlainText
 			wrapMode: Text.Wrap
 
-			text: QuodlibetService.current.album ?? "-"
+			text: QuodlibetService.hasCurrent ? QuodlibetService.current.album ?? "-" : "-"
 		}
 		RowLayout {
 			Layout.fillWidth: true
@@ -134,7 +134,7 @@ Item {
 				font.pixelSize: 16
 				textFormat: Text.PlainText
 
-				text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * QuodlibetService.progress) : "00:00"
+				text: QuodlibetService.hasCurrent ? formatDuration(QuodlibetService.current.length * QuodlibetService.progress) : "00:00"
 			}
 			BreezeSlider {
 				id: slider
@@ -166,7 +166,7 @@ Item {
 				font.pixelSize: 16
 				textFormat: Text.PlainText
 
-				text: QuodlibetService.current ? formatDuration(QuodlibetService.current.length * (1 - QuodlibetService.progress)) : "00:00"
+				text: QuodlibetService.hasCurrent ? formatDuration(QuodlibetService.current.length * (1 - QuodlibetService.progress)) : "00:00"
 			}
 		}
 	}

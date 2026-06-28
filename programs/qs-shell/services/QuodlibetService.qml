@@ -7,6 +7,7 @@ import QtQuick
 Singleton {
 	id:root
 
+	property bool hasCurrent: false
 	property var current: {}
 
 	property string playState: "not-running"
@@ -22,29 +23,31 @@ Singleton {
 		path: "/home/laura/.config/quodlibet/current"
 		watchChanges: true
 		onFileChanged: reload()
-		onTextChanged: {
-			if(text() == ""){
-				retryLoad.running = true
-			} else {
-				const lines = text().split("\n")
-				var newState = {}
+		onLoadFailed: {
+			retryLoad.running = true
+			hasCurrent = false
+		}
+		onLoaded: {
+			const lines = text().split("\n")
+			var newState = {}
 
-				lines.forEach(el => {
-					if(el) {
-						const parts = el.split("=")
-						const key = parts[0].match( /(\w+)/g )[0]
-						const value = parts[1]
-						newState[key] = value
-					}
-				})
-				root.current = newState
-			}
+			lines.forEach(el => {
+				if(el) {
+					const parts = el.split("=")
+					const key = parts[0].match( /(\w+)/g )[0]
+					const value = parts[1]
+					newState[key] = value
+				}
+			})
+			root.current = newState
+			retryLoad.running = false
+			hasCurrent = true
 		}
 	}
 
 	Timer {
 		id: retryLoad
-		interval: 1000; running: false; repeat: false
+		interval: activeWidgetsCount > 0 ? 1000 : 10000; running: false; repeat: false
 		onTriggered: { currentView.reload() }
 	}
 
