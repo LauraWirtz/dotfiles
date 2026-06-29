@@ -19,7 +19,7 @@ Repeater {
 	delegate: BreezeButton {
 		id: button
 
-		icon.name: DesktopService.customIcons(DesktopService.heuristicLookup(modelData.app_id).icon)
+		icon.name: DesktopService.customIcons(DesktopService.heuristicLookup(modelData.app_id))
 		icon.color: "transparent"
 		icon.width: 40
 		icon.height: 40

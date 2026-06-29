@@ -14,6 +14,7 @@ BreezeButton {
 	icon.width: 24
 	icon.height: 24
 
+	readonly property alias window: popup
 	property real availablePopupWidth
 	property real availablePopupHeight
 
@@ -25,8 +26,8 @@ BreezeButton {
 		popup.margins.left = x
 		popup.screen = QsWindow.window.screen
 
-		availablePopupWidth = QsWindow.window.screen.width - 2*button.margin
-		availablePopupHeight = QsWindow.window.screen.height - popup.margins.bottom - 2*button.margin
+		availablePopupWidth = Math.min(QsWindow.window.screen.width, popup.implicitWidth) - 2*button.margin
+		availablePopupHeight = Math.min(QsWindow.window.screen.height - popup.margins.bottom, popup.implicitHeight) - 2*button.margin
 
 		if(!callback()) {
 			button.active = !button.active

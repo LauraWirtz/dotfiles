@@ -9,54 +9,26 @@ import "../services"
 import QtQuick.Controls.Material
 
 MenuWithButton {
+	id: root
 	icon.name: "list-add"
 	icon.color: Material.color(Material.Blue, Material.Shade200)
+	window.implicitHeight: 800
 
 	content: RowLayout {
 		spacing: 16
-		DesktopWidget {
-			model: DesktopService.getFilteredEntries(true, [
-				"firefox",
-				"org.kde.dolphin",
-				"org.kde.kate",
-				"foot",
-			])
-			orientation: ListView.Vertical
-			display: AbstractButton.IconOnly
-			interactive: false
-			size: 64
-			spacing: 0
-		}
-		DesktopWidget {
-			model: DesktopService.getFilteredEntries(true, [
-				"net.kuribo64.melonDS",
-				"org.azahar_emu.Azahar",
-				"dolphin-emu",
-				"dev.eden_emu.eden",
-			])
-			orientation: ListView.Vertical
-			display: AbstractButton.IconOnly
-			interactive: false
-			size: 64
-			spacing: 0
-		}
-		DesktopWidget {
-			Layout.fillHeight: true
-			model: DesktopService.getFilteredEntries(false, [
-				"firefox",
-				"org.kde.dolphin",
-				"org.kde.kate",
-				"foot",
+		Repeater {
+			model: DesktopService.configuredEntries
+			delegate: DesktopWidget {
+				height: root.availablePopupHeight
+				model: modelData.ids
+				orientation: ListView.Vertical
+				interactive: true
 
-				"net.kuribo64.melonDS",
-				"org.azahar_emu.Azahar",
-				"dolphin-emu",
-				"dev.eden_emu.eden",
-			])
-			orientation: ListView.Vertical
-			interactive: false
-			spacing: 0
+				spacing: 0
+				size: modelData.layout.size
+				showText: modelData.layout.showText
+				showSections: modelData.layout.showSections
+			}
 		}
 	}
-
 }

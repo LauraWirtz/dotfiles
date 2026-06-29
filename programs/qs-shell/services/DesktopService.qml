@@ -6,15 +6,76 @@ import QtQuick
 
 Singleton {
   id: root
-	readonly property var unsortedEntries: DesktopEntries.applications.values
-	property var sortedEntries: []
+	readonly property var entries: DesktopEntries.applications.values
+
+	readonly property var config: [
+		{
+			mode: "include",
+			layout: {
+				size: 64,
+				showText: false,
+				showSections: false,
+			},
+			ids: [
+				"firefox",
+				"org.kde.dolphin",
+				"org.kde.kate",
+				"foot",
+			],
+		},
+		{
+			mode: "include",
+			layout: {
+				size: 64,
+				showText: false,
+				showSections: false,
+			},
+			ids: [
+				"net.kuribo64.melonDS",
+				"org.azahar_emu.Azahar",
+				"dolphin-emu",
+				"dev.eden_emu.eden",
+			],
+		},
+		{
+			mode: "exclude",
+			layout: {
+				size: 32,
+				showText: true,
+				showSections: true,
+			},
+			ids: [
+				// "firefox",
+				// "org.kde.dolphin",
+				// "org.kde.kate",
+				// "foot",
+
+				// "net.kuribo64.melonDS",
+				// "org.azahar_emu.Azahar",
+				// "dolphin-emu",
+				// "dev.eden_emu.eden",
+
+				"startcenter",
+				"base",
+				"draw",
+				"writer",
+			],
+		},
+	]
+	property var configuredEntries: []
+
+	function configureEntries(): void {
+		configuredEntries = config.map(menu => {
+			switch(menu.mode) {
+				case "include": return {layout: menu.layout, ids: getFilteredEntries(true, menu.ids)};
+				case "exclude": return {layout: menu.layout, ids: getFilteredEntries(false, menu.ids)};
+				default: return {};
+			}
+		})
+	}
 
 	function byId(id) { return DesktopEntries.byId(id) }
 	function heuristicLookup(name) { return DesktopEntries.heuristicLookup(name) }
-
-	Component.onCompleted: {createSortedEntries(); updated()}
-
-	signal updated()
 
 	function searchCategories(categories, term): bool {
 		for(var entry in categories) {
@@ -23,45 +84,36 @@ Singleton {
 		return false
 	}
 
-	function customNames(name): string {
-		switch(name) {
-			case "GNU Image Manipulation Program": return "GIMP";
-			case "Fcitx 5 Configuration": return "Fcitx5 Config";
-			case "TmForever": return "TmUnited";
-			default: return name;
+	function customNames(modelData): string {
+		switch(modelData.id) {
+			case "org.kde.partitionmanager": return "Partition Manager";
+			case "io.github.quodlibet.QuodLibet": return "QuodLibet";
+			default: return modelData.name;
 		}
 	}
-	function customIcons(name): string {
-		switch(name) {
+	function customIcons(modelData): string {
+		switch(modelData.id) {
 			case "steam": return "/run/current-system/sw/share/icons/hicolor/256x256/apps/steam.png";
 			case "org.kde.dolphin": return "system-file-manager";
-			case "kate": return "kwrite";
 			case "org.kde.kate": return "kwrite";
-			default: return name;
+			case "org.kde.kwrite": return "kwrite";
+			default: return modelData.icon;
 		}
 	}
 
-	function createSortedEntries() {
-		const unsorted = DesktopEntries.applications.values
-
-		sortedEntries = Array.from(unsorted).sort((a, b) => customNames(a.name).localeCompare(customNames(b.name)))
-	}
+	function compareNames(a: string, b: string): int { return a.localeCompare(b) }
 
 	function getFilteredEntries(include, ids) {
 		if (include) {
-			return sortedEntries.filter(el => {
-				return ids.some(id => {
-					return el.id == id
-				})
-			}).sort((a, b) => {
-				return ids.findIndex(el => { return el == a.id }) - ids.findIndex(el => { return el == b.id })
+			return ids.map(el => {
+				return entries.find(entry => { return entry.id == el})
 			})
 		} else {
-			return sortedEntries.filter(el => {
+			return entries.filter(el => {
 				return ids.every(id => {
 					return el.id != id
 				})
-			})
+			}).sort((a, b) => compareNames(customNames(a), (customNames(b))))
 		}
 	}
 
@@ -69,8 +121,7 @@ Singleton {
 		target: DesktopEntries
 
 		function onApplicationsChanged() {
-			createSortedEntries()
-			root.updated()
+			configureEntries()
 		}
 	}
 }
